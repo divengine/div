@@ -1,0 +1,7 @@
+{
+    "name": "rrodriguezr/div",
+    "description": "Div PHP Template Engine",
+    "require": {
+        "php": ">=5.3.0"
+    }
+}
