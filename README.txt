@@ -57,7 +57,7 @@ one file, classes and libraries. Div sought since its inception, the
 implementation of everything in one class, in a single file. This allows easy 
 adaptation to existing development platforms.
 
-Out goals? One class, one file!, considering the template like an object, 
+Goals? One class, one file!, considering the template like an object, 
 create a minimum of highly descriptive syntax, avoid a cache system, improve 
 the algorithms, reuse the knowledge, write mechanisms and extend!.
 	
