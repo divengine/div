@@ -1,6 +1,7 @@
 {
-    "name": "rrodriguezr/div",
+    "name": "divengine/div",
     "description": "Div PHP Template Engine",
+	"version": "4.8",
     "require": {
         "php": ">=5.3.0"
     }
