@@ -70,7 +70,7 @@ class, specifying in its constructor, the template	created by the designer
 and the information that will be displayed.
 	
 For more information visit our site http://divengine.com and
-the documentation div.html or https://github.com/rrodriguezr/div/wiki
+the documentation https://github.com/divengine/div/wiki
 
 Enjoy!
 

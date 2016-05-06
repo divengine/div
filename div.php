@@ -734,7 +734,7 @@ class div {
 			
 			// Calling the beforeBuild hook
 		$this->beforeBuild ( $src, $items );
-		
+
 		if (is_null ( $items ) && ! is_null ( $this->__items ))
 			$items = $this->__items;
 		
@@ -758,10 +758,11 @@ class div {
 		}
 		
 		if (! $discardfs) {
-			
 			if (self::isString ( $items ))
+				
 				if (strlen ( $items . '.' . DIV_DEFAULT_DATA_FILE_EXT ) < 255) {
 					$exists = false;
+					
 					
 					if (self::fileExists ( $items )) {
 						$items = self::getFileContents ( $items );
@@ -7039,7 +7040,7 @@ class div {
 	 */
 	final public function __toString() {
 		$this->parse ();
-		return $this->__src;
+		return $this->__src.'';
 	}
 	
 	// ------------------------ PREDEFINED SUBPARSERS ---------------------------- //
