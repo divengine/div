@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package [[]] Div PHP Template Engine
+ * [[]] Div PHP Template Engine
  * 
  * The div class is the complete implementation of Div.
  *
@@ -19,13 +19,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program as the file LICENSE.txt; if not, please see
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt.
+ * https://www.gnu.org/licenses/gpl-3.0.txt
  *
- * @author Rafa Rodriguez <rafacuba2015@gmail.com,rrodriguezramirez@nauta.cu>
- * @version 4.8
+ * @package com.divengine.div
+ * @author Rafa Rodriguez [@rafageist] <rafageist86@gmail.com>
+ * @version 4.9
  * @link http://divengine.com
- * @link http://github.com/rafageist/div
- * @link http://github.com/rafageist/div-extras
+ * @link http://github.com/divengine/div
+ * @link http://github.com/divengine/div-extras
  * @example example.php
  * @example example.tpl
  */
