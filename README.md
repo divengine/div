@@ -20,14 +20,34 @@ index.php
 ```
 <?php
 
-include "div.php"
+include "div.php";
 
-echo new div('index.tpl', ['message' => 'Hello Unverse']);
+echo new div('index.tpl', ['message' => 'Hello Universe']);
 ```
 
 index.tpl
 ```
 {$message}
+```
+
+Your own dialect:
+----------------
+index.php
+```
+<?php
+
+define ("DIV_TAG_REPLACEMENT_PREFIX", "<");
+define ("DIV_TAG_REPLACEMENT_SUFFIX", "/>");
+define ("DIV_TAG_MODIFIER_SIMPLE", "show:");
+
+include "div.php";
+
+echo new div('index.tpl', ['message' => 'Hello Universe']);
+```
+
+index.tpl
+```
+<show:message/>
 ```
 
 Of course, the replacement of tags is a basic functionality. More extensions 
