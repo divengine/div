@@ -6,9 +6,30 @@ Div is a template and language engine for PHP developed by
 the Eng. Rafa Rodriguez since 2011, that allows the separation of labor between 
 the programmer and the designer. 
 As the designer built templates with some specific tags, the programmer uses 
-the template to replace these tags with the information. Div have a compact 
-a descriptive syntax for template's designers.
-	
+the template to replace these tags with the information. Div have a compact, flexible 
+and descriptive syntax for template's designers.
+
+* "compact" means "a minimum of code for language template" 
+* "flexible" means "you can create language dialect"
+* "descriptive" means "template language talk by herself"
+
+Basic example:
+-------------
+
+index.php
+```
+<?php
+
+include "div.php"
+
+echo new div('index.tpl', ['message' => 'Hello Unverse']);
+```
+
+index.tpl
+```
+{$message}
+```
+
 Of course, the replacement of tags is a basic functionality. More extensions 
 of the substitutions exist, for example, replace repeatedly N times, replace 
 conditionally, among others.
