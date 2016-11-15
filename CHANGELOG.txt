@@ -1,4 +1,25 @@
 ----------------------------
+November 14,  2016
+----------------------------
+- add new default subparser join
+
+    Syntax:
+
+    {join} varname | delimiter {/join}
+
+    index.tpl
+    ---------
+    {= tags: ['a','b', 'c'] =}
+    {join} tags |, {/join}
+    {join} tags |,{/join}
+    {join} tags {/join}
+
+    Output:
+    -------
+    a, b, c
+    a,b,c
+    abc
+----------------------------
 Octuber 10,  2016
 ----------------------------
 - Several tests

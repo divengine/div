@@ -21,7 +21,7 @@
  * along with this program as the file LICENSE.txt; if not, please see
  * https://www.gnu.org/licenses/gpl-3.0.txt
  *
- * @package com.divengine.div
+ * @package com.divengine
  * @author Rafa Rodriguez [@rafageist] <rafageist86@gmail.com>
  * @version 4.9
  * @link http://divengine.com
@@ -34,331 +34,210 @@
 // -- Constants --
 
 // The path of templates's root directory
-// @formatter:off
-if (! defined ( 'PACKAGES' )) define ( 'PACKAGES', './' );
+if ( ! defined ('PACKAGES')) define('PACKAGES', './');
 
-// @formatter:on
-	// The default extension for template files
-if (! defined ( 'DIV_DEFAULT_TPL_FILE_EXT' ))
-	define ( 'DIV_DEFAULT_TPL_FILE_EXT', 'tpl' );
-	
-	// The default extension for data files
-if (! defined ( 'DIV_DEFAULT_DATA_FILE_EXT' ))
-	define ( 'DIV_DEFAULT_DATA_FILE_EXT', 'json' );
+// The default extension for template files
+if ( ! defined('DIV_DEFAULT_TPL_FILE_EXT'))	define('DIV_DEFAULT_TPL_FILE_EXT', 'tpl' );
+
+// The default extension for data files
+if (! defined ('DIV_DEFAULT_DATA_FILE_EXT')) define('DIV_DEFAULT_DATA_FILE_EXT', 'json' );
 	
 	// The max number of cycles of the parser (prevent infinite loop and more)
-if (! defined ( 'DIV_MAX_PARSE_CYCLES' ))
-	define ( 'DIV_MAX_PARSE_CYCLES', 100 );
+if ( ! defined('DIV_MAX_PARSE_CYCLES' )) define('DIV_MAX_PARSE_CYCLES', 100 );
 	
 	// The max size of file name or dir name in your operating system
-if (! defined ( 'DIV_MAX_FILENAME_SIZE' ))
-	define ( 'DIV_MAX_FILENAME_SIZE', 250 );
+if ( ! defined('DIV_MAX_FILENAME_SIZE' ))
+	define('DIV_MAX_FILENAME_SIZE', 250 );
 	
 	// PHP allowed functions for macros and formulas
-define ( 'DIV_PHP_ALLOWED_FUNCTIONS', 'isset,empty,is_null,is_numeric,is_bool,is_integer,is_double,is_array,sizeof,is_finite,is_float,is_infinite,' . 'is_int,is_long,is_nan,is_real,is_scalar,is_string,mt_rand,mt_srand,mt_getrandmax,rand,urlencode,urldecode,' . 'uniqid,date,time,intval,htmlspecialchars,htmlspecialchars_decode,strtr,strpos,str_replace,str_ireplace,substr,' . 'sprintf,abs,acos,acosh,asin,atan2,atanh,base_convert,bindec,ceil,cos,cosh,decbin,dechex,decoct,deg2rad,exp,expm1,' . 'floor,fmod,getrandmax,hexdec,hypot,lcg_value,log10,log1p,log,max,min,octdec,pi,pow,rad2deg,rand,round,sin,sinh,' . 'sqrt,srand,tan,tanh,cal_days_in_month,cal_from_jd,cal_info,cal_to_jd,easter_date,easter_days,frenchtojd,gregoriantojd,' . 'jddayofweek,jdmonthname,jdtofrench,jdtogregorian,jdtojewish,jdtojulian,jdtounix,jewishtojd,jewishtojd,unixtojd,checkdate,' . 'date_default_timezone_get,strtotime,date_sunset,gmdate,gmmktime,gmstrftime,idate,microtime,mktime,strftime,strptime,' . 'strtotime,timezone_name_from_abbr,timezone_version_get,bcadd,bccomp,bcdiv,bcmod,bcmul,bcpow,bcpowmod,bcscale,bcsqrt,' . 'bcsub,addcslashes,addslashes,bin2hex,chop,chr,chunk_split,convert_cyr_string,convert_uudecode,convert_uuencode,count,' . 'count_chars,crc32,crypt,hebrev,hebrevc,hex2bin,html_entity_decode,htmlentities,htmlspecialchars_decode,htmlspecialchars,' . 'lcfirst,levenshtein,ltrim,md5,metaphone,money_format,nl_langinfo,nl2br,number_format,ord,quoted_printable_decode,' . 'quoted_printable_encode,quotemeta,rtrim,sha1,similar_text,soundex,sprintf,str_pad,str_repeat,str_rot13,str_shuffle,' . 'strcasecmp,strchr,strcmp,strcoll,strcspn,strip_tags,stripcslashes,stripos,stripslashes,stristr,strlen,strnatcasecmp,' . 'strnatcmp,strncasecmp,strncmp,strpbrk,strrchr,strrev,strripos,strrpos,strspn,strtolower,strtoupper,strtr,substr_compare,' . 'substr_count,substr_replace,trim,ucfirst,ucwords,wordwrap,floatval,strval,implode,explode,array_keys,get_object_vars,is_object' );
+define('DIV_PHP_ALLOWED_FUNCTIONS', 'isset,empty,is_null,is_numeric,is_bool,is_integer,is_double,is_array,sizeof,is_finite,is_float,is_infinite,' . 'is_int,is_long,is_nan,is_real,is_scalar,is_string,mt_rand,mt_srand,mt_getrandmax,rand,urlencode,urldecode,' . 'uniqid,date,time,intval,htmlspecialchars,htmlspecialchars_decode,strtr,strpos,str_replace,str_ireplace,substr,' . 'sprintf,abs,acos,acosh,asin,atan2,atanh,base_convert,bindec,ceil,cos,cosh,decbin,dechex,decoct,deg2rad,exp,expm1,' . 'floor,fmod,getrandmax,hexdec,hypot,lcg_value,log10,log1p,log,max,min,octdec,pi,pow,rad2deg,rand,round,sin,sinh,' . 'sqrt,srand,tan,tanh,cal_days_in_month,cal_from_jd,cal_info,cal_to_jd,easter_date,easter_days,frenchtojd,gregoriantojd,' . 'jddayofweek,jdmonthname,jdtofrench,jdtogregorian,jdtojewish,jdtojulian,jdtounix,jewishtojd,jewishtojd,unixtojd,checkdate,' . 'date_default_timezone_get,strtotime,date_sunset,gmdate,gmmktime,gmstrftime,idate,microtime,mktime,strftime,strptime,' . 'strtotime,timezone_name_from_abbr,timezone_version_get,bcadd,bccomp,bcdiv,bcmod,bcmul,bcpow,bcpowmod,bcscale,bcsqrt,' . 'bcsub,addcslashes,addslashes,bin2hex,chop,chr,chunk_split,convert_cyr_string,convert_uudecode,convert_uuencode,count,' . 'count_chars,crc32,crypt,hebrev,hebrevc,hex2bin,html_entity_decode,htmlentities,htmlspecialchars_decode,htmlspecialchars,' . 'lcfirst,levenshtein,ltrim,md5,metaphone,money_format,nl_langinfo,nl2br,number_format,ord,quoted_printable_decode,' . 'quoted_printable_encode,quotemeta,rtrim,sha1,similar_text,soundex,sprintf,str_pad,str_repeat,str_rot13,str_shuffle,' . 'strcasecmp,strchr,strcmp,strcoll,strcspn,strip_tags,stripcslashes,stripos,stripslashes,stristr,strlen,strnatcasecmp,' . 'strnatcmp,strncasecmp,strncmp,strpbrk,strrchr,strrev,strripos,strrpos,strspn,strtolower,strtoupper,strtr,substr_compare,' . 'substr_count,substr_replace,trim,ucfirst,ucwords,wordwrap,floatval,strval,implode,explode,array_keys,get_object_vars,is_object' );
 
 // Valid PHP tokens in expressions
-define ( 'DIV_PHP_VALID_TOKENS_FOR_EXPRESSIONS', 'T_ARRAY,T_ARRAY_CAST,T_BOOLEAN_AND,T_BOOLEAN_OR,T_BOOL_CAST,T_CHARACTER,T_CONSTANT_ENCAPSED_STRING,' . 'T_DNUMBER,T_DOUBLE_CAST,T_EMPTY,T_INT_CAST,T_ISSET,T_IS_EQUAL,T_IS_GREATER_OR_EQUAL,T_SR,T_IS_IDENTICAL,T_IS_NOT_EQUAL,T_IS_NOT_IDENTICAL,' . 'T_IS_SMALLER_OR_EQUAL,T_LNUMBER,T_LOGICAL_AND,T_LOGICAL_OR,T_LOGICAL_XOR,T_SL,T_SL_EQUAL,T_SR_EQUAL,T_STRING_CAST,T_STRING_VARNAME,' . 'T_VARIABLE,T_WHITESPACE,T_CURLY_OPEN,T_INC,T_COMMENT,T_DOUBLE_ARROW,T_ENCAPSED_AND_WHITESPACE' );
+define('DIV_PHP_VALID_TOKENS_FOR_EXPRESSIONS', 'T_ARRAY,T_ARRAY_CAST,T_BOOLEAN_AND,T_BOOLEAN_OR,T_BOOL_CAST,T_CHARACTER,T_CONSTANT_ENCAPSED_STRING,' . 'T_DNUMBER,T_DOUBLE_CAST,T_EMPTY,T_INT_CAST,T_ISSET,T_IS_EQUAL,T_IS_GREATER_OR_EQUAL,T_SR,T_IS_IDENTICAL,T_IS_NOT_EQUAL,T_IS_NOT_IDENTICAL,' . 'T_IS_SMALLER_OR_EQUAL,T_LNUMBER,T_LOGICAL_AND,T_LOGICAL_OR,T_LOGICAL_XOR,T_SL,T_SL_EQUAL,T_SR_EQUAL,T_STRING_CAST,T_STRING_VARNAME,' . 'T_VARIABLE,T_WHITESPACE,T_CURLY_OPEN,T_INC,T_COMMENT,T_DOUBLE_ARROW,T_ENCAPSED_AND_WHITESPACE' );
 
 // Valid PHP tokens in macros
-define ( 'DIV_PHP_VALID_TOKENS_FOR_MACROS', 'T_AS,T_DO,T_DOUBLE_COLON,T_ECHO,T_ELSE,T_ELSEIF,T_FOR,T_FOREACH,T_IF,T_MOD_EQUAL,T_MUL_EQUAL,' . 'T_OBJECT_OPERATOR,T_NUM_STRING,T_OR_EQUAL,T_PAAMAYIM_NEKUDOTAYIM,T_PLUS_EQUAL,T_PRINT,T_START_HEREDOC,T_SWITCH,' . 'T_WHILE,T_ENDIF,T_ENDFOR,T_ENDFOREACH,T_ENDSWITCH,T_ENDWHILE,T_END_HEREDOC,T_PAAMAYIM_NEKUDOTAYIM,T_BREAK' );
+define('DIV_PHP_VALID_TOKENS_FOR_MACROS', 'T_AS,T_DO,T_DOUBLE_COLON,T_ECHO,T_ELSE,T_ELSEIF,T_FOR,T_FOREACH,T_IF,T_MOD_EQUAL,T_MUL_EQUAL,' . 'T_OBJECT_OPERATOR,T_NUM_STRING,T_OR_EQUAL,T_PAAMAYIM_NEKUDOTAYIM,T_PLUS_EQUAL,T_PRINT,T_START_HEREDOC,T_SWITCH,' . 'T_WHILE,T_ENDIF,T_ENDFOR,T_ENDFOREACH,T_ENDSWITCH,T_ENDWHILE,T_END_HEREDOC,T_PAAMAYIM_NEKUDOTAYIM,T_BREAK' );
 
 // Allowed Div methods in macros and formulas
-define ( 'DIV_PHP_ALLOWED_METHODS', 'getRanges,asThis,atLeastOneString,getLastKeyOfArray,' . 'getCountOfParagraphs,getCountOfSentences,getCountOfWords,htmlToText,' . 'isArrayOfArray,isArrayOfObjects,isCli,isNumericList,jsonDecode,jsonEncode,isString,mixedBool,div' );
+define('DIV_PHP_ALLOWED_METHODS', 'getRanges,asThis,atLeastOneString,getLastKeyOfArray,' . 'getCountOfParagraphs,getCountOfSentences,getCountOfWords,htmlToText,' . 'isArrayOfArray,isArrayOfObjects,isCli,isNumericList,jsonDecode,jsonEncode,isString,mixedBool,div' );
 
 // Other internal constatns
-define ( 'DIV_ERROR_WARNING', 'WARNING' );
-define ( 'DIV_ERROR_FATAL', 'FATAL' );
-define ( 'DIV_METHOD_NOT_EXISTS', 'DIV_METHOD_NOT_EXISTS' );
-define ( 'DIV_UNICODE_ERROR', - 1 );
-define ( 'DIV_MOMENT_BEFORE_PARSE', 'DIV_MOMENT_BEFORE_PARSE' );
-define ( 'DIV_MOMENT_AFTER_PARSE', 'DIV_MOMENT_AFTER_PARSE' );
-define ( 'DIV_MOMENT_AFTER_INCLUDE', 'DIV_MOMENT_AFTER_INCLUDE' );
-define ( 'DIV_MOMENT_AFTER_REPLACE', 'DIV_MOMENT_AFTER_REPLACE' );
+define('DIV_ERROR_WARNING', 'WARNING' );
+define('DIV_ERROR_FATAL', 'FATAL' );
+define('DIV_METHOD_NOT_EXISTS', 'DIV_METHOD_NOT_EXISTS' );
+define('DIV_UNICODE_ERROR', - 1 );
+define('DIV_MOMENT_BEFORE_PARSE', 'DIV_MOMENT_BEFORE_PARSE' );
+define('DIV_MOMENT_AFTER_PARSE', 'DIV_MOMENT_AFTER_PARSE' );
+define('DIV_MOMENT_AFTER_INCLUDE', 'DIV_MOMENT_AFTER_INCLUDE' );
+define('DIV_MOMENT_AFTER_REPLACE', 'DIV_MOMENT_AFTER_REPLACE' );
 
 // ------------------------------------- D E F A U L T -- D I A L E C T --------------------------------------//
-if (! defined ( 'DIV_TAG_VAR_MEMBER_DELIMITER' ))
-	define ( 'DIV_TAG_VAR_MEMBER_DELIMITER', '.' );
+if ( ! defined('DIV_TAG_VAR_MEMBER_DELIMITER' )) define('DIV_TAG_VAR_MEMBER_DELIMITER', '.' );
 	
 	// Variables
-if (! defined ( 'DIV_TAG_REPLACEMENT_PREFIX' ))
-	define ( 'DIV_TAG_REPLACEMENT_PREFIX', '{' );
-if (! defined ( 'DIV_TAG_REPLACEMENT_SUFFIX' ))
-	define ( 'DIV_TAG_REPLACEMENT_SUFFIX', '}' );
-if (! defined ( 'DIV_TAG_MULTI_MODIFIERS_PREFIX' ))
-	define ( 'DIV_TAG_MULTI_MODIFIERS_PREFIX', '{$' );
-if (! defined ( 'DIV_TAG_MULTI_MODIFIERS_OPERATOR' ))
-	define ( 'DIV_TAG_MULTI_MODIFIERS_OPERATOR', '|' );
-if (! defined ( 'DIV_TAG_MULTI_MODIFIERS_SEPARATOR' ))
-	define ( 'DIV_TAG_MULTI_MODIFIERS_SEPARATOR', '|' );
-if (! defined ( 'DIV_TAG_MULTI_MODIFIERS_SUFFIX' ))
-	define ( 'DIV_TAG_MULTI_MODIFIERS_SUFFIX', '|}' );
-if (! defined ( 'DIV_TAG_SUBMATCH_SEPARATOR' ))
-	define ( 'DIV_TAG_SUBMATCH_SEPARATOR', ':' );
+if ( ! defined('DIV_TAG_REPLACEMENT_PREFIX' ))	        define('DIV_TAG_REPLACEMENT_PREFIX', '{' );
+if ( ! defined('DIV_TAG_REPLACEMENT_SUFFIX' ))	        define('DIV_TAG_REPLACEMENT_SUFFIX', '}' );
+if ( ! defined('DIV_TAG_MULTI_MODIFIERS_PREFIX' ))	    define('DIV_TAG_MULTI_MODIFIERS_PREFIX', '{$' );
+if ( ! defined('DIV_TAG_MULTI_MODIFIERS_OPERATOR' ))	define('DIV_TAG_MULTI_MODIFIERS_OPERATOR', '|' );
+if ( ! defined('DIV_TAG_MULTI_MODIFIERS_SEPARATOR' ))	define('DIV_TAG_MULTI_MODIFIERS_SEPARATOR', '|' );
+if ( ! defined('DIV_TAG_MULTI_MODIFIERS_SUFFIX' ))	    define('DIV_TAG_MULTI_MODIFIERS_SUFFIX', '|}' );
+if ( ! defined('DIV_TAG_SUBMATCH_SEPARATOR' ))	        define('DIV_TAG_SUBMATCH_SEPARATOR', ':' );
 	
 	// Variable's modifiers
-if (! defined ( 'DIV_TAG_MODIFIER_SIMPLE' ))
-	define ( 'DIV_TAG_MODIFIER_SIMPLE', '$' );
-if (! defined ( 'DIV_TAG_MODIFIER_CAPITALIZE_FIRST' ))
-	define ( 'DIV_TAG_MODIFIER_CAPITALIZE_FIRST', '^' );
-if (! defined ( 'DIV_TAG_MODIFIER_CAPITALIZE_WORDS' ))
-	define ( 'DIV_TAG_MODIFIER_CAPITALIZE_WORDS', '^^' );
-if (! defined ( 'DIV_TAG_MODIFIER_UPPERCASE' ))
-	define ( 'DIV_TAG_MODIFIER_UPPERCASE', '^^^' );
-if (! defined ( 'DIV_TAG_MODIFIER_LOWERCASE' ))
-	define ( 'DIV_TAG_MODIFIER_LOWERCASE', '_' );
-if (! defined ( 'DIV_TAG_MODIFIER_LENGTH' ))
-	define ( 'DIV_TAG_MODIFIER_LENGTH', '%' );
-if (! defined ( 'DIV_TAG_MODIFIER_COUNT_WORDS' ))
-	define ( 'DIV_TAG_MODIFIER_COUNT_WORDS', '%%' );
-if (! defined ( 'DIV_TAG_MODIFIER_COUNT_SENTENCES' ))
-	define ( 'DIV_TAG_MODIFIER_COUNT_SENTENCES', '%%%' );
-if (! defined ( 'DIV_TAG_MODIFIER_COUNT_PARAGRAPHS' ))
-	define ( 'DIV_TAG_MODIFIER_COUNT_PARAGRAPHS', '%%%%' );
-if (! defined ( 'DIV_TAG_MODIFIER_ENCODE_URL' ))
-	define ( 'DIV_TAG_MODIFIER_ENCODE_URL', '&' );
-if (! defined ( 'DIV_TAG_MODIFIER_ENCODE_RAW_URL' ))
-	define ( 'DIV_TAG_MODIFIER_ENCODE_RAW_URL', '&&' );
-if (! defined ( 'DIV_TAG_MODIFIER_ENCODE_JSON' ))
-	define ( 'DIV_TAG_MODIFIER_ENCODE_JSON', 'json:' );
-if (! defined ( 'DIV_TAG_MODIFIER_HTML_ENTITIES' ))
-	define ( 'DIV_TAG_MODIFIER_HTML_ENTITIES', 'html:' );
-if (! defined ( 'DIV_TAG_MODIFIER_NL2BR' ))
-	define ( 'DIV_TAG_MODIFIER_NL2BR', 'br:' );
-if (! defined ( 'DIV_TAG_MODIFIER_TRUNCATE' ))
-	define ( 'DIV_TAG_MODIFIER_TRUNCATE', '~' );
-if (! defined ( 'DIV_TAG_MODIFIER_WORDWRAP' ))
-	define ( 'DIV_TAG_MODIFIER_WORDWRAP', '/' );
-if (! defined ( 'DIV_TAG_MODIFIER_SUBSTRING_SEPARATOR' ))
-	define ( 'DIV_TAG_MODIFIER_SUBSTRING_SEPARATOR', ',' );
-if (! defined ( 'DIV_TAG_MODIFIER_SINGLE_QUOTES' ))
-	define ( 'DIV_TAG_MODIFIER_SINGLE_QUOTES', "'" );
-if (! defined ( 'DIV_TAG_MODIFIER_JS' ))
-	define ( 'DIV_TAG_MODIFIER_JS', "js:" );
-if (! defined ( 'DIV_TAG_MODIFIER_FORMAT' ))
-	define ( 'DIV_TAG_MODIFIER_FORMAT', '' );
+if ( ! defined('DIV_TAG_MODIFIER_SIMPLE' ))	            define('DIV_TAG_MODIFIER_SIMPLE', '$' );
+if ( ! defined('DIV_TAG_MODIFIER_CAPITALIZE_FIRST' ))	define('DIV_TAG_MODIFIER_CAPITALIZE_FIRST', '^' );
+if ( ! defined('DIV_TAG_MODIFIER_CAPITALIZE_WORDS' ))	define('DIV_TAG_MODIFIER_CAPITALIZE_WORDS', '^^' );
+if ( ! defined('DIV_TAG_MODIFIER_UPPERCASE' ))	        define('DIV_TAG_MODIFIER_UPPERCASE', '^^^' );
+if ( ! defined('DIV_TAG_MODIFIER_LOWERCASE' ))	        define('DIV_TAG_MODIFIER_LOWERCASE', '_' );
+if ( ! defined('DIV_TAG_MODIFIER_LENGTH' ))	            define('DIV_TAG_MODIFIER_LENGTH', '%' );
+if ( ! defined('DIV_TAG_MODIFIER_COUNT_WORDS' ))	    define('DIV_TAG_MODIFIER_COUNT_WORDS', '%%' );
+if ( ! defined('DIV_TAG_MODIFIER_COUNT_SENTENCES' ))	define('DIV_TAG_MODIFIER_COUNT_SENTENCES', '%%%' );
+if ( ! defined('DIV_TAG_MODIFIER_COUNT_PARAGRAPHS' ))	define('DIV_TAG_MODIFIER_COUNT_PARAGRAPHS', '%%%%' );
+if ( ! defined('DIV_TAG_MODIFIER_ENCODE_URL' ))	        define('DIV_TAG_MODIFIER_ENCODE_URL', '&' );
+if ( ! defined('DIV_TAG_MODIFIER_ENCODE_RAW_URL' ))	    define('DIV_TAG_MODIFIER_ENCODE_RAW_URL', '&&' );
+if ( ! defined('DIV_TAG_MODIFIER_ENCODE_JSON' ))	    define('DIV_TAG_MODIFIER_ENCODE_JSON', 'json:' );
+if ( ! defined('DIV_TAG_MODIFIER_HTML_ENTITIES' ))	    define('DIV_TAG_MODIFIER_HTML_ENTITIES', 'html:' );
+if ( ! defined('DIV_TAG_MODIFIER_NL2BR' ))	            define('DIV_TAG_MODIFIER_NL2BR', 'br:' );
+if ( ! defined('DIV_TAG_MODIFIER_TRUNCATE' ))	        define('DIV_TAG_MODIFIER_TRUNCATE', '~' );
+if ( ! defined('DIV_TAG_MODIFIER_WORDWRAP' ))	        define('DIV_TAG_MODIFIER_WORDWRAP', '/' );
+if ( ! defined('DIV_TAG_MODIFIER_SUBSTRING_SEPARATOR' ))	define('DIV_TAG_MODIFIER_SUBSTRING_SEPARATOR', ',' );
+if ( ! defined('DIV_TAG_MODIFIER_SINGLE_QUOTES' ))	    define('DIV_TAG_MODIFIER_SINGLE_QUOTES', "'" );
+if ( ! defined('DIV_TAG_MODIFIER_JS' ))	                define('DIV_TAG_MODIFIER_JS', "js:" );
+if ( ! defined('DIV_TAG_MODIFIER_FORMAT' ))	            define('DIV_TAG_MODIFIER_FORMAT', '' );
 	
 	// Data format
-if (! defined ( 'DIV_TAG_DATE_FORMAT_PREFIX' ))
-	define ( 'DIV_TAG_DATE_FORMAT_PREFIX', '{/' );
-if (! defined ( 'DIV_TAG_DATE_FORMAT_SUFFIX' ))
-	define ( 'DIV_TAG_DATE_FORMAT_SUFFIX', '/}' );
-if (! defined ( 'DIV_TAG_DATE_FORMAT_SEPARATOR' ))
-	define ( 'DIV_TAG_DATE_FORMAT_SEPARATOR', ':' );
-if (! defined ( 'DIV_TAG_NUMBER_FORMAT_PREFIX' ))
-	define ( 'DIV_TAG_NUMBER_FORMAT_PREFIX', '{#' );
-if (! defined ( 'DIV_TAG_NUMBER_FORMAT_SUFFIX' ))
-	define ( 'DIV_TAG_NUMBER_FORMAT_SUFFIX', '#}' );
-if (! defined ( 'DIV_TAG_NUMBER_FORMAT_SEPARATOR' ))
-	define ( 'DIV_TAG_NUMBER_FORMAT_SEPARATOR', ':' );
+if ( ! defined('DIV_TAG_DATE_FORMAT_PREFIX' ))	define('DIV_TAG_DATE_FORMAT_PREFIX', '{/' );
+if ( ! defined('DIV_TAG_DATE_FORMAT_SUFFIX' ))	define('DIV_TAG_DATE_FORMAT_SUFFIX', '/}' );
+if ( ! defined('DIV_TAG_DATE_FORMAT_SEPARATOR' ))	define('DIV_TAG_DATE_FORMAT_SEPARATOR', ':' );
+if ( ! defined('DIV_TAG_NUMBER_FORMAT_PREFIX' ))	define('DIV_TAG_NUMBER_FORMAT_PREFIX', '{#' );
+if ( ! defined('DIV_TAG_NUMBER_FORMAT_SUFFIX' ))	define('DIV_TAG_NUMBER_FORMAT_SUFFIX', '#}' );
+if ( ! defined('DIV_TAG_NUMBER_FORMAT_SEPARATOR' ))	define('DIV_TAG_NUMBER_FORMAT_SEPARATOR', ':' );
 	
 	// Formulas
-if (! defined ( 'DIV_TAG_FORMULA_BEGIN' ))
-	define ( 'DIV_TAG_FORMULA_BEGIN', '(#' );
-if (! defined ( 'DIV_TAG_FORMULA_END' ))
-	define ( 'DIV_TAG_FORMULA_END', '#)' );
-if (! defined ( 'DIV_TAG_FORMULA_FORMAT_SEPARATOR' ))
-	define ( 'DIV_TAG_FORMULA_FORMAT_SEPARATOR', ':' );
+if ( ! defined('DIV_TAG_FORMULA_BEGIN' ))	define('DIV_TAG_FORMULA_BEGIN', '(#' );
+if ( ! defined('DIV_TAG_FORMULA_END' ))	define('DIV_TAG_FORMULA_END', '#)' );
+if ( ! defined('DIV_TAG_FORMULA_FORMAT_SEPARATOR' ))	define('DIV_TAG_FORMULA_FORMAT_SEPARATOR', ':' );
 	
 	// Sub-parsers
-if (! defined ( 'DIV_TAG_SUBPARSER_BEGIN_PREFIX' ))
-	define ( 'DIV_TAG_SUBPARSER_BEGIN_PREFIX', '{' );
-if (! defined ( 'DIV_TAG_SUBPARSER_BEGIN_SUFFIX' ))
-	define ( 'DIV_TAG_SUBPARSER_BEGIN_SUFFIX', '}' );
-if (! defined ( 'DIV_TAG_SUBPARSER_END_PREFIX' ))
-	define ( 'DIV_TAG_SUBPARSER_END_PREFIX', '{/' );
-if (! defined ( 'DIV_TAG_SUBPARSER_END_SUFFIX' ))
-	define ( 'DIV_TAG_SUBPARSER_END_SUFFIX', '}' );
+if ( ! defined('DIV_TAG_SUBPARSER_BEGIN_PREFIX' ))	define('DIV_TAG_SUBPARSER_BEGIN_PREFIX', '{' );
+if ( ! defined('DIV_TAG_SUBPARSER_BEGIN_SUFFIX' ))	define('DIV_TAG_SUBPARSER_BEGIN_SUFFIX', '}' );
+if ( ! defined('DIV_TAG_SUBPARSER_END_PREFIX' ))	define('DIV_TAG_SUBPARSER_END_PREFIX', '{/' );
+if ( ! defined('DIV_TAG_SUBPARSER_END_SUFFIX' ))	define('DIV_TAG_SUBPARSER_END_SUFFIX', '}' );
 	
 	// Ignored parts
-if (! defined ( 'DIV_TAG_IGNORE_BEGIN' ))
-	define ( 'DIV_TAG_IGNORE_BEGIN', '{ignore}' );
-if (! defined ( 'DIV_TAG_IGNORE_END' ))
-	define ( 'DIV_TAG_IGNORE_END', '{/ignore}' );
+if ( ! defined('DIV_TAG_IGNORE_BEGIN' ))	define('DIV_TAG_IGNORE_BEGIN', '{ignore}' );
+if ( ! defined('DIV_TAG_IGNORE_END' ))	define('DIV_TAG_IGNORE_END', '{/ignore}' );
 	
 	// Comments
-if (! defined ( 'DIV_TAG_COMMENT_BEGIN' ))
-	define ( 'DIV_TAG_COMMENT_BEGIN', '<!--{' );
-if (! defined ( 'DIV_TAG_COMMENT_END' ))
-	define ( 'DIV_TAG_COMMENT_END', '}-->' );
+if ( ! defined('DIV_TAG_COMMENT_BEGIN' ))	define('DIV_TAG_COMMENT_BEGIN', '<!--{' );
+if ( ! defined('DIV_TAG_COMMENT_END' ))	define('DIV_TAG_COMMENT_END', '}-->' );
 	
 	// HTML to Plain text
-if (! defined ( 'DIV_TAG_TXT_BEGIN' ))
-	define ( 'DIV_TAG_TXT_BEGIN', '{txt}' );
-if (! defined ( 'DIV_TAG_TXT_END' ))
-	define ( 'DIV_TAG_TXT_END', '{/txt}' );
-if (! defined ( 'DIV_TAG_TXT_WIDTH_SEPARATOR' ))
-	define ( 'DIV_TAG_TXT_WIDTH_SEPARATOR', '=>' );
+if ( ! defined('DIV_TAG_TXT_BEGIN' ))	define('DIV_TAG_TXT_BEGIN', '{txt}' );
+if ( ! defined('DIV_TAG_TXT_END' ))	define('DIV_TAG_TXT_END', '{/txt}' );
+if ( ! defined('DIV_TAG_TXT_WIDTH_SEPARATOR' ))	define('DIV_TAG_TXT_WIDTH_SEPARATOR', '=>' );
 	
 	// Strip
-if (! defined ( 'DIV_TAG_STRIP_BEGIN' ))
-	define ( 'DIV_TAG_STRIP_BEGIN', '{strip}' );
-if (! defined ( 'DIV_TAG_STRIP_END' ))
-	define ( 'DIV_TAG_STRIP_END', '{/strip}' );
+if ( ! defined('DIV_TAG_STRIP_BEGIN' ))	define('DIV_TAG_STRIP_BEGIN', '{strip}' );
+if ( ! defined('DIV_TAG_STRIP_END' ))	define('DIV_TAG_STRIP_END', '{/strip}' );
 	
 	// Loops
-if (! defined ( 'DIV_TAG_LOOP_BEGIN_PREFIX' ))
-	define ( 'DIV_TAG_LOOP_BEGIN_PREFIX', '[$' );
-if (! defined ( 'DIV_TAG_LOOP_BEGIN_SUFFIX' ))
-	define ( 'DIV_TAG_LOOP_BEGIN_SUFFIX', ']' );
-if (! defined ( 'DIV_TAG_LOOP_END_PREFIX' ))
-	define ( 'DIV_TAG_LOOP_END_PREFIX', '[/$' );
-if (! defined ( 'DIV_TAG_LOOP_END_SUFFIX' ))
-	define ( 'DIV_TAG_LOOP_END_SUFFIX', ']' );
-if (! defined ( 'DIV_TAG_EMPTY' ))
-	define ( 'DIV_TAG_EMPTY', '@empty@' );
-if (! defined ( 'DIV_TAG_BREAK' ))
-	define ( 'DIV_TAG_BREAK', '@break@' );
-if (! defined ( 'DIV_TAG_LOOP_VAR_SEPARATOR' ))
-	define ( 'DIV_TAG_LOOP_VAR_SEPARATOR', '=>' );
+if ( ! defined('DIV_TAG_LOOP_BEGIN_PREFIX' ))	define('DIV_TAG_LOOP_BEGIN_PREFIX', '[$' );
+if ( ! defined('DIV_TAG_LOOP_BEGIN_SUFFIX' ))	define('DIV_TAG_LOOP_BEGIN_SUFFIX', ']' );
+if ( ! defined('DIV_TAG_LOOP_END_PREFIX' ))	define('DIV_TAG_LOOP_END_PREFIX', '[/$' );
+if ( ! defined('DIV_TAG_LOOP_END_SUFFIX' ))	define('DIV_TAG_LOOP_END_SUFFIX', ']' );
+if ( ! defined('DIV_TAG_EMPTY' ))	define('DIV_TAG_EMPTY', '@empty@' );
+if ( ! defined('DIV_TAG_BREAK' ))	define('DIV_TAG_BREAK', '@break@' );
+if ( ! defined('DIV_TAG_LOOP_VAR_SEPARATOR' ))	define('DIV_TAG_LOOP_VAR_SEPARATOR', '=>' );
 	
 	// Iterations
-if (! defined ( 'DIV_TAG_ITERATION_BEGIN_PREFIX' ))
-	define ( 'DIV_TAG_ITERATION_BEGIN_PREFIX', '[:' );
-if (! defined ( 'DIV_TAG_ITERATION_BEGIN_SUFFIX' ))
-	define ( 'DIV_TAG_ITERATION_BEGIN_SUFFIX', ':]' );
-if (! defined ( 'DIV_TAG_ITERATION_END' ))
-	define ( 'DIV_TAG_ITERATION_END', '[/]' );
-if (! defined ( 'DIV_TAG_ITERATION_PARAM_SEPARATOR' ))
-	define ( 'DIV_TAG_ITERATION_PARAM_SEPARATOR', ',' );
+if ( ! defined('DIV_TAG_ITERATION_BEGIN_PREFIX' ))	define('DIV_TAG_ITERATION_BEGIN_PREFIX', '[:' );
+if ( ! defined('DIV_TAG_ITERATION_BEGIN_SUFFIX' ))	define('DIV_TAG_ITERATION_BEGIN_SUFFIX', ':]' );
+if ( ! defined('DIV_TAG_ITERATION_END' ))	define('DIV_TAG_ITERATION_END', '[/]' );
+if ( ! defined('DIV_TAG_ITERATION_PARAM_SEPARATOR' ))	define('DIV_TAG_ITERATION_PARAM_SEPARATOR', ',' );
 	
 	// Conditional parts
-if (! defined ( 'DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX' ))
-	define ( 'DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX', '?$' );
-if (! defined ( 'DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX' ))
-	define ( 'DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX', '' );
-if (! defined ( 'DIV_TAG_CONDITIONAL_TRUE_END_PREFIX' ))
-	define ( 'DIV_TAG_CONDITIONAL_TRUE_END_PREFIX', '$' );
-if (! defined ( 'DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX' ))
-	define ( 'DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX', '?' );
-if (! defined ( 'DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX' ))
-	define ( 'DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX', '!$' );
-if (! defined ( 'DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX' ))
-	define ( 'DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX', '' );
-if (! defined ( 'DIV_TAG_CONDITIONAL_FALSE_END_PREFIX' ))
-	define ( 'DIV_TAG_CONDITIONAL_FALSE_END_PREFIX', '$' );
-if (! defined ( 'DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX' ))
-	define ( 'DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX', '!' );
-if (! defined ( 'DIV_TAG_ELSE' ))
-	define ( 'DIV_TAG_ELSE', '@else@' );
+if ( ! defined('DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX' ))	define('DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX', '?$' );
+if ( ! defined('DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX' ))	define('DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX', '' );
+if ( ! defined('DIV_TAG_CONDITIONAL_TRUE_END_PREFIX' ))	define('DIV_TAG_CONDITIONAL_TRUE_END_PREFIX', '$' );
+if ( ! defined('DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX' ))	define('DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX', '?' );
+if ( ! defined('DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX' ))	define('DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX', '!$' );
+if ( ! defined('DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX' ))	define('DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX', '' );
+if ( ! defined('DIV_TAG_CONDITIONAL_FALSE_END_PREFIX' ))	define('DIV_TAG_CONDITIONAL_FALSE_END_PREFIX', '$' );
+if ( ! defined('DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX' ))	define('DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX', '!' );
+if ( ! defined('DIV_TAG_ELSE' ))	define('DIV_TAG_ELSE', '@else@' );
 	
 	// Conditions
-if (! defined ( 'DIV_TAG_CONDITIONS_BEGIN_PREFIX' ))
-	define ( 'DIV_TAG_CONDITIONS_BEGIN_PREFIX', '{?(' );
-if (! defined ( 'DIV_TAG_CONDITIONS_BEGIN_SUFFIX' ))
-	define ( 'DIV_TAG_CONDITIONS_BEGIN_SUFFIX', ')?}' );
-if (! defined ( 'DIV_TAG_CONDITIONS_END' ))
-	define ( 'DIV_TAG_CONDITIONS_END', '{/?}' );
+if ( ! defined('DIV_TAG_CONDITIONS_BEGIN_PREFIX' ))	define('DIV_TAG_CONDITIONS_BEGIN_PREFIX', '{?(' );
+if ( ! defined('DIV_TAG_CONDITIONS_BEGIN_SUFFIX' ))	define('DIV_TAG_CONDITIONS_BEGIN_SUFFIX', ')?}' );
+if ( ! defined('DIV_TAG_CONDITIONS_END' ))	define('DIV_TAG_CONDITIONS_END', '{/?}' );
 	
 	// Template vars
-if (! defined ( 'DIV_TAG_TPLVAR_BEGIN' ))
-	define ( 'DIV_TAG_TPLVAR_BEGIN', '{=' );
-if (! defined ( 'DIV_TAG_TPLVAR_END' ))
-	define ( 'DIV_TAG_TPLVAR_END', '=}' );
-if (! defined ( 'DIV_TAG_TPLVAR_ASSIGN_OPERATOR' ))
-	define ( 'DIV_TAG_TPLVAR_ASSIGN_OPERATOR', ':' );
-if (! defined ( 'DIV_TAG_TPLVAR_PROTECTOR' ))
-	define ( 'DIV_TAG_TPLVAR_PROTECTOR', '*' );
+if ( ! defined('DIV_TAG_TPLVAR_BEGIN' ))	define('DIV_TAG_TPLVAR_BEGIN', '{=' );
+if ( ! defined('DIV_TAG_TPLVAR_END' ))	define('DIV_TAG_TPLVAR_END', '=}' );
+if ( ! defined('DIV_TAG_TPLVAR_ASSIGN_OPERATOR' ))	define('DIV_TAG_TPLVAR_ASSIGN_OPERATOR', ':' );
+if ( ! defined('DIV_TAG_TPLVAR_PROTECTOR' ))	define('DIV_TAG_TPLVAR_PROTECTOR', '*' );
 	
 	// Default replacement
-if (! defined ( 'DIV_TAG_DEFAULT_REPLACEMENT_BEGIN' ))
-	define ( 'DIV_TAG_DEFAULT_REPLACEMENT_BEGIN', '{@' );
-if (! defined ( 'DIV_TAG_DEFAULT_REPLACEMENT_END' ))
-	define ( 'DIV_TAG_DEFAULT_REPLACEMENT_END', '@}' );
+if ( ! defined('DIV_TAG_DEFAULT_REPLACEMENT_BEGIN' ))	define('DIV_TAG_DEFAULT_REPLACEMENT_BEGIN', '{@' );
+if ( ! defined('DIV_TAG_DEFAULT_REPLACEMENT_END' ))	define('DIV_TAG_DEFAULT_REPLACEMENT_END', '@}' );
 	
 	// Includes
-if (! defined ( 'DIV_TAG_INCLUDE_BEGIN' ))
-	define ( 'DIV_TAG_INCLUDE_BEGIN', '{% ' );
-if (! defined ( 'DIV_TAG_INCLUDE_END' ))
-	define ( 'DIV_TAG_INCLUDE_END', ' %}' );
+if ( ! defined('DIV_TAG_INCLUDE_BEGIN' ))	define('DIV_TAG_INCLUDE_BEGIN', '{% ' );
+if ( ! defined('DIV_TAG_INCLUDE_END' ))	define('DIV_TAG_INCLUDE_END', ' %}' );
 	
 	// Pre-processed
-if (! defined ( 'DIV_TAG_PREPROCESSED_BEGIN' ))
-	define ( 'DIV_TAG_PREPROCESSED_BEGIN', '{%% ' );
-if (! defined ( 'DIV_TAG_PREPROCESSED_END' ))
-	define ( 'DIV_TAG_PREPROCESSED_END', ' %%}' );
-if (! defined ( 'DIV_TAG_PREPROCESSED_SEPARATOR' ))
-	define ( 'DIV_TAG_PREPROCESSED_SEPARATOR', ':' );
+if ( ! defined('DIV_TAG_PREPROCESSED_BEGIN' ))	define('DIV_TAG_PREPROCESSED_BEGIN', '{%% ' );
+if ( ! defined('DIV_TAG_PREPROCESSED_END' ))	define('DIV_TAG_PREPROCESSED_END', ' %%}' );
+if ( ! defined('DIV_TAG_PREPROCESSED_SEPARATOR' ))	define('DIV_TAG_PREPROCESSED_SEPARATOR', ':' );
 	
 	// Capsules
-if (! defined ( 'DIV_TAG_CAPSULE_BEGIN_PREFIX' ))
-	define ( 'DIV_TAG_CAPSULE_BEGIN_PREFIX', '[[' );
-if (! defined ( 'DIV_TAG_CAPSULE_BEGIN_SUFFIX' ))
-	define ( 'DIV_TAG_CAPSULE_BEGIN_SUFFIX', '' );
-if (! defined ( 'DIV_TAG_CAPSULE_END_PREFIX' ))
-	define ( 'DIV_TAG_CAPSULE_END_PREFIX', '' );
-if (! defined ( 'DIV_TAG_CAPSULE_END_SUFFIX' ))
-	define ( 'DIV_TAG_CAPSULE_END_SUFFIX', ']]' );
+if ( ! defined('DIV_TAG_CAPSULE_BEGIN_PREFIX' ))	define('DIV_TAG_CAPSULE_BEGIN_PREFIX', '[[' );
+if ( ! defined('DIV_TAG_CAPSULE_BEGIN_SUFFIX' ))	define('DIV_TAG_CAPSULE_BEGIN_SUFFIX', '' );
+if ( ! defined('DIV_TAG_CAPSULE_END_PREFIX' ))	define('DIV_TAG_CAPSULE_END_PREFIX', '' );
+if ( ! defined('DIV_TAG_CAPSULE_END_SUFFIX' ))	define('DIV_TAG_CAPSULE_END_SUFFIX', ']]' );
 	
 	// Multi replacements
-if (! defined ( 'DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX' ))
-	define ( 'DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX', '{:' );
-if (! defined ( 'DIV_TAG_MULTI_REPLACEMENT_BEGIN_SUFFIX' ))
-	define ( 'DIV_TAG_MULTI_REPLACEMENT_BEGIN_SUFFIX', '}' );
-if (! defined ( 'DIV_TAG_MULTI_REPLACEMENT_END_PREFIX' ))
-	define ( 'DIV_TAG_MULTI_REPLACEMENT_END_PREFIX', '{:/' );
-if (! defined ( 'DIV_TAG_MULTI_REPLACEMENT_END_SUFFIX' ))
-	define ( 'DIV_TAG_MULTI_REPLACEMENT_END_SUFFIX', '}' );
+if ( ! defined('DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX' ))	define('DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX', '{:' );
+if ( ! defined('DIV_TAG_MULTI_REPLACEMENT_BEGIN_SUFFIX' ))	define('DIV_TAG_MULTI_REPLACEMENT_BEGIN_SUFFIX', '}' );
+if ( ! defined('DIV_TAG_MULTI_REPLACEMENT_END_PREFIX' ))	define('DIV_TAG_MULTI_REPLACEMENT_END_PREFIX', '{:/' );
+if ( ! defined('DIV_TAG_MULTI_REPLACEMENT_END_SUFFIX' ))	define('DIV_TAG_MULTI_REPLACEMENT_END_SUFFIX', '}' );
 	
 	// Friendly tags
-if (! defined ( 'DIV_TAG_FRIENDLY_BEGIN' ))
-	define ( 'DIV_TAG_FRIENDLY_BEGIN', '<!--|' );
-if (! defined ( 'DIV_TAG_FRIENDLY_END' ))
-	define ( 'DIV_TAG_FRIENDLY_END', '|-->' );
+if ( ! defined('DIV_TAG_FRIENDLY_BEGIN' ))	define('DIV_TAG_FRIENDLY_BEGIN', '<!--|' );
+if ( ! defined('DIV_TAG_FRIENDLY_END' ))	define('DIV_TAG_FRIENDLY_END', '|-->' );
 	
 	// Aggregate functions
-if (! defined ( 'DIV_TAG_AGGREGATE_FUNCTION_COUNT' ))
-	define ( 'DIV_TAG_AGGREGATE_FUNCTION_COUNT', 'count' );
-if (! defined ( 'DIV_TAG_AGGREGATE_FUNCTION_MAX' ))
-	define ( 'DIV_TAG_AGGREGATE_FUNCTION_MAX', 'max' );
-if (! defined ( 'DIV_TAG_AGGREGATE_FUNCTION_MIN' ))
-	define ( 'DIV_TAG_AGGREGATE_FUNCTION_MIN', 'min' );
-if (! defined ( 'DIV_TAG_AGGREGATE_FUNCTION_SUM' ))
-	define ( 'DIV_TAG_AGGREGATE_FUNCTION_SUM', 'sum' );
-if (! defined ( 'DIV_TAG_AGGREGATE_FUNCTION_AVG' ))
-	define ( 'DIV_TAG_AGGREGATE_FUNCTION_AVG', 'avg' );
-if (! defined ( 'DIV_TAG_AGGREGATE_FUNCTION_SEPARATOR' ))
-	define ( 'DIV_TAG_AGGREGATE_FUNCTION_SEPARATOR', ':' );
-if (! defined ( 'DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR' ))
-	define ( 'DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR', '-' );
+if ( ! defined('DIV_TAG_AGGREGATE_FUNCTION_COUNT' ))	define('DIV_TAG_AGGREGATE_FUNCTION_COUNT', 'count' );
+if ( ! defined('DIV_TAG_AGGREGATE_FUNCTION_MAX' ))	define('DIV_TAG_AGGREGATE_FUNCTION_MAX', 'max' );
+if ( ! defined('DIV_TAG_AGGREGATE_FUNCTION_MIN' ))	define('DIV_TAG_AGGREGATE_FUNCTION_MIN', 'min' );
+if ( ! defined('DIV_TAG_AGGREGATE_FUNCTION_SUM' ))	define('DIV_TAG_AGGREGATE_FUNCTION_SUM', 'sum' );
+if ( ! defined('DIV_TAG_AGGREGATE_FUNCTION_AVG' ))	define('DIV_TAG_AGGREGATE_FUNCTION_AVG', 'avg' );
+if ( ! defined('DIV_TAG_AGGREGATE_FUNCTION_SEPARATOR' ))	define('DIV_TAG_AGGREGATE_FUNCTION_SEPARATOR', ':' );
+if ( ! defined('DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR' ))	define('DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR', '-' );
 	
 	// Locations
-if (! defined ( 'DIV_TAG_LOCATION_BEGIN' ))
-	define ( 'DIV_TAG_LOCATION_BEGIN', '(( ' );
-if (! defined ( 'DIV_TAG_LOCATION_END' ))
-	define ( 'DIV_TAG_LOCATION_END', ' ))' );
-if (! defined ( 'DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX' ))
-	define ( 'DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX', '{{' );
-if (! defined ( 'DIV_TAG_LOCATION_CONTENT_BEGIN_SUFFIX' ))
-	define ( 'DIV_TAG_LOCATION_CONTENT_BEGIN_SUFFIX', '' );
-if (! defined ( 'DIV_TAG_LOCATION_CONTENT_END_PREFIX' ))
-	define ( 'DIV_TAG_LOCATION_CONTENT_END_PREFIX', '' );
-if (! defined ( 'DIV_TAG_LOCATION_CONTENT_END_SUFFIX' ))
-	define ( 'DIV_TAG_LOCATION_CONTENT_END_SUFFIX', '}}' );
+if ( ! defined('DIV_TAG_LOCATION_BEGIN' ))	define('DIV_TAG_LOCATION_BEGIN', '(( ' );
+if ( ! defined('DIV_TAG_LOCATION_END' ))	define('DIV_TAG_LOCATION_END', ' ))' );
+if ( ! defined('DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX' ))	define('DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX', '{{' );
+if ( ! defined('DIV_TAG_LOCATION_CONTENT_BEGIN_SUFFIX' ))	define('DIV_TAG_LOCATION_CONTENT_BEGIN_SUFFIX', '' );
+if ( ! defined('DIV_TAG_LOCATION_CONTENT_END_PREFIX' ))	define('DIV_TAG_LOCATION_CONTENT_END_PREFIX', '' );
+if ( ! defined('DIV_TAG_LOCATION_CONTENT_END_SUFFIX' ))	define('DIV_TAG_LOCATION_CONTENT_END_SUFFIX', '}}' );
 	
 	// Macros
-if (! defined ( 'DIV_TAG_MACRO_BEGIN' ))
-	define ( 'DIV_TAG_MACRO_BEGIN', '<?' );
-if (! defined ( 'DIV_TAG_MACRO_END' ))
-	define ( 'DIV_TAG_MACRO_END', '?>' );
+if ( ! defined('DIV_TAG_MACRO_BEGIN' ))	define('DIV_TAG_MACRO_BEGIN', '<?' );
+if ( ! defined('DIV_TAG_MACRO_END' ))	define('DIV_TAG_MACRO_END', '?>' );
 	
 	// Special replacements
-if (! defined ( 'DIV_TAG_SPECIAL_REPLACE_NEW_LINE' ))
-	define ( 'DIV_TAG_SPECIAL_REPLACE_NEW_LINE', '{\n}' );
-if (! defined ( 'DIV_TAG_SPECIAL_REPLACE_CAR_RETURN' ))
-	define ( 'DIV_TAG_SPECIAL_REPLACE_CAR_RETURN', '{\r}' );
-if (! defined ( 'DIV_TAG_SPECIAL_REPLACE_HORIZONTAL_TAB' ))
-	define ( 'DIV_TAG_SPECIAL_REPLACE_HORIZONTAL_TAB', '{\t}' );
-if (! defined ( 'DIV_TAG_SPECIAL_REPLACE_VERTICAL_TAB' ))
-	define ( 'DIV_TAG_SPECIAL_REPLACE_VERTICAL_TAB', '{\v}' );
-if (! defined ( 'DIV_TAG_SPECIAL_REPLACE_NEXT_PAGE' ))
-	define ( 'DIV_TAG_SPECIAL_REPLACE_NEXT_PAGE', '{\f}' );
-if (! defined ( 'DIV_TAG_SPECIAL_REPLACE_DOLLAR_SYMBOL' ))
-	define ( 'DIV_TAG_SPECIAL_REPLACE_DOLLAR_SYMBOL', '{\$}' );
-if (! defined ( 'DIV_TAG_TEASER_BREAK' ))
-	define ( 'DIV_TAG_TEASER_BREAK', '<!--break-->' );
+if ( ! defined('DIV_TAG_SPECIAL_REPLACE_NEW_LINE' ))	define('DIV_TAG_SPECIAL_REPLACE_NEW_LINE', '{\n}' );
+if ( ! defined('DIV_TAG_SPECIAL_REPLACE_CAR_RETURN' ))	define('DIV_TAG_SPECIAL_REPLACE_CAR_RETURN', '{\r}' );
+if ( ! defined('DIV_TAG_SPECIAL_REPLACE_HORIZONTAL_TAB' ))	define('DIV_TAG_SPECIAL_REPLACE_HORIZONTAL_TAB', '{\t}' );
+if ( ! defined('DIV_TAG_SPECIAL_REPLACE_VERTICAL_TAB' ))	define('DIV_TAG_SPECIAL_REPLACE_VERTICAL_TAB', '{\v}' );
+if ( ! defined('DIV_TAG_SPECIAL_REPLACE_NEXT_PAGE' ))	define('DIV_TAG_SPECIAL_REPLACE_NEXT_PAGE', '{\f}' );
+if ( ! defined('DIV_TAG_SPECIAL_REPLACE_DOLLAR_SYMBOL' ))	define('DIV_TAG_SPECIAL_REPLACE_DOLLAR_SYMBOL', '{\$}' );
+if ( ! defined('DIV_TAG_TEASER_BREAK' )) define('DIV_TAG_TEASER_BREAK', '<!--break-->' );
 
-define ( 'DIV_DEFAULT_DIALECT', '{
+define('DIV_DEFAULT_DIALECT', '{
 		\'DIV_TAG_VAR_MEMBER_DELIMITER\' : \'{\',		\'DIV_TAG_VAR_MEMBER_DELIMITER\' : \'.\',
 		\'DIV_TAG_REPLACEMENT_PREFIX\' : \'{\',		    \'DIV_TAG_REPLACEMENT_SUFFIX\' : \'}\',
 		\'DIV_TAG_MULTI_MODIFIERS_PREFIX\' : \'{$\',	\'DIV_TAG_MULTI_MODIFIERS_SEPARATOR\' : \'|\',
@@ -422,7 +301,7 @@ define ( 'DIV_DEFAULT_DIALECT', '{
 
 // --------------------------------------------------------------------------------------------------------------------------------------//
 
-define ( 'DIV_TEMPLATE_FOR_DOCS', '
+define('DIV_TEMPLATE_FOR_DOCS', '
 @_DIALECT = ' . uniqid () . '
 <html>
 	<head>
@@ -831,6 +710,7 @@ class div {
 		
 		self::setSubParser ( 'parse', 'subParse_parse' );
 		self::setSubParser ( 'html_wysiwyg', 'subParse_html_wysiwyg' );
+        self::setSubParser ( 'join', 'subParse_join' );
 	}
 	
 	/**
@@ -7079,6 +6959,23 @@ class div {
 		}
 		return $newcode;
 	}
+
+    /**
+     * Implode array
+     *
+     * @param $src
+     * @param $items
+     */
+	final private function subParse_join($src, $items)
+    {
+        $arr = explode("|", $src);
+        $varname = trim($arr[0]);
+        $delimiter = "";
+        if (isset($arr[1]))
+            $delimiter = $arr[1];
+        $collection = self::getVarValue($varname, $items);
+        return implode($delimiter, $collection);
+    }
 	
 	// -------------------------------- HOOKS ------------------------------------- //
 	

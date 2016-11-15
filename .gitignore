@@ -4,3 +4,5 @@
 .htpasswd
 data/*
 .idea/*
+test.php
+test.tpl
