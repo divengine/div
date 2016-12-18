@@ -4,18 +4,21 @@ FUTURE FEATURES
 * 2016-11-16
     - variable modifier for trim values
         - at the moment:
+        ```
             {strip}{$varname}{/strip}
             (# trim("{$varname}") #)
+        ```
         - for the future
+        ```
             {-varnme}
             {varname-}
             {-varname-}
             {trim:varname}
             {$varname:trim}
-
+        ```
     - variable modifier for var_export
         - at the moment
-    
+    ```
             // create subparser
             function export($src, $items){
                 $v = $items[$src];
@@ -25,8 +28,10 @@ FUTURE FEATURES
             }
             
             div::setSubParser('export');
-            
+    ```
+    ```
             {export}varname{/export}
+    ```     
     - bug? subparser before conditional parts
     
 * 2016-11-21
