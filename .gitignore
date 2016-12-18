@@ -6,3 +6,7 @@ data/*
 .idea/*
 test.php
 test.tpl
+test.json
+test.out
+metrics.html
+test*.*

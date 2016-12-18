@@ -652,8 +652,17 @@ class div {
 					}
 					
 					if ($exists === true || $decode === true)
-						$items = self::jsonDecode ( $items );
-					
+                    {
+                        $json = $items;
+                        $missing_vars = array();
+                        $items = self::jsonDecode($json, array(), $missing_vars);
+
+                        // TODO: improve this!
+                        /* if (isset($missing_vars[0]))
+                            $items = self::jsonDecode($json, $items, $missing_vars);
+                        */
+                    }
+
 					/*
 					 * if ($exists === true)
 					 * break;
@@ -2624,18 +2633,15 @@ class div {
 						if (is_object ( $item ))
 							$item = get_object_vars ( $item );
 						
-						$isscalar = false;
 						if (! is_array ( $item ) || is_scalar ( $value )) {
 							$item = array (
 									$itemkey => $item 
 							);
-							$isscalar = true;
 						} else if ($itemkey != "value") {
-							$item [$itemkey] = $item;
+							$item [$itemkey] = array_merge ( $item, $anothers );
 						}
 						
 						$item = array_merge ( $item, $anothers );
-						
 						$xitems [] = $item;
 						$xitems_orig [] = self::cop ( $item_orig, $anothers );
 					}
@@ -2672,6 +2678,7 @@ class div {
 								unset ( $engine->__memory [$kkk] );
 							
 							// Parse minihtml
+                        //var_dump($engine->__items [$xkey] );
 						$engine->parse ( true, $xkey );
 						
 						// Rresore some vars
@@ -4206,29 +4213,68 @@ class div {
 					
 					$newvar = "var" . uniqid ();
 					self::$__dont_remember_it [$newvar] = true;
-					
+
 					$newcode = DIV_TAG_STRIP_BEGIN . ' ' . DIV_TAG_TPLVAR_BEGIN . ' ' . $newvar . DIV_TAG_TPLVAR_ASSIGN_OPERATOR . ' $' . $varname . ' ' . DIV_TAG_TPLVAR_END . "\n";
 					$ignore = false;
+
+					$separators = array();
+					$separators[DIV_TAG_MULTI_MODIFIERS_SEPARATOR] = true;
+					$separators[DIV_TAG_MODIFIER_SUBSTRING_SEPARATOR] = true;
+					$separators[DIV_TAG_DATE_FORMAT_SEPARATOR] = true;
+					$separators[DIV_TAG_NUMBER_FORMAT_SEPARATOR] = true;
+					$separators[DIV_TAG_FORMULA_FORMAT_SEPARATOR] = true;
+					$separators[DIV_TAG_TXT_WIDTH_SEPARATOR] = true;
+					$separators[DIV_TAG_LOOP_VAR_SEPARATOR] = true;
+					$separators[DIV_TAG_ITERATION_PARAM_SEPARATOR] = true;
+					$separators[DIV_TAG_PREPROCESSED_SEPARATOR] = true;
+					$separators[DIV_TAG_AGGREGATE_FUNCTION_SEPARATOR] = true;
+					$separators[DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR] = true;
+					
 					foreach ( $parts as $part ) {
 						if (trim ( $part ) !== "") {
-							if ($part [0] == DIV_TAG_MODIFIER_TRUNCATE || $part [0] == DIV_TAG_MODIFIER_WORDWRAP || strpos ( $part, "," ) !== false) {
+							
+							$break = false;
+						    // by default, a modifier is a prefix ...
+                            if (array_search ($part, self::$__modifiers ) !== false)
+                            {
+                                $newcode .= DIV_TAG_TPLVAR_BEGIN . ' ' . $newvar . DIV_TAG_TPLVAR_ASSIGN_OPERATOR . ' ' . DIV_TAG_REPLACEMENT_PREFIX . $part . $newvar . DIV_TAG_REPLACEMENT_SUFFIX . ' ' . DIV_TAG_TPLVAR_END . "\n";
+                            }
+                            // .. else the sub process
+                            elseif (strpos($part, DIV_TAG_MODIFIER_TRUNCATE) === 0 || strpos($part, DIV_TAG_MODIFIER_WORDWRAP)===0 || strpos($part, "," ) !== false) {
 								$newcode .= DIV_TAG_TPLVAR_BEGIN . ' ' . $newvar . DIV_TAG_TPLVAR_ASSIGN_OPERATOR . ' ' . DIV_TAG_REPLACEMENT_PREFIX . DIV_TAG_MODIFIER_SIMPLE . $newvar . DIV_TAG_SUBMATCH_SEPARATOR . $part . DIV_TAG_REPLACEMENT_SUFFIX . ' ' . DIV_TAG_TPLVAR_END . "\n";
-							} elseif (array_search ( $part . ':', self::$__modifiers )) {
-								$newcode .= DIV_TAG_TPLVAR_BEGIN . ' ' . $newvar . DIV_TAG_TPLVAR_ASSIGN_OPERATOR . ' ' . DIV_TAG_REPLACEMENT_PREFIX . DIV_TAG_MODIFIER_SIMPLE . $newvar . DIV_TAG_SUBMATCH_SEPARATOR . $part . DIV_TAG_REPLACEMENT_SUFFIX . ' ' . DIV_TAG_TPLVAR_END . "\n";
-							} elseif (array_search ( $part, self::$__modifiers ) !== false) {
-								$newcode .= DIV_TAG_TPLVAR_BEGIN . ' ' . $newvar . DIV_TAG_TPLVAR_ASSIGN_OPERATOR . ' ' . DIV_TAG_REPLACEMENT_PREFIX . $part . $newvar . DIV_TAG_REPLACEMENT_SUFFIX . ' ' . DIV_TAG_TPLVAR_END . "\n";
-							} else {
+							}
+							else 
+							{
+								$break = true;
+							}
+							
+							// .. else take MODIFIER + SEPARATORS 
+                            foreach ($separators as $sep => $v)
+								if (array_search($part . $sep, self::$__modifiers)) 
+								{
+									$newcode .= DIV_TAG_TPLVAR_BEGIN . ' ' . $newvar . DIV_TAG_TPLVAR_ASSIGN_OPERATOR . ' ' .
+									DIV_TAG_REPLACEMENT_PREFIX . $part . $sep . $newvar . DIV_TAG_REPLACEMENT_SUFFIX . ' ' .
+									DIV_TAG_TPLVAR_END . "\n";
+									$break = false;
+									//echo $newcode;
+									break;
+								}
+
+							if ($break)
+							{
 								$p = $ini + 1;
 								$ignore = true;
 								break;
 							}
 						}
 					}
+					
 					if ($ignore)
 						continue;
+					
 					$newcode .= DIV_TAG_REPLACEMENT_PREFIX . DIV_TAG_MODIFIER_SIMPLE . $newvar . DIV_TAG_REPLACEMENT_SUFFIX . ' ' . DIV_TAG_STRIP_END . "\n";
 				}
-				
+
 				$this->__src = substr ( $this->__src, 0, $ini ) . $newcode . substr ( $this->__src, $fin + $l2 );
 				$p = $ini + 1;
 			} else
@@ -7299,14 +7345,14 @@ class div {
 		if (isset ( $str [0] )) {
 			if ($str [0] == '$') {
 				$str = substr ( $str, 1 );
-				
+
 				$r = null;
 				
 				if (self::issetVar ( $str, $items ))
 					$r = self::getVarValue ( $str, $items );
 				else
 					$missing_vars [] = $str;
-				
+
 				return $r;
 			}
 		}

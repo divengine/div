@@ -1,4 +1,16 @@
 ----------------------------
+November 16,  2016
+----------------------------
+- important bugfix/improvement: access to parent loop
+
+    [$parentloop] parent =>
+        [$childloop] child =>
+            Parent key: {$parent._key}
+            Child key: {$_key} or {$child._key}
+        [/$childloop]
+    [/$parentloop]
+- TODO: test & release
+----------------------------
 November 14,  2016
 ----------------------------
 - add new default subparser join
