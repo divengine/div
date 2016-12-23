@@ -5,8 +5,8 @@
  * 
  * The div class is the complete implementation of Div.
  *
- * Div (division) is a template engine for PHP 5.x or higher and it is a social project
- * without spirit of lucre
+ * Div (division) is a template engine for PHP 5.x and higher 
+ * and it is a social project without spirit of lucre
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,9 +24,11 @@
  * @package com.divengine
  * @author Rafa Rodriguez [@rafageist] <rafageist86@gmail.com>
  * @version 4.9
+ *
  * @link http://divengine.com
  * @link http://github.com/divengine/div
  * @link http://github.com/divengine/div-extras
+ *
  * @example example.php
  * @example example.tpl
  */
@@ -7752,12 +7754,13 @@ class div {
 			if (is_object ( $items ))
 				return isset ( $items->$var );
 		} else {
-			$l = strlen ( $subvars [0] );
+			$temp_subvar = $subvars[0];
+			$l = strlen($temp_subvar);
 			if ($l + 1 < strlen ( $var )) {
 				if (is_array ( $items ))
-					return self::varExists ( substr ( $var, $l + 1 ), $items [$subvars [0]] );
+					return self::varExists ( substr ( $var, $l + 1 ), $items[$temp_subvar]);
 				if (is_object ( $items ))
-					return self::varExists ( substr ( $var, $l + 1 ), $items->$subvars [0] );
+					return self::varExists ( substr ( $var, $l + 1 ), $items->$temp_subvar);
 			}
 		}
 		

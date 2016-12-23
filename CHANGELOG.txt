@@ -1,4 +1,9 @@
 ----------------------------
+December 22, 2016
+----------------------------
+- PHP 7 Compatibility check
+- Release 4.9 version 
+----------------------------
 November 16,  2016
 ----------------------------
 - important bugfix/improvement: access to parent loop
