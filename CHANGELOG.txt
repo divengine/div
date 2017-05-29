@@ -1,4 +1,48 @@
 ----------------------------
+May 29, 2017
+----------------------------
+- Some bugfixs
+- New variable for inline data of preprocessed templates:
+  div.standalone, by default is FALSE.
+  This means that the "foo" variable will not be passed
+  to the template pre-processor. That is, the variables
+  in the parent template will be ignored and only the data
+  specified in the line will be used.
+
+    {= foo: value =}
+    {%% block.tpl: {
+        div: {
+            standalone: true
+        }
+    } %%}
+
+  This better facilitates the recursive inclusion of
+  templates, useful in generation of source code and
+  other hierarchies like XML, HTML, JSON, etc.
+
+- Do not include anything within the conditional
+  blocks if the conditions have not been resolved.
+  This check prevent infinite loops.
+
+   ?$block
+   {%% block: {...} %%} <-- wait for block question results
+   $block?
+
+- Priority change for items over filesystem when include o preprocess templates.
+  To force load data from external file, please type the path or full path (ex: block.json)
+
+  {= block: {
+    var1: "value1"
+    var2: "value2"
+  } =}
+
+  Take the block value
+  {%% tpl: block %%}
+
+  Take json from external file
+  {%% tpl: block.json %%}
+
+----------------------------
 December 22, 2016
 ----------------------------
 - PHP 7 Compatibility check
