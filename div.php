@@ -5898,6 +5898,7 @@ class div
      *
      * @param string $src
      * @param array $properties
+     * @return mixed
      */
     final public function prepareDialect($src = null, $properties = null)
     {
@@ -6553,23 +6554,24 @@ class div
     }
 
     /**
-     * Translate dialects
+     * Translate templates
      *
      * @param string $src
      * @param mixed $dialectFrom
      * @param mixed $dialectTo
      * @return string
      */
-    final public function translateFrom($dialectFrom, $src = null, $items = null)
+    final public function translate($dialectFrom = [], $dialectTo = [], $src = null, $items = null)
     {
         if (self::$__log_mode === true)
-            $this->logger("Translating to current dialect...");
+            $this->logger("Translating template...");
 
         $update = false;
         if (is_null($src)) {
             $src = &$this->__src;
             $update = true;
         }
+
         if (is_null($items))
             $items = &$this->__items;
 
@@ -6584,23 +6586,41 @@ class div
         // Preparing dialect from ...
         if (is_string($dialectFrom))
             $dialectFrom = self::jsonDecode($dialectFrom);
+
         if (is_object($dialectFrom))
             $dialectFrom = get_object_vars($dialectFrom);
+
         if (!is_array($dialectFrom))
             return false;
 
+        // Preparing dialect to ...
+        if (is_string($dialectTo))
+            $dialectTo = self::jsonDecode($dialectTo);
+
+        if (is_object($dialectTo))
+            $dialectTo = get_object_vars($dialectTo);
+
+        if (!is_array($dialectTo))
+            return false;
+
         foreach ($constants as $c => $v)
+        {
             if (!isset ($dialectFrom [$c]))
                 $dialectFrom [$c] = $v;
 
-        foreach ($dialectFrom as $c => $v)
-            eval ('$' . $c . ' = $v;');
+            if (!isset ($dialectTo [$c]))
+                $dialectTo [$c] = $v;
+
+            eval ('$FROM_' . $c . ' = $dialectFrom[$c];');
+            eval ('$TO_' . $c . ' = $dialectTo[$c];');
+        }
+
 
         // Searching differences
         $different = false;
 
         foreach ($dialectFrom as $c => $v) {
-            if ($v !== constant($c)) {
+            if ($v !== $dialectTo[$c]) {
                 $different = true;
                 break;
             }
@@ -6610,30 +6630,30 @@ class div
             return $src; // The dialects are equals
 
         $order = array(
-            'replacement' => strlen($DIV_TAG_REPLACEMENT_PREFIX),
-            'multimodifiers' => strlen($DIV_TAG_MULTI_MODIFIERS_PREFIX),
-            'dateformat' => strlen($DIV_TAG_DATE_FORMAT_PREFIX),
-            'numberformat' => strlen($DIV_TAG_NUMBER_FORMAT_PREFIX),
-            'formulas' => strlen($DIV_TAG_FORMULA_BEGIN),
-            'subparsers' => strlen($DIV_TAG_SUBPARSER_BEGIN_PREFIX),
-            'ignore' => strlen($DIV_TAG_IGNORE_BEGIN),
-            'comment' => strlen($DIV_TAG_COMMENT_BEGIN),
-            'html2txt' => strlen($DIV_TAG_TXT_BEGIN),
-            'strip' => strlen($DIV_TAG_STRIP_BEGIN),
-            'loops' => strlen($DIV_TAG_LOOP_BEGIN_PREFIX),
-            'iterations' => strlen($DIV_TAG_ITERATION_BEGIN_PREFIX),
-            'conditionals' => strlen($DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX),
-            'conditions' => strlen($DIV_TAG_CONDITIONS_BEGIN_PREFIX),
-            'tplvars' => strlen($DIV_TAG_TPLVAR_BEGIN),
-            'defaultreplace' => strlen($DIV_TAG_DEFAULT_REPLACEMENT_BEGIN),
-            'include' => strlen($DIV_TAG_IGNORE_BEGIN),
-            'preprocessed' => strlen($DIV_TAG_PREPROCESSED_BEGIN),
-            'capsules' => strlen($DIV_TAG_CAPSULE_BEGIN_PREFIX),
-            'multireplace' => strlen($DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX),
-            'friendlytags' => strlen($DIV_TAG_FRIENDLY_BEGIN),
-            'macros' => strlen($DIV_TAG_MACRO_BEGIN),
-            'location' => strlen($DIV_TAG_LOCATION_BEGIN),
-            'locontent' => strlen($DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX)
+            'replacement' => strlen($FROM_DIV_TAG_REPLACEMENT_PREFIX),
+            'multimodifiers' => strlen($FROM_DIV_TAG_MULTI_MODIFIERS_PREFIX),
+            'dateformat' => strlen($FROM_DIV_TAG_DATE_FORMAT_PREFIX),
+            'numberformat' => strlen($FROM_DIV_TAG_NUMBER_FORMAT_PREFIX),
+            'formulas' => strlen($FROM_DIV_TAG_FORMULA_BEGIN),
+            'subparsers' => strlen($FROM_DIV_TAG_SUBPARSER_BEGIN_PREFIX),
+            'ignore' => strlen($FROM_DIV_TAG_IGNORE_BEGIN),
+            'comment' => strlen($FROM_DIV_TAG_COMMENT_BEGIN),
+            'html2txt' => strlen($FROM_DIV_TAG_TXT_BEGIN),
+            'strip' => strlen($FROM_DIV_TAG_STRIP_BEGIN),
+            'loops' => strlen($FROM_DIV_TAG_LOOP_BEGIN_PREFIX),
+            'iterations' => strlen($FROM_DIV_TAG_ITERATION_BEGIN_PREFIX),
+            'conditionals' => strlen($FROM_DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX),
+            'conditions' => strlen($FROM_DIV_TAG_CONDITIONS_BEGIN_PREFIX),
+            'tplvars' => strlen($FROM_DIV_TAG_TPLVAR_BEGIN),
+            'defaultreplace' => strlen($FROM_DIV_TAG_DEFAULT_REPLACEMENT_BEGIN),
+            'include' => strlen($FROM_DIV_TAG_IGNORE_BEGIN),
+            'preprocessed' => strlen($FROM_DIV_TAG_PREPROCESSED_BEGIN),
+            'capsules' => strlen($FROM_DIV_TAG_CAPSULE_BEGIN_PREFIX),
+            'multireplace' => strlen($FROM_DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX),
+            'friendlytags' => strlen($FROM_DIV_TAG_FRIENDLY_BEGIN),
+            'macros' => strlen($FROM_DIV_TAG_MACRO_BEGIN),
+            'location' => strlen($FROM_DIV_TAG_LOCATION_BEGIN),
+            'locontent' => strlen($FROM_DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX)
         );
 
         arsort($order);
@@ -6661,19 +6681,19 @@ class div
         $ymod = array();
         foreach ($modifiers as $mod) {
             $xmod [$mod] = array();
-            eval ('$xmod[$mod][0] = $' . $mod . ';');
-            eval ('$xmod[$mod][1] = ' . $mod . ';');
+            eval ('$xmod[$mod][0] = $FROM_' . $mod . ';');
+            eval ('$xmod[$mod][1] = $TO_' . $mod . ';');
             $ymod [$xmod [$mod] [0]] = $xmod [$mod] [1];
         }
 
-        $temp = $DIV_TAG_AGGREGATE_FUNCTION_SEPARATOR;
+        $temp = $FROM_DIV_TAG_AGGREGATE_FUNCTION_SEPARATOR;
 
         $agfuncs = array(
-            DIV_TAG_AGGREGATE_FUNCTION_COUNT . $temp => $DIV_TAG_AGGREGATE_FUNCTION_COUNT . $temp,
-            DIV_TAG_AGGREGATE_FUNCTION_MAX . $temp => $DIV_TAG_AGGREGATE_FUNCTION_MAX . $temp,
-            DIV_TAG_AGGREGATE_FUNCTION_MIN . $temp => $DIV_TAG_AGGREGATE_FUNCTION_MIN . $temp,
-            DIV_TAG_AGGREGATE_FUNCTION_SUM . $temp => $DIV_TAG_AGGREGATE_FUNCTION_SUM . $temp,
-            DIV_TAG_AGGREGATE_FUNCTION_AVG . $temp => $DIV_TAG_AGGREGATE_FUNCTION_AVG . $temp
+            $TO_DIV_TAG_AGGREGATE_FUNCTION_COUNT . $temp => $FROM_DIV_TAG_AGGREGATE_FUNCTION_COUNT . $temp,
+            $TO_DIV_TAG_AGGREGATE_FUNCTION_MAX . $temp => $FROM_DIV_TAG_AGGREGATE_FUNCTION_MAX . $temp,
+            $TO_DIV_TAG_AGGREGATE_FUNCTION_MIN . $temp => $FROM_DIV_TAG_AGGREGATE_FUNCTION_MIN . $temp,
+            $TO_DIV_TAG_AGGREGATE_FUNCTION_SUM . $temp => $FROM_DIV_TAG_AGGREGATE_FUNCTION_SUM . $temp,
+            $TO_DIV_TAG_AGGREGATE_FUNCTION_AVG . $temp => $FROM_DIV_TAG_AGGREGATE_FUNCTION_AVG . $temp
         );
 
         asort($agfuncs);
@@ -6683,12 +6703,12 @@ class div
             switch ($o) {
                 case 'replacement' :
                     foreach ($xmod as $modifier => $values) {
-                        $lprefix = strlen($DIV_TAG_REPLACEMENT_PREFIX . $values [0]);
-                        $lsuffix = strlen($DIV_TAG_REPLACEMENT_SUFFIX);
+                        $lprefix = strlen($FROM_DIV_TAG_REPLACEMENT_PREFIX . $values [0]);
+                        $lsuffix = strlen($FROM_DIV_TAG_REPLACEMENT_SUFFIX);
                         $p = 0;
                         while (true) {
 
-                            $r = $this->getRanges($DIV_TAG_REPLACEMENT_PREFIX . $values [0], $DIV_TAG_REPLACEMENT_SUFFIX, $src, true, $p);
+                            $r = $this->getRanges($FROM_DIV_TAG_REPLACEMENT_PREFIX . $values [0], $FROM_DIV_TAG_REPLACEMENT_SUFFIX, $src, true, $p);
                             if (count($r) < 1)
                                 break;
 
@@ -6714,36 +6734,36 @@ class div
                             }
 
                             // Aggregate functions
-                            $subsrc = str_replace($DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR, DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR, $subsrc);
+                            $subsrc = str_replace($FROM_DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR, $TO_DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR, $subsrc);
                             $subsrc = str_replace($agfuncs, $agfuncs_keys, $subsrc);
 
                             // Teaser or truncate
-                            $subsrc = str_replace($DIV_TAG_SUBMATCH_SEPARATOR . $DIV_TAG_MODIFIER_TRUNCATE, DIV_TAG_SUBMATCH_SEPARATOR . DIV_TAG_MODIFIER_TRUNCATE, $subsrc);
+                            $subsrc = str_replace($FROM_DIV_TAG_SUBMATCH_SEPARATOR . $FROM_DIV_TAG_MODIFIER_TRUNCATE, $TO_DIV_TAG_SUBMATCH_SEPARATOR . $TO_DIV_TAG_MODIFIER_TRUNCATE, $subsrc);
 
                             // Word wrap
-                            $subsrc = str_replace($DIV_TAG_SUBMATCH_SEPARATOR . $DIV_TAG_MODIFIER_WORDWRAP, DIV_TAG_SUBMATCH_SEPARATOR . DIV_TAG_MODIFIER_WORDWRAP, $subsrc);
+                            $subsrc = str_replace($FROM_DIV_TAG_SUBMATCH_SEPARATOR . $FROM_DIV_TAG_MODIFIER_WORDWRAP, $TO_DIV_TAG_SUBMATCH_SEPARATOR . $TO_DIV_TAG_MODIFIER_WORDWRAP, $subsrc);
 
                             // Format (sprintf)
-                            $subsrc = str_replace($DIV_TAG_SUBMATCH_SEPARATOR . $DIV_TAG_MODIFIER_FORMAT, DIV_TAG_SUBMATCH_SEPARATOR . DIV_TAG_MODIFIER_FORMAT, $subsrc);
+                            $subsrc = str_replace($FROM_DIV_TAG_SUBMATCH_SEPARATOR . $FROM_DIV_TAG_MODIFIER_FORMAT, $TO_DIV_TAG_SUBMATCH_SEPARATOR . $TO_DIV_TAG_MODIFIER_FORMAT, $subsrc);
 
                             // Substring
-                            $subsrc = str_replace($DIV_TAG_SUBMATCH_SEPARATOR, DIV_TAG_SUBMATCH_SEPARATOR, $subsrc);
+                            $subsrc = str_replace($FROM_DIV_TAG_SUBMATCH_SEPARATOR, $TO_DIV_TAG_SUBMATCH_SEPARATOR, $subsrc);
 
                             // Member delimiters
-                            $subsrc = str_replace($DIV_TAG_VAR_MEMBER_DELIMITER, DIV_TAG_VAR_MEMBER_DELIMITER, $subsrc);
+                            $subsrc = str_replace($FROM_DIV_TAG_VAR_MEMBER_DELIMITER, $TO_DIV_TAG_VAR_MEMBER_DELIMITER, $subsrc);
 
-                            $src = substr($src, 0, $ini) . DIV_TAG_REPLACEMENT_PREFIX . $values [1] . $subsrc . DIV_TAG_REPLACEMENT_SUFFIX . substr($src, $end + $lsuffix);
+                            $src = substr($src, 0, $ini) . $TO_DIV_TAG_REPLACEMENT_PREFIX . $values [1] . $subsrc . $TO_DIV_TAG_REPLACEMENT_SUFFIX . substr($src, $end + $lsuffix);
 
                             $p = $ini + 1; // IMPORTANT!
                         }
                     }
                     break;
                 case 'multimodifiers' :
-                    $lprefix = strlen($DIV_TAG_MULTI_MODIFIERS_PREFIX);
-                    $lsuffix = strlen($DIV_TAG_MULTI_MODIFIERS_SUFFIX);
+                    $lprefix = strlen($FROM_DIV_TAG_MULTI_MODIFIERS_PREFIX);
+                    $lsuffix = strlen($FROM_DIV_TAG_MULTI_MODIFIERS_SUFFIX);
                     $p = 0;
                     while (true) {
-                        $r = $this->getRanges($DIV_TAG_MULTI_MODIFIERS_PREFIX, $DIV_TAG_MULTI_MODIFIERS_SUFFIX, $src, true, $p);
+                        $r = $this->getRanges($FROM_DIV_TAG_MULTI_MODIFIERS_PREFIX, $FROM_DIV_TAG_MULTI_MODIFIERS_SUFFIX, $src, true, $p);
                         if (count($r) < 1)
                             break;
 
@@ -6768,7 +6788,7 @@ class div
                             continue;
                         }
 
-                        $po = strpos($subsrc, $DIV_TAG_MULTI_MODIFIERS_OPERATOR);
+                        $po = strpos($subsrc, $FROM_DIV_TAG_MULTI_MODIFIERS_OPERATOR);
 
                         if ($po === false) {
                             $p = $ini + 1;
@@ -6776,7 +6796,7 @@ class div
                         }
 
                         $temp = substr($subsrc, $po + 1);
-                        $parts = explode($DIV_TAG_MULTI_MODIFIERS_SEPARATOR, $temp);
+                        $parts = explode($FROM_DIV_TAG_MULTI_MODIFIERS_SEPARATOR, $temp);
 
                         foreach ($parts as $k => $v) {
                             if (isset ($ymod [$v]))
@@ -6785,23 +6805,23 @@ class div
                                 $parts [$k] = $ymod [$v . ':'];
                         }
 
-                        $temp = implode(DIV_TAG_MULTI_MODIFIERS_SEPARATOR, $parts);
-                        $subsrc = str_replace($DIV_TAG_VAR_MEMBER_DELIMITER, DIV_TAG_VAR_MEMBER_DELIMITER, substr($subsrc, 0, $po)) . DIV_TAG_MULTI_MODIFIERS_OPERATOR . $temp;
+                        $temp = implode($TO_DIV_TAG_MULTI_MODIFIERS_SEPARATOR, $parts);
+                        $subsrc = str_replace($FROM_DIV_TAG_VAR_MEMBER_DELIMITER, $TO_DIV_TAG_VAR_MEMBER_DELIMITER, substr($subsrc, 0, $po)) . $TO_DIV_TAG_MULTI_MODIFIERS_OPERATOR . $temp;
 
                         // Member delimiters
-                        $subsrc = str_replace($DIV_TAG_VAR_MEMBER_DELIMITER, DIV_TAG_VAR_MEMBER_DELIMITER, $subsrc);
+                        $subsrc = str_replace($FROM_DIV_TAG_VAR_MEMBER_DELIMITER, $TO_DIV_TAG_VAR_MEMBER_DELIMITER, $subsrc);
 
-                        $src = substr($src, 0, $ini) . DIV_TAG_MULTI_MODIFIERS_PREFIX . $subsrc . DIV_TAG_MULTI_MODIFIERS_SUFFIX . substr($src, $end + $lsuffix);
+                        $src = substr($src, 0, $ini) . $TO_DIV_TAG_MULTI_MODIFIERS_PREFIX . $subsrc . $TO_DIV_TAG_MULTI_MODIFIERS_SUFFIX . substr($src, $end + $lsuffix);
                         $p = $ini + 1; // IMPORTANT!
                     }
                     break;
                 case 'dateformat' :
-                    $lprefix = strlen($DIV_TAG_DATE_FORMAT_PREFIX);
-                    $lsuffix = strlen($DIV_TAG_DATE_FORMAT_SUFFIX);
-                    $lsep = strlen($DIV_TAG_DATE_FORMAT_SEPARATOR);
+                    $lprefix = strlen($FROM_DIV_TAG_DATE_FORMAT_PREFIX);
+                    $lsuffix = strlen($FROM_DIV_TAG_DATE_FORMAT_SUFFIX);
+                    $lsep = strlen($FROM_DIV_TAG_DATE_FORMAT_SEPARATOR);
                     $p = 0;
                     while (true) {
-                        $r = $this->getRanges($DIV_TAG_DATE_FORMAT_PREFIX, $DIV_TAG_DATE_FORMAT_SUFFIX, $src, true, $p);
+                        $r = $this->getRanges($FROM_DIV_TAG_DATE_FORMAT_PREFIX, $FROM_DIV_TAG_DATE_FORMAT_SUFFIX, $src, true, $p);
                         if (count($r) < 1)
                             break;
 
@@ -6809,21 +6829,21 @@ class div
                         $end = $r [0] [1];
                         $subsrc = substr($src, $ini + $lprefix, $end - $ini - $lprefix);
 
-                        $po = strpos($subsrc, $DIV_TAG_DATE_FORMAT_SEPARATOR);
+                        $po = strpos($subsrc, $FROM_DIV_TAG_DATE_FORMAT_SEPARATOR);
                         if ($po !== false)
-                            $subsrc = str_replace($DIV_TAG_VAR_MEMBER_DELIMITER, DIV_TAG_VAR_MEMBER_DELIMITER, substr($subsrc, 0, $po)) . DIV_TAG_DATE_FORMAT_SEPARATOR . substr($subsrc, $po + $lsep);
+                            $subsrc = str_replace($FROM_DIV_TAG_VAR_MEMBER_DELIMITER, $TO_DIV_TAG_VAR_MEMBER_DELIMITER, substr($subsrc, 0, $po)) . $TO_DIV_TAG_DATE_FORMAT_SEPARATOR . substr($subsrc, $po + $lsep);
 
-                        $src = substr($src, 0, $ini) . DIV_TAG_DATE_FORMAT_PREFIX . $subsrc . DIV_TAG_DATE_FORMAT_SUFFIX . substr($src, $end + $lsuffix);
+                        $src = substr($src, 0, $ini) . $TO_DIV_TAG_DATE_FORMAT_PREFIX . $subsrc . $TO_DIV_TAG_DATE_FORMAT_SUFFIX . substr($src, $end + $lsuffix);
                         $p = $ini + 1; // IMPORTANT!
                     }
                     break;
                 case 'numberformat' :
-                    $lprefix = strlen($DIV_TAG_NUMBER_FORMAT_PREFIX);
-                    $lsuffix = strlen($DIV_TAG_NUMBER_FORMAT_SUFFIX);
-                    $lsep = strlen($DIV_TAG_NUMBER_FORMAT_SEPARATOR);
+                    $lprefix = strlen($FROM_DIV_TAG_NUMBER_FORMAT_PREFIX);
+                    $lsuffix = strlen($FROM_DIV_TAG_NUMBER_FORMAT_SUFFIX);
+                    $lsep = strlen($FROM_DIV_TAG_NUMBER_FORMAT_SEPARATOR);
                     $p = 0;
                     while (true) {
-                        $r = $this->getRanges($DIV_TAG_NUMBER_FORMAT_PREFIX, $DIV_TAG_NUMBER_FORMAT_SUFFIX, $src, true, $p);
+                        $r = $this->getRanges($FROM_DIV_TAG_NUMBER_FORMAT_PREFIX, $FROM_DIV_TAG_NUMBER_FORMAT_SUFFIX, $src, true, $p);
                         if (count($r) < 1)
                             break;
 
@@ -6831,41 +6851,41 @@ class div
                         $end = $r [0] [1];
                         $subsrc = substr($src, $ini + $lprefix, $end - $ini - $lprefix);
 
-                        $po = strpos($subsrc, $DIV_TAG_NUMBER_FORMAT_SEPARATOR);
+                        $po = strpos($subsrc, $FROM_DIV_TAG_NUMBER_FORMAT_SEPARATOR);
                         if ($po !== false)
-                            $subsrc = str_replace($DIV_TAG_VAR_MEMBER_DELIMITER, DIV_TAG_VAR_MEMBER_DELIMITER, substr($subsrc, 0, $po)) . DIV_TAG_NUMBER_FORMAT_SEPARATOR . substr($subsrc, $po + $lsep);
+                            $subsrc = str_replace($FROM_DIV_TAG_VAR_MEMBER_DELIMITER, $TO_DIV_TAG_VAR_MEMBER_DELIMITER, substr($subsrc, 0, $po)) . $TO_DIV_TAG_NUMBER_FORMAT_SEPARATOR . substr($subsrc, $po + $lsep);
 
-                        $src = substr($src, 0, $ini) . DIV_TAG_NUMBER_FORMAT_PREFIX . $subsrc . DIV_TAG_NUMBER_FORMAT_SUFFIX . substr($src, $end + $lsuffix);
+                        $src = substr($src, 0, $ini) . $TO_DIV_TAG_NUMBER_FORMAT_PREFIX . $subsrc . $TO_DIV_TAG_NUMBER_FORMAT_SUFFIX . substr($src, $end + $lsuffix);
                         $p = $ini + 1; // IMPORTANT!
                     }
 
                     break;
                 case 'formulas' :
-                    $src = $this->translateSimpleBlocks($src, $DIV_TAG_FORMULA_BEGIN, $DIV_TAG_FORMULA_END, DIV_TAG_FORMULA_BEGIN, DIV_TAG_FORMULA_END, $DIV_TAG_FORMULA_FORMAT_SEPARATOR, DIV_TAG_FORMULA_FORMAT_SEPARATOR, false);
+                    $src = $this->translateSimpleBlocks($src, $FROM_DIV_TAG_FORMULA_BEGIN, $FROM_DIV_TAG_FORMULA_END, $TO_DIV_TAG_FORMULA_BEGIN, $TO_DIV_TAG_FORMULA_END, $FROM_DIV_TAG_FORMULA_FORMAT_SEPARATOR, $TO_DIV_TAG_FORMULA_FORMAT_SEPARATOR, false);
                     break;
                 case 'subparsers' :
 
                     foreach (self::$__sub_parsers as $subparser => $function) {
-                        $src = str_replace($DIV_TAG_SUBPARSER_BEGIN_PREFIX . $subparser . $DIV_TAG_SUBPARSER_BEGIN_SUFFIX, DIV_TAG_SUBPARSER_BEGIN_PREFIX . $subparser . DIV_TAG_SUBPARSER_BEGIN_SUFFIX, $src);
-                        $src = str_replace($DIV_TAG_SUBPARSER_END_PREFIX . $subparser . $DIV_TAG_SUBPARSER_END_SUFFIX, DIV_TAG_SUBPARSER_END_PREFIX . $subparser . DIV_TAG_SUBPARSER_END_SUFFIX, $src);
+                        $src = str_replace($FROM_DIV_TAG_SUBPARSER_BEGIN_PREFIX . $subparser . $FROM_DIV_TAG_SUBPARSER_BEGIN_SUFFIX, $TO_DIV_TAG_SUBPARSER_BEGIN_PREFIX . $subparser . $TO_DIV_TAG_SUBPARSER_BEGIN_SUFFIX, $src);
+                        $src = str_replace($FROM_DIV_TAG_SUBPARSER_END_PREFIX . $subparser . $FROM_DIV_TAG_SUBPARSER_END_SUFFIX, $TO_DIV_TAG_SUBPARSER_END_PREFIX . $subparser . $TO_DIV_TAG_SUBPARSER_END_SUFFIX, $src);
                     }
 
                     break;
                 case 'ignore' :
-                    $src = $this->translateSimpleBlocks($src, $DIV_TAG_IGNORE_BEGIN, $DIV_TAG_IGNORE_END, DIV_TAG_IGNORE_BEGIN, DIV_TAG_IGNORE_END);
+                    $src = $this->translateSimpleBlocks($src, $FROM_DIV_TAG_IGNORE_BEGIN, $FROM_DIV_TAG_IGNORE_END, $TO_DIV_TAG_IGNORE_BEGIN, $TO_DIV_TAG_IGNORE_END);
                     break;
 
                 case 'comment' :
-                    $src = $this->translateSimpleBlocks($src, $DIV_TAG_COMMENT_BEGIN, $DIV_TAG_COMMENT_END, DIV_TAG_COMMENT_BEGIN, DIV_TAG_COMMENT_END);
+                    $src = $this->translateSimpleBlocks($src, $FROM_DIV_TAG_COMMENT_BEGIN, $FROM_DIV_TAG_COMMENT_END, $TO_DIV_TAG_COMMENT_BEGIN, $TO_DIV_TAG_COMMENT_END);
                     break;
 
                 case 'html2txt' :
-                    $lprefix = strlen($DIV_TAG_TXT_BEGIN);
-                    $lsuffix = strlen($DIV_TAG_TXT_END);
-                    $lsep = strlen($DIV_TAG_TXT_WIDTH_SEPARATOR);
+                    $lprefix = strlen($FROM_DIV_TAG_TXT_BEGIN);
+                    $lsuffix = strlen($FROM_DIV_TAG_TXT_END);
+                    $lsep = strlen($FROM_DIV_TAG_TXT_WIDTH_SEPARATOR);
                     $p = 0;
                     while (true) {
-                        $r = $this->getRanges($DIV_TAG_TXT_BEGIN, $DIV_TAG_TXT_END, $src, true, $p);
+                        $r = $this->getRanges($FROM_DIV_TAG_TXT_BEGIN, $FROM_DIV_TAG_TXT_END, $src, true, $p);
                         if (count($r) < 1)
                             break;
 
@@ -6874,25 +6894,25 @@ class div
 
                         $subsrc = substr($src, $ini + $lprefix, $end - $ini - $lprefix);
 
-                        $po = strpos($subsrc, $DIV_TAG_TXT_WIDTH_SEPARATOR);
+                        $po = strpos($subsrc, $FROM_DIV_TAG_TXT_WIDTH_SEPARATOR);
                         if ($po !== false)
-                            $subsrc = substr($subsrc, 0, $po) . DIV_TAG_TXT_WIDTH_SEPARATOR . substr($subsrc, $po + $lsep);
+                            $subsrc = substr($subsrc, 0, $po) . $TO_DIV_TAG_TXT_WIDTH_SEPARATOR . substr($subsrc, $po + $lsep);
 
-                        $src = substr($src, 0, $ini) . DIV_TAG_TXT_BEGIN . $subsrc . DIV_TAG_TXT_END . substr($src, $end + $lsuffix);
+                        $src = substr($src, 0, $ini) . $TO_DIV_TAG_TXT_BEGIN . $subsrc . $TO_DIV_TAG_TXT_END . substr($src, $end + $lsuffix);
 
                         $p = $ini + 1;
                     }
                     break;
                 case 'strip' :
-                    $src = $this->translateSimpleBlocks($src, $DIV_TAG_STRIP_BEGIN, $DIV_TAG_STRIP_END, DIV_TAG_STRIP_BEGIN, DIV_TAG_STRIP_END);
+                    $src = $this->translateSimpleBlocks($src, $FROM_DIV_TAG_STRIP_BEGIN, $FROM_DIV_TAG_STRIP_END, $TO_DIV_TAG_STRIP_BEGIN, $TO_DIV_TAG_STRIP_END);
                     break;
 
                 case 'loops' :
-                    $lsep = strlen($DIV_TAG_LOOP_VAR_SEPARATOR);
+                    $lsep = strlen($FROM_DIV_TAG_LOOP_VAR_SEPARATOR);
                     $p = 0;
                     while (true) {
 
-                        $r = $this->getBlockRanges($src, $DIV_TAG_LOOP_BEGIN_PREFIX, $DIV_TAG_LOOP_BEGIN_SUFFIX, $DIV_TAG_LOOP_END_PREFIX, $DIV_TAG_LOOP_END_SUFFIX, $p, null, true, $DIV_TAG_VAR_MEMBER_DELIMITER);
+                        $r = $this->getBlockRanges($src, $FROM_DIV_TAG_LOOP_BEGIN_PREFIX, $FROM_DIV_TAG_LOOP_BEGIN_SUFFIX, $FROM_DIV_TAG_LOOP_END_PREFIX, $FROM_DIV_TAG_LOOP_END_SUFFIX, $p, null, true, $FROM_DIV_TAG_VAR_MEMBER_DELIMITER);
 
                         if (count($r) < 1)
                             break;
@@ -6901,58 +6921,58 @@ class div
                         $end = $r [0] [1];
                         $key = $r [0] [2];
                         $subsrc = $r [0] [3];
-                        $prefix = $DIV_TAG_LOOP_BEGIN_PREFIX . $key . $DIV_TAG_LOOP_BEGIN_SUFFIX;
-                        $suffix = $DIV_TAG_LOOP_END_PREFIX . $key . $DIV_TAG_LOOP_END_SUFFIX;
+                        $prefix = $FROM_DIV_TAG_LOOP_BEGIN_PREFIX . $key . $FROM_DIV_TAG_LOOP_BEGIN_SUFFIX;
+                        $suffix = $FROM_DIV_TAG_LOOP_END_PREFIX . $key . $FROM_DIV_TAG_LOOP_END_SUFFIX;
                         $lprefix = strlen($prefix);
                         $lsuffix = strlen($suffix);
 
-                        $po = strpos($subsrc, $DIV_TAG_LOOP_VAR_SEPARATOR);
+                        $po = strpos($subsrc, $FROM_DIV_TAG_LOOP_VAR_SEPARATOR);
                         if ($po !== false)
-                            $subsrc = substr($subsrc, 0, $po) . DIV_TAG_LOOP_VAR_SEPARATOR . substr($subsrc, $po + $lsep);
+                            $subsrc = substr($subsrc, 0, $po) . $TO_DIV_TAG_LOOP_VAR_SEPARATOR . substr($subsrc, $po + $lsep);
 
                         $subsrc = str_replace(array(
-                            $DIV_TAG_EMPTY,
-                            $DIV_TAG_BREAK
+                            $FROM_DIV_TAG_EMPTY,
+                            $FROM_DIV_TAG_BREAK
                         ), array(
-                            DIV_TAG_EMPTY,
-                            DIV_TAG_BREAK
+                            $TO_DIV_TAG_EMPTY,
+                            $TO_DIV_TAG_BREAK
                         ), $subsrc);
 
-                        $key = str_replace($DIV_TAG_VAR_MEMBER_DELIMITER, DIV_TAG_VAR_MEMBER_DELIMITER, $key);
-                        $src = substr($src, 0, $ini) . DIV_TAG_LOOP_BEGIN_PREFIX . $key . DIV_TAG_LOOP_BEGIN_SUFFIX . $subsrc . DIV_TAG_LOOP_END_PREFIX . $key . DIV_TAG_LOOP_END_SUFFIX . substr($src, $end + $lsuffix);
+                        $key = str_replace($FROM_DIV_TAG_VAR_MEMBER_DELIMITER, $TO_DIV_TAG_VAR_MEMBER_DELIMITER, $key);
+                        $src = substr($src, 0, $ini) . $TO_DIV_TAG_LOOP_BEGIN_PREFIX . $key . $TO_DIV_TAG_LOOP_BEGIN_SUFFIX . $subsrc . $TO_DIV_TAG_LOOP_END_PREFIX . $key . $TO_DIV_TAG_LOOP_END_SUFFIX . substr($src, $end + $lsuffix);
 
                         $p = $ini + 1;
                     }
                     break;
                 case 'iterations' :
-                    $lprefix = strlen($DIV_TAG_ITERATION_BEGIN_PREFIX);
-                    $lsuffix = strlen($DIV_TAG_ITERATION_BEGIN_SUFFIX);
-                    $lend = strlen($DIV_TAG_ITERATION_END);
-                    $lsep = strlen($DIV_TAG_LOOP_VAR_SEPARATOR);
+                    $lprefix = strlen($FROM_DIV_TAG_ITERATION_BEGIN_PREFIX);
+                    $lsuffix = strlen($FROM_DIV_TAG_ITERATION_BEGIN_SUFFIX);
+                    $lend = strlen($FROM_DIV_TAG_ITERATION_END);
+                    $lsep = strlen($FROM_DIV_TAG_LOOP_VAR_SEPARATOR);
                     $p = 0;
 
                     while (true) {
-                        $ranges = $this->getRanges($DIV_TAG_ITERATION_BEGIN_PREFIX, $DIV_TAG_ITERATION_END, $src, true, $p);
+                        $ranges = $this->getRanges($FROM_DIV_TAG_ITERATION_BEGIN_PREFIX, $FROM_DIV_TAG_ITERATION_END, $src, true, $p);
                         if (count($ranges) < 1)
                             break;
 
                         $ini = $ranges [0] [0];
                         $end = $ranges [0] [1];
-                        $p1 = strpos($src, $DIV_TAG_ITERATION_BEGIN_SUFFIX, $ini + 1);
+                        $p1 = strpos($src, $FROM_DIV_TAG_ITERATION_BEGIN_SUFFIX, $ini + 1);
 
                         $s = substr($src, $ini + $lprefix, $p1 - ($ini + $lprefix));
 
-                        $parts = explode($DIV_TAG_ITERATION_PARAM_SEPARATOR, $s);
+                        $parts = explode($FROM_DIV_TAG_ITERATION_PARAM_SEPARATOR, $s);
 
-                        $s = implode(DIV_TAG_ITERATION_PARAM_SEPARATOR, $parts);
+                        $s = implode($TO_DIV_TAG_ITERATION_PARAM_SEPARATOR, $parts);
 
                         $subsrc = substr($src, $p1 + $lsuffix, $end - ($p1 + $lsuffix));
 
-                        $po = strpos($subsrc, $DIV_TAG_LOOP_VAR_SEPARATOR);
+                        $po = strpos($subsrc, $FROM_DIV_TAG_LOOP_VAR_SEPARATOR);
                         if ($po !== false)
-                            $subsrc = substr($subsrc, 0, $po) . DIV_TAG_LOOP_VAR_SEPARATOR . substr($subsrc, $po + $lsep);
+                            $subsrc = substr($subsrc, 0, $po) . $TO_DIV_TAG_LOOP_VAR_SEPARATOR . substr($subsrc, $po + $lsep);
 
-                        $src = substr($src, 0, $ini) . DIV_TAG_ITERATION_BEGIN_PREFIX . $s . DIV_TAG_ITERATION_BEGIN_SUFFIX . $subsrc . DIV_TAG_ITERATION_END . substr($src, $end + $lend);
+                        $src = substr($src, 0, $ini) . $TO_DIV_TAG_ITERATION_BEGIN_PREFIX . $s . $TO_DIV_TAG_ITERATION_BEGIN_SUFFIX . $subsrc . $TO_DIV_TAG_ITERATION_END . substr($src, $end + $lend);
 
                         $p = $ini + 1;
                     }
@@ -6964,7 +6984,7 @@ class div
                     $p = 0;
                     while (true) {
 
-                        $r = $this->getBlockRanges($src, $DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX, $DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX, $DIV_TAG_CONDITIONAL_TRUE_END_PREFIX, $DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX, $p, null, true, $DIV_TAG_VAR_MEMBER_DELIMITER);
+                        $r = $this->getBlockRanges($src, $FROM_DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX, $FROM_DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX, $FROM_DIV_TAG_CONDITIONAL_TRUE_END_PREFIX, $FROM_DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX, $p, null, true, $FROM_DIV_TAG_VAR_MEMBER_DELIMITER);
 
                         if (count($r) < 1)
                             break;
@@ -6974,14 +6994,14 @@ class div
                         $key = $r [0] [2];
 
                         $subsrc = $r [0] [3];
-                        $prefix = $DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX . $key . $DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX;
-                        $suffix = $DIV_TAG_CONDITIONAL_TRUE_END_PREFIX . $key . $DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX;
+                        $prefix = $FROM_DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX . $key . $FROM_DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX;
+                        $suffix = $FROM_DIV_TAG_CONDITIONAL_TRUE_END_PREFIX . $key . $FROM_DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX;
                         $lprefix = strlen($prefix);
                         $lsuffix = strlen($suffix);
 
-                        $subsrc = str_replace($DIV_TAG_ELSE, DIV_TAG_ELSE, $subsrc);
-                        $key = str_replace($DIV_TAG_VAR_MEMBER_DELIMITER, DIV_TAG_VAR_MEMBER_DELIMITER, $key);
-                        $src = substr($src, 0, $ini) . DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX . str_replace($DIV_TAG_VAR_MEMBER_DELIMITER, DIV_TAG_VAR_MEMBER_DELIMITER, $key) . DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX . $subsrc . DIV_TAG_CONDITIONAL_TRUE_END_PREFIX . $key . DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX . substr($src, $end + $lsuffix);
+                        $subsrc = str_replace($FROM_DIV_TAG_ELSE, $TO_DIV_TAG_ELSE, $subsrc);
+                        $key = str_replace($FROM_DIV_TAG_VAR_MEMBER_DELIMITER, $TO_DIV_TAG_VAR_MEMBER_DELIMITER, $key);
+                        $src = substr($src, 0, $ini) . $TO_DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX . str_replace($FROM_DIV_TAG_VAR_MEMBER_DELIMITER, $TO_DIV_TAG_VAR_MEMBER_DELIMITER, $key) . $TO_DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX . $subsrc . $TO_DIV_TAG_CONDITIONAL_TRUE_END_PREFIX . $key . $TO_DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX . substr($src, $end + $lsuffix);
 
                         $p = $ini + 1;
                     }
@@ -6991,7 +7011,7 @@ class div
                     $p = 0;
                     while (true) {
 
-                        $r = $this->getBlockRanges($src, $DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX, $DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX, $DIV_TAG_CONDITIONAL_FALSE_END_PREFIX, $DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX, $p, null, true, $DIV_TAG_VAR_MEMBER_DELIMITER);
+                        $r = $this->getBlockRanges($src, $FROM_DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX, $FROM_DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX, $FROM_DIV_TAG_CONDITIONAL_FALSE_END_PREFIX, $FROM_DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX, $p, null, true, $FROM_DIV_TAG_VAR_MEMBER_DELIMITER);
 
                         if (count($r) < 1)
                             break;
@@ -7001,65 +7021,65 @@ class div
                         $key = $r [0] [2];
 
                         $subsrc = $r [0] [3];
-                        $prefix = $DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX . $key . $DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX;
-                        $suffix = $DIV_TAG_CONDITIONAL_FALSE_END_PREFIX . $key . $DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX;
+                        $prefix = $FROM_DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX . $key . $FROM_DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX;
+                        $suffix = $FROM_DIV_TAG_CONDITIONAL_FALSE_END_PREFIX . $key . $FROM_DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX;
                         $lprefix = strlen($prefix);
                         $lsuffix = strlen($suffix);
 
-                        $subsrc = str_replace($DIV_TAG_ELSE, DIV_TAG_ELSE, $subsrc);
-                        $key = str_replace($DIV_TAG_VAR_MEMBER_DELIMITER, DIV_TAG_VAR_MEMBER_DELIMITER, $key);
-                        $src = substr($src, 0, $ini) . DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX . $key . DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX . $subsrc . DIV_TAG_CONDITIONAL_FALSE_END_PREFIX . $key . DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX . substr($src, $end + $lsuffix);
+                        $subsrc = str_replace($FROM_DIV_TAG_ELSE, $TO_DIV_TAG_ELSE, $subsrc);
+                        $key = str_replace($FROM_DIV_TAG_VAR_MEMBER_DELIMITER, $TO_DIV_TAG_VAR_MEMBER_DELIMITER, $key);
+                        $src = substr($src, 0, $ini) . $TO_DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX . $key . $TO_DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX . $subsrc . $TO_DIV_TAG_CONDITIONAL_FALSE_END_PREFIX . $key . $TO_DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX . substr($src, $end + $lsuffix);
 
                         $p = $ini + 1;
                     }
                     break;
 
                 case 'conditions' :
-                    $lprefix = strlen($DIV_TAG_CONDITIONS_BEGIN_PREFIX);
-                    $lsuffix = strlen($DIV_TAG_CONDITIONS_BEGIN_SUFFIX);
-                    $lend = strlen($DIV_TAG_CONDITIONS_END);
-                    $lelse = strlen($DIV_TAG_ELSE);
+                    $lprefix = strlen($FROM_DIV_TAG_CONDITIONS_BEGIN_PREFIX);
+                    $lsuffix = strlen($FROM_DIV_TAG_CONDITIONS_BEGIN_SUFFIX);
+                    $lend = strlen($FROM_DIV_TAG_CONDITIONS_END);
+                    $lelse = strlen($FROM_DIV_TAG_ELSE);
                     $p = 0;
                     while (true) {
-                        $r = $this->getRanges($DIV_TAG_CONDITIONS_BEGIN_PREFIX, $DIV_TAG_CONDITIONS_END, $src, true, $p);
+                        $r = $this->getRanges($FROM_DIV_TAG_CONDITIONS_BEGIN_PREFIX, $FROM_DIV_TAG_CONDITIONS_END, $src, true, $p);
 
                         if (count($r) < 1)
                             break;
 
                         $ini = $r [0] [0];
                         $end = $r [0] [1];
-                        $p1 = strpos($src, $DIV_TAG_CONDITIONS_BEGIN_SUFFIX, $ini + 1);
+                        $p1 = strpos($src, $FROM_DIV_TAG_CONDITIONS_BEGIN_SUFFIX, $ini + 1);
 
                         $s = substr($src, $ini + $lprefix, $p1 - ($ini + $lprefix));
 
                         $subsrc = substr($src, $p1 + $lsuffix, $end - ($p1 + $lsuffix));
 
-                        $po = strpos($subsrc, $DIV_TAG_ELSE);
+                        $po = strpos($subsrc, $FROM_DIV_TAG_ELSE);
                         if ($po !== false)
-                            $subsrc = substr($subsrc, 0, $po) . DIV_TAG_ELSE . substr($subsrc, $po + $lelse);
+                            $subsrc = substr($subsrc, 0, $po) . $TO_DIV_TAG_ELSE . substr($subsrc, $po + $lelse);
 
-                        $src = substr($src, 0, $ini) . DIV_TAG_CONDITIONS_BEGIN_PREFIX . $s . DIV_TAG_CONDITIONS_BEGIN_SUFFIX . $subsrc . DIV_TAG_CONDITIONS_END . substr($src, $end + $lend);
+                        $src = substr($src, 0, $ini) . $TO_DIV_TAG_CONDITIONS_BEGIN_PREFIX . $s . $TO_DIV_TAG_CONDITIONS_BEGIN_SUFFIX . $subsrc . $TO_DIV_TAG_CONDITIONS_END . substr($src, $end + $lend);
 
                         $p = $ini + 1;
                     }
                     break;
 
                 case 'tplvars' :
-                    $lbegin = strlen($DIV_TAG_TPLVAR_BEGIN);
-                    $lend = strlen($DIV_TAG_TPLVAR_END);
-                    $loperator = strlen($DIV_TAG_TPLVAR_ASSIGN_OPERATOR);
-                    $lprotector = strlen($DIV_TAG_TPLVAR_PROTECTOR);
+                    $lbegin = strlen($FROM_DIV_TAG_TPLVAR_BEGIN);
+                    $lend = strlen($FROM_DIV_TAG_TPLVAR_END);
+                    $loperator = strlen($FROM_DIV_TAG_TPLVAR_ASSIGN_OPERATOR);
+                    $lprotector = strlen($FROM_DIV_TAG_TPLVAR_PROTECTOR);
 
                     $p = 0;
                     while (true) {
-                        $r = $this->getRanges($DIV_TAG_TPLVAR_BEGIN, $DIV_TAG_TPLVAR_END, $src, true, $p);
+                        $r = $this->getRanges($FROM_DIV_TAG_TPLVAR_BEGIN, $FROM_DIV_TAG_TPLVAR_END, $src, true, $p);
 
                         if (count($r) < 1)
                             break;
 
                         $ini = $r [0] [0];
                         $end = $r [0] [1];
-                        $p1 = strpos($src, $DIV_TAG_TPLVAR_ASSIGN_OPERATOR, $ini + $lbegin);
+                        $p1 = strpos($src, $FROM_DIV_TAG_TPLVAR_ASSIGN_OPERATOR, $ini + $lbegin);
 
                         if ($p1 === false) {
                             $p = $ini + 1;
@@ -7072,60 +7092,60 @@ class div
                         $json = $this->jsonDecode($tplvarvalue, array(), $missing_vars);
 
                         foreach ($missing_vars as $missing)
-                            $tplvarvalue = str_replace('$' . $missing, '$' . str_replace($DIV_TAG_VAR_MEMBER_DELIMITER, DIV_TAG_VAR_MEMBER_DELIMITER, $missing), $tplvarvalue);
+                            $tplvarvalue = str_replace('$' . $missing, '$' . str_replace($FROM_DIV_TAG_VAR_MEMBER_DELIMITER, $TO_DIV_TAG_VAR_MEMBER_DELIMITER, $missing), $tplvarvalue);
 
-                        $src = substr($src, 0, $ini) . DIV_TAG_TPLVAR_BEGIN . str_replace($DIV_TAG_TPLVAR_PROTECTOR, DIV_TAG_TPLVAR_PROTECTOR, str_replace($DIV_TAG_VAR_MEMBER_DELIMITER, DIV_TAG_VAR_MEMBER_DELIMITER, substr($src, $ini + $lbegin, $p1 - ($ini + $lbegin)))) . DIV_TAG_TPLVAR_ASSIGN_OPERATOR . $tplvarvalue . DIV_TAG_TPLVAR_END . substr($src, $end + $lend);
+                        $src = substr($src, 0, $ini) . $TO_DIV_TAG_TPLVAR_BEGIN . str_replace($FROM_DIV_TAG_TPLVAR_PROTECTOR, $TO_DIV_TAG_TPLVAR_PROTECTOR, str_replace($FROM_DIV_TAG_VAR_MEMBER_DELIMITER, $TO_DIV_TAG_VAR_MEMBER_DELIMITER, substr($src, $ini + $lbegin, $p1 - ($ini + $lbegin)))) . $TO_DIV_TAG_TPLVAR_ASSIGN_OPERATOR . $tplvarvalue . $TO_DIV_TAG_TPLVAR_END . substr($src, $end + $lend);
 
                         $p = $ini + 1;
                     }
                     break;
 
                 case 'defaultreplace' :
-                    $src = $this->translateSimpleBlocks($src, $DIV_TAG_DEFAULT_REPLACEMENT_BEGIN, $DIV_TAG_DEFAULT_REPLACEMENT_END, DIV_TAG_DEFAULT_REPLACEMENT_BEGIN, DIV_TAG_DEFAULT_REPLACEMENT_END);
+                    $src = $this->translateSimpleBlocks($src, $FROM_DIV_TAG_DEFAULT_REPLACEMENT_BEGIN, $FROM_DIV_TAG_DEFAULT_REPLACEMENT_END, $TO_DIV_TAG_DEFAULT_REPLACEMENT_BEGIN, $TO_DIV_TAG_DEFAULT_REPLACEMENT_END);
                     break;
 
                 case 'include' :
-                    $src = $this->translateSimpleBlocks($src, $DIV_TAG_INCLUDE_BEGIN, $DIV_TAG_INCLUDE_END, DIV_TAG_INCLUDE_BEGIN, DIV_TAG_INCLUDE_END);
+                    $src = $this->translateSimpleBlocks($src, $FROM_DIV_TAG_INCLUDE_BEGIN, $FROM_DIV_TAG_INCLUDE_END, $TO_DIV_TAG_INCLUDE_BEGIN, $TO_DIV_TAG_INCLUDE_END);
                     break;
 
                 case 'preprocessed' :
-                    $src = $this->translateSimpleBlocks($src, $DIV_TAG_PREPROCESSED_BEGIN, $DIV_TAG_PREPROCESSED_END, DIV_TAG_PREPROCESSED_BEGIN, DIV_TAG_PREPROCESSED_END, DIV_TAG_PREPROCESSED_SEPARATOR);
+                    $src = $this->translateSimpleBlocks($src, $FROM_DIV_TAG_PREPROCESSED_BEGIN, $FROM_DIV_TAG_PREPROCESSED_END, $TO_DIV_TAG_PREPROCESSED_BEGIN, $TO_DIV_TAG_PREPROCESSED_END, $TO_DIV_TAG_PREPROCESSED_SEPARATOR);
                     break;
 
                 case 'capsules' :
-                    $src = $this->translateKeyBlocks($src, $DIV_TAG_CAPSULE_BEGIN_PREFIX, $DIV_TAG_CAPSULE_BEGIN_SUFFIX, $DIV_TAG_CAPSULE_END_PREFIX, $DIV_TAG_CAPSULE_END_SUFFIX, DIV_TAG_CAPSULE_BEGIN_PREFIX, DIV_TAG_CAPSULE_BEGIN_SUFFIX, DIV_TAG_CAPSULE_END_PREFIX, DIV_TAG_CAPSULE_END_SUFFIX, $DIV_TAG_VAR_MEMBER_DELIMITER, DIV_TAG_VAR_MEMBER_DELIMITER);
+                    $src = $this->translateKeyBlocks($src, $FROM_DIV_TAG_CAPSULE_BEGIN_PREFIX, $FROM_DIV_TAG_CAPSULE_BEGIN_SUFFIX, $FROM_DIV_TAG_CAPSULE_END_PREFIX, $FROM_DIV_TAG_CAPSULE_END_SUFFIX, $TO_DIV_TAG_CAPSULE_BEGIN_PREFIX, $TO_DIV_TAG_CAPSULE_BEGIN_SUFFIX, $TO_DIV_TAG_CAPSULE_END_PREFIX, $TO_DIV_TAG_CAPSULE_END_SUFFIX, $FROM_DIV_TAG_VAR_MEMBER_DELIMITER, $TO_DIV_TAG_VAR_MEMBER_DELIMITER);
                     break;
 
                 case 'multireplace' :
-                    $src = $this->translateKeyBlocks($src, $DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX, $DIV_TAG_MULTI_REPLACEMENT_BEGIN_SUFFIX, $DIV_TAG_MULTI_REPLACEMENT_END_PREFIX, $DIV_TAG_MULTI_REPLACEMENT_END_SUFFIX, DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX, DIV_TAG_MULTI_REPLACEMENT_BEGIN_SUFFIX, DIV_TAG_MULTI_REPLACEMENT_END_PREFIX, DIV_TAG_MULTI_REPLACEMENT_END_SUFFIX, $DIV_TAG_VAR_MEMBER_DELIMITER, DIV_TAG_VAR_MEMBER_DELIMITER);
+                    $src = $this->translateKeyBlocks($src, $FROM_DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX, $FROM_DIV_TAG_MULTI_REPLACEMENT_BEGIN_SUFFIX, $FROM_DIV_TAG_MULTI_REPLACEMENT_END_PREFIX, $FROM_DIV_TAG_MULTI_REPLACEMENT_END_SUFFIX, $TO_DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX, $TO_DIV_TAG_MULTI_REPLACEMENT_BEGIN_SUFFIX, $TO_DIV_TAG_MULTI_REPLACEMENT_END_PREFIX, $TO_DIV_TAG_MULTI_REPLACEMENT_END_SUFFIX, $FROM_DIV_TAG_VAR_MEMBER_DELIMITER, $TO_DIV_TAG_VAR_MEMBER_DELIMITER);
                     break;
 
                 case 'friendlytags' :
-                    $src = $this->translateSimpleBlocks($src, $DIV_TAG_FRIENDLY_BEGIN, $DIV_TAG_FRIENDLY_END, DIV_TAG_FRIENDLY_BEGIN, DIV_TAG_FRIENDLY_END);
+                    $src = $this->translateSimpleBlocks($src, $FROM_DIV_TAG_FRIENDLY_BEGIN, $FROM_DIV_TAG_FRIENDLY_END, $TO_DIV_TAG_FRIENDLY_BEGIN, $TO_DIV_TAG_FRIENDLY_END);
                     break;
 
                 case 'macros' :
-                    $src = $this->translateSimpleBlocks($src, $DIV_TAG_MACRO_BEGIN, $DIV_TAG_MACRO_END, DIV_TAG_MACRO_BEGIN, DIV_TAG_MACRO_END);
+                    $src = $this->translateSimpleBlocks($src, $FROM_DIV_TAG_MACRO_BEGIN, $FROM_DIV_TAG_MACRO_END, $TO_DIV_TAG_MACRO_BEGIN, $TO_DIV_TAG_MACRO_END);
                     break;
 
                 case 'location' :
-                    $src = $this->translateSimpleBlocks($src, $DIV_TAG_LOCATION_BEGIN, $DIV_TAG_LOCATION_END, DIV_TAG_LOCATION_BEGIN, DIV_TAG_LOCATION_END);
+                    $src = $this->translateSimpleBlocks($src, $FROM_DIV_TAG_LOCATION_BEGIN, $FROM_DIV_TAG_LOCATION_END, $TO_DIV_TAG_LOCATION_BEGIN, $TO_DIV_TAG_LOCATION_END);
                     break;
 
                 case 'locontent' :
-                    $src = $this->translateKeyBlocks($src, $DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX, $DIV_TAG_LOCATION_CONTENT_BEGIN_SUFFIX, $DIV_TAG_LOCATION_CONTENT_END_PREFIX, $DIV_TAG_LOCATION_CONTENT_END_SUFFIX, DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX, DIV_TAG_LOCATION_CONTENT_BEGIN_SUFFIX, DIV_TAG_LOCATION_CONTENT_END_PREFIX, DIV_TAG_LOCATION_CONTENT_END_SUFFIX, $DIV_TAG_VAR_MEMBER_DELIMITER, DIV_TAG_VAR_MEMBER_DELIMITER);
+                    $src = $this->translateKeyBlocks($src, $FROM_DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX, $FROM_DIV_TAG_LOCATION_CONTENT_BEGIN_SUFFIX, $FROM_DIV_TAG_LOCATION_CONTENT_END_PREFIX, $FROM_DIV_TAG_LOCATION_CONTENT_END_SUFFIX, $TO_DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX, $TO_DIV_TAG_LOCATION_CONTENT_BEGIN_SUFFIX, $TO_DIV_TAG_LOCATION_CONTENT_END_PREFIX, $TO_DIV_TAG_LOCATION_CONTENT_END_SUFFIX, $FROM_DIV_TAG_VAR_MEMBER_DELIMITER, $TO_DIV_TAG_VAR_MEMBER_DELIMITER);
                     break;
             }
         }
 
         $order = array(
-            DIV_TAG_SPECIAL_REPLACE_NEW_LINE => $DIV_TAG_SPECIAL_REPLACE_NEW_LINE,
-            DIV_TAG_SPECIAL_REPLACE_CAR_RETURN => $DIV_TAG_SPECIAL_REPLACE_HORIZONTAL_TAB,
-            DIV_TAG_SPECIAL_REPLACE_HORIZONTAL_TAB => $DIV_TAG_SPECIAL_REPLACE_HORIZONTAL_TAB,
-            DIV_TAG_SPECIAL_REPLACE_VERTICAL_TAB => $DIV_TAG_SPECIAL_REPLACE_VERTICAL_TAB,
-            DIV_TAG_SPECIAL_REPLACE_NEXT_PAGE => $DIV_TAG_SPECIAL_REPLACE_NEXT_PAGE,
-            DIV_TAG_SPECIAL_REPLACE_DOLLAR_SYMBOL => $DIV_TAG_SPECIAL_REPLACE_DOLLAR_SYMBOL,
-            DIV_TAG_TEASER_BREAK => $DIV_TAG_TEASER_BREAK
+            $TO_DIV_TAG_SPECIAL_REPLACE_NEW_LINE => $FROM_DIV_TAG_SPECIAL_REPLACE_NEW_LINE,
+            $TO_DIV_TAG_SPECIAL_REPLACE_CAR_RETURN => $FROM_DIV_TAG_SPECIAL_REPLACE_HORIZONTAL_TAB,
+            $TO_DIV_TAG_SPECIAL_REPLACE_HORIZONTAL_TAB => $FROM_DIV_TAG_SPECIAL_REPLACE_HORIZONTAL_TAB,
+            $TO_DIV_TAG_SPECIAL_REPLACE_VERTICAL_TAB => $FROM_DIV_TAG_SPECIAL_REPLACE_VERTICAL_TAB,
+            $TO_DIV_TAG_SPECIAL_REPLACE_NEXT_PAGE => $FROM_DIV_TAG_SPECIAL_REPLACE_NEXT_PAGE,
+            $TO_DIV_TAG_SPECIAL_REPLACE_DOLLAR_SYMBOL => $FROM_DIV_TAG_SPECIAL_REPLACE_DOLLAR_SYMBOL,
+            $TO_DIV_TAG_TEASER_BREAK => $FROM_DIV_TAG_TEASER_BREAK
         );
         asort($order);
         $src = str_replace($order, array_keys($order), $src);
@@ -7134,6 +7154,36 @@ class div
             $this->__src = $src;
 
         return $src;
+    }
+
+    /**
+     * Translate dialects from some dialect to current dialect
+     *
+     * @param string $src
+     * @param mixed $dialectFrom
+     * @return string
+     */
+    final public function translateFrom($dialectFrom, $src = null, $items = null)
+    {
+        if (self::$__log_mode === true)
+            $this->logger("Translating from some dialect to current dialect...");
+
+        return $this->translate($dialectFrom);
+    }
+
+    /**
+     * Translate dialects to some dialect from current dialect
+     *
+     * @param string $src
+     * @param mixed $dialectTo
+     * @return string
+     */
+    final public function translateTo($dialectTo, $src = null, $items = null)
+    {
+        if (self::$__log_mode === true)
+            $this->logger("Translating from current dialect to some dialect...");
+
+        return $this->translate([], $dialectTo);
     }
 
     /**

@@ -1,4 +1,39 @@
 ----------------------------
+Jun 2, 2017
+----------------------------
+- Improve the translator. Now you can translate from and to other dialects.
+
+    $tpl = new div("index.tpl", []);
+
+    -----------------------------------------------
+    Translate from other dialect to current dialect:
+    -----------------------------------------------
+
+    $tpl->translateFrom($dialectFrom);
+
+    -----------------------------------------------
+    Translate from current dialect to other dialect:
+    -----------------------------------------------
+
+    $tpl->translateTo($dialectFrom);
+
+    -----------------------------------------------
+    Translate from any dialect to any dialect:
+    -----------------------------------------------
+
+    $tpl->translate($dialectFrom, $dialectTo, $src, $items);
+
+    -----------------------------------------------
+    Maybe you need prepare the current dialect first:
+    -----------------------------------------------
+
+    $prop = $tpl->getTemplateProperties();
+    $tpl->__src = $tpl->prepareDialect(null, $prop);
+
+- Improve the Div CLI:
+
+    div translate -f =
+----------------------------
 May 29, 2017
 ----------------------------
 - Some bugfixs

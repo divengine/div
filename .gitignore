@@ -10,3 +10,6 @@ test.json
 test.out
 metrics.html
 test*.*
+repo/*
+div-cli.ini
+test/*
