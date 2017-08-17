@@ -197,69 +197,86 @@ $commands = [
         ],
         'do' => function ($args) {
 
-            $ff = '';
-            if (isset($args['-fb'])) {
-                $flag = $args['-fb'];
-                $f = fopen($args['-ff'], 'r');
+			if (file_exists($args['-ff']))
+			{
+				$ff = '';
+				if (isset($args['-fb'])) {
+					$flag = $args['-fb'];
+					$f = fopen($args['-ff'], 'r');
 
-                $start = false;
-                while (!feof($f)) {
-                    $s = fgets($f);
+					$start = false;
+					while (!feof($f)) {
+						$s = fgets($f);
 
-                    if (strpos($s, $flag) !== false) {
-                        if ($start)
-                            break; // only first block
+						if (strpos($s, $flag) !== false) {
+							if ($start)
+								break; // only first block
 
-                        $start = true;
-                        continue;
-                    }
+							$start = true;
+							continue;
+						}
 
-                    if ($start) {
-                        $ff .= $s;
-                    }
-                }
-            } else
-                $ff = file_get_contents($args['-ff']);
+						if ($start) {
+							$ff .= $s;
+						}
+					}
+				} else
+					$ff = file_get_contents($args['-ff']);
 
-            $tf = fopen($args['-tf'], 'r');
-            $tempfilename = $args['-tf'] . "." . uniqid();
-            $ttf = fopen($tempfilename, 'w');
+				// if destiny file not exists, then create it
+				if (!file_exists($args['-tf']))
+					file_put_contents($args['-tf'],"");
+				
+				if (isset($args['-tb']))
+				{
+					$tf = fopen($args['-tf'], 'r');
+					$tempfilename = $args['-tf'] . "." . uniqid();
+					$ttf = fopen($tempfilename, 'w');
 
-            $inject = false;
-            $block = $args['-tb'];
-            $start = false;
+				
+					$inject = false;
+					$block = $args['-tb'];
+					$start = false;
 
-            while (!feof($tf)) {
-                $s = fgets($tf);
+					while (!feof($tf)) {
+						$s = fgets($tf);
 
-                if (strpos($s, $block) !== false && $start == false) {
-                    fputs($ttf, $s);
-                    $start = true;
-                    continue;
-                }
+						if (strpos($s, $block) !== false && $start == false) {
+							fputs($ttf, $s);
+							$start = true;
+							continue;
+						}
 
-                if (strpos($s, $block) !== false && $start == true) {
-                    if (!$inject) {
-                        fputs($ttf, $ff);
-                        $inject = true;
-                    }
+						if (strpos($s, $block) !== false && $start == true) {
+							if (!$inject) {
+								fputs($ttf, $ff);
+								$inject = true;
+							}
 
-                    fputs($ttf, $s);
-                    $start = false;
-                    continue;
-                }
+							fputs($ttf, $s);
+							$start = false;
+							continue;
+						}
 
-                if ($start == true)
-                    continue;
+						if ($start == true)
+							continue;
 
-                fputs($ttf, $s);
-            }
-
-            fclose($tf);
-            fclose($ttf);
-            rename($args['-tf'], $args['-tf'] . ".bak");
-            rename($tempfilename, $args['-tf']);
-
+						fputs($ttf, $s);
+					}
+					
+					fclose($tf);
+					fclose($ttf);
+					rename($args['-tf'], $args['-tf'] . ".bak");
+					rename($tempfilename, $args['-tf']);
+				}
+				else 
+				{
+					$tf = fopen($args['-tf'], "a");
+					fputs($tf, $ff);
+					fclose($tf);
+				}
+			}
+            
         }
     ],
     'translate' => [
