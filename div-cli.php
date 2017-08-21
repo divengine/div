@@ -25,14 +25,33 @@
  * @version 1.0
  */
 
+define('PACKAGES', "./.div/repo/");
+
+// Require
 include "div.php";
 
+// Globals
+$config = [];
+
 // Functions
+
+/**
+ * Show message in console
+ *
+ * @param $msg
+ * @param string $icon
+ */
 function message($msg, $icon = 'INFO')
 {
     echo "[$icon] " . date("h:i:s") . " $msg \n";
 }
 
+/**
+ * Download from url
+ *
+ * @param $url
+ * @return bool|mixed
+ */
 function wget($url)
 {
     message("Download $url");
@@ -43,8 +62,8 @@ function wget($url)
     $result = curl_exec($c);
     $info = curl_getinfo($c);
 
-    message("HTTP response content type: ". $info['content_type']);
-    message("HTTP response code: ". $info['http_code']);
+    //message("HTTP response content type: ". $info['content_type']);
+    //message("HTTP response code: ". $info['http_code']);
 
     if ($info['http_code'] == 404)
         return false;
@@ -52,51 +71,98 @@ function wget($url)
     return $result;
 }
 
-$config = parse_ini_file("div-cli.ini", INI_SCANNER_RAW);
+/**
+ * Load configuration
+ */
+function loadConfig(){
+    global $config;
 
-// List of available commands
+    $configPath = "div-cli.ini";
+    if (file_exists("./.div/config.ini"))
+        $configPath = "./.div/config.ini";
+
+    if (!file_exists($configPath))
+        die("Configuration not found");
+
+    //message("Loading configuration from $configPath");
+    $config = parse_ini_file($configPath, INI_SCANNER_RAW);
+}
+
+
+// Commands implementation
 $commands = [
+    'init' => [
+        'help' => 'Init development with div',
+        'type' => 'simple:string',
+        'do' => function ($args) {
+            if (file_exists("./.div"))
+            {
+                message("The folder .div already exists. Exiting without changes.");
+                return false;
+            }
+
+            mkdir('./.div');
+            mkdir('./.div/repo');
+            mkdir('./.div/models');
+
+            $defaultConfig =
+                "[repo]\n" .
+                "origin = \"repo.divengine.com\"\n" .
+                "destination = \"./.div/repo\"";
+
+            file_put_contents("./.div/config.ini", $defaultConfig);
+        }
+
+    ],
     'get' => [
         'help' => 'Get template from online repository',
         'type' => 'simple:string',
         'do' => function ($args) {
 
             global $config;
-
             $doAfter = [];
-
             $purl = parse_url($args['value']);
 
-            if ($purl === false)
-                return false;
-
-            if (!isset($purl['path']))
-                return false;
-
-            if (!isset($purl['scheme'])) $purl['scheme'] = 'http';
-
-            if ($purl['scheme'] == 'repo')
-            {
-                $purl = parse_url($config['repo']['origin'] . "/" . substr($args['value'], 7));
+            if ($purl === false) return false;
+            if ( ! isset($purl['path'])) return false;
+            if ( ! isset($purl['scheme'])) {
+                $purl['scheme'] = 'repo';
+                $args['value'] = "repo://{$args['value']}";
             }
 
-            if ( ! isset($purl['scheme'])) $purl['scheme'] = 'http';
+            if ($purl['scheme'] == 'repo')
+                $purl = parse_url($config['repo']['origin'] . "/" . substr($args['value'], 7));
 
-            if (!isset($purl['port'])) $purl['port'] = ''; else $purl['port'] = ":" . $purl['port'];
-            if (!isset($purl['user'])) $purl['user'] = '';
-            if (!isset($purl['pass'])) $purl['pass'] = ''; else if ($purl['user'] != '') $purl['pass'] = ":" + $purl['pass']; else $purl['pass'] = '';
-            if (!isset($purl['query'])) $purl['query'] = ''; else $purl['query'] = '?' . $purl['query'];
+            if ( ! isset($purl['scheme'])) $purl['scheme'] = 'http';
+            if ( ! isset($purl['port']))   $purl['port']   = ''; else $purl['port'] = ":" . $purl['port'];
+            if ( ! isset($purl['user']))   $purl['user']   = '';
+            if ( ! isset($purl['pass']))   $purl['pass']   = ''; else if ($purl['user'] != '') $purl['pass'] = ":" + $purl['pass']; else $purl['pass'] = '';
+            if ( ! isset($purl['query']))  $purl['query']  = ''; else $purl['query'] = '?' . $purl['query'];
 
             $basePath = "{$purl['scheme']}://{$purl['user']}{$purl['pass']}" . ($purl['user'] != '' ? "@" : "") . "{$purl['host']}{$purl['port']}/";
-            $url = $basePath . "{$purl['path']}{$purl['query']}";
+
+            $path = "{$purl['path']}{$purl['query']}";
+            if ($path[0] == "/") $path = substr($path, 1);
+
+            $url = $basePath . $path;
+
+            // try 1: original url
             $content = wget($url);
 
             if ($content == false) {
-                message("Resource not found", "FATAL");
-                return false;
+
+                // try 2: url as template
+                $content = wget($url . ".tpl");
+
+                if ($content == false) {
+                    message("Resource not found", "FATAL");
+                    return false;
+                }
+
+                $path .= ".tpl";
             }
 
-            $filename = "{$config['repo']['folder']}{$purl['path']}";
+            $filename = "{$config['repo']['destination']}/{$path}";
             $path = dirname($filename);
 
             if (!file_exists($path))
@@ -105,19 +171,25 @@ $commands = [
             file_put_contents($filename, $content);
 
             $tpl = new div($filename, []);
-            $prop = $tpl->getTemplateProperties();
+            div::docsReset();
+            div::docsOn();
+            $tpl->parseComments("main");
+            $prop = $tpl->getDocs();
 
-            if (isset($prop['DEPENDENCY'])) {
-                $dependencies = $prop['DEPENDENCY'];
+            if (isset($prop['main']['dependency'])) {
+                $dependencies = $prop['main']['dependency'];
 
                 if (!is_array($dependencies))
                     $dependencies = [$dependencies];
 
                 foreach ($dependencies as $dep) {
-                    $doAfter[] = [
-                        'do' => 'get',
-                        'args' => ['value' => $basePath . $dep]
-                    ];
+                    $dep = trim($dep);
+                    $dep = str_replace(["\t","\n", "\r"], "", $dep);
+                    if (!empty($dep))
+                        $doAfter[] = [
+                            'do' => 'get',
+                            'args' => ['value' => $basePath . $dep]
+                        ];
                 }
             }
 
@@ -144,7 +216,7 @@ $commands = [
             if (empty($out)) $out = $tpl + ".out";
             if (empty($dat)) $dat = [];
 
-            message("Processing template $tpl with data $dat");
+            message("Processing template $tpl" . ((isset($args['-d']))? "with data in {$args['-d']}" : ""));
 
             $t1 = microtime(true);
             $div = new div($tpl, $dat);
@@ -328,6 +400,34 @@ $commands = [
                 . '================================================={\n}');
 
         }
+    ],
+    'show-config' => [
+        'help' => "Show configuration",
+        'type' => "optional:string",
+        'do' => function($args) {
+
+            global $config;
+            global $configPath;
+            echo "Configuration file: $configPath\n";
+
+            $show = $config;
+            if (isset($args[0]) && !empty($args[0]) && isset($config[$args[0]]))
+                $show = [$args => $config[$args[0]]];
+
+            foreach ($show as $key => $value)
+            {
+                if (is_array($value))
+                {
+                    echo "- $key:\n";
+                    foreach ($value as $kk => $vv)
+                    {
+                        echo "  - $kk: $vv\n";
+                    }
+                } else {
+                    echo "- $key: $value\n";
+                }
+            }
+        }
     ]
 ];
 
@@ -335,6 +435,8 @@ $commands = [
 
 message("Div Software Solutions | Command Line Tool");
 message("Getting arguments...");
+
+loadConfig();
 
 $prompt = $_SERVER['argv'];
 $prompt[0] = "";

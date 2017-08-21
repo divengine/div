@@ -7331,6 +7331,14 @@ class div
     }
 
     /**
+     * Disable documentation
+     */
+    final static function docsReset()
+    {
+        self::$__docs = [];
+    }
+
+    /**
      * Get documentation's data
      *
      * @return array
