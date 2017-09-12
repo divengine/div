@@ -1,4 +1,12 @@
 ----------------------------
+Sep 9, 2017
+----------------------------
+- Fix dynamic include's paths inside loops
+	[$blocks]
+		{% blocks/block-{$id}.tpl %}
+	[/$blocks]
+
+----------------------------
 Jun 2, 2017
 ----------------------------
 - Improve the translator. Now you can translate from and to other dialects.

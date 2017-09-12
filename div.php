@@ -647,7 +647,6 @@ class div
                 if (strlen($items . '.' . DIV_DEFAULT_DATA_FILE_EXT) < 255) {
                     $exists = false;
 
-
                     if (self::fileExists($items)) {
                         $items = self::getFileContents($items);
                         $exists = true;
@@ -2724,7 +2723,7 @@ class div
                     $globals_design = self::$__globals_design;
 
                     foreach ($xitems as $xkey => $item) {
-                        $tempglobal = array(); // priority to item's properties
+                        // $tempglobal = array(); // priority to item's properties
                         // Save similar global design vars
 
                         $tempglobal = self::$__globals_design;
@@ -2736,7 +2735,6 @@ class div
                             $this->logger("Parsing item $xkey of the list '$key'...");
 
                         $engine->__items [$xkey] = array_merge($items, $item);
-
                         $engine->__items_orig = $xitems_orig [$xkey];
 
                         // Save some vars
@@ -3185,6 +3183,7 @@ class div
                             } else {
                                 // only to
                                 if (isset ($pdata ['to'])) {
+                                    $to = $pdata ['to'];
                                     if (!is_numeric($to))
                                         $to = strpos($c, $to);
 
@@ -3251,7 +3250,8 @@ class div
                 if (trim($path) != '') {
                     self::error("Recursive inclusion of template '$path' in '" . substr($this->__src, $ini - 20, 20) . "'is not allowed", DIV_ERROR_WARNING);
                 }
-                $this->__src = substr($this->__src, 0, $ini) . substr($this->__src, $fin + $l2);
+				
+                $pos = $ini + 1;
             }
         }
 

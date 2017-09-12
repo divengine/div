@@ -94,6 +94,7 @@ $commands = [
     'init' => [
         'help' => 'Init development with div',
         'type' => 'simple:string',
+		'config-required' => false,
         'do' => function ($args) {
             if (file_exists("./.div"))
             {
@@ -138,8 +139,14 @@ $commands = [
             if ( ! isset($purl['user']))   $purl['user']   = '';
             if ( ! isset($purl['pass']))   $purl['pass']   = ''; else if ($purl['user'] != '') $purl['pass'] = ":" + $purl['pass']; else $purl['pass'] = '';
             if ( ! isset($purl['query']))  $purl['query']  = ''; else $purl['query'] = '?' . $purl['query'];
+			
+			if ( ! isset($purl['host'])) {
+				$p = strpos($purl['path'], '/');
+				$purl['host'] = substr($purl['path'], 0, $p);
+				$purl['path'] = substr($purl['path'], $p + 1);
+			}
 
-            $basePath = "{$purl['scheme']}://{$purl['user']}{$purl['pass']}" . ($purl['user'] != '' ? "@" : "") . "{$purl['host']}{$purl['port']}/";
+			$basePath = "{$purl['scheme']}://{$purl['user']}{$purl['pass']}" . ($purl['user'] != '' ? "@" : "") . "{$purl['host']}{$purl['port']}/";
 
             $path = "{$purl['path']}{$purl['query']}";
             if ($path[0] == "/") $path = substr($path, 1);
@@ -197,10 +204,11 @@ $commands = [
         }
     ],
     'build' => [
+        'config-required' => false,
         'type' => [
-            '-t' => 'required:string',
-            '-d' => 'optional:string',
-            '-o' => 'optional:string',
+            '-t' => 'required:string', // template
+            '-d' => 'optional:string', // data
+            '-o' => 'optional:string', // output file
             '--verbose' => 'optional:null'
         ],
         'do' => function ($args) {
@@ -216,8 +224,8 @@ $commands = [
             if (empty($out)) $out = $tpl + ".out";
             if (empty($dat)) $dat = [];
 
-            message("Processing template $tpl" . ((isset($args['-d']))? "with data in {$args['-d']}" : ""));
-
+            message("Processing template $tpl" . ((isset($args['-d']))? " with data in {$args['-d']}" : ""));
+			
             $t1 = microtime(true);
             $div = new div($tpl, $dat);
             $t2 = microtime(true);
@@ -428,7 +436,38 @@ $commands = [
                 }
             }
         }
-    ]
+    ],
+	'merge-json' => [
+	    'help' => "Create a JSON file or output it, resulting from merge of others two JSON files",
+        'type' => [
+            '-j1' => 'required:string',
+            '-j2' => 'required:string',
+            '-o' => 'optional:string'
+        ],
+        'do' => function($args) {
+
+            if (isset($args['-j1']) && isset($args['-j2']))
+            {
+                $j1 = $args["-j1"];
+                $j2 = $args["-j2"];
+
+                if (!file_exists($j1))
+                {
+                    message("JSON file $j1 not found");
+                    return false;
+                }
+
+                if (!file_exists($j2))
+                {
+                    message("JSON file $j2 not found");
+                    return false;
+                }
+
+
+
+            }
+        }
+	]
 ];
 
 // Starter
@@ -436,7 +475,7 @@ $commands = [
 message("Div Software Solutions | Command Line Tool");
 message("Getting arguments...");
 
-loadConfig();
+
 
 $prompt = $_SERVER['argv'];
 $prompt[0] = "";
@@ -454,6 +493,10 @@ if (!isset($commands[$command])) {
     message("Command not found or unknown. Use --help for show available commands.", "FATAL");
     exit();
 }
+
+// load configuration
+if (!isset($commands[$command]['config-required'])) $commands[$command]['config-required'] = true;
+if ($commands[$command]['config-required']) loadConfig();
 
 $cmd = $commands[$command]['type'];
 
