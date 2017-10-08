@@ -1,15 +1,16 @@
 # Div PHP Template Engine
 
-[![Build Status](https://github.com/divengine/div)](https://github.com/divengine/div) [![License](https://www.gnu.org/licenses/gpl-3.0.txt)](https://www.gnu.org/licenses/gpl-3.0.txt)
+[![Build Status](http://divengine.com/status.png)](https://github.com/divengine/div) 
+[![License](http://divengine.com/license.png)](https://www.gnu.org/licenses/gpl-3.0.txt)
 
 by Rafa Rodríguez (rafageist@hotmail.com)
 
-Div is a template and language engine for PHP developed by 
+Div is a template engine and code generator for [PHP](http://php.net/) written in PHP, developed by 
 the Eng. Rafa Rodriguez since 2011, that allows the separation of labor between 
-the programmer and the designer. 
-As the designer built templates with some specific tags, the programmer uses 
-the template to replace these tags with the information. Div have a compact, flexible 
-and descriptive syntax for template's designers.
+developers and designers. 
+As the designer or developer built templates with some specific tags, other 
+developers or designers uses the template to replace these tags with data or more 
+template code. Div have a compact, flexible and descriptive syntax for templates:
 
 * "compact" means "a minimum of code for template language" 
 * "flexible" means "you can create dialects of template language"

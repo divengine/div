@@ -3,10 +3,10 @@
 /**
  * [[]] Div PHP Template Engine
  *
- * The div class is the complete implementation of Div.
+ * The div class is the complete implementation of Div: please, extends me!
  *
- * Div (division) is a template engine for PHP 5.x and higher
- * and it is a social project without spirit of lucre
+ * Div (division) is a template engine for PHP >=5.4
+ * and it is a social project without spirit of lucre.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
