@@ -13,3 +13,5 @@ test*.*
 repo/*
 div-cli.ini
 test/*
+.div/*
+lab/*

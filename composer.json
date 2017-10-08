@@ -1,16 +1,20 @@
 {
-    "name": "divengine/div",
-    "description": "Div PHP Template Engine",
-	"keywords": ["template engine"],
-	"homepage": "https://divengine.com/div"
-	"version": "4.8",
-    "require": {
-        "php": ">=5.3.0"
-    },
-	"license":[
-        "GPL-3.0+"
-    ],
-     "autoload": {
-        "files": ["div.php"]
-    }
+  "name": "divengine/div",
+  "description": "Div PHP Template Engine",
+  "keywords": [
+    "template engine"
+  ],
+  "homepage": "http://divengine.com"
+  "version": "5.0",
+  "require": {
+    "php": ">=5.3.0"
+  },
+  "license": [
+    "GPL-3.0+"
+  ],
+  "autoload": {
+    "files": [
+      "div.php"
+    ]
+  }
 }

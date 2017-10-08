@@ -1,4 +1,25 @@
 ----------------------------
+Oct 7, 2017
+----------------------------
+- change scope of ->loadTemplateProperties() to public
+- other minor fixes
+- automatic update of template source code after prepareDialect() ...
+- ... && new param for ->prepareDialect() for disable automatic update
+
+----------------------------
+Sep 30, 2017 [my birthday]
+----------------------------
+- fix a bug with getAuxiliaryEngine (clone vs assignment)
+- add some new system vars
+    - div.class_name: the name of current invoked class ('div' or child of 'div')
+    - div.super_class_name: the name of super parent of current invoked class name (normally is 'div')
+- code review
+----------------------------
+Sep 25, 2017
+----------------------------
+- fix and improve getAuxiliaryEngine
+
+----------------------------
 Sep 9, 2017
 ----------------------------
 - Fix dynamic include's paths inside loops
@@ -233,7 +254,7 @@ Novemeber 24,  2014
 October 7,  2014
 ----------------------------
 - improve performance changing $vars with __temp['vars'] var 
-  in parseMacros(); because becasuse get_defined_vars return also 'vars' 
+  in parseMacros(); because because get_defined_vars return also 'vars'
 - prevent infinite loops in div::cop(); 
 
 ----------------------------
