@@ -1,6 +1,6 @@
 # Div PHP Template Engine
 
-by Rafa Rodríguez (rafageist86@gmail.com)
+by Rafa Rodríguez (rafageist@hotmail.com)
 
 Div is a template and language engine for PHP developed by 
 the Eng. Rafa Rodriguez since 2011, that allows the separation of labor between 
