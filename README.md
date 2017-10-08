@@ -9,8 +9,8 @@ As the designer built templates with some specific tags, the programmer uses
 the template to replace these tags with the information. Div have a compact, flexible 
 and descriptive syntax for template's designers.
 
-* "compact" means "a minimum of code for language template" 
-* "flexible" means "you can create language dialect"
+* "compact" means "a minimum of code for template language" 
+* "flexible" means "you can create dialects of template language"
 * "descriptive" means "template language talk by herself"
 
 Basic example:
