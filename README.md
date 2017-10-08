@@ -1,5 +1,7 @@
 # Div PHP Template Engine
 
+[![Build Status](https://github.com/divengine/div)](https://github.com/divengine/div)
+
 by Rafa Rodríguez (rafageist@hotmail.com)
 
 Div is a template and language engine for PHP developed by 
