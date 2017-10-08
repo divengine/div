@@ -53,7 +53,36 @@ index.tpl
 Of course, the replacement of tags is a basic functionality. More extensions 
 of the substitutions exist, for example, replace repeatedly N times, replace 
 conditionally, among others.
-	
+
+**Loops**:
+```
+[$products]
+	Name: {$name}
+	Price: ${#price:2#}
+[/$products]
+```
+
+**Conditions**
+```
+?$login
+	Show login form
+@else@
+	Show content
+$login?
+```
+
+**Include**
+```html
+<html>
+	<head>
+		{% head %}
+	</head>
+	<body>
+		{% body %}
+	</body>
+</html>
+```
+
 The programmer creates an instance of a class with 2 parameters: the first 
 is the designer's code or name of the file that he built, and the second is 
 the information represented by an array, objects, or a combination of arrays 
@@ -63,12 +92,31 @@ and object's properties must correspond with the design's tags.
 The designer work in text files and use various types of tags: simple 
 replacements, lists or loops, iterations, conditional parts, separating the 
 design into different files, default replacements, and so on.
-	
-The syntax of Div is very compact. If the programmer wants to do a loop, the 
-designer only needs to know a name for that loop, and if he wants to hide a 
-part of the GUI, the designer is only responsible for tag the part that will 
-be hidden or displayed conditionally.
 
+## The parser
+
+Div's parser work with 3 ideas:
+#### Parse only that can be parse, else, don't touch.
+
+If in the template exists a tag, for example, a simple replacement {$name}, and the programmer don't especify data for the variable $name, the engine will ignore this template's code, and don't show an error.
+
+#### Parsing until exists a template's code that can be parsed
+
+The parser don't stop until in the code some piece need be parsed.
+
+#### Parsing with some syntax's rules
+
+Some piece of codes will be parsed before others piece of codes.
+
+## The syntaxis
+The syntax of Div is **compact** and **adaptable**. If the programmer wants 
+to do a loop, the designer only needs to know a name for that loop, and if 
+he wants to hide a part of the GUI, the designer is only responsible for 
+tag the part that will be hidden or displayed conditionally. If the designer 
+is a expert in other template engine, he can use a dialect to facilitate 
+their work. 
+
+## Reasons
 Our reasons? Div is developed with the philosophy of the knowledge reused. 
 Of course, Div is released in time of recognized template engines that are 
 widely used. For this reason, Div develop a minimum new knowledge so that 
@@ -98,6 +146,7 @@ one file, classes and libraries. Div sought since its inception, the
 implementation of everything in one class, in a single file. This allows easy 
 adaptation to existing development platforms.
 
+## Goals
 Goals? One class, one file!, considering the template like an object, 
 create a minimum of highly descriptive syntax, avoid a cache system, improve 
 the algorithms, reuse the knowledge, write mechanisms and extend!.
@@ -111,6 +160,7 @@ Possibilities for the programmer? The programmer creates an instance of div
 class, specifying in its constructor, the template	created by the designer 
 and the information that will be displayed.
 	
+## References
 For more information visit:
     - http://divengine.com
     - https://divengine.github.io/div
