@@ -1,6 +1,6 @@
 # Div PHP Template Engine
 
-[![Build Status](https://github.com/divengine/div)](https://github.com/divengine/div)
+[![Build Status](https://github.com/divengine/div)](https://github.com/divengine/div) [![License](https://www.gnu.org/licenses/gpl-3.0.txt)](https://www.gnu.org/licenses/gpl-3.0.txt)
 
 by Rafa Rodríguez (rafageist@hotmail.com)
 
