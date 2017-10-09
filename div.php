@@ -4124,6 +4124,7 @@ class div
 						$exp           = str_replace(DIV_TAG_PREPROCESSED_BEGIN, $temp1, $exp);
 						$engine        = self::getAuxiliaryEngineClone($all_items, $all_items, $this);
 						$engine->__src = $exp;
+
 						$engine->parse(false);
 						$exp = $engine->__src;
 						$exp = str_replace($temp, DIV_TAG_INCLUDE_BEGIN, $exp);
@@ -4132,20 +4133,21 @@ class div
 
 					if( ! self::issetVar($var, $items) || self::issetVar($var, self::$__globals_design))
 					{
-
-						if(self::fileExists($exp) && ! self::isDir($exp))
+						$exp_path = $this->getTplPath($exp);
+						
+						if(self::fileExists($exp_path) && ! self::isDir($exp_path))
 						{
-							$fgc = self::getFileContents($exp);
+							$fgc = self::getFileContents($exp_path);
 							if($fgc != "") $exp = $fgc;
 						}
-						elseif(self::fileExists($exp . "." . DIV_DEFAULT_DATA_FILE_EXT) && ! self::isDir($exp . "." . DIV_DEFAULT_DATA_FILE_EXT))
+						elseif(self::fileExists($exp_path . "." . DIV_DEFAULT_DATA_FILE_EXT) && ! self::isDir($exp_path . "." . DIV_DEFAULT_DATA_FILE_EXT))
 						{
-							$fgc = self::getFileContents($exp . "." . DIV_DEFAULT_DATA_FILE_EXT);
+							$fgc = self::getFileContents($exp_path . "." . DIV_DEFAULT_DATA_FILE_EXT);
 							if($fgc != "") $exp = $fgc;
 						}
-						elseif(self::fileExists($exp . "." . DIV_DEFAULT_TPL_FILE_EXT) && ! self::isDir($exp . "." . DIV_DEFAULT_TPL_FILE_EXT))
+						elseif(self::fileExists($exp_path . "." . DIV_DEFAULT_TPL_FILE_EXT) && ! self::isDir($exp_path . "." . DIV_DEFAULT_TPL_FILE_EXT))
 						{
-							$fgc = self::getFileContents($exp . "." . DIV_DEFAULT_TPL_FILE_EXT);
+							$fgc = self::getFileContents($exp_path . "." . DIV_DEFAULT_TPL_FILE_EXT);
 							if($fgc != "") $exp = $fgc;
 						}
 
@@ -8305,8 +8307,7 @@ class div
 			}
 			$path = str_replace("/./", "/", $path);
 			if(substr($path, 0, 2) == "./") $path = substr($path, 2);
-
-			if(@file_exists($path)) if(@is_file($path)) return true;
+			if(@file_exists($path) && @is_file($path)) return true;
 		}
 
 		return false;

@@ -4,7 +4,7 @@
   "keywords": [
     "template engine"
   ],
-  "homepage": "http://divengine.com"
+  "homepage": "http://divengine.com",
   "version": "5.0",
   "require": {
     "php": ">=5.4.0"

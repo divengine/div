@@ -149,12 +149,12 @@ one file, classes and libraries. Div sought since its inception, the
 implementation of everything in one class, in a single file. This allows easy 
 adaptation to existing development platforms.
 
-## Goals
-Goals? One class, one file!, considering the template like an object, 
+## Goals?
+One class, one file!, considering the template like an object, 
 create a minimum of highly descriptive syntax, avoid a cache system, improve 
 the algorithms, reuse the knowledge, write mechanisms and extend!.
 	
-Possibilities for the designer? The designer carries out its work in text 
+Possibilities for developers? The designer carries out its work in text 
 files and then the designer can use different tags. Div does not provide for 
 the design obtrusive code. All that is programmed in the templates has a single 
 goal: design.

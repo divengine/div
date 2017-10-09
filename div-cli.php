@@ -51,7 +51,7 @@ function loadConfig()
 
 	} else
 	{
-		message("Loading configuration from $configPath");
+		//message("Loading configuration from $configPath");
 		$config = parse_ini_file($configPath, INI_SCANNER_RAW);
 	}
 

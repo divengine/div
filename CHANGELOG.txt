@@ -1,4 +1,46 @@
 ----------------------------
+Oct 8, 2017
+----------------------------
+- Re-thinking the change in [June 10, 2013] about invalid JSON in assignments.
+  Is important the dynamic path of JSON files:
+
+    {= i18n: i18n/{$lang}.json =}
+
+    "i18n/{$lang}.json" without quotes is invalid JSON
+
+    Then, don't use quotes:
+    {= i18n: "i18n/{$lang}.json" =}
+
+- Important improvement for loading JSON data from relative path in template vars's assignment:
+
+         relative  -->
+                  |
+                  v
+    /app/site/view/i18n/en/messages.json
+                        ^
+                        |
+                 replacement result
+
+    ------------------------
+    /app/site/view/page.tpl
+    ------------------------
+    {= lang: "en" =}
+    {= i18n: i18n/{$lang}/messages.json =}
+
+    {$i18n.message1}
+
+    ------------------------------------
+    /app/site/view/i18n/en/messages.json
+    ------------------------------------
+    {
+        message1: "Hello"
+    }
+
+    Output:
+    -------------
+    Hello
+
+----------------------------
 Oct 7, 2017
 ----------------------------
 - change scope of ->loadTemplateProperties() to public
@@ -707,15 +749,15 @@ June 10, 2013
   
   1. Value is not valid JSON: {= digits: [[:0,8:]{$value},[/]9] =}
   2. Value was parsed:        {= digits: [0,1,2,3,4,5,6,7,8,9] =}
-  3. Now "digists" is an array.
+  3. Now "digits" is an array.
   4. Replacement:             {$digits} <!--{ OUTPUT "10" }-->
   
   See the difference:
   
   1. Value is valid JSON:     {= digits: "[[:0,8:]{$value},[/]9]" =}
   2. Value was not parsed:    {= digits: "[[:0,8:]{$value},[/]9]" =}
-  3. Now "digists" is an string.
-  4. Replacement:             {$digits} <!--{ OUTPUT "[0,1,2,3,4,5,6,7,8,9]" }--&gt;
+  3. Now "digits" is an string.
+  4. Replacement:             {$digits} <!--{ OUTPUT "[0,1,2,3,4,5,6,7,8,9]" }-->
      
 - Improvement of the parser of template's variables. Was improved 
   the detection of assignment of variables in any part of the 
