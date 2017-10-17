@@ -16,5 +16,10 @@
     "files": [
       "div.php"
     ]
+  },
+  "autoload-dev": {
+    "files": [
+      "div.php"
+    ]
   }
 }

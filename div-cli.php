@@ -305,7 +305,7 @@ $commands = [
 			$tpl->prepareDialect();
 			$tpl->parseComments("main");
 			$docProps = $tpl->getDocs();
-			$tplProps = $tpl->getTemplateProperties();
+			$tplProps = $tpl->__properties;
 
 			// hot injection of dialect as dependency
 			if(isset($tplProps['DIALECT']))
@@ -379,10 +379,10 @@ $commands = [
 			if(empty($dat)) $dat = [];
 
 			$temp_div = new div($tpl, []);
-			$temp_div->loadTemplateProperties();
-			$temp_div->prepareDialect();
 			div::docsReset();
 			div::docsOn();
+			$temp_div->loadTemplateProperties();
+			$temp_div->prepareDialect();
 			$temp_div->parseComments("main");
 			$docProps = $temp_div->getDocs();
 
@@ -396,7 +396,7 @@ $commands = [
 			if(isset($args['-g']))
 			{
 				$path      = $args['-g'];
-				$full_path = PACKAGES . $path;
+				$full_path = PACKAGES . "/". $path;
 
 				message("Checking custom engine in $full_path");
 
@@ -481,9 +481,12 @@ $commands = [
 
 			if(file_exists($args['-ff']))
 			{
+				message("FROM FILE = {$args['-ff']}");
 				$ff = '';
 				if(isset($args['-fb']))
 				{
+					message("FROM BLOCK = {$args['-fb']}");
+
 					$flag = $args['-fb'];
 					$f    = fopen($args['-ff'], 'r');
 
@@ -514,14 +517,25 @@ $commands = [
 
 				if(isset($args['-tb']))
 				{
+					message("TO BLOCK = {$args['-fb']}");
+
 					$tf           = fopen($args['-tf'], 'r');
 					$tempfilename = $args['-tf'] . "." . uniqid();
 					$ttf          = fopen($tempfilename, 'w');
+
+					message("Creating temporal file $tempfilename");
+
+					if ($ttf === false)
+					{
+						message("Error when crete a temporal file: $tempfilename. ");
+						return false;
+					}
 
 					$inject = false;
 					$block  = $args['-tb'];
 					$start  = false;
 
+					$lines = 0;
 					while( ! feof($tf))
 					{
 						$s = fgets($tf);
@@ -540,7 +554,7 @@ $commands = [
 								fputs($ttf, $ff);
 								$inject = true;
 							}
-
+							$lines++;
 							fputs($ttf, $s);
 							$start = false;
 							continue;
@@ -551,6 +565,7 @@ $commands = [
 						fputs($ttf, $s);
 					}
 
+					message("$lines lines injected to {$args['-tf']}");
 					fclose($tf);
 					fclose($ttf);
 					rename($args['-tf'], $args['-tf'] . ".bak");
