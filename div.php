@@ -542,6 +542,12 @@ class div
 	// internal messages
 	private static $__internal_messages = [];
 
+	// error reporting to set during execution of macros and expressions
+	private static $__error_reporting = E_ALL;
+
+	// for save PHP configuration error reporting
+	private static $__error_reporting_php = null;
+
 	/**
 	 * Constructor
 	 *
@@ -744,7 +750,7 @@ class div
 			$os                       = self::getOperatingSystem();
 			self::$__include_paths    = explode(($os == "win32" ? ";" : ":"), ini_get("include_path"));
 			self::$__include_paths [] = $packages;
-			if ($packages != $repo) self::$__include_paths [] = $repo;
+			if($packages != $repo) self::$__include_paths [] = $repo;
 		}
 
 		return self::$__include_paths;
@@ -843,7 +849,7 @@ class div
 			else
 			{
 				$temp_engine = null;
-				if ( ! is_null(self::$__engine)) $temp_engine = clone self::$__engine;
+				if( ! is_null(self::$__engine)) $temp_engine = clone self::$__engine;
 				self::createAuxiliaryEngine($from);
 				$obj            = clone self::$__engine;
 				self::$__engine = $temp_engine;
@@ -4134,7 +4140,7 @@ class div
 					if( ! self::issetVar($var, $items) || self::issetVar($var, self::$__globals_design))
 					{
 						$exp_path = $this->getTplPath($exp);
-						
+
 						if(self::fileExists($exp_path) && ! self::isDir($exp_path))
 						{
 							$fgc = self::getFileContents($exp_path);
@@ -4682,15 +4688,9 @@ class div
 				{
 					if( ! self::haveVarsThisCode($formula))
 					{
-						// Save the error reporting configuration
-
-						$error_reporting = ini_get("error_reporting");
-						ini_set("error_reporting", ~E_ALL);
-
+						self::changeErrorReporting();
 						eval ('$r = ' . $formula . ";");
-
-						// Restore the error reporting configuration
-						ini_set("error_reporting", $error_reporting);
+						self::restoreErrorReporting();
 					}
 				}
 
@@ -4809,11 +4809,10 @@ class div
 					{
 						if( ! self::haveVarsThisCode($condition))
 						{
-							$error_reporting = ini_get("error_reporting");
-							ini_set("error_reporting", ~E_ALL);
+							self::changeErrorReporting();
 							eval ('$r = ' . $condition . ';');
 							$r = self::mixedBool($r);
-							ini_set("error_reporting", $error_reporting);
+							self::restoreErrorReporting();
 						}
 						else
 						{
@@ -5355,14 +5354,9 @@ class div
 					{
 						$r = null;
 
-						// Save the error reporting configuration
-						$error_reporting = ini_get("error_reporting");
-						ini_set("error_reporting", ~E_ALL);
-
+						self::changeErrorReporting();
 						eval ('$r = $obj->' . $method . '(' . $params . ');');
-
-						// Restore the error reporting configuration
-						ini_set("error_reporting", $error_reporting);
+						self::restoreErrorReporting();
 
 						return $r;
 					}
@@ -6101,10 +6095,11 @@ class div
 	/**
 	 * Preparing template's dialect
 	 *
-	 * @param string $src
-	 * @param array  $properties
+	 * @param string  $src
+	 * @param array   $properties
 	 * @param boolean $update By default $this->__src will be updated after translation if $src is null
 	 *                        Set this param to false if you want to protect the template source code
+	 *
 	 * @return mixed
 	 */
 	final public function prepareDialect($src = null, $properties = null, $update = true)
@@ -6112,7 +6107,7 @@ class div
 
 		if(is_null($src))
 		{
-			$src = $this->__src;
+			$src    = $this->__src;
 			$update = $update && true;
 		}
 
@@ -6135,8 +6130,7 @@ class div
 			if( ! is_null($json) && $json != DIV_DEFAULT_DIALECT)
 			{
 				$src = $this->translateFrom($json, $src);
-				if ($update)
-					$this->__src = $src;
+				if($update) $this->__src = $src;
 			}
 			elseif(self::$__log_mode) $this->log('The dialect ' . $f . ' is corrupt or invalid');
 		}
@@ -9321,6 +9315,46 @@ class div
 	static function getInternalMsg($category)
 	{
 		return self::$__internal_messages [ $category ];
+	}
+
+	/**
+	 * Get error reporting level during execution of macros and expressions
+	 *
+	 * @return mixed
+	 */
+	static function getErrorReporting()
+	{
+		if( is_null(self::$__error_reporting)) self::$__error_reporting = E_ALL;
+
+		return self::$__error_reporting;
+	}
+
+	/**
+	 * Set error reporting level during execution of macros and expressions
+	 *
+	 * @param mixed $code
+	 */
+	static function setErrorReporting($code = E_ALL)
+	{
+		self::$__error_reporting = $code;
+	}
+
+	/**
+	 * Save current PHP error reporting level and change to
+	 * current engine configuration
+	 */
+	static function changeErrorReporting()
+	{
+		self::$__error_reporting_php = ini_get("error_reporting");
+		ini_set("error_reporting", self::getErrorReporting());
+	}
+
+	/**
+	 * Restore saved error reporting level of PHP
+	 */
+	static function restoreErrorReporting()
+	{
+		ini_set("error_reporting", self::$__error_reporting_php);
 	}
 
 	/**
