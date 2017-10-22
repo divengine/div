@@ -481,11 +481,11 @@ $commands = [
 
 			if(file_exists($args['-ff']))
 			{
-				message("FROM FILE = {$args['-ff']}");
+				//message("FROM FILE = {$args['-ff']}");
 				$ff = '';
 				if(isset($args['-fb']))
 				{
-					message("FROM BLOCK = {$args['-fb']}");
+					//message("FROM BLOCK = {$args['-fb']}");
 
 					$flag = $args['-fb'];
 					$f    = fopen($args['-ff'], 'r');
@@ -517,13 +517,11 @@ $commands = [
 
 				if(isset($args['-tb']))
 				{
-					message("TO BLOCK = {$args['-fb']}");
-
 					$tf           = fopen($args['-tf'], 'r');
 					$tempfilename = $args['-tf'] . "." . uniqid();
 					$ttf          = fopen($tempfilename, 'w');
 
-					message("Creating temporal file $tempfilename");
+					//message("Creating temporal file $tempfilename");
 
 					if ($ttf === false)
 					{
@@ -765,7 +763,7 @@ $commands = [
 // Starter
 
 message("Div Software Solutions | Command Line Tool");
-message("Getting arguments...");
+//message("Getting arguments...");
 
 
 $prompt    = $_SERVER['argv'];
