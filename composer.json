@@ -2,16 +2,25 @@
   "name": "divengine/div",
   "description": "Div PHP Template Engine",
   "keywords": [
-    "template engine"
+    "template engine",
+    "code generator"
   ],
   "homepage": "http://divengine.com",
   "version": "5.0",
-  "require": {
-    "php": ">=5.4.0"
-  },
   "license": [
     "GPL-3.0+"
   ],
+  "authors": [
+    {
+      "name": "Rafa Rodriguez",
+      "email": "rafageist@hotmail.com",
+      "homepage": "https://rafageist.github.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0"
+  },
   "autoload": {
     "files": [
       "div.php"
