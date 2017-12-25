@@ -419,6 +419,9 @@ $commands = [
 
 			message("Processing template $tpl" . ((isset($args['-d'])) ? " with data in {$args['-d']} and generator -$className-" : ""));
 
+            div::docsReset();
+            div::docsOff();
+
 			$div = new $className($tpl, $dat);
 			//$className::logOn();
 			$t1   = microtime(true);

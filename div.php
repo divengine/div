@@ -3277,7 +3277,7 @@ class div
 						}
 
 						$tpl_prop = $this->getTemplateProperties($c);
-						$c        = $this->prepareDialect($c, $tpl_prop);
+						$c        = $this->prepareDialect($c, $tpl_prop, false);
 
 						if(self::$__docs_on)
 						{
@@ -9139,6 +9139,9 @@ class div
 		}
 
 		$last_token = null;
+		$last_token_object = [];
+		$previous_last_token = null;
+        $previous_last_token_object = null;
 		foreach($t as $idx => $token)
 		{
 
@@ -9220,6 +9223,12 @@ class div
 								}
 								else
 								{
+								    // allow access to object members in macro, the object can not be a invalid var
+								    if ($last_token == 'T_OBJECT_OPERATOR'
+                                        && $previous_last_token == 'T_VARIABLE'
+                                        && array_search($previous_last_token_object[1], $invalid_vars) === false)
+								        continue;
+
 									if((($class_name && $allow_classes) || ($function_name && $allow_functions)) === false)
 									{
 										self::internalMsg("$f is not callable", "php_validations");
@@ -9240,7 +9249,12 @@ class div
 						}
 				}
 
-				if($n != 'T_WHITESPACE') $last_token = $n;
+				if($n != 'T_WHITESPACE') {
+                    $previous_last_token_object = $last_token_object;
+				    $previous_last_token = $last_token;
+                    $last_token_object = $token;
+                    $last_token = $n;
+                }
 			}
 		}
 
