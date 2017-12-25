@@ -21,7 +21,7 @@
  * along with this program as the file LICENSE.txt; if not, please see
  * https://www.gnu.org/licenses/gpl-3.0.txt
  *
- * @package com.divengine
+ * @package com.divengine.div
  * @author  Rafa Rodriguez [@rafageist] <rafageist@hotmail.com>
  * @version 5.0
  *
@@ -370,6 +370,9 @@ DQoJCQkJCQkJPC90cj4NCgkJCQkJWy8kZXhhbXBsZV0NCgkJCQkJPC90YWJsZT4gDQoJCQkJJGV4
 YW1wbGU/DQoJCQk8L2Rpdj4NCgkJWy8kZG9jc10NCgkJPC90ZD48L3RyPjwvdGFibGU+DQoJPC9i
 b2R5Pg0KPC9odG1sPg=='));
 
+/**
+ * Class div
+ */
 class div
 {
 
