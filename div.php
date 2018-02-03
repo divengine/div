@@ -7349,7 +7349,15 @@ class div
 	 */
 	final public function __toString()
 	{
-		$this->parse();
+		// __toString can not throw an exception !!!
+		try
+		{
+			$this->parse();
+		}
+		catch (Exception $e)
+		{
+			$this->logger("PARSE EXCEPTION: ".$e->getFile().":".$e->getLine().": ".$e->getMessage());
+		}
 
 		return $this->__src . '';
 	}
