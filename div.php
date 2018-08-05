@@ -21,11 +21,11 @@
  * along with this program as the file LICENSE.txt; if not, please see
  * https://www.gnu.org/licenses/gpl-3.0.txt
  *
- * @package com.divengine.div
+ * @package org.divengine.div
  * @author  Rafa Rodriguez [@rafageist] <rafageist@hotmail.com>
  * @version 5.0
  *
- * @link    http://divengine.com
+ * @link    http://divengine.github.io
  * @link    http://github.com/divengine/div
  *
  * @example example.php
@@ -718,6 +718,17 @@ class div
         }
 
         return $callable_result;
+    }
+
+    /**
+     * Add a custom include path
+     *
+     * @param $path
+     */
+    final static function addIncludePath($path)
+    {
+        self::getIncludePaths();
+        self::$__include_paths[] = $path;
     }
 
     /**
