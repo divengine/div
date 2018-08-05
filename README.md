@@ -86,6 +86,37 @@ $login?
 </html>
 ```
 
+**Locations and inheritance**
+
+layout.tpl:
+```html
+<html>
+	<head>
+		(( head-top ))
+		{% head %}
+		(( head-bottom ))
+	</head>
+	<body>
+		(( body-top ))
+		{% body %}
+		(( body-bottom ))
+	</body>
+</html>
+```
+
+home.tpl:
+
+```html
+{% layout.tpl %}
+
+{{head-top {% google-analitycs.tpl %} head-top}}
+
+{{head-bottom {% home-css-files.tpl %} head-bottom}}
+
+{{body-bottom {% home-js-files.tpl %} body-bottom}}
+```
+
+
 The programmer creates an instance of a class with 2 parameters: the first 
 is the designer's code or name of the file that he built, and the second is 
 the information represented by an array, objects, or a combination of arrays 
@@ -165,7 +196,7 @@ and the information that will be displayed.
 	
 ## References
 For more information visit:
-    - http://divengine.com
+    - http://divengine.github.io
     - https://divengine.github.io/div
     - https://github.com/divengine/div/wiki
 
