@@ -116,7 +116,6 @@ home.tpl:
 {{body-bottom {% home-js-files.tpl %} body-bottom}}
 ```
 
-
 The programmer creates an instance of a class with 2 parameters: the first 
 is the designer's code or name of the file that he built, and the second is 
 the information represented by an array, objects, or a combination of arrays 
@@ -196,10 +195,12 @@ and the information that will be displayed.
 	
 ## References
 For more information visit:
-    - http://divengine.github.io
+    - https://divengine.github.io
     - https://divengine.github.io/div
     - https://github.com/divengine/div/wiki
 
 Enjoy!
 
-rafa
+@rafageist
+Eng. Rafa Rodriguez
+https://rafageist.github.io
