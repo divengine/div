@@ -195,12 +195,17 @@ and the information that will be displayed.
 	
 ## References
 For more information visit:
-    - https://divengine.github.io
+
+-  [divengine.github.io](https://divengine.github.io)
     - https://divengine.github.io/div
     - https://github.com/divengine/div/wiki
 
 Enjoy!
 
+-- 
+
 @rafageist
+
 Eng. Rafa Rodriguez
+
 https://rafageist.github.io
