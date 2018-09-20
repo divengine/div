@@ -1,4 +1,16 @@
 ----------------------------
+Sep 20, 2018
+----------------------------
+- Optimize the code: change "is_null" as "=== null", because is_null is 250ns slower
+
+----------------------------
+Aug 19, 2018
+----------------------------
+- bugfix on constructor, when div var is an object and not an array
+- include file_exists as allowed function
+- include in_array as allowed function
+
+----------------------------
 Oct 8, 2017
 ----------------------------
 - Re-thinking the change in [June 10, 2013] about invalid JSON in assignments.
