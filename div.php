@@ -4501,7 +4501,7 @@ class div{
 					continue;
 				}
 
-				if($this->searchInListRanges($this->getRanges(DIV_TAG_ITERATION_BEGIN_PREFIX, DIV_TAG_ITERATION_END), $ini)){
+				if($this->searchInRanges($this->getRanges(DIV_TAG_ITERATION_BEGIN_PREFIX, DIV_TAG_ITERATION_END), $ini)){
 					$pos = $ini + 1;
 					continue;
 				}
