@@ -21,12 +21,12 @@
  * along with this program as the file LICENSE.txt; if not, please see
  * https://www.gnu.org/licenses/gpl-3.0.txt
  *
- * @package org.divengine.div
- * @author  Rafa Rodriguez [@rafageist] <rafageist@hotmail.com>
+ * @package io.github.divengine.div
+ * @author  Rafa Rodriguez [https://rafageist.github.io]
  * @version 5.0
  *
- * @link    http://divengine.github.io
- * @link    http://github.com/divengine/div
+ * @link    https://divengine.github.io
+ * @link    https://github.com/divengine/div
  *
  * @example example.php
  * @example example.tpl
@@ -5601,7 +5601,7 @@ class div{
 				case 'replace_sub_match_teaser' :
 					$value = self::getVarValue($params ['key'], $items);
 					$value = self::anyToStr($value);
-					if($value === null) continue;
+					if($value === null) continue 2;
 					$value = self::teaser("{$value}", intval($params ['param']));
 
 					$search = DIV_TAG_REPLACEMENT_PREFIX . $params ['modifier'] . $params ['key'] . DIV_TAG_SUBMATCH_SEPARATOR . $params ['param'] . DIV_TAG_REPLACEMENT_SUFFIX;
@@ -5610,35 +5610,35 @@ class div{
 
 				case 'replace_sub_match_sub_str' :
 					$value = self::getVarValue($params ['key'], $items);
-					if($value === null) continue;
+					if($value === null) continue 2;
 					$value = self::anyToStr($value);
 					$this->__src = str_replace($simple . $params ['key'] . DIV_TAG_SUBMATCH_SEPARATOR . $params ['param'] . DIV_TAG_REPLACEMENT_SUFFIX, $vpx . substr($value, $params ['from'], $params ['for']) . $vsx, $this->__src);
 					break;
 
 				case 'replace_sub_match_wordwrap' :
 					$value = self::getVarValue($params ['key'], $items);
-					if($value === null) continue;
+					if($value === null) continue 2;
 					$value = self::anyToStr($value);
 					$this->__src = str_replace($simple . $params ['key'] . DIV_TAG_SUBMATCH_SEPARATOR . $params ['param'] . DIV_TAG_REPLACEMENT_SUFFIX, $vpx . wordwrap("{$value}", intval(substr($params ['param'], strlen(DIV_TAG_MODIFIER_WORDWRAP))), "\n", 1) . $vsx, $this->__src);
 					break;
 
 				case 'replace_sub_match_sprintf' :
 					$value = self::getVarValue($params ['key'], $items);
-					if($value === null) continue;
+					if($value === null) continue 2;
 					$value = self::anyToStr($value);
 					$this->__src = str_replace($simple . $params ['key'] . DIV_TAG_SUBMATCH_SEPARATOR . $params ['param'] . DIV_TAG_REPLACEMENT_SUFFIX, $vpx . sprintf($params ['param'], $value) . $vsx, $this->__src);
 					break;
 
 				case 'json_encode' :
 					$value = self::getVarValue($params ['key'], $items);
-					if($value === null) continue;
+					if($value === null) continue 2;
 					$this->__src = str_replace(DIV_TAG_REPLACEMENT_PREFIX . DIV_TAG_MODIFIER_ENCODE_JSON . $params ['key'] . DIV_TAG_REPLACEMENT_SUFFIX, $vpx . self::jsonEncode($value) . $vsx, $this->__src);
 					break;
 
 				case 'simple_replacement' :
 					$value = self::getVarValue($params ['key'], $items);
 
-					if($value === null) continue;
+					if($value === null) continue 2;
 
 					$value = self::anyToStr($value);
 
@@ -8719,7 +8719,7 @@ class div{
 								else{
 									// allow access to object members in macro, the object can not be a invalid var
 									if($last_token == 'T_OBJECT_OPERATOR' && $previous_last_token == 'T_VARIABLE' && array_search($previous_last_token_object[1], $invalid_vars) === false){
-										continue;
+										continue 2;
 									}
 
 									if((($class_name && $allow_classes) || ($function_name && $allow_functions)) === false){
