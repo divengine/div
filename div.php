@@ -1443,7 +1443,17 @@ class div{
 						$tag_begin = $begin_prefix . $key . $begin_suffix;
 						$tag_end = $end_prefix . $key . $end_suffix;
 
-						$rs = $this->getRanges($tag_begin, $tag_end, $src, $only_first, $from);
+						$tag_begin_ignore = empty($begin_suffix) ? $begin_prefix . $key . DIV_TAG_VAR_MEMBER_DELIMITER : false;
+						$tag_end_ignore = empty($end_suffix) ? $end_prefix . $key . DIV_TAG_VAR_MEMBER_DELIMITER : false;
+						$tag_begin_ignore_len = $tag_begin_ignore === false ? 0 : strlen($tag_begin_ignore);
+						$tag_end_ignore_len = $tag_end_ignore === false ? 0 : strlen($tag_end_ignore);
+						$tag_begin_ignore_replace = substr(str_repeat(uniqid(), $tag_begin_ignore_len),0,$tag_begin_ignore_len);
+						$tag_end_ignore_replace = substr(str_repeat(uniqid(), $tag_end_ignore_len),0,$tag_end_ignore_len);
+						$temporal_src = $src;
+						if ($tag_begin_ignore !== false) $temporal_src = str_replace($tag_begin_ignore, $tag_begin_ignore_replace, $temporal_src);
+						if ($tag_end_ignore !== false) $temporal_src = str_replace($tag_end_ignore, $tag_end_ignore_replace, $temporal_src);
+
+						$rs = $this->getRanges($tag_begin, $tag_end, $temporal_src, $only_first, $from);
 						$l2 = strlen($tag_begin);
 						foreach($rs as $k => $v){
 							$rs [$k] [2] = $key;
@@ -1723,20 +1733,33 @@ class div{
 			if($flag === false){
 				$tag_begin = DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX . $key . DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX;
 				$tag_end = DIV_TAG_CONDITIONAL_TRUE_END_PREFIX . $key . DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX;
+				$tag_begin_ignore = empty(DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX) ? DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX . $key . DIV_TAG_VAR_MEMBER_DELIMITER : false;
+				$tag_end_ignore = empty(DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX) ? DIV_TAG_CONDITIONAL_TRUE_END_PREFIX . $key . DIV_TAG_VAR_MEMBER_DELIMITER : false;
 			}
 			else{
 				$tag_begin = DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX . $key . DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX;
 				$tag_end = DIV_TAG_CONDITIONAL_FALSE_END_PREFIX . $key . DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX;
+				$tag_begin_ignore = empty(DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX) ? DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX . $key . DIV_TAG_VAR_MEMBER_DELIMITER : false;
+				$tag_end_ignore = empty(DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX) ? DIV_TAG_CONDITIONAL_FALSE_END_PREFIX . $key . DIV_TAG_VAR_MEMBER_DELIMITER : false;
 			}
 
 			$tag_begin_len = strlen($tag_begin);
 			$tag_end_len = strlen($tag_end);
 			$tag_else_len = strlen(DIV_TAG_ELSE);
+			$tag_begin_ignore_len = $tag_begin_ignore === false ? 0 : strlen($tag_begin_ignore);
+			$tag_end_ignore_len = $tag_end_ignore === false ? 0 : strlen($tag_end_ignore);
+
+			$tag_begin_ignore_replace = substr(str_repeat(uniqid(), $tag_begin_ignore_len),0,$tag_begin_ignore_len);
+			$tag_end_ignore_replace = substr(str_repeat(uniqid(), $tag_end_ignore_len),0,$tag_end_ignore_len);
 
 			while(true){
 
 				if(strpos($src, $tag_begin) === false) break;
-				$ranges = $this->getRanges($tag_begin, $tag_end, $src, true, $pos);
+
+				$temporal_src = $src;
+				if ($tag_begin_ignore !== false) $temporal_src = str_replace($tag_begin_ignore, $tag_begin_ignore_replace, $temporal_src);
+				if ($tag_end_ignore !== false) $temporal_src = str_replace($tag_end_ignore, $tag_end_ignore_replace, $temporal_src);
+				$ranges = $this->getRanges($tag_begin, $tag_end, $temporal_src, true, $pos);
 
 				if(count($ranges) > 0){
 

@@ -1,7 +1,46 @@
 ----------------------------
+Jun 14, 2019
+----------------------------
+- bugfix better resolution of tags with empty suffix. In this example "list.filter"
+is a substring of "list.filter.category", and then exists resulting unexpected code
+if $list.filter is false
+
+TPL
+---------------------
+?$list.filter
+  AAA
+	?$list.filter.category
+		BBB
+	$list.filter.category?
+  CCC
+$list.filter?
+
+OUTPUT
+---------------------
+?$list.filter
+  AAA
+
+The fix was for other similar situations in div::getBlockRanges().
+The stop chars are the same in favor of text plain and XML family:
+
+$stop_chars = ["<",	">", ' ', "\n", "\r", "\t"];
+
+----------------------------
 Sep 20, 2018
 ----------------------------
-- Optimize the code: change "is_null" as "=== null", because is_null is 250ns slower
+- Optimize the code: change "is_null" as "=== null", because is_null is 250ns slower (in favor of PHP 5)
+
+In PHP 7 (phpng), is_null is actually marginally faster than ===, although the performance difference between the two is far smaller.
+
+PHP 5.5.9
+is_null - float(2.2381200790405)
+===     - float(1.0024659633636)
+=== faster by ~100ns per call
+
+PHP 7.0.0-dev (built: May 19 2015 10:16:06)
+is_null - float(1.4121870994568)
+===     - float(1.4577329158783)
+is_null faster by ~5ns per call
 
 ----------------------------
 Aug 19, 2018
