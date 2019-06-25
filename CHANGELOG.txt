@@ -1,7 +1,7 @@
 ----------------------------
 Jun 14, 2019
 ----------------------------
-- bugfix better resolution of tags with empty suffix. In this example "list.filter"
+- bugfix: better resolution of tags with empty suffix. In this example "list.filter"
 is a substring of "list.filter.category", and then exists resulting unexpected code
 if $list.filter is false
 
