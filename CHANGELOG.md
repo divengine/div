@@ -4,12 +4,11 @@ Jun 27, 2019
 
 PHP
 ```php
-<?php
 echo new div('Var is: {$var}', ['var' => null]);
 ```
 
 OUTPUT before this change:
-```php
+```
 Var is: {$var}
 ```
 
@@ -18,7 +17,7 @@ OUTPUT after this change:
 Var is:
 ```
 
-- important change!: Fix scope of pre-processed templates inside loops
+- `important change!`: Fix scope of pre-processed templates inside loops
 
 Do not pre-process anything within the loops blocks if the loops have not been resolved
 The following code did not work as expected, because the pre-process was executed before doing the loop.
@@ -34,15 +33,14 @@ So the `$col` variable did not exist and logic of the template will be broken.
 [/$cols]
 ```
 
-----------------------------
 Jun 14, 2019
 ----------------------------
-- bugfix: better resolution of tags with empty suffix. In this example "list.filter"
+- `bugfix`: better resolution of tags with empty suffix. In this example "list.filter"
 is a substring of "list.filter.category", and then exists resulting unexpected code
 if $list.filter is false
 
 TPL
----------------------
+```
 ?$list.filter
   AAA
 	?$list.filter.category
@@ -50,24 +48,28 @@ TPL
 	$list.filter.category?
   CCC
 $list.filter?
+```
 
 OUTPUT
----------------------
+```
 ?$list.filter
   AAA
+```
 
 The fix was for other similar situations in div::getBlockRanges().
 The stop chars are the same in favor of text plain and XML family:
 
+```php
 $stop_chars = ["<",	">", ' ', "\n", "\r", "\t"];
+```
 
-----------------------------
 Sep 20, 2018
 ----------------------------
-- Optimize the code: change "is_null" as "=== null", because is_null is 250ns slower (in favor of PHP 5)
+- Optimize the code: change "is_null" as "=== null", because is_null is 250ns slower (in favor of PHP 5) 
 
 In PHP 7 (phpng), is_null is actually marginally faster than ===, although the performance difference between the two is far smaller.
 
+```
 PHP 5.5.9
 is_null - float(2.2381200790405)
 ===     - float(1.0024659633636)
@@ -77,29 +79,34 @@ PHP 7.0.0-dev (built: May 19 2015 10:16:06)
 is_null - float(1.4121870994568)
 ===     - float(1.4577329158783)
 is_null faster by ~5ns per call
+```
 
-----------------------------
 Aug 19, 2018
 ----------------------------
-- bugfix on constructor, when div var is an object and not an array
-- include file_exists as allowed function
-- include in_array as allowed function
+- `bugfix` on constructor, when div var is an object and not an array
+- Add file_exists as allowed function
+- Add in_array as allowed function
 
-----------------------------
 Oct 8, 2017
 ----------------------------
-- Re-thinking the change in [June 10, 2013] about invalid JSON in assignments.
+- Re-thinking the change in **June 10, 2013** about invalid JSON in assignments.
   Is important the dynamic path of JSON files:
 
-    {= i18n: i18n/{$lang}.json =}
+```
+{= i18n: i18n/{$lang}.json =}
+```
 
-    "i18n/{$lang}.json" without quotes is invalid JSON
+`"i18n/{$lang}.json"` without quotes is invalid JSON
 
-    Then, don't use quotes:
-    {= i18n: "i18n/{$lang}.json" =}
+Then, don't use quotes:
+```
+{= i18n: "i18n/{$lang}.json" =}
+```
 
-- Important improvement for loading JSON data from relative path in template vars's assignment:
+- Important improvement for loading JSON data from relative path in template
+ vars's assignment:
 
+```
          relative  -->
                   |
                   v
@@ -107,91 +114,97 @@ Oct 8, 2017
                         ^
                         |
                  replacement result
+```
 
-    ------------------------
-    /app/site/view/page.tpl
-    ------------------------
-    {= lang: "en" =}
-    {= i18n: i18n/{$lang}/messages.json =}
+/app/site/view/page.tpl
 
-    {$i18n.message1}
+```    
+{= lang: "en" =}
+{= i18n: i18n/{$lang}/messages.json =}
 
-    ------------------------------------
-    /app/site/view/i18n/en/messages.json
-    ------------------------------------
-    {
-        message1: "Hello"
-    }
+{$i18n.message1}
+```
 
-    Output:
-    -------------
-    Hello
+/app/site/view/i18n/en/messages.json
+```
+{
+	message1: "Hello"
+}
+```
 
-----------------------------
+Output:
+```
+Hello
+```
+
 Oct 7, 2017
 ----------------------------
-- change scope of ->loadTemplateProperties() to public
-- other minor fixes
-- automatic update of template source code after prepareDialect() ...
-- ... && new param for ->prepareDialect() for disable automatic update
+- Change scope of `->loadTemplateProperties()` to public
+- Other minor fixes
+- Automatic update of template source code after `prepareDialect()` ...
+- ... && new param for `->prepareDialect()` for disable automatic update
 
-----------------------------
 Sep 30, 2017 [my birthday]
 ----------------------------
-- fix a bug with getAuxiliaryEngine (clone vs assignment)
-- add some new system vars
-    - div.class_name: the name of current invoked class ('div' or child of 'div')
-    - div.super_class_name: the name of super parent of current invoked class name (normally is 'div')
-- code review
-----------------------------
+- Fix a bug with `getAuxiliaryEngine` (clone vs assignment)
+- Add some new system vars
+    - `div.class_name`: the name of current invoked class ('div' or child of 'div')
+    - `div.super_class_name`: the name of super parent of current invoked class name (normally is 'div')
+- Code review
+
 Sep 25, 2017
 ----------------------------
-- fix and improve getAuxiliaryEngine
+- Fix and improve getAuxiliaryEngine
 
-----------------------------
 Sep 9, 2017
 ----------------------------
-- Fix dynamic include's paths inside loops
-	[$blocks]
-		{% blocks/block-{$id}.tpl %}
-	[/$blocks]
 
-----------------------------
+- Fix dynamic include's paths inside loops
+```	
+[$blocks]
+	{% blocks/block-{$id}.tpl %}
+[/$blocks]
+```
+
 Jun 2, 2017
 ----------------------------
 - Improve the translator. Now you can translate from and to other dialects.
 
-    $tpl = new div("index.tpl", []);
+```php 
+$tpl = new div("index.tpl", []);
+```
 
-    -----------------------------------------------
-    Translate from other dialect to current dialect:
-    -----------------------------------------------
+Translate from other dialect to current dialect:
 
-    $tpl->translateFrom($dialectFrom);
+```php
+$tpl->translateFrom($dialectFrom);
+```
 
-    -----------------------------------------------
-    Translate from current dialect to other dialect:
-    -----------------------------------------------
+ Translate from current dialect to other dialect:
+ 
+```php
+$tpl->translateTo($dialectFrom);
+```
 
-    $tpl->translateTo($dialectFrom);
+Translate from any dialect to any dialect:
 
-    -----------------------------------------------
-    Translate from any dialect to any dialect:
-    -----------------------------------------------
+```php
+$tpl->translate($dialectFrom, $dialectTo, $src, $items);
+```
+   
+Maybe you need prepare the current dialect first:
 
-    $tpl->translate($dialectFrom, $dialectTo, $src, $items);
+```php
+prop = $tpl->getTemplateProperties();
+$tpl->__src = $tpl->prepareDialect(null, $prop);
+```
 
-    -----------------------------------------------
-    Maybe you need prepare the current dialect first:
-    -----------------------------------------------
+- Improve the Div CLI (https://github.com/divengine/div-cli):
 
-    $prop = $tpl->getTemplateProperties();
-    $tpl->__src = $tpl->prepareDialect(null, $prop);
+```    
+div translate -f =
+```
 
-- Improve the Div CLI:
-
-    div translate -f =
-----------------------------
 May 29, 2017
 ----------------------------
 - Some bugfixs
@@ -202,12 +215,14 @@ May 29, 2017
   in the parent template will be ignored and only the data
   specified in the line will be used.
 
-    {= foo: value =}
-    {%% block.tpl: {
-        div: {
-            standalone: true
-        }
-    } %%}
+```
+{= foo: value =}
+{%% block.tpl: {
+	div: {
+		standalone: true
+	}
+} %%}
+```
 
   This better facilitates the recursive inclusion of
   templates, useful in generation of source code and
@@ -217,9 +232,11 @@ May 29, 2017
   blocks if the conditions have not been resolved.
   This check prevent infinite loops.
 
+```php
    ?$block
    {%% block: {...} %%} <-- wait for block question results
    $block?
+```
 
 - Priority change for items over filesystem when include o preprocess templates.
   To force load data from external file, please type the path or full path (ex: block.json)
