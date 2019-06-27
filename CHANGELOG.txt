@@ -1,4 +1,40 @@
 ----------------------------
+Jun 27, 2019
+----------------------------
+- important change!: Now NULLs vars exists and are replaced with empty strings
+
+PHP
+```
+echo new div('Var is: {$var}', ['var' => null]);
+```
+
+OUTPUT before this change:
+```
+Var is: {$var}
+```
+
+OUTPUT after this change:
+```
+Var is:
+```
+
+- important change!: Fix scope of pre-processed templates inside loops
+
+Do not pre-process anything within the loops blocks if the loops have not been resolved
+The following code did not work as expected, because the pre-process was executed before doing the loop.
+So the `$col` variable did not exist and logic of the template will be broken.
+
+```
+[$cols] col =>
+	{%% element: {
+		tag: "td",
+		attrs: $col.attrs,
+		inner: $col.content
+	} %%}
+[/$cols]
+```
+
+----------------------------
 Jun 14, 2019
 ----------------------------
 - bugfix: better resolution of tags with empty suffix. In this example "list.filter"
