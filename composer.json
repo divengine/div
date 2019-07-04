@@ -1,5 +1,6 @@
 {
   "name": "divengine/div",
+  "license": "GPL-3.0-or-later",
   "description": "Div PHP Template Engine",
   "keywords": [
     "template engine",
@@ -7,9 +8,6 @@
   ],
   "homepage": "https://divengine.com",
   "version": "5.0.0",
-  "license": [
-    "GPL-3.0-or-later"
-  ],
   "authors": [
     {
       "name": "Rafa Rodriguez",
