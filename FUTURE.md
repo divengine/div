@@ -1,6 +1,5 @@
 # FUTURE FEATURES
 
-
 ## 2016-11-16
 ### variable modifier for trim values
 ###### in the present:

@@ -20,10 +20,8 @@
     "php": ">=5.4.0"
   },
   "autoload": {
-    "autoload": {
-      "psr-4": {
-        "Divengine\\": "src/"
-      }
+    "psr-4": {
+      "divengine\\": "src/"
     }
   }
 }

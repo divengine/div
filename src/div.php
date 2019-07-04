@@ -1,6 +1,6 @@
 <?php
 
-namespace Divengine;
+namespace divengine;
 
 /**
  * [[]] Div PHP Template Engine
@@ -23,15 +23,14 @@ namespace Divengine;
  * along with this program as the file LICENSE.txt; if not, please see
  * https://www.gnu.org/licenses/gpl-3.0.txt
  *
- * @package com.divengine.div
+ * @package divengine/div
  * @author  Rafa Rodriguez @rafageist [https://rafageist.github.io]
- * @version 5.0
+ * @version 5.0.0
  *
  * @link    https://divengine.com/div
  * @link    https://github.com/divengine/div
+ * @link    https://github.com/divengine/div/wiki
  *
- * @example example.php
- * @example example.tpl
  */
 
 use stdClass;
@@ -736,7 +735,7 @@ class div
     // ----- Internals -----
 
     // current version of Div
-    private static $__version = '5.0';
+    private static $__version = '5.0.0';
 
     // name of the super class
     private static $__super_class = null;

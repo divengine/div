@@ -1,4 +1,4 @@
-# Div PHP Template Engine
+# Div PHP Template Engine 5.0.0
 
 [![Build Status](http://divengine.com/status.png)](https://github.com/divengine/div) 
 [![License](http://divengine.com/license.png)](https://www.gnu.org/licenses/gpl-3.0.txt)
@@ -45,14 +45,30 @@ will be able to achieve the following results, and any combination of them:
    9. Make a documentation of your work
    10. Involve the "non technician" people in the development of the project
 
+Install
+-----------------------
+```
+composer require divengine\div
+```
+
+Upgrade
+-----------------------
+
+```
+composer upgrade
+```
+
 Basic example:
 -------------
 
 index.php
-```
+```php
 <?php
 
-include "div.php";
+use divengine;
+
+include "vendor/autoload.php";
+// include "path/to/div.php";
 
 echo new div('index.tpl', ['message' => 'Hello Universe']);
 ```
@@ -65,7 +81,7 @@ index.tpl
 Your own dialect:
 ----------------
 index.php
-```
+```php
 <?php
 
 define ("DIV_TAG_REPLACEMENT_PREFIX", "<");
