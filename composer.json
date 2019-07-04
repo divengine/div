@@ -5,8 +5,8 @@
     "template engine",
     "code generator"
   ],
-  "homepage": "http://divengine.com",
-  "version": "5.0",
+  "homepage": "https://divengine.com",
+  "version": "5.0.0",
   "license": [
     "GPL-3.0-or-later"
   ],
@@ -14,7 +14,7 @@
     {
       "name": "Rafa Rodriguez",
       "email": "rafageist@hotmail.com",
-      "homepage": "https://rafageist.github.com",
+      "homepage": "https://rafageist.github.io",
       "role": "Developer"
     }
   ],
@@ -22,13 +22,10 @@
     "php": ">=5.4.0"
   },
   "autoload": {
-    "files": [
-      "div.php"
-    ]
-  },
-  "autoload-dev": {
-    "files": [
-      "div.php"
-    ]
+    "autoload": {
+      "psr-4": {
+        "Divengine\\": "src/"
+      }
+    }
   }
 }

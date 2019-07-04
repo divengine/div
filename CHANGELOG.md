@@ -1,3 +1,46 @@
+Jul 3, 2019
+--------------------------
+- Divengine namespace!
+- `bugfix`: Fix scope of standalone pre-precessed templates. 
+This fix prevent infinite loops and is util for recursive pre-process
+in a component based design.
+
+index.tpl
+```
+{= foo: "bar" =}
+{%% component: {
+	div: {standalone: true}, // ignore parent scope
+	zoo: "monkey"
+} %%}
+```
+
+component.tpl
+```
+{$zoo}
+{$foo} <!--{ not exists in this scope }-->
+```
+
+Jul 2, 2019
+----------------------------
+- new feature for custom engine:
+
+MyComponent.php
+```php
+MyComponent extends div {
+ ....
+}
+```
+
+index.tpl:
+```
+{%% component: {
+	div: {
+		engine: "MyComponent"
+	},
+	someProperty: "bla"
+} %%}
+```
+
 Jun 27, 2019
 ----------------------------
 - important change!: Now NULLs vars exists and are replaced with empty strings
