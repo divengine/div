@@ -1,3 +1,7 @@
+Jul 6, 2019
+--------------------------
+- bugfix in div::scanMatch
+
 Jul 3, 2019
 --------------------------
 - Divengine namespace!

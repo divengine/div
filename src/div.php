@@ -25,7 +25,7 @@ namespace divengine;
  *
  * @package divengine/div
  * @author  Rafa Rodriguez @rafageist [https://rafageist.github.io]
- * @version 5.0.0
+ * @version 5.0.1
  *
  * @link    https://divengine.com/div
  * @link    https://github.com/divengine/div
@@ -735,7 +735,7 @@ class div
     // ----- Internals -----
 
     // current version of Div
-    private static $__version = '5.0.0';
+    private static $__version = '5.0.1';
 
     // name of the super class
     private static $__super_class = null;
@@ -5062,7 +5062,7 @@ class div
                                     if (is_object($v)) {
                                         $v = get_object_vars($v);
                                     }
-                                    if (array_key_exists($var, $v)) {
+                                    if (isset($var[$v])) {
                                         $cant = 0;
                                         if (is_bool($v [$var]) || self::isString($v [$var])) {
                                             $cant = 1;
