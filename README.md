@@ -48,7 +48,7 @@ will be able to achieve the following results, and any combination of them:
 Install
 -----------------------
 ```
-composer require divengine\div
+composer require divengine/div
 ```
 
 Upgrade
