@@ -1,6 +1,42 @@
+Jul 22, 2019
+--------------------------
+- `release` version 5.1.0 
+- `improvement`: Better resolution of default template for 
+child classes of div, using Reflection!
+
+**/some/folder/in/the/end/of/the/world/Page.tpl**
+```
+Hello people
+```
+
+**/some/folder/in/the/end/of/the/world/Page.php**
+```php
+<?php
+
+use divengine\div;
+
+class Page extends div {
+
+}
+```
+
+**/index.php**
+```php
+<?php
+
+include '/some/folder/in/the/end/of/the/world/Page.php';
+
+echo new Page();
+```
+
+**Output**
+```
+Hello people
+```
+
 Jul 6, 2019
 --------------------------
-- bugfix in div::scanMatch
+- `bugfix` in div::scanMatch
 
 Jul 3, 2019
 --------------------------
