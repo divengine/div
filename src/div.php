@@ -25,12 +25,11 @@ namespace divengine;
  *
  * @package divengine/div
  * @author  Rafa Rodriguez @rafageist [https://rafageist.github.io]
- * @version 5.1.0
+ * @version 5.1.1
  *
  * @link    https://divengine.com/div
  * @link    https://github.com/divengine/div
  * @link    https://github.com/divengine/div/wiki
- *
  */
 
 use ReflectionClass;
@@ -738,7 +737,7 @@ class div
     // ----- Internals -----
 
     // current version of Div
-    private static $__version = '5.1.0';
+    private static $__version = '5.1.1';
 
     // name of the super class
     private static $__super_class;
@@ -887,11 +886,9 @@ class div
             if ($class_name !== self::$__super_class && $this->__src === null) {
                 $reflection = new ReflectionClass($class_name);
                 $dir = pathinfo($reflection->getFileName(), PATHINFO_DIRNAME);
-                if ($dir === __DIR__) {
-                    $src = $class_name;
-                } else {
-                    $src = $dir.'/'.$class_name;
-                }
+                $filename = pathinfo($reflection->getFileName(), PATHINFO_BASENAME);
+                $ext = pathinfo($reflection->getFileName(), PATHINFO_EXTENSION);
+                $src = $dir.'/'.substr($filename,0,0 - strlen($ext) - 1);
             }
 
             if ($this->__src !== null) {

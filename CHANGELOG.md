@@ -1,5 +1,7 @@
 Jul 22, 2019
 --------------------------
+- `release` version 5.1.1
+- `improvement` support namespaces of div's child
 - `release` version 5.1.0 
 - `improvement`: Better resolution of default template for 
 child classes of div, using Reflection!

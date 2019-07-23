@@ -1,4 +1,4 @@
-# Div PHP Template Engine 5.1.0
+# Div PHP Template Engine 5.1.1
 
 [![Build Status](http://divengine.com/status.png)](https://github.com/divengine/div) 
 [![License](http://divengine.com/license.png)](https://www.gnu.org/licenses/gpl-3.0.txt)
