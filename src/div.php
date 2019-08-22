@@ -3962,7 +3962,7 @@ class div
             }
 
             $path = trim(substr($this->__src, $ini + $l1, $fin - $ini - $l1));
-
+            $standalone = false;
             // New feature in 4.5: specific data for preprocessed template
             if (!self::fileExists($path)) {
                 $sep = strpos($path, DIV_TAG_PREPROCESSED_SEPARATOR);
@@ -5512,9 +5512,10 @@ class div
         }
 
         $keys = $this->getConditionalKeys();
-
+        $items = $this->getAllItems();
         foreach ($keys as $key) {
-            $this->parseConditionalBlock($key, false);
+            if (!self::varExists($key, $items))
+                $this->parseConditionalBlock($key, false);
         }
     }
 
@@ -7242,6 +7243,10 @@ class div
 
         // Calling the afterParse hook
         $this->afterParse();
+    }
+
+    static function getParseLevel() {
+        return self::$__parse_level;
     }
 
     /**

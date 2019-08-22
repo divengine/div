@@ -1,3 +1,90 @@
+Ago 21, 2019
+--------------------------
+- `release` version 5.1.2
+- `fix` orphan conditional parts
+- `fix` standalone preprocessed templates
+
+#### Now this example works!
+
+__cmp.tpl__
+
+This is a generic template for create visual components.
+Each component have a *face* or *content*, and 
+more *child components*. Each child can located in 
+the face of their parent. The template call it self 
+recursively.
+
+```
+{strip}
+?$location {{{$location} $location?
+
+?$face {$face} $face?
+
+?$components
+    [$components] component =>
+        {= component.div.standalone: true =}
+        {%% cmp: component %%}
+    [/$components]
+$components?
+
+?$location {$location}}}  $location?
+{/strip}
+```
+
+__Button.tpl__
+```
+<button>{$icon}{$caption}</button>
+```
+
+__Page.tpl__
+```html
+<h1>Buttons</h1>
+(( top ))
+<p>Click on the buttons: <p/>
+(( bottom ))
+
+<h1>Fruits</h1>
+(( fruits ))
+```
+
+__index.php__
+```php
+<?php
+
+use divengine\div;
+
+echo new div("cmp", [
+        "id"         => "welcomePage",
+        "face"       => "{% Page2 %}",
+        "components" => [
+            [
+                "face"     => "{% Button %}",
+                "location" => "top",
+                "caption"  => "Click me",
+                "icon"     => '*'
+            ],
+            [
+                "face"     => "{% Button %}",
+                "location" => "bottom",
+                "caption"  => "Click me again",
+                "icon"     => '#'
+            ],
+            [
+                "face"       => "<ul>(( items ))</ul>",
+                "location"   => "fruits",
+                "components" => array_map(function ($caption) {
+                        return [
+                            "face"     => "<li>{$caption}</li>", // or "<li>{\$caption}</li>" :D
+                            "location" => "items"
+                        ];
+                }, ["Banana", "Apple", "Orange"])
+
+            ]
+        ]
+    ]
+);
+```
+ 
 Jul 22, 2019
 --------------------------
 - `release` version 5.1.1
@@ -13,7 +100,7 @@ Hello people
 
 **/some/folder/in/the/end/of/the/world/Page.php**
 ```php
-<?php
+<?php4
 
 use divengine\div;
 
