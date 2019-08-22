@@ -11,7 +11,7 @@ __cmp.tpl__
 This is a generic template for create visual components.
 Each component have a *face* or *content*, and 
 more *child components*. Each child can located in 
-the face of their parent. The template call it self 
+the face of their parent. The template self call 
 recursively.
 
 ```
