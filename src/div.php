@@ -25,7 +25,7 @@ namespace divengine;
  *
  * @package divengine/div
  * @author  Rafa Rodriguez @rafageist [https://rafageist.github.io]
- * @version 5.1.1
+ * @version 5.1.2
  *
  * @link    https://divengine.com/div
  * @link    https://github.com/divengine/div
@@ -737,7 +737,7 @@ class div
     // ----- Internals -----
 
     // current version of Div
-    private static $__version = '5.1.1';
+    private static $__version = '5.1.2';
 
     // name of the super class
     private static $__super_class;
