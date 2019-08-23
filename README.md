@@ -1,8 +1,5 @@
 # Div PHP Template Engine 5.1.3
 
-[![Build Status](http://divengine.com/status.png)](https://github.com/divengine/div) 
-[![License](http://divengine.com/license.png)](https://www.gnu.org/licenses/gpl-3.0.txt)
-
 by Rafa Rodríguez (rafageist@hotmail.com)
 
 Div is a [template] engine and [code generator tool] written in [PHP](http://php.net/) and 
