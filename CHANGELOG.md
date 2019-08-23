@@ -1,3 +1,9 @@
+Ago 22, 2019
+--------------------------
+- `release` version 5.1.3
+- `fix` resolution of templates path for win and *nix OS
+- `fix` the relative path of included templates inside loop
+
 Ago 21, 2019
 --------------------------
 - `release` version 5.1.2

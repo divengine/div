@@ -25,7 +25,7 @@ namespace divengine;
  *
  * @package divengine/div
  * @author  Rafa Rodriguez @rafageist [https://rafageist.github.io]
- * @version 5.1.1
+ * @version 5.1.3
  *
  * @link    https://divengine.com/div
  * @link    https://github.com/divengine/div
@@ -737,7 +737,7 @@ class div
     // ----- Internals -----
 
     // current version of Div
-    private static $__version = '5.1.1';
+    private static $__version = '5.1.3';
 
     // name of the super class
     private static $__super_class;
@@ -818,6 +818,9 @@ class div
 
     // for save PHP configuration error reporting
     private static $__error_reporting_php;
+
+    // cached values
+    public static $__cached_values = [];
 
     /**
      * Constructor
@@ -1506,7 +1509,7 @@ class div
             foreach ($paths as $path) {
                 if ((strlen($path) < 255) && self::fileExists($path)) {
                     $src = self::getFileContents($path);
-                    $this->__path = $path;
+                    $this->__path = str_replace('\\', '/', $path);
                     break;
                 }
             }
@@ -3288,6 +3291,7 @@ class div
                     $engine = self::getAuxiliaryEngineClone($x_items, $x_items, $this);
                     $engine->__src_original = $minihtml;
                     $engine->__memory = $this->__memory;
+                    $engine->__path = $this->__path;
 
                     $globals_design = self::$__globals_design;
 
@@ -3488,6 +3492,20 @@ class div
     }
 
     /**
+     * Save value for the future (reduce calculation)
+     *
+     * @param $index
+     * @param $resolver
+     *
+     * @return mixed
+     */
+    final public static function getCachedValue($index, $resolver) {
+        if (!array_key_exists($index, self::$__cached_values)){
+            self::$__cached_values[$index] = $resolver();
+        }
+        return self::$__cached_values[$index];
+    }
+    /**
      * Return the resolved path for include and preprocessed
      *
      * @param string $path
@@ -3497,15 +3515,21 @@ class div
     final public function getTplPath($path)
     {
         $return = null;
+        $fileExtLength = self::getCachedValue('length_of_tpl_file_ext_with_dot', static function() {
+            return  strlen(DIV_DEFAULT_TPL_FILE_EXT) + 1;
+        });
 
-        if (self::fileExists($path.'.'.DIV_DEFAULT_TPL_FILE_EXT)) {
+        if (substr($path, 0 - $fileExtLength) !== '.'.DIV_DEFAULT_TPL_FILE_EXT
+            && self::fileExists($path.'.'.DIV_DEFAULT_TPL_FILE_EXT)) {
             $path .= '.'.DIV_DEFAULT_TPL_FILE_EXT;
         }
 
-        $path = str_replace('.'.DIV_DEFAULT_TPL_FILE_EXT.'.'.DIV_DEFAULT_TPL_FILE_EXT, '.'.DIV_DEFAULT_TPL_FILE_EXT, $path);
+        /*$path = str_replace('.'.DIV_DEFAULT_TPL_FILE_EXT.'.'.DIV_DEFAULT_TPL_FILE_EXT,
+            '.'.DIV_DEFAULT_TPL_FILE_EXT, $path);
+        */
 
         // Relative path
-        if (!self::fileExists($path) && ($this->__path !== '') && self::fileExists($this->__path)) {
+        if ($this->__path !== '' && !self::fileExists($path) && self::fileExists($this->__path)) {
             $folder = self::getFolderOf($this->__path);
             if (self::fileExists($folder.'/'.$path.'.'.DIV_DEFAULT_TPL_FILE_EXT)) {
                 $path .= '.'.DIV_DEFAULT_TPL_FILE_EXT;
@@ -3721,7 +3745,7 @@ class div
                     $c = '';
                     if (!is_dir($path)) {
 
-                        self::$__includes_history [] = $path;
+                        self::$__includes_history[] = $path;
 
                         $c = self::getFileContents($path);
 
@@ -5512,7 +5536,6 @@ class div
         }
 
         $keys = $this->getConditionalKeys();
-
         $items = $this->getAllItems();
         foreach ($keys as $key) {
             if (!self::varExists($key, $items))
@@ -9222,6 +9245,8 @@ class div
      */
     final public static function getFolderOf($filename)
     {
+        // $filename = str_replace('\\', '/', $filename);
+
         if (is_dir($filename)) {
             return $filename;
         }
