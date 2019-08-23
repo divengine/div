@@ -25,7 +25,7 @@ namespace divengine;
  *
  * @package divengine/div
  * @author  Rafa Rodriguez @rafageist [https://rafageist.github.io]
- * @version 5.1.3
+ * @version 5.1.4
  *
  * @link    https://divengine.com/div
  * @link    https://github.com/divengine/div
@@ -737,7 +737,7 @@ class div
     // ----- Internals -----
 
     // current version of Div
-    private static $__version = '5.1.3';
+    private static $__version = '5.1.4';
 
     // name of the super class
     private static $__super_class;
@@ -1001,6 +1001,15 @@ class div
         }
         $this->__items['div']['class_name'] = $class_name;
         $this->__items['div']['super_class_name'] = self::$__super_class;
+    }
+
+    /**
+     * Return current version of div
+     *
+     * @return string
+     */
+    public static function getVersion() {
+        return self::$__version;
     }
 
     /**

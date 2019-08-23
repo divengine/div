@@ -1,3 +1,8 @@
+Ago 23, 2019
+--------------------------
+- `release` version 5.1.4
+-  new method div::getVersion()
+
 Ago 22, 2019
 --------------------------
 - `release` version 5.1.3
