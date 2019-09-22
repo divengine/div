@@ -1,3 +1,8 @@
+Sep 21, 2019
+--------------------------
+- `release` version 5.1.5
+- `fix` div::varExists() method
+
 Ago 23, 2019
 --------------------------
 - `release` version 5.1.4

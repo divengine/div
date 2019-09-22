@@ -25,7 +25,7 @@ namespace divengine;
  *
  * @package divengine/div
  * @author  Rafa Rodriguez @rafageist [https://rafageist.github.io]
- * @version 5.1.4
+ * @version 5.1.5
  *
  * @link    https://divengine.com/div
  * @link    https://github.com/divengine/div
@@ -737,7 +737,7 @@ class div
     // ----- Internals -----
 
     // current version of Div
-    private static $__version = '5.1.4';
+    private static $__version = '5.1.5';
 
     // name of the super class
     private static $__super_class;
@@ -9117,7 +9117,7 @@ class div
                 return array_key_exists($var, $items);
             }
             if (is_object($items)) {
-                return property_exists($var, $items);
+                return property_exists($items, $var);
             }
         } else {
             $temp_sub_var = $sub_vars[0];
