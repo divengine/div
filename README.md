@@ -1,4 +1,4 @@
-# Div PHP Template Engine 5.1.5
+# Div PHP Template Engine 5.1.6
 
 by Rafa Rodríguez (rafageist@hotmail.com)
 

@@ -1,3 +1,8 @@
+Feb 11, 2020
+--------------------------
+- `minor fix`: Array and string offset access syntax with curly braces is deprecated
+- `release` version 5.1.6
+
 Sep 21, 2019
 --------------------------
 - `release` version 5.1.5

@@ -25,7 +25,7 @@ namespace divengine;
  *
  * @package divengine/div
  * @author  Rafa Rodriguez @rafageist [https://rafageist.github.io]
- * @version 5.1.5
+ * @version 5.1.6
  *
  * @link    https://divengine.com/div
  * @link    https://github.com/divengine/div
@@ -737,7 +737,7 @@ class div
     // ----- Internals -----
 
     // current version of Div
-    private static $__version = '5.1.5';
+    private static $__version = '5.1.6';
 
     // name of the super class
     private static $__super_class;
@@ -8654,7 +8654,7 @@ class div
         if (function_exists('mb_convert_encoding')) {
             return mb_convert_encoding($utf16, 'UTF-8', 'UTF-16');
         }
-        $bytes = (ord($utf16{0}) << 8) | ord($utf16{1});
+        $bytes = (ord($utf16[0]) << 8) | ord($utf16[1]);
 
         if ((0x7F & $bytes) === $bytes) {
             return chr(0x7F & $bytes);
@@ -8724,7 +8724,7 @@ class div
                     for ($c = 0; $c < $str_len_chars; ++$c) {
 
                         $sub_str_chars_c_2 = substr($chars, $c, 2);
-                        $ord_chars_c = ord($chars{$c});
+                        $ord_chars_c = ord($chars[$c]);
 
                         switch (true) {
                             case $sub_str_chars_c_2 === '\b' :
@@ -8752,7 +8752,7 @@ class div
                             case $sub_str_chars_c_2 === '\\\\' :
                             case $sub_str_chars_c_2 === '\\/' :
                                 if (($delimiter === '"' && $sub_str_chars_c_2 !== '\\\'') || ($delimiter === "'" && $sub_str_chars_c_2 !== '\\"')) {
-                                    $utf8 .= $chars{++$c};
+                                    $utf8 .= $chars[++$c];
                                 }
                                 break;
                             case preg_match('/\\\u[0-9A-F]{4}/i', substr($chars, $c, 6)) :
@@ -8761,7 +8761,7 @@ class div
                                 $c += 5;
                                 break;
                             case ($ord_chars_c >= 0x20) && ($ord_chars_c <= 0x7F) :
-                                $utf8 .= $chars{$c};
+                                $utf8 .= $chars[$c];
                                 break;
                             case ($ord_chars_c & 0xE0) === 0xC0 :
                                 $utf8 .= substr($chars, $c, 2);
@@ -8832,7 +8832,7 @@ class div
                         $top = end($stk);
                         $sub_str_chars_c_2 = substr($chars, $c, 2);
 
-                        if (($c === $str_len_chars) || (($chars{$c} === ',') && ($top ['what'] === 1))) {
+                        if (($c === $str_len_chars) || (($chars[$c] === ',') && ($top ['what'] === 1))) {
                             $slice = substr($chars, $top ['where'], $c - $top ['where']);
                             $stk[] = [
                                 'what'      => 1,
@@ -8864,15 +8864,15 @@ class div
                                     }
                                 }
                             }
-                        } elseif ((($chars{$c} === '"') || ($chars{$c} === "'")) && ($top ['what'] !== 2)) {
+                        } elseif ((($chars[$c] === '"') || ($chars[$c] === "'")) && ($top ['what'] !== 2)) {
                             $stk[] = [
                                 'what'      => 2,
                                 'where'     => $c,
-                                'delimiter' => $chars{$c},
+                                'delimiter' => $chars[$c],
                             ];
-                        } elseif (($chars{$c} === $top ['delimiter']) && ($top ['what'] === 2) && ((strlen(substr($chars, 0, $c)) - strlen(rtrim(substr($chars, 0, $c), '\\'))) % 2 !== 1)) {
+                        } elseif (($chars[$c] === $top ['delimiter']) && ($top ['what'] === 2) && ((strlen(substr($chars, 0, $c)) - strlen(rtrim(substr($chars, 0, $c), '\\'))) % 2 !== 1)) {
                             array_pop($stk);
-                        } elseif (($chars{$c} === '[')
+                        } elseif (($chars[$c] === '[')
                             && in_array($top ['what'], [
                                 1,
                                 3,
@@ -8883,16 +8883,16 @@ class div
                                 'where'     => $c,
                                 'delimiter' => false,
                             ];
-                        } elseif (($chars{$c} === ']') && ($top ['what'] === 3)) {
+                        } elseif (($chars[$c] === ']') && ($top ['what'] === 3)) {
                             array_pop($stk);
-                        } elseif (($chars{$c} === '{')
+                        } elseif (($chars[$c] === '{')
                             && in_array($top ['what'], [1, 3, 4], true)) {
                             $stk[] = [
                                 'what'      => 4,
                                 'where'     => $c,
                                 'delimiter' => false,
                             ];
-                        } elseif (($chars{$c} === '}') && ($top ['what'] === 4)) {
+                        } elseif (($chars[$c] === '}') && ($top ['what'] === 4)) {
                             array_pop($stk);
                         } elseif (($sub_str_chars_c_2 === '/*')
                             && in_array($top ['what'], [1, 3, 4], true)) {
