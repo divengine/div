@@ -1,11 +1,8 @@
 # Div PHP Template Engine 5.1.6
 
-by Rafa Rodríguez (rafageist@hotmail.com)
-
-Div is a [template] engine and [code generator tool] written in [PHP](http://php.net/) and 
-developed by the [Eng. Rafa Rodriguez](https://rafageist.github.io) since 2011, 
-that allows the separation of labor between developers and designers, and improve 
-the software development based on [Generative Programming], [Model Driven Architecture] 
+Div is a [template] engine and [code generator tool] written in [PHP](http://php.net/) and
+developed since 2011, that allows the separation of labor between developers and designers,
+and improve the software development based on [Generative Programming], [Model Driven Architecture]
 and [Meta programming].
  
 As the designer or developer built templates with some specific tags, other 
@@ -16,7 +13,7 @@ template code. Div have a compact, flexible and descriptive syntax for templates
 * "flexible" means "you can create dialects of template language"
 * "descriptive" means "template language talk by herself"
 
-This project is the main piece of the organization [Div Software Solutions](https://divengine.github.io), 
+This project is the main piece of the organization [Div Software Solutions](https://divengine.com),
 following the philosophy of "build more with less" and "divide the problem and not to the people". 
 To obtain this goal, Div propose the [code generation based on templates], following this rules:
 
@@ -248,5 +245,5 @@ Enjoy!
 @rafageist
 
 Eng. Rafa Rodriguez
-
+rafageist@hotmail.com
 https://rafageist.github.io
