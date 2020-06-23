@@ -235,7 +235,7 @@ and the information that will be displayed.
 ## References
 For more information visit:
 
-- [Website of Div Software Solutions](https://divengine.github.io)
+- [Website of Div Software Solutions](https://divengine.com)
 - [Wiki of Div PHP Template Engine](https://github.com/divengine/div/wiki)
 
 Enjoy!
@@ -246,4 +246,4 @@ Enjoy!
 
 Eng. Rafa Rodriguez
 rafageist@hotmail.com
-https://rafageist.github.io
+https://rafageist.divengine.com
