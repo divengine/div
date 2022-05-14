@@ -235,7 +235,7 @@ and the information that will be displayed.
 ## References
 For more information visit:
 
-- [Website of Divengine Software Solutions - Open source division - https://divengine.org](https://divengine.org)
+- [Website of Divengine Software Solutions - Open Source Division - https://divengine.org](https://divengine.org)
 
 Enjoy!
 
