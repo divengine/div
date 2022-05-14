@@ -235,15 +235,12 @@ and the information that will be displayed.
 ## References
 For more information visit:
 
-- [Website of Div Software Solutions](https://divengine.com)
-- [Wiki of Div PHP Template Engine](https://github.com/divengine/div/wiki)
+- [Website of Divengine Software Solutions - Open source division - https://divengine.org](https://divengine.org)
 
 Enjoy!
 
 -- 
 
 @rafageist
-
-Eng. Rafa Rodriguez
 rafageist@hotmail.com
 https://rafageist.com
