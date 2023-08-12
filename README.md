@@ -1,4 +1,4 @@
-# Div PHP Template Engine 5.1.6
+# Div PHP Template Engine 6.0.0
 
 
 Div is a [template] engine and [code generator tool] written in [PHP](http://php.net/) and
