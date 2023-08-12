@@ -24,12 +24,11 @@ namespace divengine;
  * https://www.gnu.org/licenses/gpl-3.0.txt
  *
  * @package divengine/div
- * @author  Rafa Rodriguez @rafageist [https://rafageist.github.io]
- * @version 5.1.6
+ * @author  Rafa Rodriguez @rafageist [https://rafageist.com]
+ * @version 5.2.0
  *
- * @link    https://divengine.com/div
+ * @link    https://divengine.org/docs/div-php-template-engine
  * @link    https://github.com/divengine/div
- * @link    https://github.com/divengine/div/wiki
  */
 
 use ReflectionClass;
@@ -69,29 +68,35 @@ if (!defined('DIV_MAX_FILENAME_SIZE')) {
 }
 
 // PHP allowed functions for macros and formulas
-define('DIV_PHP_ALLOWED_FUNCTIONS',
-    'isset,empty,is_null,is_numeric,is_bool,is_integer,is_double,is_array,sizeof,is_finite,is_float,is_infinite,'.'is_int,is_long,is_nan,is_real,is_scalar,is_string,mt_rand,mt_srand,mt_getrandmax,rand,urlencode,urldecode,'
-    .'uniqid,date,time,intval,htmlspecialchars,htmlspecialchars_decode,strtr,strpos,str_replace,str_ireplace,substr,'.'sprintf,abs,acos,acosh,asin,atan2,atanh,base_convert,bindec,ceil,cos,cosh,decbin,dechex,decoct,deg2rad,exp,expm1,'
-    .'floor,fmod,getrandmax,hexdec,hypot,lcg_value,log10,log1p,log,max,min,octdec,pi,pow,rad2deg,rand,round,sin,sinh,'.'sqrt,srand,tan,tanh,cal_days_in_month,cal_from_jd,cal_info,cal_to_jd,easter_date,easter_days,frenchtojd,gregoriantojd,'
-    .'jddayofweek,jdmonthname,jdtofrench,jdtogregorian,jdtojewish,jdtojulian,jdtounix,jewishtojd,jewishtojd,unixtojd,checkdate,'.'date_default_timezone_get,strtotime,date_sunset,gmdate,gmmktime,gmstrftime,idate,microtime,mktime,strftime,strptime,'
-    .'strtotime,timezone_name_from_abbr,timezone_version_get,bcadd,bccomp,bcdiv,bcmod,bcmul,bcpow,bcpowmod,bcscale,bcsqrt,'.'bcsub,addcslashes,addslashes,bin2hex,chop,chr,chunk_split,convert_cyr_string,convert_uudecode,convert_uuencode,count,'
-    .'count_chars,crc32,crypt,hebrev,hebrevc,hex2bin,html_entity_decode,htmlentities,htmlspecialchars_decode,htmlspecialchars,'.'lcfirst,levenshtein,ltrim,md5,metaphone,money_format,nl_langinfo,nl2br,number_format,ord,quoted_printable_decode,'
-    .'quoted_printable_encode,quotemeta,rtrim,sha1,similar_text,soundex,sprintf,str_pad,str_repeat,str_rot13,str_shuffle,'.'strcasecmp,strchr,strcmp,strcoll,strcspn,strip_tags,stripcslashes,stripos,stripslashes,stristr,strlen,strnatcasecmp,'
-    .'strnatcmp,strncasecmp,strncmp,strpbrk,strrchr,strrev,strripos,strrpos,strspn,strtolower,strtoupper,strtr,substr_compare,'
-    .'substr_count,substr_replace,trim,ucfirst,ucwords,wordwrap,floatval,strval,implode,explode,array_keys,get_object_vars,is_object,file_exists,in_array');
+define(
+    'DIV_PHP_ALLOWED_FUNCTIONS',
+    'isset,empty,is_null,is_numeric,is_bool,is_integer,is_double,is_array,sizeof,is_finite,is_float,is_infinite,' . 'is_int,is_long,is_nan,is_real,is_scalar,is_string,mt_rand,mt_srand,mt_getrandmax,rand,urlencode,urldecode,'
+    . 'uniqid,date,time,intval,htmlspecialchars,htmlspecialchars_decode,strtr,strpos,str_replace,str_ireplace,substr,' . 'sprintf,abs,acos,acosh,asin,atan2,atanh,base_convert,bindec,ceil,cos,cosh,decbin,dechex,decoct,deg2rad,exp,expm1,'
+    . 'floor,fmod,getrandmax,hexdec,hypot,lcg_value,log10,log1p,log,max,min,octdec,pi,pow,rad2deg,rand,round,sin,sinh,' . 'sqrt,srand,tan,tanh,cal_days_in_month,cal_from_jd,cal_info,cal_to_jd,easter_date,easter_days,frenchtojd,gregoriantojd,'
+    . 'jddayofweek,jdmonthname,jdtofrench,jdtogregorian,jdtojewish,jdtojulian,jdtounix,jewishtojd,jewishtojd,unixtojd,checkdate,' . 'date_default_timezone_get,strtotime,date_sunset,gmdate,gmmktime,gmstrftime,idate,microtime,mktime,strftime,strptime,'
+    . 'strtotime,timezone_name_from_abbr,timezone_version_get,bcadd,bccomp,bcdiv,bcmod,bcmul,bcpow,bcpowmod,bcscale,bcsqrt,' . 'bcsub,addcslashes,addslashes,bin2hex,chop,chr,chunk_split,convert_cyr_string,convert_uudecode,convert_uuencode,count,'
+    . 'count_chars,crc32,crypt,hebrev,hebrevc,hex2bin,html_entity_decode,htmlentities,htmlspecialchars_decode,htmlspecialchars,' . 'lcfirst,levenshtein,ltrim,md5,metaphone,money_format,nl_langinfo,nl2br,number_format,ord,quoted_printable_decode,'
+    . 'quoted_printable_encode,quotemeta,rtrim,sha1,similar_text,soundex,sprintf,str_pad,str_repeat,str_rot13,str_shuffle,' . 'strcasecmp,strchr,strcmp,strcoll,strcspn,strip_tags,stripcslashes,stripos,stripslashes,stristr,strlen,strnatcasecmp,'
+    . 'strnatcmp,strncasecmp,strncmp,strpbrk,strrchr,strrev,strripos,strrpos,strspn,strtolower,strtoupper,strtr,substr_compare,'
+    . 'substr_count,substr_replace,trim,ucfirst,ucwords,wordwrap,floatval,strval,implode,explode,array_keys,get_object_vars,is_object,file_exists,in_array'
+);
 
 // Valid PHP tokens in expressions
-define('DIV_PHP_VALID_TOKENS_FOR_EXPRESSIONS',
-    'T_ARRAY,T_ARRAY_CAST,T_BOOLEAN_AND,T_BOOLEAN_OR,T_BOOL_CAST,T_CHARACTER,T_CONSTANT_ENCAPSED_STRING,'.'T_DNUMBER,T_DOUBLE_CAST,T_EMPTY,T_INT_CAST,T_ISSET,T_IS_EQUAL,T_IS_GREATER_OR_EQUAL,T_SR,T_IS_IDENTICAL,T_IS_NOT_EQUAL,T_IS_NOT_IDENTICAL,'
-    .'T_IS_SMALLER_OR_EQUAL,T_LNUMBER,T_LOGICAL_AND,T_LOGICAL_OR,T_LOGICAL_XOR,T_SL,T_SL_EQUAL,T_SR_EQUAL,T_STRING_CAST,T_STRING_VARNAME,'.'T_VARIABLE,T_WHITESPACE,T_CURLY_OPEN,T_INC,T_DEC,T_COMMENT,T_DOUBLE_ARROW,T_ENCAPSED_AND_WHITESPACE');
+define(
+    'DIV_PHP_VALID_TOKENS_FOR_EXPRESSIONS',
+    'T_ARRAY,T_ARRAY_CAST,T_BOOLEAN_AND,T_BOOLEAN_OR,T_BOOL_CAST,T_CHARACTER,T_CONSTANT_ENCAPSED_STRING,' . 'T_DNUMBER,T_DOUBLE_CAST,T_EMPTY,T_INT_CAST,T_ISSET,T_IS_EQUAL,T_IS_GREATER_OR_EQUAL,T_SR,T_IS_IDENTICAL,T_IS_NOT_EQUAL,T_IS_NOT_IDENTICAL,'
+    . 'T_IS_SMALLER_OR_EQUAL,T_LNUMBER,T_LOGICAL_AND,T_LOGICAL_OR,T_LOGICAL_XOR,T_SL,T_SL_EQUAL,T_SR_EQUAL,T_STRING_CAST,T_STRING_VARNAME,' . 'T_VARIABLE,T_WHITESPACE,T_CURLY_OPEN,T_INC,T_DEC,T_COMMENT,T_DOUBLE_ARROW,T_ENCAPSED_AND_WHITESPACE'
+);
 
 // Valid PHP tokens in macros
-define('DIV_PHP_VALID_TOKENS_FOR_MACROS', 'T_AS,T_DO,T_DOUBLE_COLON,T_ECHO,T_ELSE,T_ELSEIF,T_FOR,T_FOREACH,T_IF,T_MOD_EQUAL,T_MUL_EQUAL,'.'T_OBJECT_OPERATOR,T_NUM_STRING,T_OR_EQUAL,T_PAAMAYIM_NEKUDOTAYIM,T_PLUS_EQUAL,T_PRINT,T_START_HEREDOC,T_SWITCH,'
-    .'T_WHILE,T_ENDIF,T_ENDFOR,T_ENDFOREACH,T_ENDSWITCH,T_ENDWHILE,T_END_HEREDOC,T_PAAMAYIM_NEKUDOTAYIM,T_BREAK');
+define('DIV_PHP_VALID_TOKENS_FOR_MACROS', 'T_AS,T_DO,T_DOUBLE_COLON,T_ECHO,T_ELSE,T_ELSEIF,T_FOR,T_FOREACH,T_IF,T_MOD_EQUAL,T_MUL_EQUAL,' . 'T_OBJECT_OPERATOR,T_NUM_STRING,T_OR_EQUAL,T_PAAMAYIM_NEKUDOTAYIM,T_PLUS_EQUAL,T_PRINT,T_START_HEREDOC,T_SWITCH,'
+    . 'T_WHILE,T_ENDIF,T_ENDFOR,T_ENDFOREACH,T_ENDSWITCH,T_ENDWHILE,T_END_HEREDOC,T_PAAMAYIM_NEKUDOTAYIM,T_BREAK');
 
 // Allowed Div methods in macros and formulas
-define('DIV_PHP_ALLOWED_METHODS',
-    'getRanges,asThis,atLeastOneString,getLastKeyOfArray,'.'getCountOfParagraphs,getCountOfSentences,getCountOfWords,htmlToText,'.'isArrayOfArray,isArrayOfObjects,isCli,isNumericList,jsonDecode,jsonEncode,isString,mixedBool,div');
+define(
+    'DIV_PHP_ALLOWED_METHODS',
+    'getRanges,asThis,atLeastOneString,getLastKeyOfArray,' . 'getCountOfParagraphs,getCountOfSentences,getCountOfWords,htmlToText,' . 'isArrayOfArray,isArrayOfObjects,isCli,isNumericList,jsonDecode,jsonEncode,isString,mixedBool,div'
+);
 
 // Other internal constants
 define('DIV_ERROR_WARNING', 'WARNING');
@@ -571,7 +576,7 @@ define('DIV_DEFAULT_DIALECT', '{
 
 // --------------------------------------------------------------------------------------------------------------------------------------//
 
-define('DIV_TEMPLATE_FOR_DOCS', '@_DIALECT = '.uniqid('', true).base64_decode('PGh0bWw+DQoJPGhlYWQ+DQoJCTx0aXRsZT57JHRpdGxlfTwvdGl0bGU+DQoJCTxzdHlsZSB0eXBl
+define('DIV_TEMPLATE_FOR_DOCS', '@_DIALECT = ' . uniqid('', true) . base64_decode('PGh0bWw+DQoJPGhlYWQ+DQoJCTx0aXRsZT57JHRpdGxlfTwvdGl0bGU+DQoJCTxzdHlsZSB0eXBl
 PSJ0ZXh0L2NzcyI+DQoJCQlib2R5ICAgICAgICAgIHtiYWNrZ3JvdW5kOiAjNjU2NTY1OyBmb250
 LWZhbWlseTogVmVyZGFuYTt9DQoJCQlkaXYuc2VjdGlvbiAgIHtiYWNrZ3JvdW5kOiB3aGl0ZTsJ
 bWFyZ2luLXRvcDogMjBweDsgcGFkZGluZzogMTBweDsgd2lkdGg6IDc4MHB4O30NCgkJCS5zZWN0
@@ -640,6 +645,7 @@ b2R5Pg0KPC9odG1sPg=='));
 /**
  * Class div
  */
+#[\AllowDynamicProperties]
 class div
 {
 
@@ -821,6 +827,7 @@ class div
 
     // cached values
     public static $__cached_values = [];
+    
 
     /**
      * Constructor
@@ -835,11 +842,11 @@ class div
     {
         // Enabling system vars
         if (self::$__parse_level < 2) {
-            self::enableSystemVar('div'.DIV_TAG_VAR_MEMBER_DELIMITER.'version');
-            self::enableSystemVar('div'.DIV_TAG_VAR_MEMBER_DELIMITER.'post');
-            self::enableSystemVar('div'.DIV_TAG_VAR_MEMBER_DELIMITER.'get');
-            self::enableSystemVar('div'.DIV_TAG_VAR_MEMBER_DELIMITER.'now');
-            self::enableSystemVar('div'.DIV_TAG_VAR_MEMBER_DELIMITER.'level');
+            self::enableSystemVar('div' . DIV_TAG_VAR_MEMBER_DELIMITER . 'version');
+            self::enableSystemVar('div' . DIV_TAG_VAR_MEMBER_DELIMITER . 'post');
+            self::enableSystemVar('div' . DIV_TAG_VAR_MEMBER_DELIMITER . 'get');
+            self::enableSystemVar('div' . DIV_TAG_VAR_MEMBER_DELIMITER . 'now');
+            self::enableSystemVar('div' . DIV_TAG_VAR_MEMBER_DELIMITER . 'level');
         }
 
         // Generate internal and random ignore tag (security reasons)
@@ -849,14 +856,14 @@ class div
         if (self::$__dialect_checked === false) {
             $r = self::isValidCurrentDialect();
             if ($r !== true) {
-                self::error('Current dialect is invalid: '.$r, DIV_ERROR_FATAL);
+                self::error('Current dialect is invalid: ' . $r, DIV_ERROR_FATAL);
             }
             self::$__dialect_checked = true;
         }
 
         $class_name = get_class($this);
 
-        self::$__packages_by_class [$class_name] = $this->__packages;
+        self::$__packages_by_class[$class_name] = $this->__packages;
 
         if (self::$__super_class === null) {
             self::$__super_class = $this->getSuperParent();
@@ -868,9 +875,7 @@ class div
 
         $this->__id = ++self::$__last_id;
 
-        if (self::$__log_mode) {
-            $this->logger('Building instance #'.$this->__id.' of '.$class_name.'...');
-        }
+        self::$__log_mode and $this->logger('Building instance #' . $this->__id . ' of ' . $class_name . '...');
 
         // Calling the beforeBuild hook
         $this->beforeBuild($src, $items);
@@ -891,7 +896,7 @@ class div
                 $dir = pathinfo($reflection->getFileName(), PATHINFO_DIRNAME);
                 $filename = pathinfo($reflection->getFileName(), PATHINFO_BASENAME);
                 $ext = pathinfo($reflection->getFileName(), PATHINFO_EXTENSION);
-                $src = $dir.'/'.substr($filename,0,0 - strlen($ext) - 1);
+                $src = $dir . '/' . substr($filename, 0, 0 - strlen($ext) - 1);
             }
 
             if ($this->__src !== null) {
@@ -901,19 +906,19 @@ class div
 
         if ($items === null) {
             $items = $src;
-            $items = str_replace('.'.DIV_DEFAULT_TPL_FILE_EXT, '', $items);
+            $items = str_replace('.' . DIV_DEFAULT_TPL_FILE_EXT, '', $items);
             $decode = false;
         }
 
         if (!$discardFileSystem && self::isString($items)) {
-            if (strlen($items.'.'.DIV_DEFAULT_DATA_FILE_EXT) < 255) {
+            if (strlen($items . '.' . DIV_DEFAULT_DATA_FILE_EXT) < 255) {
                 $exists = false;
 
                 if (self::fileExists($items)) {
                     $items = self::getFileContents($items);
                     $exists = true;
-                } elseif (self::fileExists($items.'.'.DIV_DEFAULT_DATA_FILE_EXT)) {
-                    $items = self::getFileContents($items.'.'.DIV_DEFAULT_DATA_FILE_EXT);
+                } elseif (self::fileExists($items . '.' . DIV_DEFAULT_DATA_FILE_EXT)) {
+                    $items = self::getFileContents($items . '.' . DIV_DEFAULT_DATA_FILE_EXT);
                     $exists = true;
                 }
 
@@ -939,11 +944,11 @@ class div
 
         if (is_object($items)) {
             if (method_exists($items, '__toString')) {
-                $item_str = (string)$items;
+                $item_str = (string) $items;
                 if (!property_exists($items, 'value')) {
-                    $items->value = $item_str;
+                    $items->value = $item_str; /** @phpstan-ignore-line */
                 }
-                $items->_to_string = $item_str;
+                $items->_to_string = $item_str; /** @phpstan-ignore-line */
             }
             $items = get_object_vars($items);
         }
@@ -966,7 +971,7 @@ class div
 
         if (array_key_exists(0, $ignore)) {
             foreach ($ignore as $key => $val) {
-                $this->__ignore [$val] = true;
+                $this->__ignore[$val] = true;
             }
         }
 
@@ -975,7 +980,8 @@ class div
 
         // Enabling methods
         if (self::$__allowed_methods === null) {
-            $keys = explode(',', DIV_PHP_ALLOWED_METHODS);;
+            $keys = explode(',', DIV_PHP_ALLOWED_METHODS);
+            ;
             self::$__allowed_methods = array_combine($keys, $keys);
 
             if (self::$__super_class !== $class_name) {
@@ -1008,7 +1014,8 @@ class div
      *
      * @return string
      */
-    public static function getVersion() {
+    public static function getVersion()
+    {
         return self::$__version;
     }
 
@@ -1062,9 +1069,9 @@ class div
         if (self::$__include_paths === null) {
             $os = self::getOperatingSystem();
             self::$__include_paths = explode(($os === 'win32' ? ';' : ':'), ini_get('include_path'));
-            self::$__include_paths [] = $packages;
+            self::$__include_paths[] = $packages;
             if ($packages !== $repo) {
-                self::$__include_paths [] = $repo;
+                self::$__include_paths[] = $repo;
             }
         }
 
@@ -1128,7 +1135,7 @@ class div
     /**
      * Create an auxiliary instance (as singleton)
      *
-     * @param object $from
+     * @param mixed $from
      */
     final public static function createAuxiliaryEngine(&$from = null)
     {
@@ -1151,13 +1158,12 @@ class div
         }
 
         if (self::$__engine === null) {
-            if (self::$__log_mode) {
-                self::log("createAuxiliaryEngine: A new $class_name instance will be created ...");
-            }
+            self::$__log_mode and self::log("createAuxiliaryEngine: A new $class_name instance will be created ...");
 
             $tmp = self::$__discard_file_system;
+
             self::$__discard_file_system = true;
-            self::$__engine = new $class_name ('', []); // auxiliary engine have empty src
+            self::$__engine = new $class_name('', []); // auxiliary engine have empty src
 
             if (is_object($from)) // auxiliary engine have optional items
             {
@@ -1171,9 +1177,9 @@ class div
     /**
      * Create a clone of auxiliary
      *
-     * @param mixed  $items
-     * @param mixed  $items_orig
-     * @param object $from
+     * @param mixed $items
+     * @param mixed $items_orig
+     * @param mixed $from
      * @param string $src
      * @param string $src_orig
      *
@@ -1209,9 +1215,7 @@ class div
             $obj = clone self::$__engine;
         }
 
-        if (self::$__log_mode) {
-            self::log('getAuxiliaryEngineClone: New auxiliary #'.$obj->getId());
-        }
+        self::$__log_mode and self::log('getAuxiliaryEngineClone: New auxiliary #' . $obj->getId());
 
         if ($items !== null) {
             $obj->__items = $items;
@@ -1241,7 +1245,7 @@ class div
             self::$__remember[$this->__crc] = [];
         }
         if (!array_key_exists($id, self::$__remember[$this->__crc])) {
-            self::$__remember [$this->__crc][$id] = $params;
+            self::$__remember[$this->__crc][$id] = $params;
         }
     }
 
@@ -1275,8 +1279,8 @@ class div
      */
     final public static function addCustomModifier($prefix, $function)
     {
-        self::$__custom_modifiers [$prefix] = [$prefix, $function];
-        self::$__modifiers [] = $prefix;
+        self::$__custom_modifiers[$prefix] = [$prefix, $function];
+        self::$__modifiers[] = $prefix;
     }
 
     /**
@@ -1286,7 +1290,7 @@ class div
      */
     final public static function enableSystemVar($var)
     {
-        self::$__system_data_allowed [$var] = true;
+        self::$__system_data_allowed[$var] = true;
     }
 
     /**
@@ -1297,7 +1301,7 @@ class div
     final public static function disableSystemVar($var)
     {
         if (array_key_exists($var, self::$__system_data_allowed)) {
-            unset (self::$__system_data_allowed[$var]);
+            unset(self::$__system_data_allowed[$var]);
         }
     }
 
@@ -1315,39 +1319,38 @@ class div
             if (array_key_exists("div{$d}ascii", self::$__system_data_allowed)) {
                 $ascii = [];
                 for ($i = 0; $i <= 255; $i++) {
-                    $ascii [$i] = chr($i);
+                    $ascii[$i] = chr($i);
                 }
-                self::$__system_data ["div{$d}ascii"] = $ascii;
+                self::$__system_data["div{$d}ascii"] = $ascii;
             }
 
             if (array_key_exists("div{$d}now", self::$__system_data_allowed)) {
-                self::$__system_data ["div{$d}now"] = time();
+                self::$__system_data["div{$d}now"] = time();
             }
             if (array_key_exists("div{$d}post", self::$__system_data_allowed)) {
-                self::$__system_data ["div{$d}post"] = $_POST;
+                self::$__system_data["div{$d}post"] = $_POST;
             }
             if (array_key_exists("div{$d}get", self::$__system_data_allowed)) {
-                self::$__system_data ["div{$d}get"] = $_GET;
+                self::$__system_data["div{$d}get"] = $_GET;
             }
             if (array_key_exists("div{$d}server", self::$__system_data_allowed)) {
-                self::$__system_data ["div{$d}server"] = $_SERVER;
+                self::$__system_data["div{$d}server"] = $_SERVER;
             }
             if (array_key_exists("div{$d}session", self::$__system_data_allowed)) {
-                self::$__system_data ["div{$d}session"] = isset($_SESSION) ? $_SESSION : [];
+                self::$__system_data["div{$d}session"] = isset($_SESSION) ? $_SESSION : [];
             }
             if (array_key_exists("div{$d}version", self::$__system_data_allowed)) {
-                self::$__system_data ["div{$d}version"] = self::$__version;
+                self::$__system_data["div{$d}version"] = self::$__version;
             }
             if (array_key_exists("div{$d}script_name", self::$__system_data_allowed)) {
-                $script_name = explode('/', $_SERVER ['SCRIPT_NAME']);
-                $script_name = $script_name [count($script_name) - 1];
-                self::$__system_data ["div{$d}script_name"] = $script_name;
+                $script_name = explode('/', $_SERVER['SCRIPT_NAME']);
+                $script_name = $script_name[count($script_name) - 1];
+                self::$__system_data["div{$d}script_name"] = $script_name;
             }
 
             if (array_key_exists("div{$d}level", self::$__system_data_allowed)) {
-                self::$__system_data ["div{$d}level"] = self::$__parse_level;
+                self::$__system_data["div{$d}level"] = self::$__parse_level;
             }
-
         }
 
         return self::$__system_data;
@@ -1360,7 +1363,7 @@ class div
      */
     final public static function setAllowedFunction($function_name)
     {
-        self::$__allowed_functions [$function_name] = true;
+        self::$__allowed_functions[$function_name] = true;
     }
 
     /**
@@ -1370,7 +1373,7 @@ class div
      */
     final public static function unsetAllowedFunction($function_name)
     {
-        self::$__allowed_functions [$function_name] = false;
+        self::$__allowed_functions[$function_name] = false;
     }
 
     /**
@@ -1381,7 +1384,7 @@ class div
      */
     final public static function setGlobal($var, $value)
     {
-        self::$__globals [$var] = $value;
+        self::$__globals[$var] = $value;
     }
 
     /**
@@ -1391,7 +1394,7 @@ class div
      */
     final public static function delGlobal($var)
     {
-        unset (self::$__globals [$var]);
+        unset(self::$__globals[$var]);
     }
 
     /**
@@ -1402,7 +1405,7 @@ class div
      */
     final public static function setDefault($search, $replace)
     {
-        self::$__defaults [serialize($search)] = $replace;
+        self::$__defaults[serialize($search)] = $replace;
     }
 
     /**
@@ -1417,10 +1420,10 @@ class div
     {
         $id = serialize($search);
         if (!array_key_exists($var, self::$__defaults_by_var)) {
-            self::$__defaults_by_var [$var] = [];
+            self::$__defaults_by_var[$var] = [];
         }
-        if ($update === true && !array_key_exists($id, self::$__defaults_by_var [$var])) {
-            self::$__defaults_by_var [$var] [$id] = $replace;
+        if ($update === true && !array_key_exists($id, self::$__defaults_by_var[$var])) {
+            self::$__defaults_by_var[$var][$id] = $replace;
         }
     }
 
@@ -1436,25 +1439,25 @@ class div
             if ($function === null) {
                 foreach ($name as $key => $value) {
                     if (is_numeric($key)) {
-                        self::$__sub_parsers [$value] = $value;
+                        self::$__sub_parsers[$value] = $value;
                     } else {
-                        self::$__sub_parsers [$key] = $value;
+                        self::$__sub_parsers[$key] = $value;
                     }
                 }
             } elseif (is_array($function)) {
                 foreach ($name as $key => $value) {
-                    self::$__sub_parsers [$value] = $function [$key];
+                    self::$__sub_parsers[$value] = $function[$key];
                 }
             } else {
                 foreach ($name as $key => $value) {
-                    self::$__sub_parsers [$value] = $function;
+                    self::$__sub_parsers[$value] = $function;
                 }
             }
         } else {
             if ($function === null) {
                 $function = $name;
             }
-            self::$__sub_parsers [$name] = $function;
+            self::$__sub_parsers[$name] = $function;
         }
         self::repairSubParsers();
     }
@@ -1484,7 +1487,7 @@ class div
 
             foreach ($events as $event) {
                 if (!array_key_exists("$parser:$event", self::$__sub_parsers)) {
-                    $news ["$parser:$event"] = $function;
+                    $news["$parser:$event"] = $function;
                 }
             }
         }
@@ -1501,18 +1504,16 @@ class div
      */
     final public function loadTemplate($template_path)
     {
-        if (self::$__log_mode === true) {
-            $this->logger("Loading the template: $template_path");
-        }
+        self::$__log_mode and $this->logger("Loading the template: $template_path");
 
         $src = $template_path;
 
         if (strlen($template_path) < 255) {
             $paths = [
                 $template_path,
-                $template_path.'.'.DIV_DEFAULT_TPL_FILE_EXT,
+                $template_path . '.' . DIV_DEFAULT_TPL_FILE_EXT,
                 $template_path,
-                $template_path.'.'.DIV_DEFAULT_TPL_FILE_EXT,
+                $template_path . '.' . DIV_DEFAULT_TPL_FILE_EXT,
             ];
 
             foreach ($paths as $path) {
@@ -1583,7 +1584,7 @@ class div
     {
         $id = serialize($search);
         if (array_key_exists($id, self::$__defaults)) {
-            unset (self::$__defaults [$id]);
+            unset(self::$__defaults[$id]);
         }
     }
 
@@ -1598,7 +1599,7 @@ class div
         if (array_key_exists($var, self::$__defaults_by_var)) {
             $id = serialize($search);
             if (array_key_exists($id, self::$__defaults_by_var[$var])) {
-                unset (self::$__defaults_by_var [$var] [$id]);
+                unset(self::$__defaults_by_var[$var][$id]);
             }
         }
     }
@@ -1606,8 +1607,8 @@ class div
     /**
      * Add or Set item of information
      *
-     * @param string $var
-     * @param mixed  $value
+     * @param mixed $var
+     * @param mixed $value
      *
      * @return mixed
      */
@@ -1617,9 +1618,9 @@ class div
             $r = [];
             foreach ($var as $idx => $val) {
                 if (self::issetVar($idx, $this->__items)) {
-                    $r [$idx] = self::getVarValue($idx, $this->__items);
+                    $r[$idx] = self::getVarValue($idx, $this->__items);
                 } else {
-                    $r [$idx] = null;
+                    $r[$idx] = null;
                 }
 
                 self::setVarValue($idx, $val, $this->__items);
@@ -1701,21 +1702,21 @@ class div
     final public function getRanges($tag_ini, $tag_end, $src = null, $only_first = false, $pos = 0)
     {
         $ranges = [];
-        if (($src === null) && isset($this)) {
+        if ($src === null) {
             $src = $this->__src;
         }
 
-        if (!empty ($src) && ($src !== null) && isset($src [0])) {
+        if (!empty($src) && ($src !== null) && isset($src[0])) {
             $tag_ini_len = strlen($tag_ini);
             $tag_end_len = strlen($tag_end);
             do {
                 $ini = false;
 
-                if (isset($src [$pos])) {
+                if (isset($src[$pos])) {
                     $ini = strpos($src, $tag_ini, $pos);
                 }
 
-                if (($ini !== false) && isset($src [$ini + $tag_ini_len])) {
+                if (($ini !== false) && isset($src[$ini + $tag_ini_len])) {
                     $fin = strpos($src, $tag_end, $ini + $tag_ini_len);
                     if ($fin !== false) {
                         $l = strlen($src);
@@ -1770,7 +1771,7 @@ class div
                             $last_pos = $pos;
 
                             if ($end !== false) {
-                                $ranges [] = [
+                                $ranges[] = [
                                     $ini,
                                     $end,
                                 ];
@@ -1784,11 +1785,11 @@ class div
                     }
                 }
 
-                if (!isset($ranges [0]) && $ini !== false) {
-                    if (self::$__log_mode && isset($this)) {
+                if (!isset($ranges[0]) && $ini !== false) {
+                    if (self::$__log_mode) {
                         foreach ($this->__items as $key => $value) {
                             if (strpos($tag_ini, $key) !== false) {
-                                $this->logger('Unclosed tag '.$tag_ini.' at '.$ini.' character', DIV_ERROR_WARNING);
+                                $this->logger('Unclosed tag ' . $tag_ini . ' at ' . $ini . ' character', DIV_ERROR_WARNING);
                                 break;
                             }
                         }
@@ -1839,7 +1840,7 @@ class div
         do {
             $prefix_pos = strpos($src, $begin_prefix, $from);
             if ($prefix_pos !== false) {
-                if (isset($src [$prefix_pos + 1])) {
+                if (isset($src[$prefix_pos + 1])) {
 
                     if ($begin_suffix !== '' && $begin_suffix !== null) {
                         $suffix_pos = strpos($src, $begin_suffix, $prefix_pos + 1);
@@ -1872,7 +1873,7 @@ class div
                                 continue;
                             }
 
-                            $stop_pos [] = $pp;
+                            $stop_pos[] = $pp;
                         }
 
                         $suffix_pos = false;
@@ -1886,12 +1887,12 @@ class div
                         $key = substr($src, $prefix_pos + $l1, $suffix_pos - $prefix_pos - $l1);
                     }
 
-                    if ($key !== '' && !isset($tags_done [$key])) {
-                        $tag_begin = $begin_prefix.$key.$begin_suffix;
-                        $tag_end = $end_prefix.$key.$end_suffix;
+                    if ($key !== '' && !isset($tags_done[$key])) {
+                        $tag_begin = $begin_prefix . $key . $begin_suffix;
+                        $tag_end = $end_prefix . $key . $end_suffix;
 
-                        $tag_begin_ignore = empty($begin_suffix) ? $begin_prefix.$key.DIV_TAG_VAR_MEMBER_DELIMITER : false;
-                        $tag_end_ignore = empty($end_suffix) ? $end_prefix.$key.DIV_TAG_VAR_MEMBER_DELIMITER : false;
+                        $tag_begin_ignore = empty($begin_suffix) ? $begin_prefix . $key . DIV_TAG_VAR_MEMBER_DELIMITER : false;
+                        $tag_end_ignore = empty($end_suffix) ? $end_prefix . $key . DIV_TAG_VAR_MEMBER_DELIMITER : false;
                         $tag_begin_ignore_len = $tag_begin_ignore === false ? 0 : strlen($tag_begin_ignore);
                         $tag_end_ignore_len = $tag_end_ignore === false ? 0 : strlen($tag_end_ignore);
                         $tag_begin_ignore_replace = substr(str_repeat(uniqid('', true), $tag_begin_ignore_len), 0, $tag_begin_ignore_len);
@@ -1907,18 +1908,18 @@ class div
                         $rs = $this->getRanges($tag_begin, $tag_end, $temporal_src, $only_first, $from);
                         $l2 = strlen($tag_begin);
                         foreach ($rs as $k => $v) {
-                            $rs [$k] [2] = $key;
-                            $rs [$k] [3] = substr($src, $v [0] + $l2, $v [1] - $v [0] - $l2);
-                            $rs [$k] [4] = strlen($key);
+                            $rs[$k][2] = $key;
+                            $rs[$k][3] = substr($src, $v[0] + $l2, $v[1] - $v[0] - $l2);
+                            $rs[$k][4] = strlen($key);
                         }
                         $ranges = array_merge($ranges, $rs);
 
                         // Only the first...
-                        if ($only_first && isset($ranges [0])) {
+                        if ($only_first && isset($ranges[0])) {
                             break;
                         }
 
-                        $tags_done [$key] = true;
+                        $tags_done[$key] = true;
                     }
                 }
                 $from = $prefix_pos + 1;
@@ -1939,7 +1940,7 @@ class div
     {
         $id = serialize($value);
         if (array_key_exists($id, self::$__defaults)) {
-            return self::$__defaults [$id];
+            return self::$__defaults[$id];
         }
 
         return $value;
@@ -1957,8 +1958,8 @@ class div
     {
         if (array_key_exists($var, self::$__defaults_by_var)) {
             $id = serialize($value);
-            if (array_key_exists($id, self::$__defaults_by_var [$var])) {
-                return self::$__defaults_by_var [$var] [$id];
+            if (array_key_exists($id, self::$__defaults_by_var[$var])) {
+                return self::$__defaults_by_var[$var][$id];
             }
         }
 
@@ -2003,7 +2004,7 @@ class div
         $ranges = $this->getBlockRanges(null, DIV_TAG_LOOP_BEGIN_PREFIX, DIV_TAG_LOOP_BEGIN_SUFFIX, DIV_TAG_LOOP_END_PREFIX, DIV_TAG_LOOP_END_SUFFIX);
 
         foreach ($ranges as $rang) {
-            if ($pos > $rang [0] && $pos < $rang [1]) {
+            if ($pos > $rang[0] && $pos < $rang[1]) {
                 return true;
             }
         }
@@ -2022,8 +2023,8 @@ class div
     {
         $ranges = $this->getBlockRanges(null, DIV_TAG_LOOP_BEGIN_PREFIX, DIV_TAG_LOOP_BEGIN_SUFFIX, DIV_TAG_LOOP_END_PREFIX, DIV_TAG_LOOP_END_SUFFIX);
         foreach ($ranges as $rang) {
-            if ($pos > $rang [0]) {
-                return $rang [0];
+            if ($pos > $rang[0]) {
+                return $rang[0];
             }
         }
 
@@ -2042,7 +2043,7 @@ class div
     final public function searchPosAfterRange($tag_begin, $tag_end, $pos)
     {
         $ranges = $this->getRanges($tag_begin, $tag_end, null, true);
-        if (isset($ranges [0]) && $ranges [0] [0] < $pos) {
+        if (isset($ranges[0]) && $ranges[0][0] < $pos) {
             return true;
         }
 
@@ -2064,7 +2065,7 @@ class div
         }
 
         foreach ($items as $key => $value) {
-            $ranges = $this->getRanges(DIV_TAG_CAPSULE_BEGIN_PREFIX.$key, DIV_TAG_CAPSULE_END_PREFIX.$key);
+            $ranges = $this->getRanges(DIV_TAG_CAPSULE_BEGIN_PREFIX . $key, DIV_TAG_CAPSULE_END_PREFIX . $key);
             foreach ($ranges as $range) {
                 if ($pos >= $range[0] && $pos <= $range[1]) {
                     return true;
@@ -2112,7 +2113,7 @@ class div
             return false;
         }
 
-        return $value;
+        return (bool) $value;
     }
 
     /**
@@ -2141,8 +2142,8 @@ class div
             // checking that the tag doesn't belong to another IF inside this IF
             if ($else !== false) {
                 foreach ($ranges as $r) {
-                    if ($else >= $r [0] && $else <= $r [1]) {
-                        $else_pos = $r [1] + 1;
+                    if ($else >= $r[0] && $else <= $r[1]) {
+                        $else_pos = $r[1] + 1;
                         $else = false;
                         $continue = true;
                         break;
@@ -2178,8 +2179,8 @@ class div
             // checking that the tag doesn't belong to another list block inside this list block
             if ($empty !== false) {
                 foreach ($ranges as $r) {
-                    if ($empty >= $r [0] && $empty <= $r [1]) {
-                        $empty_pos = $r [1] + 1;
+                    if ($empty >= $r[0] && $empty <= $r[1]) {
+                        $empty_pos = $r[1] + 1;
                         $empty = false;
                         $continue = true;
                         break;
@@ -2196,17 +2197,13 @@ class div
      *
      * @param string $key
      * @param mixed  $value
-     *
-     * @return string
      */
     final public function parseConditionalBlock($key, $value)
     {
-        if (self::$__log_mode) {
-            $this->logger('Parsing conditional block: '.$key);
-        }
+        self::$__log_mode and $this->logger('Parsing conditional block: ' . $key);
 
-        if (isset($this->__ignore[$key]) && $this->__ignore [$key] === true) {
-            return false;
+        if (isset($this->__ignore[$key]) && $this->__ignore[$key] === true) {
+            return;
         }
 
         $src = &$this->__src;
@@ -2220,7 +2217,7 @@ class div
                 if (is_numeric($k)) {
                     break;
                 }
-                $this->parseConditionalBlock($key.DIV_TAG_VAR_MEMBER_DELIMITER.$k, $val);
+                $this->parseConditionalBlock($key . DIV_TAG_VAR_MEMBER_DELIMITER . $k, $val);
             }
         }
 
@@ -2231,15 +2228,15 @@ class div
         foreach ($passes as $flag) {
 
             if ($flag === false) {
-                $tag_begin = DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX.$key.DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX;
-                $tag_end = DIV_TAG_CONDITIONAL_TRUE_END_PREFIX.$key.DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX;
-                $tag_begin_ignore = empty(DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX) ? DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX.$key.DIV_TAG_VAR_MEMBER_DELIMITER : false;
-                $tag_end_ignore = empty(DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX) ? DIV_TAG_CONDITIONAL_TRUE_END_PREFIX.$key.DIV_TAG_VAR_MEMBER_DELIMITER : false;
+                $tag_begin = DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX . $key . DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX;
+                $tag_end = DIV_TAG_CONDITIONAL_TRUE_END_PREFIX . $key . DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX;
+                $tag_begin_ignore = empty(DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX) ? DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX . $key . DIV_TAG_VAR_MEMBER_DELIMITER : false;
+                $tag_end_ignore = empty(DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX) ? DIV_TAG_CONDITIONAL_TRUE_END_PREFIX . $key . DIV_TAG_VAR_MEMBER_DELIMITER : false;
             } else {
-                $tag_begin = DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX.$key.DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX;
-                $tag_end = DIV_TAG_CONDITIONAL_FALSE_END_PREFIX.$key.DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX;
-                $tag_begin_ignore = empty(DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX) ? DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX.$key.DIV_TAG_VAR_MEMBER_DELIMITER : false;
-                $tag_end_ignore = empty(DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX) ? DIV_TAG_CONDITIONAL_FALSE_END_PREFIX.$key.DIV_TAG_VAR_MEMBER_DELIMITER : false;
+                $tag_begin = DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX . $key . DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX;
+                $tag_end = DIV_TAG_CONDITIONAL_FALSE_END_PREFIX . $key . DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX;
+                $tag_begin_ignore = empty(DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX) ? DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX . $key . DIV_TAG_VAR_MEMBER_DELIMITER : false;
+                $tag_end_ignore = empty(DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX) ? DIV_TAG_CONDITIONAL_FALSE_END_PREFIX . $key . DIV_TAG_VAR_MEMBER_DELIMITER : false;
             }
 
             $tag_begin_len = strlen($tag_begin);
@@ -2273,12 +2270,12 @@ class div
                     // Controlling injected vars
                     // _is_last _is_first _is_odd _is_even
 
-                    if (in_array($key, ['_is_last', '_is_first', '_is_odd', '_id_even'])
-                        && $this->isBlockInsideBlock(DIV_TAG_LOOP_BEGIN_PREFIX, DIV_TAG_LOOP_END_PREFIX, $ini, $fin)) {
+                    if (
+                        in_array($key, ['_is_last', '_is_first', '_is_odd', '_id_even'])
+                        && $this->isBlockInsideBlock(DIV_TAG_LOOP_BEGIN_PREFIX, DIV_TAG_LOOP_END_PREFIX, $ini, $fin)
+                    ) {
                         $pos = $fin + 1;
-                        if (self::$__log_mode) {
-                            $this->logger("Ignore the injected var inside another list block: $key..");
-                        }
+                        self::$__log_mode and $this->logger("Ignore the injected var inside another list block: $key..");
                         continue;
                     }
 
@@ -2299,9 +2296,9 @@ class div
                             if (substr($con, -1) === ' ') {
                                 $con = substr_replace($con, '', -1);
                             }
-                            $src = substr($src, 0, $ini).$con.substr($src, $fin + $tag_end_len);
+                            $src = substr($src, 0, $ini) . $con . substr($src, $fin + $tag_end_len);
                         } else {
-                            $src = substr($src, 0, $ini).substr($src, $fin + $tag_end_len);
+                            $src = substr($src, 0, $ini) . substr($src, $fin + $tag_end_len);
                         }
                     } elseif ($else !== false) {
                         $con = substr($src, $ini + $tag_begin_len, $else);
@@ -2311,7 +2308,7 @@ class div
                         if (substr($con, -1) === ' ') {
                             $con = substr_replace($con, '', -1);
                         }
-                        $src = substr($src, 0, $ini).$con.substr($src, $fin + $tag_end_len);
+                        $src = substr($src, 0, $ini) . $con . substr($src, $fin + $tag_end_len);
                     } else {
                         $con = substr($src, $ini + $tag_begin_len, $fin - ($ini + $tag_begin_len));
                         if (strpos($con, ' ') === 0) {
@@ -2320,7 +2317,7 @@ class div
                         if (substr($con, -1) === ' ') {
                             $con = substr_replace($con, '', -1);
                         }
-                        $src = substr($src, 0, $ini).$con.substr($src, $fin + $tag_end_len);
+                        $src = substr($src, 0, $ini) . $con . substr($src, $fin + $tag_end_len);
                     }
 
                     $pos = $ini + 1;
@@ -2341,11 +2338,11 @@ class div
      */
     final public function numberFormat($key, $value)
     {
-        if (isset($this->__ignore [$key]) && $this->__ignore [$key] === true) {
+        if (isset($this->__ignore[$key]) && $this->__ignore[$key] === true) {
             return false;
         }
 
-        $tag_begin = DIV_TAG_NUMBER_FORMAT_PREFIX.$key.DIV_TAG_NUMBER_FORMAT_SEPARATOR;
+        $tag_begin = DIV_TAG_NUMBER_FORMAT_PREFIX . $key . DIV_TAG_NUMBER_FORMAT_SEPARATOR;
         $tag_end = DIV_TAG_NUMBER_FORMAT_SUFFIX;
         $l1 = strlen($tag_begin);
         $l2 = strlen($tag_end);
@@ -2367,9 +2364,7 @@ class div
 
             list($ini, $fin) = $ranges[0];
 
-            if (self::$__log_mode) {
-                $this->logger("Formatting number $key = $value");
-            }
+            self::$__log_mode and $this->logger("Formatting number $key = $value");
 
             if ($ini > $p1 && $p1 !== false) {
                 return true;
@@ -2391,7 +2386,7 @@ class div
             }
 
             if (!is_numeric($value)) {
-                $this->__src = substr($this->__src, 0, $ini).DIV_TAG_NUMBER_FORMAT_PREFIX.$value.DIV_TAG_NUMBER_FORMAT_SEPARATOR.$format.DIV_TAG_NUMBER_FORMAT_SUFFIX.substr($this->__src, $fin + $l2);
+                $this->__src = substr($this->__src, 0, $ini) . DIV_TAG_NUMBER_FORMAT_PREFIX . $value . DIV_TAG_NUMBER_FORMAT_SEPARATOR . $format . DIV_TAG_NUMBER_FORMAT_SUFFIX . substr($this->__src, $fin + $l2);
 
                 return true;
             }
@@ -2410,8 +2405,8 @@ class div
                 $format = substr($format, 0, strlen($format) - 1);
             }
 
-            $decimals = (int)$format;
-            $this->__src = substr($this->__src, 0, $ini).number_format($value, $decimals, $separator, $miles_sep).substr($this->__src, $fin + $l2);
+            $decimals = (int) $format;
+            $this->__src = substr($this->__src, 0, $ini) . number_format($value, $decimals, $separator, $miles_sep) . substr($this->__src, $fin + $l2);
         }
 
         return true;
@@ -2429,7 +2424,7 @@ class div
      */
     final public function parseSubMatch(&$items, $key, $value, $modifiers = [])
     {
-        if (isset($this->__ignore [$key]) && $this->__ignore [$key] === true) {
+        if (isset($this->__ignore[$key]) && $this->__ignore[$key] === true) {
             return false;
         }
 
@@ -2439,100 +2434,98 @@ class div
         $vsx = '';
 
         if ($literal === true) {
-            $vpx = '{'.$this->__ignore_secret_tag.'}';
-            $vsx = '{/'.$this->__ignore_secret_tag.'}';
+            $vpx = '{' . $this->__ignore_secret_tag . '}';
+            $vsx = '{/' . $this->__ignore_secret_tag . '}';
         }
 
-        if (strpos($this->__src, $key.DIV_TAG_SUBMATCH_SEPARATOR) !== false) {
+        if (strpos($this->__src, $key . DIV_TAG_SUBMATCH_SEPARATOR) !== false) {
             foreach ($modifiers as $modifier) {
                 while (true) {
-                    $tag_begin = DIV_TAG_REPLACEMENT_PREFIX.$modifier.$key.DIV_TAG_SUBMATCH_SEPARATOR;
+                    $tag_begin = DIV_TAG_REPLACEMENT_PREFIX . $modifier . $key . DIV_TAG_SUBMATCH_SEPARATOR;
                     $ranges = $this->getRanges($tag_begin, DIV_TAG_REPLACEMENT_SUFFIX, null, true);
                     $l = strlen($tag_begin);
                     if (count($ranges) < 1) {
                         break;
                     }
 
-                    if (self::$__log_mode) {
-                        $this->logger("Parsing sub-match  $tag_begin");
-                    }
+                    self::$__log_mode and $this->logger("Parsing sub-match  $tag_begin");
 
                     // User wrote
-                    $r = substr($this->__src, $ranges [0] [0] + $l, $ranges [0] [1] - ($ranges [0] [0] + $l));
+                    $r = substr($this->__src, $ranges[0][0] + $l, $ranges[0][1] - ($ranges[0][0] + $l));
 
                     // Interpreted by Div
                     $arr = explode(DIV_TAG_MODIFIER_SUBSTRING_SEPARATOR, $r);
                     if (count($arr) < 2) {
                         $arr = [
                             0,
-                            $arr [0],
+                            $arr[0],
                         ];
                     }
-                    $arr [0] = trim($arr [0]);
-                    $arr [1] = trim($arr [1]);
+                    $arr[0] = trim($arr[0]);
+                    $arr[1] = trim($arr[1]);
 
                     $new_key = str_replace('.', '', uniqid('submatch', true));
 
-                    self::$__dont_remember_it [$new_key] = true;
+                    self::$__dont_remember_it[$new_key] = true;
 
-                    if (!is_numeric($arr [0]) || !is_numeric($arr [1])) {
-                        if (strpos((string)$arr[1], DIV_TAG_MODIFIER_TRUNCATE) === 0) {
-                            $items [$new_key] = $vpx.self::teaser((string)$value, (int)substr($arr [1], 1)).$vsx;
+                    if (!is_numeric($arr[0]) || !is_numeric($arr[1])) {
+                        if (strpos((string) $arr[1], DIV_TAG_MODIFIER_TRUNCATE) === 0) {
+                            $items[$new_key] = $vpx . self::teaser((string) $value, (int) substr($arr[1], 1)) . $vsx;
                             $this->saveOperation([
-                                'o'        => 'replace_sub_match_teaser',
-                                'key'      => $key,
+                                'o' => 'replace_sub_match_teaser',
+                                'key' => $key,
                                 'modifier' => $modifier,
-                                'param'    => $r,
+                                'param' => $r,
                             ]);
-                        } elseif (strpos((string)$arr[1], DIV_TAG_MODIFIER_WORDWRAP) === 0) {
-                            $items [$new_key] = $vpx.wordwrap((string)$value, (int)substr($arr [1], 1), "\n", 1).$vsx;
+                        } elseif (strpos((string) $arr[1], DIV_TAG_MODIFIER_WORDWRAP) === 0) {
+                            $items[$new_key] = $vpx . wordwrap((string) $value, (int) substr($arr[1], 1), "\n", 1) . $vsx;
                             $this->saveOperation([
-                                'o'        => 'replace_sub_match_wordwrap',
-                                'key'      => $key,
+                                'o' => 'replace_sub_match_wordwrap',
+                                'key' => $key,
                                 'modifier' => $modifier,
-                                'param'    => $r,
+                                'param' => $r,
                             ]);
-                        } elseif (strpos((string)$arr[1], DIV_TAG_MODIFIER_FORMAT) === 0 || DIV_TAG_MODIFIER_FORMAT === '') {
-                            $items [$new_key] = $vpx.sprintf($arr [1], $value).$vsx;
+                        } elseif (strpos((string) $arr[1], DIV_TAG_MODIFIER_FORMAT) === 0 || DIV_TAG_MODIFIER_FORMAT === '') {
+                            $items[$new_key] = $vpx . sprintf($arr[1], $value) . $vsx;
                             $this->saveOperation([
-                                'o'        => 'replace_sub_match_sprintf',
-                                'key'      => $key,
+                                'o' => 'replace_sub_match_sprintf',
+                                'key' => $key,
                                 'modifier' => $modifier,
-                                'param'    => $r,
+                                'param' => $r,
                             ]);
                         }
                     } else {
-                        $items [$new_key] = $vpx.substr((string)$value, $arr [0], $arr [1]).$vsx;
+                        $items[$new_key] = $vpx . substr((string) $value, $arr[0], $arr[1]) . $vsx;
                         $this->saveOperation([
-                            'o'        => 'replace_sub_match_sub_str',
-                            'key'      => $key,
+                            'o' => 'replace_sub_match_sub_str',
+                            'key' => $key,
                             'modifier' => $modifier,
-                            'param'    => $r,
-                            'from'     => $arr [0],
-                            'for'      => $arr [1],
+                            'param' => $r,
+                            'from' => $arr[0],
+                            'for' => $arr[1],
                         ]);
                     }
 
                     $right = '';
 
-                    if ($ranges [0] [1] + 1 < strlen($this->__src)) {
-                        $right = substr($this->__src, $ranges [0] [1] + strlen(DIV_TAG_REPLACEMENT_SUFFIX));
+                    if ($ranges[0][1] + 1 < strlen($this->__src)) {
+                        $right = substr($this->__src, $ranges[0][1] + strlen(DIV_TAG_REPLACEMENT_SUFFIX));
                     }
-                    $this->__src = substr($this->__src, 0, $ranges [0] [0]).DIV_TAG_REPLACEMENT_PREFIX."{$modifier}$new_key".DIV_TAG_REPLACEMENT_SUFFIX.$right;
+                    $this->__src = substr($this->__src, 0, $ranges[0][0]) . DIV_TAG_REPLACEMENT_PREFIX . "{$modifier}$new_key" . DIV_TAG_REPLACEMENT_SUFFIX . $right;
                 }
             }
         }
 
-        if (strpos($this->__src, (string)$key.DIV_TAG_VAR_MEMBER_DELIMITER) !== false) {
+        if (strpos($this->__src, (string) $key . DIV_TAG_VAR_MEMBER_DELIMITER) !== false) {
             if (is_object($value)) {
                 $vars = get_object_vars($value);
                 foreach ($vars as $kk => $v) {
-                    $this->parseSubMatch($items, $key.DIV_TAG_VAR_MEMBER_DELIMITER.$kk, $v, $modifiers);
+                    $this->parseSubMatch($items, $key . DIV_TAG_VAR_MEMBER_DELIMITER . $kk, $v, $modifiers);
                 }
             }
             if (is_array($value)) {
                 foreach ($value as $kk => $v) {
-                    $this->parseSubMatch($items, $key.DIV_TAG_VAR_MEMBER_DELIMITER.$kk, $v, $modifiers);
+                    $this->parseSubMatch($items, $key . DIV_TAG_VAR_MEMBER_DELIMITER . $kk, $v, $modifiers);
                 }
             }
         }
@@ -2547,9 +2540,8 @@ class div
      */
     final public function parseSubmatches(&$items = null)
     {
-        if (self::$__log_mode) {
-            $this->logger('Parsing sub-matches...');
-        }
+        self::$__log_mode and $this->logger('Parsing sub-matches...');
+
         if ($items === null) {
             $items = &$this->__items;
         }
@@ -2557,8 +2549,8 @@ class div
         $modifiers = [];
 
         foreach (self::$__modifiers as $m) {
-            if (strpos($this->__src, DIV_TAG_REPLACEMENT_PREFIX.$m) !== false) {
-                $modifiers [] = $m;
+            if (strpos($this->__src, DIV_TAG_REPLACEMENT_PREFIX . $m) !== false) {
+                $modifiers[] = $m;
             }
         }
 
@@ -2580,7 +2572,7 @@ class div
                 break;
             }
             list($ini, $end) = $r[0];
-            $this->__src = substr($this->__src, 0, $ini).substr($this->__src, $ini + $tag_ini_len, $end - ($ini + $tag_ini_len)).substr($this->__src, $end + $tag_end_len);
+            $this->__src = substr($this->__src, 0, $ini) . substr($this->__src, $ini + $tag_ini_len, $end - ($ini + $tag_ini_len)) . substr($this->__src, $end + $tag_end_len);
         }
     }
 
@@ -2595,7 +2587,7 @@ class div
             $var = explode(' ', str_replace(',', ' ', $var));
         }
 
-        $literals = self::getVarValue('div'.DIV_TAG_VAR_MEMBER_DELIMITER.'literals', self::$__globals_design);
+        $literals = self::getVarValue('div' . DIV_TAG_VAR_MEMBER_DELIMITER . 'literals', self::$__globals_design);
 
         if ($literals === null || $literals === false) {
             $literals = [];
@@ -2607,7 +2599,7 @@ class div
 
         $literals = array_merge($literals, $var);
 
-        self::setVarValue('div'.DIV_TAG_VAR_MEMBER_DELIMITER.'literals', $literals, self::$__globals_design, true);
+        self::setVarValue('div' . DIV_TAG_VAR_MEMBER_DELIMITER . 'literals', $literals, self::$__globals_design, true);
     }
 
     /**
@@ -2615,7 +2607,7 @@ class div
      */
     final public function getLiterals()
     {
-        $val = self::getVarValue('div'.DIV_TAG_VAR_MEMBER_DELIMITER.'literals', $this->__memory);
+        $val = self::getVarValue('div' . DIV_TAG_VAR_MEMBER_DELIMITER . 'literals', $this->__memory);
 
         if ($val === null || $val === false) {
             return [];
@@ -2629,7 +2621,7 @@ class div
         foreach ($val as $v) {
             $v = trim($v);
             if ($v !== '') {
-                $arr [$v] = $v;
+                $arr[$v] = $v;
             }
         }
 
@@ -2662,13 +2654,12 @@ class div
      * @param object  $engine
      * @param boolean $ignore_logical_order
      *
-     * @return boolean
      * @see [1] ignoring conditional tag length, don't worry
      *
      */
     final public function parseMatch($key, $value, &$engine, $ignore_logical_order = false)
     {
-        if (isset($this->__ignore [$key]) && $this->__ignore [$key] === true) {
+        if (isset($this->__ignore[$key]) && $this->__ignore[$key] === true) {
             return false;
         }
 
@@ -2686,7 +2677,7 @@ class div
         $is_string = self::isString($value);
 
         if ($is_string) {
-            $value = (string)$value;
+            $value = (string) $value;
         }
 
         $literal = $this->isLiteral($key);
@@ -2695,8 +2686,8 @@ class div
         $vsx = '';
 
         if ($literal === true) {
-            $vpx = '{'.$this->__ignore_secret_tag.'}';
-            $vsx = '{/'.$this->__ignore_secret_tag.'}';
+            $vpx = '{' . $this->__ignore_secret_tag . '}';
+            $vsx = '{/' . $this->__ignore_secret_tag . '}';
         }
 
         $prefix = DIV_TAG_REPLACEMENT_PREFIX;
@@ -2724,14 +2715,14 @@ class div
                 $p1 = $p2;
             }
 
-            if (strpos($value, $prefix.DIV_TAG_MODIFIER_SIMPLE.$key.$suffix) !== false) {
-                $value = str_replace($prefix.DIV_TAG_MODIFIER_SIMPLE.$key.$suffix, '', $value);
-                self::error("Was detected an infinite loop in recursive replacement of ${$key}.", DIV_ERROR_WARNING);
+            if (strpos($value, $prefix . DIV_TAG_MODIFIER_SIMPLE . $key . $suffix) !== false) {
+                $value = str_replace($prefix . DIV_TAG_MODIFIER_SIMPLE . $key . $suffix, '', $value);
+                self::error("Was detected an infinite loop in recursive replacement of \${$key}.", DIV_ERROR_WARNING);
             }
 
             $px = false;
             foreach (self::$__modifiers as $lm) {
-                $py = strpos($sub_str, $prefix.$lm.$key.$suffix);
+                $py = strpos($sub_str, $prefix . $lm . $key . $suffix);
                 if ($py !== false) {
                     $px = $py;
                     break;
@@ -2741,11 +2732,9 @@ class div
             if ($px !== false) {
 
                 $replace_count = 0;
-                if (self::$__log_mode) {
-                    $this->logger("Parsing match: $key in '".substr($sub_str, 0, 50)."'");
-                }
+                self::$__log_mode and $this->logger("Parsing match: $key in '" . substr($sub_str, 0, 50) . "'");
 
-                $value = trim((string)$value);
+                $value = trim((string) $value);
 
                 if (trim($value) !== '' && $literal === false) {
                     $crc = crc32($value);
@@ -2760,161 +2749,165 @@ class div
                 }
 
                 $mod = DIV_TAG_MODIFIER_SIMPLE;
-                $sub_str = str_replace($prefix.$mod.$key.$suffix, $vpx.$value.$vsx, $sub_str, $replace_count); // simple replacement
+                $sub_str = str_replace($prefix . $mod . $key . $suffix, $vpx . $value . $vsx, $sub_str, $replace_count); // simple replacement
 
-                if ($replace_count > 0 && !isset(self::$__dont_remember_it [$key])) {
+                if ($replace_count > 0 && !isset(self::$__dont_remember_it[$key])) {
                     $this->saveOperation([
-                        'o'        => 'simple_replacement',
-                        'key'      => $key,
+                        'o' => 'simple_replacement',
+                        'key' => $key,
                         'modifier' => $mod,
-                        'before'   => $p1,
+                        'before' => $p1,
                     ]);
                 }
 
                 $mod = DIV_TAG_MODIFIER_CAPITALIZE_FIRST;
-                if (strpos($sub_str, $prefix.$mod) !== false) {
-                    $sub_str = str_replace(DIV_TAG_REPLACEMENT_PREFIX.$mod.$key.$suffix, $vpx.ucfirst($value).$vsx, $sub_str, $replace_count);
-                    if ($replace_count > 0 && !isset(self::$__dont_remember_it [$key])) {
+                if (strpos($sub_str, $prefix . $mod) !== false) {
+                    $sub_str = str_replace(DIV_TAG_REPLACEMENT_PREFIX . $mod . $key . $suffix, $vpx . ucfirst($value) . $vsx, $sub_str, $replace_count);
+                    if ($replace_count > 0 && !isset(self::$__dont_remember_it[$key])) {
                         $this->saveOperation([
-                            'o'        => 'simple_replacement',
-                            'key'      => $key,
+                            'o' => 'simple_replacement',
+                            'key' => $key,
                             'modifier' => $mod,
-                            'before'   => $p1,
+                            'before' => $p1,
                         ]);
                     }
                 }
 
                 $mod = DIV_TAG_MODIFIER_CAPITALIZE_WORDS;
-                if (strpos($sub_str, $prefix.$mod) !== false) {
-                    $sub_str = str_replace($prefix.$mod.$key.$suffix, $vpx.ucwords($value).$vsx, $sub_str, $replace_count);
-                    if ($replace_count > 0 && !isset(self::$__dont_remember_it [$key])) {
+                if (strpos($sub_str, $prefix . $mod) !== false) {
+                    $sub_str = str_replace($prefix . $mod . $key . $suffix, $vpx . ucwords($value) . $vsx, $sub_str, $replace_count);
+                    if ($replace_count > 0 && !isset(self::$__dont_remember_it[$key])) {
                         $this->saveOperation([
-                            'o'        => 'simple_replacement',
-                            'key'      => $key,
+                            'o' => 'simple_replacement',
+                            'key' => $key,
                             'modifier' => $mod,
-                            'before'   => $p1,
+                            'before' => $p1,
                         ]);
                     }
                 }
 
                 $mod = DIV_TAG_MODIFIER_UPPERCASE;
-                if (strpos($sub_str, $prefix.$mod) !== false) {
-                    $sub_str = str_replace($prefix.$mod.$key.$suffix, $vpx.strtoupper($value).$vsx, $sub_str, $replace_count);
-                    if ($replace_count > 0 && !isset(self::$__dont_remember_it [$key])) {
+                if (strpos($sub_str, $prefix . $mod) !== false) {
+                    $sub_str = str_replace($prefix . $mod . $key . $suffix, $vpx . strtoupper($value) . $vsx, $sub_str, $replace_count);
+                    if ($replace_count > 0 && !isset(self::$__dont_remember_it[$key])) {
                         $this->saveOperation([
-                            'o'        => 'simple_replacement',
-                            'key'      => $key,
+                            'o' => 'simple_replacement',
+                            'key' => $key,
                             'modifier' => DIV_TAG_MODIFIER_UPPERCASE,
-                            'before'   => $p1,
+                            'before' => $p1,
                         ]);
                     }
                 }
 
                 $mod = DIV_TAG_MODIFIER_LENGTH;
-                if (strpos($sub_str, $prefix.$mod) !== false) {
-                    $sub_str = str_replace($prefix.$mod.$key.$suffix, strlen($value), $sub_str, $replace_count);
-                    if ($replace_count > 0 && !isset(self::$__dont_remember_it [$key])) {
+                if (strpos($sub_str, $prefix . $mod) !== false) {
+                    $sub_str = str_replace($prefix . $mod . $key . $suffix, strlen($value), $sub_str, $replace_count);
+                    if ($replace_count > 0 && !isset(self::$__dont_remember_it[$key])) {
                         $this->saveOperation([
-                            'o'        => 'simple_replacement',
-                            'key'      => $key,
+                            'o' => 'simple_replacement',
+                            'key' => $key,
                             'modifier' => $mod,
-                            'before'   => $p1,
+                            'before' => $p1,
                         ]);
                     }
                 }
 
                 $mod = DIV_TAG_MODIFIER_COUNT_WORDS;
-                if (strpos($sub_str, $prefix.$mod) !== false) {
-                    $sub_str = str_replace($prefix.$mod.$key.$suffix, self::getCountOfWords($value), $sub_str, $replace_count);
-                    if ($replace_count > 0 && !isset(self::$__dont_remember_it [$key])) {
+                if (strpos($sub_str, $prefix . $mod) !== false) {
+                    $sub_str = str_replace($prefix . $mod . $key . $suffix, self::getCountOfWords($value), $sub_str, $replace_count);
+                    if ($replace_count > 0 && !isset(self::$__dont_remember_it[$key])) {
                         $this->saveOperation([
-                            'o'        => 'simple_replacement',
-                            'key'      => $key,
+                            'o' => 'simple_replacement',
+                            'key' => $key,
                             'modifier' => $mod,
-                            'before'   => $p1,
+                            'before' => $p1,
                         ]);
                     }
                 }
 
                 $mod = DIV_TAG_MODIFIER_COUNT_SENTENCES;
-                if (strpos($sub_str, $prefix.$mod) !== false) {
-                    $sub_str = str_replace($prefix.$mod.$key.$suffix, self::getCountOfSentences($value), $sub_str, $replace_count);
-                    if ($replace_count > 0 && !isset(self::$__dont_remember_it [$key])) {
+                if (strpos($sub_str, $prefix . $mod) !== false) {
+                    $sub_str = str_replace($prefix . $mod . $key . $suffix, self::getCountOfSentences($value), $sub_str, $replace_count);
+                    if ($replace_count > 0 && !isset(self::$__dont_remember_it[$key])) {
                         $this->saveOperation([
-                            'o'        => 'simple_replacement',
-                            'key'      => $key,
+                            'o' => 'simple_replacement',
+                            'key' => $key,
                             'modifier' => $mod,
-                            'before'   => $p1,
+                            'before' => $p1,
                         ]);
                     }
                 }
 
                 $mod = DIV_TAG_MODIFIER_COUNT_PARAGRAPHS;
-                if (strpos($sub_str, $prefix.$mod) !== false) {
-                    $sub_str = str_replace($prefix.$mod.$key.$suffix, self::getCountOfParagraphs($value), $sub_str, $replace_count);
-                    if ($replace_count > 0 && !isset(self::$__dont_remember_it [$key])) {
+                if (strpos($sub_str, $prefix . $mod) !== false) {
+                    $sub_str = str_replace($prefix . $mod . $key . $suffix, self::getCountOfParagraphs($value), $sub_str, $replace_count);
+                    if ($replace_count > 0 && !isset(self::$__dont_remember_it[$key])) {
                         $this->saveOperation([
-                            'o'        => 'simple_replacement',
-                            'key'      => $key,
+                            'o' => 'simple_replacement',
+                            'key' => $key,
                             'modifier' => $mod,
-                            'before'   => $p1,
+                            'before' => $p1,
                         ]);
                     }
                 }
 
                 $mod = DIV_TAG_MODIFIER_ENCODE_URL;
-                if (strpos($sub_str, $prefix.$mod) !== false) {
-                    $sub_str = str_replace($prefix.$mod.$key.$suffix, $vpx.urlencode($value).$vsx, $sub_str, $replace_count);
-                    if ($replace_count > 0 && !isset(self::$__dont_remember_it [$key])) {
+                if (strpos($sub_str, $prefix . $mod) !== false) {
+                    $sub_str = str_replace($prefix . $mod . $key . $suffix, $vpx . urlencode($value) . $vsx, $sub_str, $replace_count);
+                    if ($replace_count > 0 && !isset(self::$__dont_remember_it[$key])) {
                         $this->saveOperation([
-                            'o'        => 'simple_replacement',
-                            'key'      => $key,
+                            'o' => 'simple_replacement',
+                            'key' => $key,
                             'modifier' => $mod,
-                            'before'   => $p1,
+                            'before' => $p1,
                         ]);
                     }
                 }
 
                 $mod = DIV_TAG_MODIFIER_ENCODE_RAW_URL;
-                if (strpos($sub_str, $prefix.$mod) !== false) {
-                    $sub_str = str_replace($prefix.$mod.$key.$suffix, $vpx.rawurlencode($value).$vsx, $sub_str, $replace_count);
-                    if ($replace_count > 0 && !isset(self::$__dont_remember_it [$key])) {
+                if (strpos($sub_str, $prefix . $mod) !== false) {
+                    $sub_str = str_replace($prefix . $mod . $key . $suffix, $vpx . rawurlencode($value) . $vsx, $sub_str, $replace_count);
+                    if ($replace_count > 0 && !isset(self::$__dont_remember_it[$key])) {
                         $this->saveOperation([
-                            'o'        => 'simple_replacement',
-                            'key'      => $key,
+                            'o' => 'simple_replacement',
+                            'key' => $key,
                             'modifier' => $mod,
-                            'before'   => $p1,
+                            'before' => $p1,
                         ]);
                     }
                 }
 
-                $sub_str = str_replace([
-                    $prefix.DIV_TAG_MODIFIER_LOWERCASE.$key.$suffix, // lower case
-                    $prefix.DIV_TAG_MODIFIER_HTML_ENTITIES.$key.$suffix, // html entities
-                    $prefix.DIV_TAG_MODIFIER_NL2BR.$key.$suffix, // convert newlines to <br/>
-                    $prefix.DIV_TAG_MODIFIER_SINGLE_QUOTES.$key.$suffix, // escape unescaped single quotes,
-                    $prefix.DIV_TAG_MODIFIER_JS.$key.$suffix,
-                ], // escape quotes and backslashes, newlines, etc.
+                $sub_str = str_replace(
                     [
-                        $vpx.strtolower($value).$vsx,
-                        $vpx.htmlentities($value).$vsx,
-                        $vpx.nl2br($value).$vsx,
-                        $vpx.preg_replace([
+                        $prefix . DIV_TAG_MODIFIER_LOWERCASE . $key . $suffix, // lower case
+                        $prefix . DIV_TAG_MODIFIER_HTML_ENTITIES . $key . $suffix, // html entities
+                        $prefix . DIV_TAG_MODIFIER_NL2BR . $key . $suffix, // convert newlines to <br/>
+                        $prefix . DIV_TAG_MODIFIER_SINGLE_QUOTES . $key . $suffix, // escape unescaped single quotes,
+                        $prefix . DIV_TAG_MODIFIER_JS . $key . $suffix,
+                    ],
+                    // escape quotes and backslashes, newlines, etc.
+                    [
+                        $vpx . strtolower($value) . $vsx,
+                        $vpx . htmlentities($value) . $vsx,
+                        $vpx . nl2br($value) . $vsx,
+                        $vpx . preg_replace([
                             "%(?<!\\\\\\\\)'%",
                             "%(?<!\\\\\\\\)\"%",
                         ], [
                             "\\'",
                             "\\\"",
-                        ], $value).$vsx,
-                        $vpx.strtr($value, [
+                        ], $value) . $vsx,
+                        $vpx . strtr($value, [
                             "\\" => "\\\\",
-                            "'"  => "\\'",
-                            '"'  => "\\\"",
+                            "'" => "\\'",
+                            '"' => "\\\"",
                             "\r" => "\\r",
                             "\n" => "\\n",
                             '</' => "<\/",
-                        ]).$vsx,
-                    ], $sub_str);
+                        ]) . $vsx,
+                    ],
+                    $sub_str
+                );
 
                 foreach (self::$__custom_modifiers as $modifier) {
                     if (strpos($sub_str, $modifier[0]) === false) {
@@ -2928,12 +2921,12 @@ class div
                     $callable_result = $this->call($call, [$value], $proceed);
 
                     if ($proceed) {
-                        $sub_str = str_replace($prefix.$modifier [0].$key.$suffix, $vpx.$callable_result.$vsx, $sub_str);
+                        $sub_str = str_replace($prefix . $modifier[0] . $key . $suffix, $vpx . $callable_result . $vsx, $sub_str);
                     }
                 }
 
                 if ($p1 !== false) {
-                    $this->__src = $sub_str.substr($this->__src, $p1);
+                    $this->__src = $sub_str . substr($this->__src, $p1);
                 } else {
                     $this->__src = $sub_str;
                 }
@@ -2941,12 +2934,12 @@ class div
         }
 
         $mod = DIV_TAG_MODIFIER_ENCODE_JSON;
-        if (strpos($this->__src, $prefix.$mod.$key.$suffix) !== false) {
-            $this->__src = str_replace($prefix.$mod.$key.$suffix, $vpx.self::jsonEncode($value).$vsx, $this->__src, $replace_count);
-            if ($replace_count > 0 && !isset(self::$__dont_remember_it [$key])) {
+        if (strpos($this->__src, $prefix . $mod . $key . $suffix) !== false) {
+            $this->__src = str_replace($prefix . $mod . $key . $suffix, $vpx . self::jsonEncode($value) . $vsx, $this->__src, $replace_count);
+            if ($replace_count > 0 && !isset(self::$__dont_remember_it[$key])) {
                 $this->saveOperation([
-                    'o'      => 'json_encode',
-                    'key'    => $key,
+                    'o' => 'json_encode',
+                    'key' => $key,
                     'before' => false,
                 ]);
             }
@@ -2964,9 +2957,7 @@ class div
         $l1 = strlen(DIV_TAG_ITERATION_BEGIN_PREFIX);
         $l2 = strlen(DIV_TAG_ITERATION_END);
 
-        if (self::$__log_mode) {
-            $this->logger('Parsing iterations...');
-        }
+        self::$__log_mode and $this->logger('Parsing iterations...');
 
         if ($src === null) {
             $src = &$this->__src;
@@ -3005,32 +2996,32 @@ class div
 
             if ($c === 3) {
                 if (is_numeric($range[2])) {
-                    $step = trim($range[2]) * 1;
+                    $step = (int) trim($range[2]);
                 } else {
-                    $iterator_var = trim($range[2]);
+                    $iterator_var = (int) trim($range[2]);
                 }
             }
 
             if ($c === 4) {
                 $iterator_var = $range[2];
-                $step = trim($range[3]) * 1;
+                $step = (int) trim($range[3]);
             }
 
             if (is_numeric($range[0]) && is_numeric($range[1])) {
 
-                $range[0] = trim($range[0]) * 1;
-                $range[1] = trim($range[1]) * 1;
+                $range[0] = (int) trim($range[0]);
+                $range[1] = (int) trim($range[1]);
 
                 $key = uniqid('', true);
 
                 $sub_src = substr($src, $p1 + $l1, $p2 - ($p1 + $l1));
-                $iterator_var_code = " $iterator_var ".DIV_TAG_LOOP_VAR_SEPARATOR;
+                $iterator_var_code = " $iterator_var " . DIV_TAG_LOOP_VAR_SEPARATOR;
 
                 if (strpos($sub_src, DIV_TAG_LOOP_VAR_SEPARATOR)) {
                     $iterator_var_code = '';
                 }
 
-                $src = substr($src, 0, $p).DIV_TAG_LOOP_BEGIN_PREFIX.$key.DIV_TAG_LOOP_BEGIN_SUFFIX.$iterator_var_code.$sub_src.DIV_TAG_LOOP_END_PREFIX.$key.DIV_TAG_LOOP_END_SUFFIX.substr($src, $p2 + $l2);
+                $src = substr($src, 0, $p) . DIV_TAG_LOOP_BEGIN_PREFIX . $key . DIV_TAG_LOOP_BEGIN_SUFFIX . $iterator_var_code . $sub_src . DIV_TAG_LOOP_END_PREFIX . $key . DIV_TAG_LOOP_END_SUFFIX . substr($src, $p2 + $l2);
 
                 $items[$key] = [];
                 if ($range[1] >= $range[0]) {
@@ -3064,7 +3055,7 @@ class div
         }
 
         foreach ($ranges as $rang) {
-            if ($rang [0] < $pos1 && $rang [1] > $pos2) {
+            if ($rang[0] < $pos1 && $rang[1] > $pos2) {
                 return true;
             }
         }
@@ -3083,12 +3074,12 @@ class div
      */
     final public function parseListBlock($value, $key, $items)
     {
-        if (isset($this->__ignore[$key]) && $this->__ignore [$key] === true) {
+        if (isset($this->__ignore[$key]) && $this->__ignore[$key] === true) {
             return false;
         }
 
-        $tag_begin = DIV_TAG_LOOP_BEGIN_PREFIX.$key.DIV_TAG_LOOP_BEGIN_SUFFIX;
-        $tag_end = DIV_TAG_LOOP_END_PREFIX.$key.DIV_TAG_LOOP_END_SUFFIX;
+        $tag_begin = DIV_TAG_LOOP_BEGIN_PREFIX . $key . DIV_TAG_LOOP_BEGIN_SUFFIX;
+        $tag_end = DIV_TAG_LOOP_END_PREFIX . $key . DIV_TAG_LOOP_END_SUFFIX;
         if (strpos($this->__src, $tag_begin) === false) {
             return false;
         }
@@ -3104,10 +3095,9 @@ class div
             if (count($lists) < 1) {
                 break;
             }
-            if (self::$__log_mode) {
-                $this->logger("Parsing the list: $key..");
-            }
 
+            self::$__log_mode and  $this->logger("Parsing the list: $key..");
+            
             $list = $lists[0];
             list($p1, $p2) = $list;
 
@@ -3135,13 +3125,13 @@ class div
 
                 if (strpos($minihtml, DIV_TAG_LOOP_VAR_SEPARATOR) !== false) {
                     $arr = explode(DIV_TAG_LOOP_VAR_SEPARATOR, $minihtml, 2);
-                    if (strpos($arr [0], "\n") === false) {
-                        $arr [0] = trim($arr [0]);
-                        if (strpos($arr [0], ' ') === false) {
+                    if (strpos($arr[0], "\n") === false) {
+                        $arr[0] = trim($arr[0]);
+                        if (strpos($arr[0], ' ') === false) {
                             if ($itemkey !== '') {
-                                $itemkey = $arr [0];
+                                $itemkey = $arr[0];
                             }
-                            $minihtml = $arr [1];
+                            $minihtml = $arr[1];
                         }
                     }
                 }
@@ -3191,12 +3181,12 @@ class div
                 $h = $body_parts[1];
                 if (!empty($value)) {
 
-                    $minihtml = $body_parts [0];
+                    $minihtml = $body_parts[0];
 
                     foreach ($value as $kk => $item) {
 
-                        if (isset($keys [$ii + 1])) {
-                            $next = $value [$keys [$ii + 1]];
+                        if (isset($keys[$ii + 1])) {
+                            $next = $value[$keys[$ii + 1]];
                         } else {
                             $next = null;
                         }
@@ -3219,57 +3209,57 @@ class div
                                 $random = mt_rand(1, $count);
                             } while (isset($randoms[$random]));
 
-                            $randoms [$random] = true;
-                            $another ['_index_random'] = $random - 1;
+                            $randoms[$random] = true;
+                            $another['_index_random'] = $random - 1;
                         }
                         if ($go_is_odd) {
-                            $another ['_is_odd'] = ($ii % 2 !== 0);
+                            $another['_is_odd'] = ($ii % 2 !== 0);
                         }
                         if ($go_is_even) {
-                            $another ['_is_even'] = ($ii % 2 === 0);
+                            $another['_is_even'] = ($ii % 2 === 0);
                         }
                         if ($go_is_first) {
-                            $another ['_is_first'] = ($ii === 1);
+                            $another['_is_first'] = ($ii === 1);
                         }
                         if ($go_is_last) {
-                            $another ['_is_last'] = ($ii === $keys_count);
+                            $another['_is_last'] = ($ii === $keys_count);
                         }
                         if ($go_list) {
-                            $another ['_list'] = $key;
+                            $another['_list'] = $key;
                         }
 
                         if ($go_item) {
                             if (is_object($item)) {
-                                $another ['_item'] = clone $item;
+                                $another['_item'] = clone $item;
                             } else {
-                                $another ['_item'] = $item;
+                                $another['_item'] = $item;
                             }
                         }
 
                         if ($go_order) {
-                            $another ['_order'] = $ii;
+                            $another['_order'] = $ii;
                         }
 
                         if ($go_previous) {
                             if (is_object($previous)) {
-                                $another ['_previous'] = clone $previous;
+                                $another['_previous'] = clone $previous;
                             } else {
-                                $another ['_previous'] = $previous;
+                                $another['_previous'] = $previous;
                             }
                         }
 
                         if ($go_next) {
                             if (is_object($next)) {
-                                $another ['_next'] = clone $next;
+                                $another['_next'] = clone $next;
                             } else {
-                                $another ['_next'] = $next;
+                                $another['_next'] = $next;
                             }
                         }
 
                         $previous = $item;
 
                         if (is_object($item) && self::isString($item)) {
-                            $itemstr = (string)$item;
+                            $itemstr = (string) $item;
                             if (!property_exists($item, 'value')) {
                                 $item->value = $itemstr;
                             }
@@ -3287,7 +3277,7 @@ class div
                                 $itemkey => $item,
                             ];
                         } elseif ($itemkey !== 'value') {
-                            $item [$itemkey] = array_merge($item, $another);
+                            $item[$itemkey] = array_merge($item, $another);
                         }
 
                         $item = array_merge($item, $another);
@@ -3310,23 +3300,21 @@ class div
                         $tempglobal = self::$__globals_design;
                         foreach ($item as $kkk => $vvv) {
                             if (array_key_exists($kkk, self::$__globals_design)) {
-                                unset (self::$__globals_design [$kkk]);
+                                unset(self::$__globals_design[$kkk]);
                             }
                         }
 
-                        if (self::$__log_mode) {
-                            $this->logger("Parsing item $x_key of the list '$key'...");
-                        }
+                        self::$__log_mode and $this->logger("Parsing item $x_key of the list '$key'...");
 
                         $engine->__items[$x_key] = array_merge($items, $item);
-                        $engine->__items_orig = $x_items_orig [$x_key];
+                        $engine->__items_orig = $x_items_orig[$x_key];
 
                         // Save some vars
                         $memory = $engine->__memory;
 
                         foreach ($item as $kkk => $vvv) {
                             if (array_key_exists($kkk, $engine->__memory)) {
-                                unset ($engine->__memory [$kkk]);
+                                unset($engine->__memory[$kkk]);
                             }
                         }
 
@@ -3335,14 +3323,14 @@ class div
 
                         // Restore some vars
                         $engine->__memory = $memory;
-                        $engine->__items [$x_key] = $item;
+                        $engine->__items[$x_key] = $item;
                         self::$__globals_design = array_merge($tempglobal, self::$__globals_design);
 
                         $break = strpos($engine->__src, DIV_TAG_BREAK);
 
                         foreach ($item as $kkk => $vvv) {
                             if (array_key_exists($kkk, $this->__memory)) {
-                                unset ($this->__memory [$kkk]);
+                                unset($this->__memory[$kkk]);
                             }
                         }
 
@@ -3360,7 +3348,7 @@ class div
                 }
 
                 // Replace
-                $this->__src = substr($this->__src, 0, $p1).$h.substr($this->__src, $p2 + $l2);
+                $this->__src = substr($this->__src, 0, $p1) . $h . substr($this->__src, $p2 + $l2);
             }
         }
 
@@ -3372,17 +3360,13 @@ class div
      *
      * @param mixed  $items
      * @param string $superkey
-     *
-     * @return bool
      */
     final public function parseList($items = null, $superkey = '')
     {
-        if (self::$__log_mode) {
-            $this->logger("Parsing loops, SUPERKEY = '$superkey'...");
-        }
+        self::$__log_mode and $this->logger("Parsing loops, SUPERKEY = '$superkey'...");
 
         if (isset($this->__ignore[$superkey]) && $this->__ignore[$superkey] === true) {
-            return false;
+            return;
         }
 
         if ($items === null) {
@@ -3401,10 +3385,10 @@ class div
             $superkey .= DIV_TAG_VAR_MEMBER_DELIMITER;
         }
 
-        if (strpos($this->__src, DIV_TAG_LOOP_BEGIN_PREFIX.$superkey) !== false) {
+        if (strpos($this->__src, DIV_TAG_LOOP_BEGIN_PREFIX . $superkey) !== false) {
             foreach ($items as $key => $value) {
-                $key = $superkey.$key;
-                if (strpos($this->__src, DIV_TAG_LOOP_BEGIN_PREFIX.$key.DIV_TAG_VAR_MEMBER_DELIMITER) !== false) {
+                $key = $superkey . $key;
+                if (strpos($this->__src, DIV_TAG_LOOP_BEGIN_PREFIX . $key . DIV_TAG_VAR_MEMBER_DELIMITER) !== false) {
                     if (!is_array($value)) {
                         if (is_object($value)) {
                             $value = get_object_vars($value);
@@ -3419,9 +3403,9 @@ class div
 
         $pos = [];
         foreach ($items as $key => $value) {
-            $p = strpos($this->__src, DIV_TAG_LOOP_BEGIN_PREFIX.$superkey.$key.DIV_TAG_LOOP_BEGIN_SUFFIX);
+            $p = strpos($this->__src, DIV_TAG_LOOP_BEGIN_PREFIX . $superkey . $key . DIV_TAG_LOOP_BEGIN_SUFFIX);
             if ($p !== false) {
-                $pos [$key] = $p;
+                $pos[$key] = $p;
             }
         }
 
@@ -3429,10 +3413,10 @@ class div
 
         foreach ($pos as $key => $v) {
 
-            $value = $items [$key];
+            $value = $items[$key];
 
             if (is_scalar($value)) {
-                $value = (string)$value;
+                $value = (string) $value;
             }
             if (self::isString($value)) {
                 $value = str_split($value);
@@ -3446,7 +3430,7 @@ class div
                 }
             }
 
-            $this->parseListBlock($value, $superkey.$key, $items);
+            $this->parseListBlock($value, $superkey . $key, $items);
         }
     }
 
@@ -3457,9 +3441,7 @@ class div
      */
     final public function parseIgnore()
     {
-        if (self::$__log_mode) {
-            $this->logger("Parsing ignore's blocks...");
-        }
+        self::$__log_mode and $this->logger("Parsing ignore's blocks...");
 
         // Generate internal and random ignore tag (security reasons)
         if ($this->__ignore_secret_tag === null) {
@@ -3471,8 +3453,8 @@ class div
             $tag_end = DIV_TAG_IGNORE_END;
 
             if ($i === 1) {
-                $tag_begin = '{'.$this->__ignore_secret_tag.'}';
-                $tag_end = '{/'.$this->__ignore_secret_tag.'}';
+                $tag_begin = '{' . $this->__ignore_secret_tag . '}';
+                $tag_end = '{/' . $this->__ignore_secret_tag . '}';
             }
 
             $l1 = strlen($tag_begin);
@@ -3485,15 +3467,15 @@ class div
                     break;
                 }
 
-                if (self::searchInRanges($this->getRanges(DIV_TAG_COMMENT_BEGIN, DIV_TAG_COMMENT_END), $ranges [0] [0]) !== false) {
-                    $pos = $ranges [0] [1] + 1;
+                if (self::searchInRanges($this->getRanges(DIV_TAG_COMMENT_BEGIN, DIV_TAG_COMMENT_END), $ranges[0][0]) !== false) {
+                    $pos = $ranges[0][1] + 1;
                     continue;
                 }
 
                 $id = uniqid('', true);
-                self::$__ignored_parts [$id] = substr($this->__src, $ranges [0] [0] + $l1, $ranges [0] [1] - $ranges [0] [0] - $l1);
-                $this->__src = substr($this->__src, 0, $ranges [0] [0]).'{'.$id.'}'.substr($this->__src, $ranges [0] [1] + $l2);
-                $pos = $ranges [0] [0] + 1;
+                self::$__ignored_parts[$id] = substr($this->__src, $ranges[0][0] + $l1, $ranges[0][1] - $ranges[0][0] - $l1);
+                $this->__src = substr($this->__src, 0, $ranges[0][0]) . '{' . $id . '}' . substr($this->__src, $ranges[0][1] + $l2);
+                $pos = $ranges[0][0] + 1;
             }
         }
 
@@ -3508,8 +3490,9 @@ class div
      *
      * @return mixed
      */
-    final public static function getCachedValue($index, $resolver) {
-        if (!array_key_exists($index, self::$__cached_values)){
+    final public static function getCachedValue($index, $resolver)
+    {
+        if (!array_key_exists($index, self::$__cached_values)) {
             self::$__cached_values[$index] = $resolver();
         }
         return self::$__cached_values[$index];
@@ -3519,18 +3502,20 @@ class div
      *
      * @param string $path
      *
-     * @return string
+     * @return ?string
      */
     final public function getTplPath($path)
     {
         $return = null;
-        $fileExtLength = self::getCachedValue('length_of_tpl_file_ext_with_dot', static function() {
-            return  strlen(DIV_DEFAULT_TPL_FILE_EXT) + 1;
+        $fileExtLength = self::getCachedValue('length_of_tpl_file_ext_with_dot', static function () {
+            return strlen(DIV_DEFAULT_TPL_FILE_EXT) + 1;
         });
 
-        if (substr($path, 0 - $fileExtLength) !== '.'.DIV_DEFAULT_TPL_FILE_EXT
-            && self::fileExists($path.'.'.DIV_DEFAULT_TPL_FILE_EXT)) {
-            $path .= '.'.DIV_DEFAULT_TPL_FILE_EXT;
+        if (
+            substr($path, 0 - $fileExtLength) !== '.' . DIV_DEFAULT_TPL_FILE_EXT
+            && self::fileExists($path . '.' . DIV_DEFAULT_TPL_FILE_EXT)
+        ) {
+            $path .= '.' . DIV_DEFAULT_TPL_FILE_EXT;
         }
 
         /*$path = str_replace('.'.DIV_DEFAULT_TPL_FILE_EXT.'.'.DIV_DEFAULT_TPL_FILE_EXT,
@@ -3540,11 +3525,11 @@ class div
         // Relative path
         if ($this->__path !== '' && !self::fileExists($path) && self::fileExists($this->__path)) {
             $folder = self::getFolderOf($this->__path);
-            if (self::fileExists($folder.'/'.$path.'.'.DIV_DEFAULT_TPL_FILE_EXT)) {
-                $path .= '.'.DIV_DEFAULT_TPL_FILE_EXT;
+            if (self::fileExists($folder . '/' . $path . '.' . DIV_DEFAULT_TPL_FILE_EXT)) {
+                $path .= '.' . DIV_DEFAULT_TPL_FILE_EXT;
             }
-            if (self::fileExists($folder.'/'.$path)) {
-                $return = $folder.'/'.$path;
+            if (self::fileExists($folder . '/' . $path)) {
+                $return = $folder . '/' . $path;
             }
         }
 
@@ -3554,12 +3539,12 @@ class div
             $return = $path;
             foreach (self::$__includes_history as $ih) {
                 $folder = self::getFolderOf($ih);
-                $full_path = $folder.'/'.$path;
+                $full_path = $folder . '/' . $path;
 
-                if (self::fileExists($full_path.'.'.DIV_DEFAULT_TPL_FILE_EXT)) {
-                    $full_path .= '.'.DIV_DEFAULT_TPL_FILE_EXT;
-                } elseif (self::fileExists($full_path.'.'.DIV_DEFAULT_TPL_FILE_EXT)) {
-                    $full_path .= '.'.DIV_DEFAULT_TPL_FILE_EXT;
+                if (self::fileExists($full_path . '.' . DIV_DEFAULT_TPL_FILE_EXT)) {
+                    $full_path .= '.' . DIV_DEFAULT_TPL_FILE_EXT;
+                } elseif (self::fileExists($full_path . '.' . DIV_DEFAULT_TPL_FILE_EXT)) {
+                    $full_path .= '.' . DIV_DEFAULT_TPL_FILE_EXT;
                 }
 
                 $similar = similar_text($ih, $full_path);
@@ -3592,9 +3577,9 @@ class div
         }
 
         foreach ($exclusion as $exc) {
-            $p = $exc ['path'];
-            $i = $exc ['ini'];
-            $f = $exc ['end'];
+            $p = $exc['path'];
+            $i = $exc['ini'];
+            $f = $exc['end'];
             if ($p === $path && $ini >= $i && $ini <= $f) {
                 return true;
             }
@@ -3629,9 +3614,7 @@ class div
      */
     final public function parseInclude(&$items)
     {
-        if (self::$__log_mode) {
-            $this->logger('Parsing includes...');
-        }
+        self::$__log_mode and $this->logger('Parsing includes...');
 
         $prefix = DIV_TAG_INCLUDE_BEGIN;
         $suffix = DIV_TAG_INCLUDE_END;
@@ -3645,11 +3628,11 @@ class div
                     continue;
                 }
 
-                if (strpos($this->__src, $prefix.$key.$suffix) !== false && self::isString($value)) {
-                    if (self::fileExists($value.'.'.DIV_DEFAULT_TPL_FILE_EXT)) {
-                        $value .= '.'.DIV_DEFAULT_TPL_FILE_EXT;
+                if (strpos($this->__src, $prefix . $key . $suffix) !== false && self::isString($value)) {
+                    if (self::fileExists($value . '.' . DIV_DEFAULT_TPL_FILE_EXT)) {
+                        $value .= '.' . DIV_DEFAULT_TPL_FILE_EXT;
                     }
-                    $this->__src = str_replace($prefix.$key.$suffix, $prefix.$value.$suffix, $this->__src);
+                    $this->__src = str_replace($prefix . $key . $suffix, $prefix . $value . $suffix, $this->__src);
                 }
             }
         }
@@ -3668,13 +3651,13 @@ class div
                 break;
             }
 
-            $ini = $ranges [0] [0];
-            $fin = $ranges [0] [1];
+            $ini = $ranges[0][0];
+            $fin = $ranges[0][1];
 
             $ranges_x = $this->getRanges(DIV_TAG_TPLVAR_BEGIN, DIV_TAG_TPLVAR_END);
             $proceed = true;
             foreach ($ranges_x as $rx) {
-                if ($ini >= $rx [0] && $ini <= $rx [1]) {
+                if ($ini >= $rx[0] && $ini <= $rx[1]) {
                     $pos = $fin + 1;
                     $proceed = false;
                     break;
@@ -3685,7 +3668,7 @@ class div
                 continue;
             }
 
-            if (self::searchInRanges($this->getRanges(DIV_TAG_COMMENT_BEGIN, DIV_TAG_COMMENT_END), $ranges [0] [0]) !== false) {
+            if (self::searchInRanges($this->getRanges(DIV_TAG_COMMENT_BEGIN, DIV_TAG_COMMENT_END), $ranges[0][0]) !== false) {
                 $pos = $fin + 1;
                 continue;
             }
@@ -3726,8 +3709,8 @@ class div
                     } elseif (self::fileExists($data_path)) {
                         $data_path = file_get_contents($data_path);
                         $data_path = self::jsonDecode($data_path, $all_items);
-                    } elseif (self::fileExists($data_path.'.'.DIV_DEFAULT_DATA_FILE_EXT)) {
-                        $data_path = file_get_contents($data_path.'.'.DIV_DEFAULT_DATA_FILE_EXT);
+                    } elseif (self::fileExists($data_path . '.' . DIV_DEFAULT_DATA_FILE_EXT)) {
+                        $data_path = file_get_contents($data_path . '.' . DIV_DEFAULT_DATA_FILE_EXT);
                         $data_path = self::jsonDecode($data_path, $all_items);
                     } else {
                         $data_path = self::jsonDecode($data_path, $all_items);
@@ -3745,9 +3728,7 @@ class div
 
             $path = $this->getTplPath($path);
 
-            if (self::$__log_mode) {
-                $this->logger("Trying to include $path");
-            }
+            self::$__log_mode and $this->logger("Trying to include $path");
 
             if ($path !== $this->__path && !self::detectRecursiveInclusion($exclusion, $path, $ini)) {
                 if (self::fileExists($path)) {
@@ -3762,13 +3743,13 @@ class div
                         if ($data_path !== null) {
 
                             // extract part of template
-                            if (isset($data_path ['from'])) {
-                                if (isset($data_path ['to'])) {
-                                    $from = $data_path ['from'];
-                                    $to = $data_path ['to'];
+                            if (isset($data_path['from'])) {
+                                if (isset($data_path['to'])) {
+                                    $from = $data_path['from'];
+                                    $to = $data_path['to'];
 
                                     if (!is_numeric($from) && !is_numeric($to)) {
-                                        if (!empty ($from) && !empty ($to)) {
+                                        if (!empty($from) && !empty($to)) {
                                             // string from/to (ranges)
 
                                             $extracts = $this->getRanges($from, $to, $c);
@@ -3780,13 +3761,13 @@ class div
                                             foreach ($extracts as $extract) {
                                                 $i++;
 
-                                                if (isset($data_path ['offset']) && $i < $data_path ['offset'] * 1) {
+                                                if (isset($data_path['offset']) && $i < $data_path['offset'] * 1) {
                                                     continue;
                                                 }
 
-                                                $new_c .= substr($c, $extract [0] + $from_len, $extract [1] - $extract [0] - $from_len);
+                                                $new_c .= substr($c, $extract[0] + $from_len, $extract[1] - $extract[0] - $from_len);
 
-                                                if (isset($data_path ['limit']) && $i === $data_path ['limit'] * 1) {
+                                                if (isset($data_path['limit']) && $i === $data_path['limit'] * 1) {
                                                     break;
                                                 }
                                             }
@@ -3795,14 +3776,14 @@ class div
                                         } else {
                                             // numeric/string from/to
                                             if (!is_numeric($from)) {
-                                                if (!empty ($from)) {
+                                                if (!empty($from)) {
                                                     $from = strpos($c, $from);
                                                 } else {
                                                     $from = false;
                                                 }
                                             }
                                             if (!is_numeric($to)) {
-                                                if (!empty ($to)) {
+                                                if (!empty($to)) {
                                                     $to = strpos($c, $to);
                                                 } else {
                                                     $to = false;
@@ -3816,7 +3797,7 @@ class div
                                     }
                                 } else {
                                     // only from
-                                    $from = $data_path ['from'];
+                                    $from = $data_path['from'];
 
                                     if (!is_numeric($from)) {
                                         $from = strpos($c, $from);
@@ -3826,8 +3807,8 @@ class div
                                         $c = substr($c, $from);
                                     }
                                 }
-                            } elseif (isset($data_path ['to'])) {
-                                $to = $data_path ['to'];
+                            } elseif (isset($data_path['to'])) {
+                                $to = $data_path['to'];
                                 if (!is_numeric($to)) {
                                     $to = strpos($c, $to);
                                 }
@@ -3842,7 +3823,7 @@ class div
                         $c = $this->prepareDialect($c, $tpl_prop, false);
 
                         if (self::$__docs_on) {
-                            if (self::fileExists($this->__path) || self::fileExists(PACKAGES.$this->__path)) {
+                            if (self::fileExists($this->__path) || self::fileExists(PACKAGES . $this->__path)) {
                                 $section = trim($this->__path);
                                 $contained = trim($path);
 
@@ -3853,20 +3834,20 @@ class div
                                     $contained = substr($path, 2);
                                 }
 
-                                self::$__docs [$contained] = [];
-                                if (!isset(self::$__docs [$section])) {
-                                    self::$__docs [$section] = [];
+                                self::$__docs[$contained] = [];
+                                if (!isset(self::$__docs[$section])) {
+                                    self::$__docs[$section] = [];
                                 }
-                                if (!isset(self::$__docs [$section] ['include'])) {
-                                    self::$__docs [$section] ['include'] = [];
+                                if (!isset(self::$__docs[$section]['include'])) {
+                                    self::$__docs[$section]['include'] = [];
                                 }
-                                self::$__docs [$section] ['include'] [$contained] = $contained;
+                                self::$__docs[$section]['include'][$contained] = $contained;
 
                                 $engine = self::getAuxiliaryEngineClone($items, $items, $this);
                                 $engine->__src = $c;
                                 $engine->parseComments($path);
                                 $c = $engine->__src;
-                                unset ($engine);
+                                unset($engine);
                             }
                         }
                     } else {
@@ -3876,29 +3857,29 @@ class div
                     $c_len = strlen($c);
 
                     foreach ($exclusion as $idx => $exc) {
-                        if ($exc ['ini'] > $ini) {
-                            $exclusion [$idx] ['ini'] += $c_len;
+                        if ($exc['ini'] > $ini) {
+                            $exclusion[$idx]['ini'] += $c_len;
                         }
-                        if ($exc ['end'] > $ini) {
-                            $exclusion [$idx] ['end'] += $c_len;
+                        if ($exc['end'] > $ini) {
+                            $exclusion[$idx]['end'] += $c_len;
                         }
                     }
 
-                    $exclusion ['inclusion-'.$this->__path] = [
+                    $exclusion['inclusion-' . $this->__path] = [
                         'path' => $path,
-                        'ini'  => $ini,
-                        'end'  => $ini + $c_len,
+                        'ini' => $ini,
+                        'end' => $ini + $c_len,
                     ];
 
-                    $this->__src = substr($this->__src, 0, $ini).$c.substr($this->__src, $fin + $l2);
+                    $this->__src = substr($this->__src, 0, $ini) . $c . substr($this->__src, $fin + $l2);
                 } else {
                     $id = uniqid('', true);
-                    $restores [$id] = substr($this->__src, $ini, $fin + $l2 - $ini);
-                    $this->__src = substr($this->__src, 0, $ini).$id.substr($this->__src, $fin + $l2);
+                    $restores[$id] = substr($this->__src, $ini, $fin + $l2 - $ini);
+                    $this->__src = substr($this->__src, 0, $ini) . $id . substr($this->__src, $fin + $l2);
                 }
             } else {
                 if (trim($path) !== '') {
-                    self::error("Recursive inclusion of template '$path' in '".substr($this->__src, $ini - 20, 20)."'is not allowed", DIV_ERROR_WARNING);
+                    self::error("Recursive inclusion of template '$path' in '" . substr($this->__src, $ini - 20, 20) . "'is not allowed", DIV_ERROR_WARNING);
                 }
 
                 $pos = $ini + 1;
@@ -3931,9 +3912,7 @@ class div
         $l1 = strlen($prefix);
         $l2 = strlen($suffix);
 
-        if (self::$__log_mode) {
-            $this->logger('Parsing preprocessed...');
-        }
+        self::$__log_mode and $this->logger('Parsing preprocessed...');
 
         // TODO: maybe is not necessary check is_array
         if (is_array($items)) {
@@ -3941,11 +3920,11 @@ class div
                 if (array_key_exists($key, $this->__ignore) && $this->__ignore[$key] === true) {
                     continue;
                 }
-                if ((strpos($this->__src, $prefix.$key.$suffix) !== false) && self::isString($value)) {
-                    if (self::fileExists($value.'.'.DIV_DEFAULT_TPL_FILE_EXT)) {
-                        $value .= '.'.DIV_DEFAULT_TPL_FILE_EXT;
+                if ((strpos($this->__src, $prefix . $key . $suffix) !== false) && self::isString($value)) {
+                    if (self::fileExists($value . '.' . DIV_DEFAULT_TPL_FILE_EXT)) {
+                        $value .= '.' . DIV_DEFAULT_TPL_FILE_EXT;
                     }
-                    $this->__src = str_replace($prefix.$key.$suffix, $prefix.$value.$suffix, $this->__src);
+                    $this->__src = str_replace($prefix . $key . $suffix, $prefix . $value . $suffix, $this->__src);
                 }
             }
         }
@@ -3962,8 +3941,8 @@ class div
                 break;
             }
 
-            $ini = $ranges [0] [0];
-            $fin = $ranges [0] [1];
+            $ini = $ranges[0][0];
+            $fin = $ranges[0][1];
 
             $r = $this->checkLogicalOrder($ini, '', false, false, false, true);
             if ($r !== false) {
@@ -4017,8 +3996,8 @@ class div
                         $engine->__src = $data_path;
                         $engine->parse(false, null, self::$__parse_level + 1);
                         $data_path = self::jsonDecode($engine->__src, $all_items);
-                    } elseif (self::fileExists($data_path.'.'.DIV_DEFAULT_DATA_FILE_EXT)) {
-                        $data_path = file_get_contents($data_path.'.'.DIV_DEFAULT_DATA_FILE_EXT);
+                    } elseif (self::fileExists($data_path . '.' . DIV_DEFAULT_DATA_FILE_EXT)) {
+                        $data_path = file_get_contents($data_path . '.' . DIV_DEFAULT_DATA_FILE_EXT);
                         $engine = self::getAuxiliaryEngineClone($all_items, $all_items, $this);
                         $engine->__src = $data_path;
                         $engine->parse(false, null, self::$__parse_level + 1);
@@ -4051,7 +4030,7 @@ class div
             $ranges_x = $this->getRanges(DIV_TAG_TPLVAR_BEGIN, DIV_TAG_TPLVAR_END);
             $proceed = true;
             foreach ($ranges_x as $rx) {
-                if ($ini >= $rx [0] && $ini <= $rx [1]) {
+                if ($ini >= $rx[0] && $ini <= $rx[1]) {
                     $pos = $ini + 1;
                     $proceed = false;
                     break;
@@ -4064,9 +4043,9 @@ class div
 
             $path = $this->getTplPath($path);
 
-            if (($path === $this->__path) && self::$__log_mode /*|| self::detectRecursiveInclusion($exclusion, $path, $ini)*/) {
-                self::log("Recursive inclusion of template '$path' in '".substr($this->__src, $ini - 20, 20)."' during pre-process.", DIV_ERROR_WARNING);
-            }
+            $path === $this->__path 
+                and self::$__log_mode /*|| self::detectRecursiveInclusion($exclusion, $path, $ini)*/ 
+                and self::log("Recursive inclusion of template '$path' in '" . substr($this->__src, $ini - 20, 20) . "' during pre-process.", DIV_ERROR_WARNING);
 
             if (self::fileExists($path)) {
                 $c = self::getFileContents($path);
@@ -4096,18 +4075,18 @@ class div
                         $contained = substr($path, 2);
                     }
 
-                    self::$__docs [$contained] = [];
-                    if (!isset(self::$__docs [$section])) {
-                        self::$__docs [$section] = [];
+                    self::$__docs[$contained] = [];
+                    if (!isset(self::$__docs[$section])) {
+                        self::$__docs[$section] = [];
                     }
-                    if (!isset(self::$__docs [$section] ['preprocess'])) {
-                        self::$__docs [$section] ['include'] = [];
+                    if (!isset(self::$__docs[$section]['preprocess'])) {
+                        self::$__docs[$section]['include'] = [];
                     }
-                    self::$__docs [$section] ['preprocess'] [] = $contained;
+                    self::$__docs[$section]['preprocess'][] = $contained;
                 }
 
                 $engine->__path = $path;
-                self::$__includes_history [] = $path;
+                self::$__includes_history[] = $path;
 
                 $originals = self::$__globals_design;
                 if ($standalone) {
@@ -4122,11 +4101,11 @@ class div
 
                 $pre = $engine->__src;
 
-                $this->__src = substr($this->__src, 0, $ini).$pre.substr($this->__src, $fin + $l2);
+                $this->__src = substr($this->__src, 0, $ini) . $pre . substr($this->__src, $fin + $l2);
             } else {
                 $id = uniqid('', true);
-                $restores [$id] = substr($this->__src, $ini, $fin + $l2 - $ini);
-                $this->__src = substr($this->__src, 0, $ini).$id.substr($this->__src, $fin + $l2);
+                $restores[$id] = substr($this->__src, $ini, $fin + $l2 - $ini);
+                $this->__src = substr($this->__src, 0, $ini) . $id . substr($this->__src, $fin + $l2);
             }
         }
 
@@ -4152,9 +4131,7 @@ class div
             $section = substr($section, 2);
         }
 
-        if (self::$__log_mode) {
-            $this->logger('Parsing comments...');
-        }
+        self::$__log_mode and $this->logger('Parsing comments...');
 
         $begin_len = strlen(DIV_TAG_COMMENT_BEGIN);
 
@@ -4166,14 +4143,14 @@ class div
                 break;
             }
 
-            if (self::searchInRanges($this->getRanges(DIV_TAG_INCLUDE_BEGIN, DIV_TAG_INCLUDE_END), $ranges [0] [0]) !== false) {
-                $pos = $ranges [0] [1] + 1;
+            if (self::searchInRanges($this->getRanges(DIV_TAG_INCLUDE_BEGIN, DIV_TAG_INCLUDE_END), $ranges[0][0]) !== false) {
+                $pos = $ranges[0][1] + 1;
                 continue;
             }
 
             // Parse template's docs
             if (self::$__docs_on) {
-                $sub_src = substr($this->__src, $ranges [0] [0] + $begin_len, $ranges [0] [1] - $ranges [0] [0] - $begin_len);
+                $sub_src = substr($this->__src, $ranges[0][0] + $begin_len, $ranges[0][1] - $ranges[0][0] - $begin_len);
                 $arr = explode("\n", $sub_src);
 
                 $last_prop = '';
@@ -4184,13 +4161,13 @@ class div
                     $line = trim($line);
                     $line = str_replace("\t", ' ', $line);
 
-                    if (($last_prop !== '') && isset($orig [0]) && $line === '') {
+                    if (($last_prop !== '') && isset($orig[0]) && $line === '') {
                         $line = ' ';
                     }
 
-                    if (isset($line [0])) {
-                        if (($last_prop !== '') && $line [0] !== '@') {
-                            $line = '@'.$last_prop.': '.substr($orig, $last_tab);
+                    if (isset($line[0])) {
+                        if (($last_prop !== '') && $line[0] !== '@') {
+                            $line = '@' . $last_prop . ': ' . substr($orig, $last_tab);
                         }
                         if (strpos($line, '@') === 0) {
 
@@ -4206,32 +4183,31 @@ class div
                             }
                             $l = strlen($prop);
 
-                            if ($prop [$l - 1] === ':') {
+                            if ($prop[$l - 1] === ':') {
                                 $multi_line = true;
                                 $prop = substr($prop, 0, $l - 1);
                             }
 
-                            if (!isset(self::$__docs [$section])) {
-                                self::$__docs [$section] = [];
+                            if (!isset(self::$__docs[$section])) {
+                                self::$__docs[$section] = [];
                             }
-                            if (isset(self::$__docs [$section] [$prop])) {
+                            if (isset(self::$__docs[$section][$prop])) {
 
-                                if (!is_array(self::$__docs [$section] [$prop])) {
-                                    if (trim(self::$__docs [$section] [$prop]) !== '') {
-                                        self::$__docs [$section] [$prop] = [
-                                            self::$__docs [$section] [$prop],
+                                if (!is_array(self::$__docs[$section][$prop])) {
+                                    if (trim(self::$__docs[$section][$prop]) !== '') {
+                                        self::$__docs[$section][$prop] = [
+                                            self::$__docs[$section][$prop],
                                         ];
                                     } else {
-                                        self::$__docs [$section] [$prop] = [];
+                                        self::$__docs[$section][$prop] = [];
                                     }
                                 }
 
-                                if (isset(self::$__docs [$section] [$prop] [0]) || (!isset(self::$__docs [$section] [$prop] [0]) && trim($value) !== '')) {
-                                    self::$__docs [$section] [$prop] [] = $value;
+                                if (isset(self::$__docs[$section][$prop][0]) || (!isset(self::$__docs[$section][$prop][0]) && trim($value) !== '')) {
+                                    self::$__docs[$section][$prop][] = $value;
                                 }
-
                             } else {
-                                self::$__docs [$section] [$prop] = $value;
+                                self::$__docs[$section][$prop] = $value;
                             }
 
                             if ($multi_line) {
@@ -4240,7 +4216,7 @@ class div
                                 $last_prop = '';
                             }
 
-                            $ppp = strpos($orig, '@'.$prop);
+                            $ppp = strpos($orig, '@' . $prop);
                             if ($ppp !== false) {
                                 $last_tab = $ppp;
                             }
@@ -4250,7 +4226,7 @@ class div
             }
 
             // Extract
-            $this->__src = substr($this->__src, 0, $ranges [0] [0]).substr($this->__src, $ranges [0] [1] + strlen(DIV_TAG_COMMENT_END));
+            $this->__src = substr($this->__src, 0, $ranges[0][0]) . substr($this->__src, $ranges[0][1] + strlen(DIV_TAG_COMMENT_END));
         }
     }
 
@@ -4280,7 +4256,7 @@ class div
 
             if (is_array($current)) {
                 if (array_key_exists($part, $current)) {
-                    $current = $current [$part];
+                    $current = $current[$part];
                 } else {
                     return false;
                 }
@@ -4322,10 +4298,10 @@ class div
         }
 
         foreach ($items_x as $key => $value) {
-            $x_key = $super_key.$key;
+            $x_key = $super_key . $key;
 
             if ($x_key !== '') {
-                if ($x_key === 'vars'.DIV_TAG_VAR_MEMBER_DELIMITER.'this' || $x_key === 'this') {
+                if ($x_key === 'vars' . DIV_TAG_VAR_MEMBER_DELIMITER . 'this' || $x_key === 'this') {
                     if (is_object($value)) {
                         if ($this === $value) {
                             continue;
@@ -4339,10 +4315,10 @@ class div
                     }
                 }
 
-                $vars [] = $x_key;
+                $vars[] = $x_key;
 
                 if (!is_scalar($value) && $value !== null) {
-                    $vars = array_merge($vars, $this->getVars($items_x [$key], $x_key.DIV_TAG_VAR_MEMBER_DELIMITER));
+                    $vars = array_merge($vars, $this->getVars($items_x[$key], $x_key . DIV_TAG_VAR_MEMBER_DELIMITER));
                 }
             }
         }
@@ -4363,13 +4339,13 @@ class div
         $unset = false;
         if (array_key_exists($var, $items)) {
             $unset = true;
-            unset ($items [$var]);
+            unset($items[$var]);
         }
 
         $var = trim($var);
 
         $parts = explode(DIV_TAG_VAR_MEMBER_DELIMITER, $var);
-        if (!isset($parts [0])) {
+        if (!isset($parts[0])) {
             return $unset;
         }
 
@@ -4384,22 +4360,22 @@ class div
 
             if (is_array($current)) {
                 if (array_key_exists($part, $current)) {
-                    $current = $current [$part];
-                    $code .= '["'.$part.'"]';
+                    $current = $current[$part];
+                    $code .= '["' . $part . '"]';
                 } else {
                     return $unset;
                 }
             } elseif (is_object($current)) {
                 if (property_exists($current, $part)) {
                     $current = $current->$part;
-                    $code .= '->'.$part;
+                    $code .= '->' . $part;
                 } else {
                     return $unset;
                 }
             }
         }
 
-        eval ("unset($code);");
+        eval("unset($code);");
 
         return true;
     }
@@ -4423,7 +4399,7 @@ class div
         }
 
         if (array_key_exists($var, $items_x)) {
-            return $items_x [$var];
+            return $items_x[$var];
         }
 
         $var = trim($var);
@@ -4438,7 +4414,7 @@ class div
 
             if (is_array($current)) {
                 if (array_key_exists($part, $current)) {
-                    $current = $current [$part];
+                    $current = $current[$part];
                 } else {
                     $current = null;
                     break;
@@ -4456,13 +4432,13 @@ class div
         if ($current === null) {
             $s = '';
             foreach ($parts as $part) {
-                if (array_key_exists($s.$part, $items_x)) {
-                    $current = self::getVarValue(substr($var, strlen($s.$part) + 1), $items_x [$s.$part]);
+                if (array_key_exists($s . $part, $items_x)) {
+                    $current = self::getVarValue(substr($var, strlen($s . $part) + 1), $items_x[$s . $part]);
                     if ($current !== null) {
                         break;
                     }
                 }
-                $s .= $part.DIV_TAG_VAR_MEMBER_DELIMITER;
+                $s .= $part . DIV_TAG_VAR_MEMBER_DELIMITER;
             }
         }
 
@@ -4482,7 +4458,7 @@ class div
     final public static function setVarValue($var, $value, &$items, $force = true)
     {
         if (array_key_exists($var, $items)) {
-            $items [$var] = $value;
+            $items[$var] = $value;
         }
 
         $var = trim($var);
@@ -4507,45 +4483,45 @@ class div
                         if ($part === '') {
                             $code .= '[]';
                         } else {
-                            $code .= '[\''.addslashes($part).'\']';
+                            $code .= '[\'' . addslashes($part) . '\']';
                         }
-                        $current = $current [$part];
+                        $current = $current[$part];
                     } elseif ($part === '') {
-                        eval ($code.'[] = $value;');
+                        eval($code . '[] = $value;');
                     } else {
-                        eval ($code.'[$part] = $value;');
+                        eval($code . '[$part] = $value;');
                     }
                 } elseif ($i < $c) {
                     if ($part === '') {
-                        eval ($code.'[] = array();');
+                        eval($code . '[] = array();');
                         $current = [];
                         $code .= '[]';
                     } else {
-                        eval ($code.'[$part] = array();');
+                        eval($code . '[$part] = array();');
                         $current = [];
-                        $code .= '[\''.addslashes($part).'\']';
+                        $code .= '[\'' . addslashes($part) . '\']';
                     }
                 } elseif ($part === '') {
-                    eval ($code.'[] = $value;');
+                    eval($code . '[] = $value;');
                 } else {
-                    eval ($code.'[$part] = $value;');
+                    eval($code . '[$part] = $value;');
                 }
             } elseif (is_object($current)) {
                 if (self::isValidVarName($part)) {
                     $part = str_replace('$', '', $part);
                     if (property_exists($current, $part)) {
                         if ($i < $c) {
-                            $code .= '->'.$part;
+                            $code .= '->' . $part;
                             $current = $current->$part;
                         } else {
-                            eval ($code.'->$part = $value;');
+                            eval($code . '->$part = $value;');
                         }
                     } elseif ($i < $c) {
-                        eval ($code.'->$part = new stdClass();');
-                        $code .= '->'.$part;
-                        $current = new stdClass ();
+                        eval($code . '->$part = new stdClass();');
+                        $code .= '->' . $part;
+                        $current = new stdClass();
                     } else {
-                        eval ($code.'->$part = $value;');
+                        eval($code . '->$part = $value;');
                     }
                 } else {
                     break;
@@ -4563,9 +4539,7 @@ class div
      */
     final public function parseData(&$items)
     {
-        if (self::$__log_mode) {
-            $this->logger('Parsing data in templates...');
-        }
+        self::$__log_mode and $this->logger('Parsing data in templates...');
 
         $pos = 0;
 
@@ -4582,8 +4556,8 @@ class div
                 break;
             }
 
-            $ini = $ranges [0] [0];
-            $fin = $ranges [0] [1];
+            $ini = $ranges[0][0];
+            $fin = $ranges[0][1];
 
             if ($this->searchInListRanges($ini)) {
                 $pos = $ini + 1;
@@ -4614,10 +4588,10 @@ class div
 
             $body = substr($this->__src, $ini + $l1, $fin - $ini - $l1);
             $arr = explode(':', $body, 2);
-            $var = $arr [0];
+            $var = $arr[0];
 
-            if (isset($arr [1])) {
-                $exp = $arr [1];
+            if (isset($arr[1])) {
+                $exp = $arr[1];
             } else {
                 $exp = '';
             }
@@ -4635,7 +4609,7 @@ class div
                     if (!array_key_exists($var, self::$__globals_design)) {
                         $setup_design = false;
                     }
-                    $var = str_replace('[]', '['.count($temp_value).']', $var);
+                    $var = str_replace('[]', '[' . count($temp_value) . ']', $var);
                 }
             }
 
@@ -4669,7 +4643,7 @@ class div
             // Protect the variable
             if (strpos($var, DIV_TAG_TPLVAR_PROTECTOR) === 0) {
                 $var = substr($var, 1);
-                self::$__globals_design_protected [$var] = true;
+                self::$__globals_design_protected[$var] = true;
             }
 
             if ($this->searchPosAfterRange(DIV_TAG_MACRO_BEGIN, DIV_TAG_MACRO_END, $ini)) {
@@ -4729,29 +4703,31 @@ class div
                             if ($fgc !== '') {
                                 $exp = $fgc;
                             }
-                        } elseif (self::fileExists($exp_path.'.'.DIV_DEFAULT_DATA_FILE_EXT) && !self::isDir($exp_path.'.'.DIV_DEFAULT_DATA_FILE_EXT)) {
-                            $fgc = self::getFileContents($exp_path.'.'.DIV_DEFAULT_DATA_FILE_EXT);
+                        } elseif (self::fileExists($exp_path . '.' . DIV_DEFAULT_DATA_FILE_EXT) && !self::isDir($exp_path . '.' . DIV_DEFAULT_DATA_FILE_EXT)) {
+                            $fgc = self::getFileContents($exp_path . '.' . DIV_DEFAULT_DATA_FILE_EXT);
                             if ($fgc !== '') {
                                 $exp = $fgc;
                             }
-                        } elseif (self::fileExists($exp_path.'.'.DIV_DEFAULT_TPL_FILE_EXT) && !self::isDir($exp_path.'.'.DIV_DEFAULT_TPL_FILE_EXT)) {
-                            $fgc = self::getFileContents($exp_path.'.'.DIV_DEFAULT_TPL_FILE_EXT);
+                        } elseif (self::fileExists($exp_path . '.' . DIV_DEFAULT_TPL_FILE_EXT) && !self::isDir($exp_path . '.' . DIV_DEFAULT_TPL_FILE_EXT)) {
+                            $fgc = self::getFileContents($exp_path . '.' . DIV_DEFAULT_TPL_FILE_EXT);
                             if ($fgc !== '') {
                                 $exp = $fgc;
                             }
                         }
 
-                        if (isset($exp [0])) {
-                            $_exp = $exp [0];
+                        if (isset($exp[0])) {
+                            $_exp = $exp[0];
                         } else {
                             $_exp = '';
                         }
 
-                        if (($_exp !== '{' && $_exp !== '[' && !is_numeric($_exp) && $_exp !== '"' && $_exp !== "'")
+                        if (
+                            ($_exp !== '{' && $_exp !== '[' && !is_numeric($_exp) && $_exp !== '"' && $_exp !== "'")
                             || (strpos($exp, DIV_TAG_INCLUDE_BEGIN) === 0
                                 && substr($exp, 0 - strlen(DIV_TAG_INCLUDE_END)) === DIV_TAG_INCLUDE_END)
-                            || (strpos($exp, DIV_TAG_PREPROCESSED_BEGIN) === 0 && substr($exp, 0 - strlen(DIV_TAG_PREPROCESSED_END)) === DIV_TAG_PREPROCESSED_END)) {
-                            $exp = '"'.str_replace('"', '\"', $exp).'"';
+                            || (strpos($exp, DIV_TAG_PREPROCESSED_BEGIN) === 0 && substr($exp, 0 - strlen(DIV_TAG_PREPROCESSED_END)) === DIV_TAG_PREPROCESSED_END)
+                        ) {
+                            $exp = '"' . str_replace('"', '\"', $exp) . '"';
                         }
 
                         $value = self::jsonDecode($exp, $all_items);
@@ -4765,11 +4741,11 @@ class div
                             foreach ($vars as $kkk => $vvv) {
                                 if (self::isString($vvv)) {
                                     $vvv = trim($vvv);
-                                    if (isset($vvv [0]) && strpos($vvv, '$') === 0) {
+                                    if (isset($vvv[0]) && strpos($vvv, '$') === 0) {
                                         $var_x = substr($vvv, 1);
                                         if (self::issetVar($var_x, $items)) {
                                             if (is_array($value)) {
-                                                $value [$kkk] = self::getVarValue($var_x, $items);
+                                                $value[$kkk] = self::getVarValue($var_x, $items);
                                             }
                                             if (is_object($value)) {
                                                 $value->$kkk = self::getVarValue($var_x, $items);
@@ -4790,7 +4766,7 @@ class div
                 }
             }
 
-            $this->__src = substr($this->__src, 0, $ini).substr($this->__src, $fin + $l2);
+            $this->__src = substr($this->__src, 0, $ini) . substr($this->__src, $fin + $l2);
         }
     }
 
@@ -4801,9 +4777,7 @@ class div
      */
     final public function parseDefaults(&$items)
     {
-        if (self::$__log_mode) {
-            $this->logger('Parsing default replacements...');
-        }
+        self::$__log_mode and $this->logger('Parsing default replacements...');
 
         $prefix = DIV_TAG_DEFAULT_REPLACEMENT_BEGIN;
         $suffix = DIV_TAG_DEFAULT_REPLACEMENT_END;
@@ -4816,40 +4790,40 @@ class div
                 break;
             }
 
-            $ini = $ranges [0] [0];
-            $fin = $ranges [0] [1];
+            $ini = $ranges[0][0];
+            $fin = $ranges[0][1];
 
             $body = substr($this->__src, $ini + $l1, $fin - $ini - $l1);
 
             $arr = self::jsonDecode($body, $this->getAllItems($items));
 
             if (!isset($arr[0]) || !isset($arr[1])) {
-                self::error('Was detected an invalid JSON in default values: '.substr($body, 0, 80).'...', DIV_ERROR_FATAL);
+                self::error('Was detected an invalid JSON in default values: ' . substr($body, 0, 80) . '...', DIV_ERROR_FATAL);
             }
 
-            if (isset($arr [2])) {
+            if (isset($arr[2])) {
                 // Default by var
-                $var = $arr [0];
-                $search = $arr [1];
-                $replace = $arr [2];
+                $var = $arr[0];
+                $search = $arr[1];
+                $replace = $arr[2];
             } else {
                 // Global default
                 $var = null;
-                $search = $arr [0];
-                $replace = $arr [1];
+                $search = $arr[0];
+                $replace = $arr[1];
             }
 
             if (self::fileExists($replace) && !self::isDir($search)) {
                 $replace = self::jsonDecode(self::getFileContents($replace), $this->getAllItems($items));
             }
-            if (self::fileExists($replace.'.'.DIV_DEFAULT_DATA_FILE_EXT) && !self::isDir($search.'.'.DIV_DEFAULT_DATA_FILE_EXT)) {
-                $replace = self::jsonDecode(self::getFileContents($replace.'.'.DIV_DEFAULT_DATA_FILE_EXT), self::cop($this->__memory, $items));
+            if (self::fileExists($replace . '.' . DIV_DEFAULT_DATA_FILE_EXT) && !self::isDir($search . '.' . DIV_DEFAULT_DATA_FILE_EXT)) {
+                $replace = self::jsonDecode(self::getFileContents($replace . '.' . DIV_DEFAULT_DATA_FILE_EXT), self::cop($this->__memory, $items));
             }
             if (self::fileExists($search) && !self::isDir($search)) {
                 $search = self::jsonDecode(self::getFileContents($search), $this->getAllItems($items));
             }
-            if (self::fileExists($search.'.'.DIV_DEFAULT_DATA_FILE_EXT) && !self::isDir($search.'.'.DIV_DEFAULT_DATA_FILE_EXT)) {
-                $search = self::jsonDecode(self::getFileContents($search.'.'.DIV_DEFAULT_DATA_FILE_EXT), $this->getAllItems($items));
+            if (self::fileExists($search . '.' . DIV_DEFAULT_DATA_FILE_EXT) && !self::isDir($search . '.' . DIV_DEFAULT_DATA_FILE_EXT)) {
+                $search = self::jsonDecode(self::getFileContents($search . '.' . DIV_DEFAULT_DATA_FILE_EXT), $this->getAllItems($items));
             }
 
             if ($var === null) {
@@ -4858,7 +4832,7 @@ class div
                 self::setDefaultByVar($var, $search, $replace, false);
             }
 
-            $this->__src = substr($this->__src, 0, $ini).substr($this->__src, $fin + 2);
+            $this->__src = substr($this->__src, 0, $ini) . substr($this->__src, $fin + 2);
         }
     }
 
@@ -4869,9 +4843,7 @@ class div
      */
     final public function parseNumberFormat(&$items = [])
     {
-        if (self::$__log_mode) {
-            $this->logger("Parsing number's formats...");
-        }
+        self::$__log_mode and $this->logger("Parsing number's formats...");
 
         $prefix = DIV_TAG_NUMBER_FORMAT_PREFIX;
         $suffix = DIV_TAG_NUMBER_FORMAT_SUFFIX;
@@ -4884,14 +4856,14 @@ class div
             $s = substr($this->__src, $range[0] + $l1, $range[1] - $range[0] - $l1);
             $arr = explode(DIV_TAG_NUMBER_FORMAT_SEPARATOR, $s);
             if (!array_key_exists($arr[0], $items) && is_numeric($arr[0])) {
-                $items [$arr[0]] = ( float )$arr [0];
+                $items[$arr[0]] = (float) $arr[0];
             }
         }
 
         if (is_array($items)) {
             foreach ($items as $key => $value) {
                 if (is_numeric($value)) {
-                    $this->numberFormat($key, (string)$value);
+                    $this->numberFormat($key, (string) $value);
                 }
             }
         }
@@ -4916,10 +4888,10 @@ class div
         }
 
         // Scan child properties
-        if (strpos($this->__src, $key.DIV_TAG_VAR_MEMBER_DELIMITER) !== false) {
+        if (strpos($this->__src, $key . DIV_TAG_VAR_MEMBER_DELIMITER) !== false) {
             $vvv = $value;
             if (is_scalar($vvv)) {
-                $vvv = (string)$value;
+                $vvv = (string) $value;
             }
 
             if (self::isString($vvv)) {
@@ -4932,7 +4904,7 @@ class div
 
             if (is_array($vars)) {
                 foreach ($vars as $kk => $v) {
-                    $this->scanMatch($key.DIV_TAG_VAR_MEMBER_DELIMITER.$kk, $v, $engine, $items, $ignore_logical_order);
+                    $this->scanMatch($key . DIV_TAG_VAR_MEMBER_DELIMITER . $kk, $v, $engine, $items, $ignore_logical_order);
                 }
             }
         }
@@ -4961,19 +4933,19 @@ class div
                     $keys = array_keys($value);
 
                     if ($cant_values > 1) {
-                        $this->parseMatch($function_max.$sep.$key, max($value), $engine, $ignore_logical_order);
-                        $this->parseMatch($function_min.$sep.$key, min($value), $engine, $ignore_logical_order);
+                        $this->parseMatch($function_max . $sep . $key, max($value), $engine, $ignore_logical_order);
+                        $this->parseMatch($function_min . $sep . $key, min($value), $engine, $ignore_logical_order);
                     } else {
 
-                        $this->parseMatch($function_max.$sep.$key, $value [$keys [0]], $engine, $ignore_logical_order);
-                        $this->parseMatch($function_min.$sep.$key, $value [$keys [0]], $engine, $ignore_logical_order);
+                        $this->parseMatch($function_max . $sep . $key, $value[$keys[0]], $engine, $ignore_logical_order);
+                        $this->parseMatch($function_min . $sep . $key, $value[$keys[0]], $engine, $ignore_logical_order);
                     }
 
-                    $this->parseMatch(DIV_TAG_AGGREGATE_FUNCTION_SUM.$sep.$key, $sum, $engine, $ignore_logical_order);
-                    $this->parseMatch(DIV_TAG_AGGREGATE_FUNCTION_AVG.$sep.$key, $sum / $cant_values, $engine, $ignore_logical_order);
+                    $this->parseMatch(DIV_TAG_AGGREGATE_FUNCTION_SUM . $sep . $key, $sum, $engine, $ignore_logical_order);
+                    $this->parseMatch(DIV_TAG_AGGREGATE_FUNCTION_AVG . $sep . $key, $sum / $cant_values, $engine, $ignore_logical_order);
                 }
 
-                if (strpos($this->__src, $key.DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR) !== false) {
+                if (strpos($this->__src, $key . DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR) !== false) {
 
                     $functions = [
                         '',
@@ -4988,10 +4960,10 @@ class div
                         if ($function === '') {
                             $ff = '';
                         } else {
-                            $ff = $function.DIV_TAG_AGGREGATE_FUNCTION_SEPARATOR;
+                            $ff = $function . DIV_TAG_AGGREGATE_FUNCTION_SEPARATOR;
                         }
 
-                        $tag_begin = $ff.$key.DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR;
+                        $tag_begin = $ff . $key . DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR;
                         $tag_end = DIV_TAG_REPLACEMENT_SUFFIX;
 
                         $l = strlen($tag_begin);
@@ -5004,7 +4976,7 @@ class div
                                 break;
                             }
 
-                            $range = $ranges [0];
+                            $range = $ranges[0];
 
                             if ($this->searchInRanges($this->getRanges(DIV_TAG_MACRO_BEGIN, DIV_TAG_MACRO_END), $range[0])) {
                                 $p = $range[0] + 1;
@@ -5015,15 +4987,15 @@ class div
 
                             if (strpos($var, DIV_TAG_SUBMATCH_SEPARATOR) !== false) {
                                 $var = explode(DIV_TAG_SUBMATCH_SEPARATOR, $var);
-                                $var = $var [0];
+                                $var = $var[0];
                             } elseif (strpos($var, DIV_TAG_NUMBER_FORMAT_SEPARATOR) !== false) {
                                 $var = explode(DIV_TAG_NUMBER_FORMAT_SEPARATOR, $var);
-                                $var = $var [0];
+                                $var = $var[0];
                             }
 
                             if (!array_key_exists($var, $result)) {
                                 $c = 0;
-                                $result [$var] = [];
+                                $result[$var] = [];
                                 $max = null;
                                 $min = null;
                                 $sum = 0;
@@ -5035,53 +5007,53 @@ class div
                                     }
                                     if (isset($var[$v])) {
                                         $cant = 0;
-                                        if (is_bool($v [$var]) || self::isString($v [$var])) {
+                                        if (is_bool($v[$var]) || self::isString($v[$var])) {
                                             $cant = 1;
                                         }
-                                        if (is_numeric($v [$var])) {
-                                            $cant = $v [$var];
+                                        if (is_numeric($v[$var])) {
+                                            $cant = $v[$var];
                                         }
 
                                         switch ($function) {
-                                            case DIV_TAG_AGGREGATE_FUNCTION_MIN :
-                                                if ($min === null || $min * 1 > $v [$var] * 1) {
-                                                    $min = $v [$var] * 1;
+                                            case DIV_TAG_AGGREGATE_FUNCTION_MIN:
+                                                if ($min === null || $min * 1 > $v[$var] * 1) {
+                                                    $min = $v[$var] * 1;
                                                 }
                                                 break;
-                                            case DIV_TAG_AGGREGATE_FUNCTION_MAX :
-                                                if ($max === null || $max * 1 < $v [$var] * 1) {
-                                                    $max = $v [$var] * 1;
+                                            case DIV_TAG_AGGREGATE_FUNCTION_MAX:
+                                                if ($max === null || $max * 1 < $v[$var] * 1) {
+                                                    $max = $v[$var] * 1;
                                                 }
                                                 break;
-                                            case DIV_TAG_AGGREGATE_FUNCTION_SUM :
+                                            case DIV_TAG_AGGREGATE_FUNCTION_SUM:
                                                 $sum += $cant;
                                                 break;
-                                            case DIV_TAG_AGGREGATE_FUNCTION_AVG :
+                                            case DIV_TAG_AGGREGATE_FUNCTION_AVG:
                                                 $avg += $cant;
                                                 break;
-                                            default :
-                                                if (self::mixedBool($v [$var]) === true) {
+                                            default:
+                                                if (self::mixedBool($v[$var]) === true) {
                                                     $c++;
                                                 }
                                         }
                                     }
                                 }
 
-                                $result [$var] [DIV_TAG_AGGREGATE_FUNCTION_MIN] = $min;
-                                $result [$var] [DIV_TAG_AGGREGATE_FUNCTION_MAX] = $max;
-                                $result [$var] [DIV_TAG_AGGREGATE_FUNCTION_COUNT] = $c;
-                                $result [$var] [DIV_TAG_AGGREGATE_FUNCTION_SUM] = $sum;
+                                $result[$var][DIV_TAG_AGGREGATE_FUNCTION_MIN] = $min;
+                                $result[$var][DIV_TAG_AGGREGATE_FUNCTION_MAX] = $max;
+                                $result[$var][DIV_TAG_AGGREGATE_FUNCTION_COUNT] = $c;
+                                $result[$var][DIV_TAG_AGGREGATE_FUNCTION_SUM] = $sum;
 
                                 if ($cant_values > 0) {
-                                    $result [$var] [DIV_TAG_AGGREGATE_FUNCTION_AVG] = $avg / $cant_values;
+                                    $result[$var][DIV_TAG_AGGREGATE_FUNCTION_AVG] = $avg / $cant_values;
                                 } else {
-                                    $result [$var] [DIV_TAG_AGGREGATE_FUNCTION_AVG] = 0;
+                                    $result[$var][DIV_TAG_AGGREGATE_FUNCTION_AVG] = 0;
                                 }
                             }
 
-                            $res = $result [$var] [$function === '' ? DIV_TAG_AGGREGATE_FUNCTION_COUNT : $function];
-                            $var = $ff.$key.DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR.$var;
-                            $items [$var] = $res;
+                            $res = $result[$var][$function === '' ? DIV_TAG_AGGREGATE_FUNCTION_COUNT : $function];
+                            $var = $ff . $key . DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR . $var;
+                            $items[$var] = $res;
 
                             $this->parseMatch($var, $res, $engine, $ignore_logical_order);
                             $p = $range[0] + 1;
@@ -5121,10 +5093,10 @@ class div
                 $new_code = '';
                 if (count($parts) > 0) {
 
-                    $new_var = 'var'.uniqid('', true);
-                    self::$__dont_remember_it [$new_var] = true;
+                    $new_var = 'var' . uniqid('', true);
+                    self::$__dont_remember_it[$new_var] = true;
 
-                    $new_code = DIV_TAG_STRIP_BEGIN.' '.DIV_TAG_TPLVAR_BEGIN.' '.$new_var.DIV_TAG_TPLVAR_ASSIGN_OPERATOR.' $'.$var_name.' '.DIV_TAG_TPLVAR_END."\n";
+                    $new_code = DIV_TAG_STRIP_BEGIN . ' ' . DIV_TAG_TPLVAR_BEGIN . ' ' . $new_var . DIV_TAG_TPLVAR_ASSIGN_OPERATOR . ' $' . $var_name . ' ' . DIV_TAG_TPLVAR_END . "\n";
                     $ignore = false;
 
                     $separators = [];
@@ -5146,19 +5118,19 @@ class div
                             $break = false;
                             // by default, a modifier is a prefix ...
                             if (in_array($part, self::$__modifiers, true)) {
-                                $new_code .= DIV_TAG_TPLVAR_BEGIN.' '.$new_var.DIV_TAG_TPLVAR_ASSIGN_OPERATOR.' '.DIV_TAG_REPLACEMENT_PREFIX.$part.$new_var.DIV_TAG_REPLACEMENT_SUFFIX.' '.DIV_TAG_TPLVAR_END."\n";
+                                $new_code .= DIV_TAG_TPLVAR_BEGIN . ' ' . $new_var . DIV_TAG_TPLVAR_ASSIGN_OPERATOR . ' ' . DIV_TAG_REPLACEMENT_PREFIX . $part . $new_var . DIV_TAG_REPLACEMENT_SUFFIX . ' ' . DIV_TAG_TPLVAR_END . "\n";
                             } // .. else the sub process
                             elseif (strpos($part, DIV_TAG_MODIFIER_TRUNCATE) === 0 || strpos($part, DIV_TAG_MODIFIER_WORDWRAP) === 0 || strpos($part, ',') !== false) {
-                                $new_code .= DIV_TAG_TPLVAR_BEGIN.' '.$new_var.DIV_TAG_TPLVAR_ASSIGN_OPERATOR.' '.DIV_TAG_REPLACEMENT_PREFIX.DIV_TAG_MODIFIER_SIMPLE.$new_var.DIV_TAG_SUBMATCH_SEPARATOR.$part.DIV_TAG_REPLACEMENT_SUFFIX.' '
-                                    .DIV_TAG_TPLVAR_END."\n";
+                                $new_code .= DIV_TAG_TPLVAR_BEGIN . ' ' . $new_var . DIV_TAG_TPLVAR_ASSIGN_OPERATOR . ' ' . DIV_TAG_REPLACEMENT_PREFIX . DIV_TAG_MODIFIER_SIMPLE . $new_var . DIV_TAG_SUBMATCH_SEPARATOR . $part . DIV_TAG_REPLACEMENT_SUFFIX . ' '
+                                    . DIV_TAG_TPLVAR_END . "\n";
                             } else {
                                 $break = true;
                             }
 
                             // .. else take MODIFIER + SEPARATORS
                             foreach ($separators as $sep => $v) {
-                                if (in_array($part.$sep, self::$__modifiers, true)) {
-                                    $new_code .= DIV_TAG_TPLVAR_BEGIN.' '.$new_var.DIV_TAG_TPLVAR_ASSIGN_OPERATOR.' '.DIV_TAG_REPLACEMENT_PREFIX.$part.$sep.$new_var.DIV_TAG_REPLACEMENT_SUFFIX.' '.DIV_TAG_TPLVAR_END."\n";
+                                if (in_array($part . $sep, self::$__modifiers, true)) {
+                                    $new_code .= DIV_TAG_TPLVAR_BEGIN . ' ' . $new_var . DIV_TAG_TPLVAR_ASSIGN_OPERATOR . ' ' . DIV_TAG_REPLACEMENT_PREFIX . $part . $sep . $new_var . DIV_TAG_REPLACEMENT_SUFFIX . ' ' . DIV_TAG_TPLVAR_END . "\n";
                                     $break = false;
                                     break;
                                 }
@@ -5176,10 +5148,10 @@ class div
                         continue;
                     }
 
-                    $new_code .= DIV_TAG_REPLACEMENT_PREFIX.DIV_TAG_MODIFIER_SIMPLE.$new_var.DIV_TAG_REPLACEMENT_SUFFIX.' '.DIV_TAG_STRIP_END."\n";
+                    $new_code .= DIV_TAG_REPLACEMENT_PREFIX . DIV_TAG_MODIFIER_SIMPLE . $new_var . DIV_TAG_REPLACEMENT_SUFFIX . ' ' . DIV_TAG_STRIP_END . "\n";
                 }
 
-                $this->__src = substr($this->__src, 0, $ini).$new_code.substr($this->__src, $fin + $l2);
+                $this->__src = substr($this->__src, 0, $ini) . $new_code . substr($this->__src, $fin + $l2);
                 $p = $ini + 1;
             } else {
                 break;
@@ -5195,9 +5167,8 @@ class div
      */
     final public function parseMatches(&$items = null, $ignore_logical_order = false)
     {
-        if (self::$__log_mode) {
-            $this->logger('Parsing matches...');
-        }
+        self::$__log_mode and $this->logger('Parsing matches...');
+
         if ($items === null) {
             $items = &$this->__items;
         }
@@ -5217,15 +5188,15 @@ class div
 
                 $ranges = $this->getBlockRanges(null, DIV_TAG_LOOP_BEGIN_PREFIX, DIV_TAG_LOOP_BEGIN_SUFFIX, DIV_TAG_LOOP_END_PREFIX, DIV_TAG_LOOP_END_SUFFIX, $last_pos, null, true);
 
-                if (!isset($ranges [0])) {
+                if (!isset($ranges[0])) {
                     break;
                 }
 
-                $ini = $ranges [0] [0];
+                $ini = $ranges[0][0];
                 $last_pos = $ini + 1;
                 $unique_key = uniqid('', true);
-                $restore [$unique_key] = $ranges [0] [3];
-                $this->__src = substr($this->__src, 0, $ini + $prefix_len + strlen($ranges [0] [2]) + $suffix_len).$unique_key.substr($this->__src, $ranges [0] [1]);
+                $restore[$unique_key] = $ranges[0][3];
+                $this->__src = substr($this->__src, 0, $ini + $prefix_len + strlen($ranges[0][2]) + $suffix_len) . $unique_key . substr($this->__src, $ranges[0][1]);
             }
         }
 
@@ -5245,14 +5216,10 @@ class div
      * Parse formulas
      *
      * @param array $items
-     *
-     * @return boolean
      */
     final public function parseFormulas(&$items = [])
     {
-        if (self::$__log_mode) {
-            $this->logger('Parsing formulas...');
-        }
+        self::$__log_mode and $this->logger('Parsing formulas...');
 
         $p1 = strpos($this->__src, DIV_TAG_TPLVAR_BEGIN);
 
@@ -5272,9 +5239,7 @@ class div
                 $formula = substr($this->__src, $ini + $prefix_len, $fin - ($ini + $prefix_len));
                 $formula_orig = $formula;
 
-                if (self::$__log_mode) {
-                    $this->logger("Parsing the formula (from {$ini} to {$fin}): $formula");
-                }
+                self::$__log_mode and $this->logger("Parsing the formula (from {$ini} to {$fin}): $formula");
 
                 $engine->__src = $formula;
 
@@ -5286,7 +5251,7 @@ class div
                 $pos = strrpos($formula, DIV_TAG_FORMULA_FORMAT_SEPARATOR);
                 $format = '';
 
-                if ($pos !== false && isset($formula [$pos + 1])) {
+                if ($pos !== false && isset($formula[$pos + 1])) {
                     $format = trim(substr($formula, $pos + 1));
                     $formula = substr($formula, 0, $pos);
                 }
@@ -5296,22 +5261,22 @@ class div
 
                 if (self::isValidExpression($formula) && !self::haveVarsThisCode($formula)) {
                     self::changeErrorReporting();
-                    eval ('$r = '.$formula.';');
+                    eval('$r = ' . $formula . ';');
                     self::restoreErrorReporting();
                 }
 
                 if ($r === null) {
                     $restore_id = uniqid('', true);
-                    $this->__restore [$restore_id] = DIV_TAG_FORMULA_BEGIN.' '.$formula_orig.DIV_TAG_FORMULA_END;
-                    $this->__src = substr($this->__src, 0, $ini).'{'.(string)$restore_id.'}'.substr($this->__src, $fin + $suffix_len);
+                    $this->__restore[$restore_id] = DIV_TAG_FORMULA_BEGIN . ' ' . $formula_orig . DIV_TAG_FORMULA_END;
+                    $this->__src = substr($this->__src, 0, $ini) . '{' . (string) $restore_id . '}' . substr($this->__src, $fin + $suffix_len);
                     continue;
                 }
 
                 if ($format !== '' && is_numeric($r)) {
-                    $this->__src = substr($this->__src, 0, $ini).DIV_TAG_NUMBER_FORMAT_PREFIX.$random_var.DIV_TAG_NUMBER_FORMAT_SEPARATOR.$format.DIV_TAG_NUMBER_FORMAT_SUFFIX.substr($this->__src, $fin + $suffix_len);
+                    $this->__src = substr($this->__src, 0, $ini) . DIV_TAG_NUMBER_FORMAT_PREFIX . $random_var . DIV_TAG_NUMBER_FORMAT_SEPARATOR . $format . DIV_TAG_NUMBER_FORMAT_SUFFIX . substr($this->__src, $fin + $suffix_len);
                     $this->numberFormat($random_var, $r);
                 } else {
-                    $this->__src = substr($this->__src, 0, $ini).$r.substr($this->__src, $fin + $suffix_len);
+                    $this->__src = substr($this->__src, 0, $ini) . $r . substr($this->__src, $fin + $suffix_len);
                 }
             } else {
                 break;
@@ -5327,9 +5292,7 @@ class div
      */
     final public function parseConditions(&$items, $clean_orphan = false)
     {
-        if (self::$__log_mode) {
-            $this->logger('Parsing conditions...');
-        }
+        self::$__log_mode and $this->logger('Parsing conditions...');
 
         $pos = 0;
 
@@ -5383,29 +5346,27 @@ class div
                         ];
                     }
 
-                    if ($body_parts [0] !== '') {
-                        if ($body_parts [0] [0] === ' ') {
-                            $body_parts [0] = substr($body_parts [0], 1);
+                    if ($body_parts[0] !== '') {
+                        if ($body_parts[0][0] === ' ') {
+                            $body_parts[0] = substr($body_parts[0], 1);
                         }
-                        if (substr($body_parts [0], -1) === ' ') {
-                            $body_parts [0] = substr_replace($body_parts [0], '', -1);
+                        if (substr($body_parts[0], -1) === ' ') {
+                            $body_parts[0] = substr_replace($body_parts[0], '', -1);
                         }
                     }
 
-                    if ($body_parts [1] !== '') {
-                        if ($body_parts [1] [0] === ' ') {
-                            $body_parts [1] = substr($body_parts [1], 1);
+                    if ($body_parts[1] !== '') {
+                        if ($body_parts[1][0] === ' ') {
+                            $body_parts[1] = substr($body_parts[1], 1);
                         }
-                        if (substr($body_parts [1], -1) === ' ') {
-                            $body_parts [1] = substr_replace($body_parts [1], '', -1);
+                        if (substr($body_parts[1], -1) === ' ') {
+                            $body_parts[1] = substr_replace($body_parts[1], '', -1);
                         }
                     }
 
                     $r = false;
 
-                    if (self::$__log_mode) {
-                        $this->logger("Parsing condition (from $ini to $fin): $condition");
-                    }
+                    self::$__log_mode and $this->logger("Parsing condition (from $ini to $fin): $condition");
 
                     $engine = self::getAuxiliaryEngineClone($items, $items, $this);
                     $engine->__src = $condition;
@@ -5426,13 +5387,13 @@ class div
 
                         //replace each var with $items['varname']
                         foreach ($vars as $var) {
-                            $condition = str_replace('$'.$var, "\$items['$var']", $condition);
+                            $condition = str_replace('$' . $var, "\$items['$var']", $condition);
                         }
 
                         // Div 5.0: allow only $items var
                         if (!self::haveVarsThisCode($condition, ['items'])) {
                             self::changeErrorReporting();
-                            eval ('$r = '.$condition.';');
+                            eval('$r = ' . $condition . ';');
                             $r = self::mixedBool($r);
                             self::restoreErrorReporting();
                         } elseif ($clean_orphan === false) {
@@ -5440,9 +5401,7 @@ class div
                             continue;
                         }
                     } else {
-                        if (self::$__log_mode) {
-                            $this->logger("The condition $condition is not valid");
-                        }
+                        self::$__log_mode and $this->logger("The condition $condition is not valid");
 
                         if ($clean_orphan === false) {
                             $pos = $ini + $length_prefix;
@@ -5451,20 +5410,16 @@ class div
                     }
 
                     if ($r === true) {
-                        $body = $body_parts [0];
-                        if (self::$__log_mode) {
-                            $this->logger("The condition $condition is true");
-                        }
+                        $body = $body_parts[0];
+                        self::$__log_mode and $this->logger("The condition $condition is true");
                     } else {
-                        $body = $body_parts [1];
-                        if (self::$__log_mode) {
-                            $this->logger("The condition $condition is false");
-                        }
+                        $body = $body_parts[1];
+                        self::$__log_mode and $this->logger("The condition $condition is false");
                     }
 
-                    $this->__src = substr($this->__src, 0, $ini).$body.substr($this->__src, $fin + $length_end);
+                    $this->__src = substr($this->__src, 0, $ini) . $body . substr($this->__src, $fin + $length_end);
                 } else {
-                    self::error('Parse error on <b>conditions</b>: '.substr($condition, 0, 50).'...', DIV_ERROR_FATAL);
+                    self::error('Parse error on <b>conditions</b>: ' . substr($condition, 0, 50) . '...', DIV_ERROR_FATAL);
                 }
             } else {
                 break;
@@ -5479,37 +5434,37 @@ class div
      */
     final public function parseConditional(&$items = [])
     {
-        if (self::$__log_mode) {
-            $this->logger('Parsing conditional parts...');
-        }
+        self::$__log_mode and $this->logger('Parsing conditional parts...');
 
-        $r = array_merge($this->getBlockRanges(null, DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX, DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX, DIV_TAG_CONDITIONAL_TRUE_END_PREFIX, DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX),
-            $this->getBlockRanges(null, DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX, DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX, DIV_TAG_CONDITIONAL_FALSE_END_PREFIX, DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX));
+        $r = array_merge(
+            $this->getBlockRanges(null, DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX, DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX, DIV_TAG_CONDITIONAL_TRUE_END_PREFIX, DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX),
+            $this->getBlockRanges(null, DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX, DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX, DIV_TAG_CONDITIONAL_FALSE_END_PREFIX, DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX)
+        );
 
         $vars = [];
         $ii = $this->getAllItems($items);
         foreach ($r as $tag) {
 
             $original_tag = $tag;
-            $tag [2] = self::div($tag [2], $ii, [], 1, true);
+            $tag[2] = self::div($tag[2], $ii, [], 1, true);
 
             if (self::issetVar($tag[2], $items)) {
-                $vars[$original_tag[2]] = self::getVarValue($tag [2], $items);
+                $vars[$original_tag[2]] = self::getVarValue($tag[2], $items);
             } else {
-                $arr = explode('-', $tag [2]);
+                $arr = explode('-', $tag[2]);
                 // count($arr) === 2
-                if (isset($arr [1]) && !isset($arr [2]) && self::issetVar($arr [0], $items)) {
-                    $v = self::getVarValue($arr [0], $items);
+                if (isset($arr[1]) && !isset($arr[2]) && self::issetVar($arr[0], $items)) {
+                    $v = self::getVarValue($arr[0], $items);
                     if (is_object($v)) {
                         $v = get_object_vars($v);
                     }
                     if (is_array($v)) {
                         foreach ($v as $kk => $iv) {
-                            $vv = self::getVarValue($arr [1], $iv);
+                            $vv = self::getVarValue($arr[1], $iv);
                             if (array_key_exists($vv, $vars)) {
-                                $vars [$original_tag [2]] = self::mixedBool($vars [$original_tag [2]]) || self::mixedBool($vv);
+                                $vars[$original_tag[2]] = self::mixedBool($vars[$original_tag[2]]) || self::mixedBool($vv);
                             } else {
-                                $vars [$original_tag [2]] = self::mixedBool($vv);
+                                $vars[$original_tag[2]] = self::mixedBool($vv);
                             }
                         }
                     }
@@ -5519,18 +5474,18 @@ class div
 
         $varsx = $this->getActiveVars($items);
         foreach ($varsx as $var) {
-            $vars [$var] = self::mixedBool(self::getVarValue($var, $items));
+            $vars[$var] = self::mixedBool(self::getVarValue($var, $items));
         }
 
-        if (!empty ($vars)) {
+        if (!empty($vars)) {
             $keys = array_keys($vars);
             $nkeys = [];
             foreach ($keys as $k => $v) {
-                $nkeys [$v] = strlen($v);
+                $nkeys[$v] = strlen($v);
             }
             arsort($nkeys);
             foreach ($nkeys as $var => $l) {
-                $this->parseConditionalBlock($var, $vars [$var]);
+                $this->parseConditionalBlock($var, $vars[$var]);
             }
         }
     }
@@ -5540,12 +5495,11 @@ class div
      */
     final public function parseOrphanParts()
     {
-        if (self::$__log_mode) {
-            $this->logger('Parsing orphan parts...');
-        }
+        self::$__log_mode and $this->logger('Parsing orphan parts...');
 
         $keys = $this->getConditionalKeys();
         $items = $this->getAllItems();
+
         foreach ($keys as $key) {
             if (!self::varExists($key, $items))
                 $this->parseConditionalBlock($key, false);
@@ -5563,7 +5517,7 @@ class div
 
         $keys = [];
         foreach ($ranges as $rang) {
-            $keys [] = $rang [2];
+            $keys[] = $rang[2];
         }
 
         return $keys;
@@ -5716,8 +5670,8 @@ class div
         if (!$orphans) {
             $nranges = [];
             foreach ($ranges as $rang) {
-                if (self::varExists($rang [2], $this->__items)) {
-                    $nranges [] = $rang;
+                if (self::varExists($rang[2], $this->__items)) {
+                    $nranges[] = $rang;
                 }
             }
             $ranges = $nranges;
@@ -5726,8 +5680,8 @@ class div
         if ($strict !== false) {
             $nranges = [];
             foreach ($ranges as $rang) {
-                if (!self::haveDivCode($rang [2])) {
-                    $nranges [] = $rang;
+                if (!self::haveDivCode($rang[2])) {
+                    $nranges[] = $rang;
                 }
             }
             $ranges = $nranges;
@@ -5746,17 +5700,19 @@ class div
      */
     final public function getListRanges($src = null, $strict = false)
     {
-        $ranges = $this->getBlockRanges($src,
+        $ranges = $this->getBlockRanges(
+            $src,
             DIV_TAG_LOOP_BEGIN_PREFIX,
             DIV_TAG_LOOP_BEGIN_SUFFIX,
             DIV_TAG_LOOP_END_PREFIX,
-            DIV_TAG_LOOP_END_SUFFIX);
+            DIV_TAG_LOOP_END_SUFFIX
+        );
 
         if ($strict !== false) {
             $nranges = [];
             foreach ($ranges as $rang) {
-                if (!self::haveDivCode($rang [2])) {
-                    $nranges [] = $rang;
+                if (!self::haveDivCode($rang[2])) {
+                    $nranges[] = $rang;
                 }
             }
             $ranges = $nranges;
@@ -5772,33 +5728,31 @@ class div
      */
     final public function parseDateFormat(&$items = [])
     {
-        if (self::$__log_mode) {
-            $this->logger("Parsing date's formats...");
-        }
+        self::$__log_mode and $this->logger("Parsing date's formats...");
 
         $lprefix = strlen(DIV_TAG_DATE_FORMAT_PREFIX);
         $lsuffix = strlen(DIV_TAG_DATE_FORMAT_SUFFIX);
         $ranges = $this->getRanges(DIV_TAG_DATE_FORMAT_PREFIX, DIV_TAG_DATE_FORMAT_SUFFIX);
         $vars = [];
 
-        $temp = '{'.uniqid('', true).'}';
+        $temp = '{' . uniqid('', true) . '}';
 
         foreach ($ranges as $range) {
-            $s = substr($this->__src, $ranges [0] [0] + $lprefix, $ranges [0] [1] - $ranges [0] [0] - $lprefix);
-            $s = str_replace('\\'.DIV_TAG_DATE_FORMAT_SEPARATOR, $temp, $s);
+            $s = substr($this->__src, $ranges[0][0] + $lprefix, $ranges[0][1] - $ranges[0][0] - $lprefix);
+            $s = str_replace('\\' . DIV_TAG_DATE_FORMAT_SEPARATOR, $temp, $s);
 
             $p = strpos($s, DIV_TAG_DATE_FORMAT_SEPARATOR);
             if ($p !== false) {
                 $var = substr($s, 0, $p);
                 if (!array_key_exists($var, $items)) {
-                    $items [$var] = $var;
+                    $items[$var] = $var;
                 }
-                $vars [] = $var;
+                $vars[] = $var;
             }
         }
 
         foreach ($vars as $var) {
-            $value = $items [$var];
+            $value = $items[$var];
             if (is_scalar($value)) {
                 $this->dateFormat($var, $value);
             }
@@ -5815,7 +5769,7 @@ class div
      */
     final public function dateFormat($key, $value)
     {
-        $tag_begin = DIV_TAG_DATE_FORMAT_PREFIX.$key.DIV_TAG_DATE_FORMAT_SEPARATOR;
+        $tag_begin = DIV_TAG_DATE_FORMAT_PREFIX . $key . DIV_TAG_DATE_FORMAT_SEPARATOR;
         $tag_end = DIV_TAG_DATE_FORMAT_SUFFIX;
         $l1 = strlen($tag_begin);
         $l2 = strlen($tag_end);
@@ -5833,17 +5787,17 @@ class div
                 break;
             }
 
-            $ini = $ranges [0] [0];
-            $fin = $ranges [0] [1];
+            $ini = $ranges[0][0];
+            $fin = $ranges[0][1];
             $format = substr($this->__src, $ini + $l1, $fin - ($ini + $l1));
 
             if (trim($format) === '') {
                 $format = 'Y-m-d';
             }
             if (!is_numeric($value)) {
-                $value = @strtotime((string)$value);
+                $value = @strtotime((string) $value);
             }
-            $this->__src = substr($this->__src, 0, $ini).date($format, $value).substr($this->__src, $fin + $l2);
+            $this->__src = substr($this->__src, 0, $ini) . date($format, $value) . substr($this->__src, $fin + $l2);
         }
 
         return true;
@@ -5856,9 +5810,7 @@ class div
      */
     final public function parseCapsules(&$items = [])
     {
-        if (self::$__log_mode) {
-            $this->logger('Parsing capsules...');
-        }
+        self::$__log_mode and $this->logger('Parsing capsules...');
 
         $pos = 0;
         while (true) {
@@ -5868,24 +5820,24 @@ class div
                 break;
             }
 
-            $key = $ranges [0] [2];
+            $key = $ranges[0][2];
             if (!array_key_exists($key, $items)) {
-                $pos = $ranges [0] [0] + 1;
+                $pos = $ranges[0][0] + 1;
                 continue;
             }
-            $value = $items [$key];
+            $value = $items[$key];
 
-            $ini = $ranges [0] [0];
-            $fin = $ranges [0] [1];
-            $sub_src = $ranges [0] [3];
+            $ini = $ranges[0][0];
+            $fin = $ranges[0][1];
+            $sub_src = $ranges[0][3];
 
             if (is_object($value)) {
                 if (method_exists($value, '__toString')) {
-                    $item_str = (string)$value;
+                    $item_str = (string) $value;
                     if (!property_exists($value, 'value')) {
-                        $value->value = $item_str;
+                        $value->value = $item_str; /** @phpstan-ignore-line */
                     }
-                    $value->_to_string = $item_str;
+                    $value->_to_string = $item_str; /** @phpstan-ignore-line */
                 }
                 $value = get_object_vars($value);
             }
@@ -5904,7 +5856,7 @@ class div
             if (is_array($value)) {
                 foreach ($value as $kkk => $vvv) {
                     if (array_key_exists($kkk, self::$__globals_design)) {
-                        unset (self::$__globals_design [$kkk]);
+                        unset(self::$__globals_design[$kkk]);
                     }
                 }
             }
@@ -5915,7 +5867,7 @@ class div
 
             if (is_array($this->__items_orig)) {
                 if (array_key_exists($key, $this->__items_orig)) {
-                    $engine->__items_orig = $this->__items_orig [$key];
+                    $engine->__items_orig = $this->__items_orig[$key];
                 }
             } elseif (is_object($this->__items_orig)) {
                 if (property_exists($this->__items_orig, $key)) {
@@ -5929,7 +5881,7 @@ class div
             // Restore global design vars
             self::$__globals_design = $temp_global;
 
-            $this->__src = substr($this->__src, 0, $ini).$hh.substr($this->__src, $fin + strlen(DIV_TAG_CAPSULE_END_PREFIX.$key.DIV_TAG_CAPSULE_END_SUFFIX));
+            $this->__src = substr($this->__src, 0, $ini) . $hh . substr($this->__src, $fin + strlen(DIV_TAG_CAPSULE_END_PREFIX . $key . DIV_TAG_CAPSULE_END_SUFFIX));
 
             $pos = $ini;
         }
@@ -5962,8 +5914,8 @@ class div
 
         if (strpos($method, DIV_TAG_VAR_MEMBER_DELIMITER)) {
             $temp = explode(DIV_TAG_VAR_MEMBER_DELIMITER, $method);
-            $method = $temp [count($temp) - 1];
-            unset ($temp [count($temp) - 1]);
+            $method = $temp[count($temp) - 1];
+            unset($temp[count($temp) - 1]);
             $path = implode(DIV_TAG_VAR_MEMBER_DELIMITER, $temp);
             $it = $this->getItem($path);
 
@@ -5994,7 +5946,7 @@ class div
             $ms = [];
             foreach ($methods as $m) {
                 if (!in_array($m, self::$__parent_method_names, true)) {
-                    $ms [] = $m;
+                    $ms[] = $m;
                 }
             }
 
@@ -6013,7 +5965,7 @@ class div
                         $r = null;
 
                         self::changeErrorReporting();
-                        eval ('$r = $obj->'.$method.'('.$params.');');
+                        eval('$r = $obj->' . $method . '(' . $params . ');');
                         self::restoreErrorReporting();
 
                         return $r;
@@ -6021,7 +5973,7 @@ class div
 
                     $params = self::jsonDecode($params, $this->getAllItems($items));
 
-                    return $obj->$method ($params);
+                    return $obj->$method($params);
                 } else {
                     self::error("Wrong params or obtrusive code in method call: $method", DIV_ERROR_FATAL);
                 }
@@ -6061,10 +6013,10 @@ class div
         $vars = [];
 
         foreach ($items_x as $key => $value) {
-            if (($super_key.$key !== '') && strpos($src, $super_key.$key) !== false) {
-                $vars [] = $super_key.$key;
-                if (!is_scalar($items_x [$key])) {
-                    $vars = array_merge($vars, $this->getActiveVars($items_x [$key], $super_key.$key.DIV_TAG_VAR_MEMBER_DELIMITER, $src));
+            if (($super_key . $key !== '') && strpos($src, $super_key . $key) !== false) {
+                $vars[] = $super_key . $key;
+                if (!is_scalar($items_x[$key])) {
+                    $vars = array_merge($vars, $this->getActiveVars($items_x[$key], $super_key . $key . DIV_TAG_VAR_MEMBER_DELIMITER, $src));
                 }
             }
         }
@@ -6110,19 +6062,19 @@ class div
         $locations = [];
         $tags = [];
         foreach ($r as $item) {
-            $tag_name = substr($this->__src, $item [0] + $len_prefix, $item [1] - $item [0] - $len_prefix);
-            if (!isset($locations [$tag_name])) {
-                $locations [$tag_name] = [];
+            $tag_name = substr($this->__src, $item[0] + $len_prefix, $item[1] - $item[0] - $len_prefix);
+            if (!isset($locations[$tag_name])) {
+                $locations[$tag_name] = [];
             }
-            $locations [$tag_name] [] = $item [0];
-            $tags [$tag_name] = strlen($tag_name);
+            $locations[$tag_name][] = $item[0];
+            $tags[$tag_name] = strlen($tag_name);
         }
 
         arsort($tags);
         $new_tags = [];
 
         foreach ($tags as $tag_name => $v) {
-            $new_tags [$tag_name] = $locations [$tag_name];
+            $new_tags[$tag_name] = $locations[$tag_name];
         }
 
         return $new_tags;
@@ -6139,8 +6091,8 @@ class div
             $content = '';
             $pos = 0;
             while (true) {
-                $tag_begin = DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX.$location.DIV_TAG_LOCATION_CONTENT_BEGIN_SUFFIX;
-                $tag_end = DIV_TAG_LOCATION_CONTENT_END_PREFIX.$location.DIV_TAG_LOCATION_CONTENT_END_SUFFIX;
+                $tag_begin = DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX . $location . DIV_TAG_LOCATION_CONTENT_BEGIN_SUFFIX;
+                $tag_end = DIV_TAG_LOCATION_CONTENT_END_PREFIX . $location . DIV_TAG_LOCATION_CONTENT_END_SUFFIX;
                 $l1 = strlen($tag_begin);
                 $l2 = strlen($tag_end);
 
@@ -6150,8 +6102,8 @@ class div
                     break;
                 }
 
-                $ini = $r [0] [0];
-                $end = $r [0] [1];
+                $ini = $r[0][0];
+                $end = $r[0][1];
 
                 // Get the content
                 $new_content = substr($this->__src, $ini + $l1, $end - $ini - $l1);
@@ -6167,21 +6119,21 @@ class div
                 $content .= $new_content;
 
                 // Remove declaration
-                $this->__src = substr($this->__src, 0, $ini).substr($this->__src, $end + $l2);
+                $this->__src = substr($this->__src, 0, $ini) . substr($this->__src, $end + $l2);
 
                 // Update the locations (to left)
                 foreach ($locations as $k => $v) {
                     foreach ($v as $kk => $p) {
                         if ($p > $end) {
-                            $locations [$k] [$kk] -= $l1 + $l2 + ($end - $ini - $l1);
+                            $locations[$k][$kk] -= $l1 + $l2 + ($end - $ini - $l1);
                         }
                     }
                 }
             }
 
             // Inject the content in the locations
-            $tag = DIV_TAG_LOCATION_BEGIN.$location.DIV_TAG_LOCATION_END;
-            $this->__src = str_replace($tag, $content.$tag, $this->__src);
+            $tag = DIV_TAG_LOCATION_BEGIN . $location . DIV_TAG_LOCATION_END;
+            $this->__src = str_replace($tag, $content . $tag, $this->__src);
         }
     }
 
@@ -6192,7 +6144,7 @@ class div
     {
         $locations = $this->getLocations();
         foreach ($locations as $location => $positions) {
-            $this->__src = str_replace(DIV_TAG_LOCATION_BEGIN.$location.DIV_TAG_LOCATION_END, '', $this->__src);
+            $this->__src = str_replace(DIV_TAG_LOCATION_BEGIN . $location . DIV_TAG_LOCATION_END, '', $this->__src);
         }
     }
 
@@ -6209,34 +6161,34 @@ class div
         }
 
         $items_x = array_merge($this->__memory, $items);
-        if (!isset($flags ['level'])) {
-            $flags ['level'] = self::$__parse_level;
+        if (!isset($flags['level'])) {
+            $flags['level'] = self::$__parse_level;
         }
 
         foreach (self::$__sub_parsers as $parser => $function) {
 
             // Checking the moment/event
-            if (isset($flags ['moment'])) {
+            if (isset($flags['moment'])) {
                 $arr = explode(':', $parser);
-                if (isset($arr [1])) {
+                if (isset($arr[1])) {
                     $last = array_pop($arr);
-                    if ($last === 'beforeParse' && $flags ['moment'] !== DIV_MOMENT_BEFORE_PARSE) {
+                    if ($last === 'beforeParse' && $flags['moment'] !== DIV_MOMENT_BEFORE_PARSE) {
                         continue;
                     }
-                    if ($last === 'afterInclude' && $flags ['moment'] !== DIV_MOMENT_AFTER_INCLUDE) {
+                    if ($last === 'afterInclude' && $flags['moment'] !== DIV_MOMENT_AFTER_INCLUDE) {
                         continue;
                     }
-                    if ($last === 'afterParse' && $flags ['moment'] !== DIV_MOMENT_AFTER_PARSE) {
+                    if ($last === 'afterParse' && $flags['moment'] !== DIV_MOMENT_AFTER_PARSE) {
                         continue;
                     }
-                    if ($last === 'afterReplace' && $flags ['moment'] !== DIV_MOMENT_AFTER_REPLACE) {
+                    if ($last === 'afterReplace' && $flags['moment'] !== DIV_MOMENT_AFTER_REPLACE) {
                         continue;
                     }
                 }
             }
 
-            $parser_tag_ini = DIV_TAG_SUBPARSER_BEGIN_PREFIX.$parser.DIV_TAG_SUBPARSER_BEGIN_SUFFIX;
-            $parser_tag_end = DIV_TAG_SUBPARSER_END_PREFIX.$parser.DIV_TAG_SUBPARSER_END_SUFFIX;
+            $parser_tag_ini = DIV_TAG_SUBPARSER_BEGIN_PREFIX . $parser . DIV_TAG_SUBPARSER_BEGIN_SUFFIX;
+            $parser_tag_end = DIV_TAG_SUBPARSER_END_PREFIX . $parser . DIV_TAG_SUBPARSER_END_SUFFIX;
             $parser_tag_ini_len = strlen($parser_tag_ini);
 
             $ignore = false;
@@ -6248,12 +6200,12 @@ class div
                     break;
                 }
 
-                if (self::$__log_mode && $p === 0) {
-                    $this->logger("Parsing the sub-parser $parser ...");
-                }
+                self::$__log_mode 
+                    and $p === 0
+                    and $this->logger("Parsing the sub-parser $parser ...");
 
-                $ini = $ranges [0] [0];
-                $fin = $ranges [0] [1];
+                $ini = $ranges[0][0];
+                $fin = $ranges[0][1];
 
                 if ($this->searchInListRanges($ini)) {
                     $p = $ini + 1;
@@ -6275,7 +6227,7 @@ class div
                 $r = $this->call($function, [$sub_src, $items_x, $flags], $proceed);
 
                 if ($proceed) {
-                    $this->__src = substr($this->__src, 0, $ini).$r.substr($this->__src, $fin + $parser_tag_ini_len + 1);
+                    $this->__src = substr($this->__src, 0, $ini) . $r . substr($this->__src, $fin + $parser_tag_ini_len + 1);
                     $p = $ini + 1;
                 } else {
                     $p = $ini + 1;
@@ -6311,20 +6263,18 @@ class div
      */
     final public function checkLogicalOrder($ini = 0, $var = '', $check_loops = false, $check_matches = false, $check_formats = false, $check_data = false)
     {
-        if (self::$__log_mode) {
-            $this->logger("Checking logical order at $ini...");
-        }
+        self::$__log_mode and $this->logger("Checking logical order at $ini...");
 
         if ($check_data) {
             $rang = $this->getRanges(DIV_TAG_TPLVAR_BEGIN, DIV_TAG_TPLVAR_END, null, true);
-            if ((count($rang) > 0) && $rang [0] [0] < $ini) {
+            if ((count($rang) > 0) && $rang[0][0] < $ini) {
                 return $ini + 1;
             }
         }
 
         if ($check_loops) {
             if ($var !== '') {
-                $prev_use = strpos($this->__src, DIV_TAG_LOOP_BEGIN_PREFIX.$var.DIV_TAG_LOOP_BEGIN_SUFFIX);
+                $prev_use = strpos($this->__src, DIV_TAG_LOOP_BEGIN_PREFIX . $var . DIV_TAG_LOOP_BEGIN_SUFFIX);
             } else {
                 $prev_use = $this->searchPreviousLoops($ini);
             }
@@ -6336,7 +6286,7 @@ class div
 
         if ($check_matches) {
             foreach (self::$__modifiers as $m) {
-                $prev_use = strpos($this->__src, DIV_TAG_REPLACEMENT_PREFIX.$m.$var);
+                $prev_use = strpos($this->__src, DIV_TAG_REPLACEMENT_PREFIX . $m . $var);
                 if ($prev_use !== false && $prev_use < $ini) {
                     return $ini + 1;
                 }
@@ -6344,11 +6294,11 @@ class div
         }
 
         if ($check_formats) {
-            $prev_use = strpos($this->__src, DIV_TAG_NUMBER_FORMAT_PREFIX.$var);
+            $prev_use = strpos($this->__src, DIV_TAG_NUMBER_FORMAT_PREFIX . $var);
             if ($prev_use !== false && $prev_use < $ini) {
                 return $ini + 1;
             }
-            $prev_use = strpos($this->__src, DIV_TAG_DATE_FORMAT_PREFIX.$var);
+            $prev_use = strpos($this->__src, DIV_TAG_DATE_FORMAT_PREFIX . $var);
             if ($prev_use !== false && $prev_use < $ini) {
                 return $ini + 1;
             }
@@ -6367,9 +6317,7 @@ class div
      */
     final public function parseMacros(&$items = null, $ignore_previous_match = false)
     {
-        if (self::$__log_mode) {
-            $this->logger('Parsing macros...');
-        }
+        self::$__log_mode and $this->logger('Parsing macros...');
 
         if ($items === null) {
             $items = &$this->__items;
@@ -6377,7 +6325,7 @@ class div
 
         // Free the macro's scope and protect the scope of this method
         $this->__temp = [];
-        $this->__temp ['p'] = 0;
+        $this->__temp['p'] = 0;
 
         $l1 = strlen(DIV_TAG_MACRO_BEGIN);
         $l2 = strlen(DIV_TAG_MACRO_END);
@@ -6385,81 +6333,81 @@ class div
         while (true) {
             $class_name = get_class($this);
 
-            $this->__temp ['ranges'] = $this->getRanges(DIV_TAG_MACRO_BEGIN, DIV_TAG_MACRO_END, null, true, $this->__temp ['p']);
+            $this->__temp['ranges'] = $this->getRanges(DIV_TAG_MACRO_BEGIN, DIV_TAG_MACRO_END, null, true, $this->__temp['p']);
 
-            if (count($this->__temp ['ranges']) < 1) {
+            if (count($this->__temp['ranges']) < 1) {
                 break;
             }
 
-            $this->__temp ['ini'] = $this->__temp ['ranges'] [0] [0];
-            $this->__temp ['fin'] = $this->__temp ['ranges'] [0] [1];
+            $this->__temp['ini'] = $this->__temp['ranges'][0][0];
+            $this->__temp['fin'] = $this->__temp['ranges'][0][1];
 
             if (!$ignore_previous_match) {
-                $this->__temp ['r'] = $this->checkLogicalOrder($this->__temp ['ini'], '', true, !$ignore_previous_match, true, false);
+                $this->__temp['r'] = $this->checkLogicalOrder($this->__temp['ini'], '', true, !$ignore_previous_match, true, false);
 
-                if ($this->searchInListRanges($this->__temp ['ini'])) {
-                    $this->__temp ['p'] = $this->__temp ['ini'] + 1;
+                if ($this->searchInListRanges($this->__temp['ini'])) {
+                    $this->__temp['p'] = $this->__temp['ini'] + 1;
                     continue;
                 }
 
-                if ($this->__temp ['r'] !== false) {
-                    $this->__temp ['p'] = $this->__temp ['r'];
+                if ($this->__temp['r'] !== false) {
+                    $this->__temp['p'] = $this->__temp['r'];
                     continue;
                 }
             } else {
-                $this->__temp ['r'] = false;
+                $this->__temp['r'] = false;
             }
-            $this->__temp ['code'] = trim(substr($this->__src, $this->__temp ['ini'] + $l1, $this->__temp ['fin'] - $this->__temp ['ini'] - $l1));
-            $this->__temp ['temp'] = uniqid('', true);
+            $this->__temp['code'] = trim(substr($this->__src, $this->__temp['ini'] + $l1, $this->__temp['fin'] - $this->__temp['ini'] - $l1));
+            $this->__temp['temp'] = uniqid('', true);
 
-            $this->__src = substr($this->__src, 0, $this->__temp ['ini']).'{'.$this->__temp ['temp'].'}'.substr($this->__src, $this->__temp ['fin'] + $l2);
+            $this->__src = substr($this->__src, 0, $this->__temp['ini']) . '{' . $this->__temp['temp'] . '}' . substr($this->__src, $this->__temp['fin'] + $l2);
 
-            if (strpos($this->__temp ['code'], 'php') === 0) {
-                $__code = substr($this->__temp ['code'], 3);
+            if (strpos($this->__temp['code'], 'php') === 0) {
+                $__code = substr($this->__temp['code'], 3);
             }
 
             ob_start();
 
-            $this->__temp ['invalid_macro'] = false;
+            $this->__temp['invalid_macro'] = false;
 
-            if (self::isValidMacro($this->__temp ['code'])) {
+            if (self::isValidMacro($this->__temp['code'])) {
 
                 // Preparing methods
-                $this->__temp ['validmethods'] = implode(',', self::$__allowed_methods);
-                $this->__temp ['validmethods'] = str_replace(',', '(,'.$class_name.'::', $class_name.'::'.$this->__temp ['validmethods']).'(';
-                $this->__temp ['methods'] = explode(',', str_replace($class_name.'::', '', $this->__temp ['validmethods']));
-                $this->__temp ['methodsx'] = explode(',', $this->__temp ['validmethods']);
-                $this->__temp ['code'] = str_replace($this->__temp ['methods'], $this->__temp ['methodsx'], $this->__temp ['code']);
+                $this->__temp['validmethods'] = implode(',', self::$__allowed_methods);
+                $this->__temp['validmethods'] = str_replace(',', '(,' . $class_name . '::', $class_name . '::' . $this->__temp['validmethods']) . '(';
+                $this->__temp['methods'] = explode(',', str_replace($class_name . '::', '', $this->__temp['validmethods']));
+                $this->__temp['methodsx'] = explode(',', $this->__temp['validmethods']);
+                $this->__temp['code'] = str_replace($this->__temp['methods'], $this->__temp['methodsx'], $this->__temp['code']);
 
                 // Preparing variables
                 foreach ($items as $key => $value) {
                     if (strpos($key, DIV_TAG_VAR_MEMBER_DELIMITER) !== false) {
                         self::setVarValue($key, $value, $items);
-                        unset ($items [$key]);
+                        unset($items[$key]);
                     }
                 }
 
-                $this->__temp ['codevars'] = '';
+                $this->__temp['codevars'] = '';
 
                 foreach ($items as $key => $value) {
                     if (self::isValidVarName($key)) {
-                        $this->__temp ['codevars'] .= '$'.$key.' = $items["'.$key.'"];';
+                        $this->__temp['codevars'] .= '$' . $key . ' = $items["' . $key . '"];';
                     }
                 }
 
-                $this->__temp ['items'] = $items;
+                $this->__temp['items'] = $items;
 
                 unset($key, $value, $class_name);
 
-                if ($this->__temp ['codevars'] !== '') {
-                    eval ($this->__temp ['codevars']);
+                if ($this->__temp['codevars'] !== '') {
+                    eval($this->__temp['codevars']);
                 }
 
-                unset ($items);
+                unset($items);
 
                 // Executing the macro
 
-                eval ($this->__temp['code']);
+                eval($this->__temp['code']);
 
                 // Div 4.5: change $vars with temporal var, ...important!
                 // because get_defined_vars return also 'vars'
@@ -6483,7 +6431,7 @@ class div
                 $this->__temp['invalid_macro'] = true;
             }
 
-            $this->__src = str_replace('{'.$this->__temp['temp'].'}', ob_get_contents(), $this->__src);
+            $this->__src = str_replace('{' . $this->__temp['temp'] . '}', ob_get_contents(), $this->__src);
 
             ob_end_clean();
 
@@ -6491,11 +6439,11 @@ class div
                 $this->__temp['msgs'] = self::getInternalMsg('php_validations');
                 $this->__temp['details'] = "<ul>\n";
                 foreach ($this->__temp['msgs'] as $msg) {
-                    $this->__temp['details'] .= '<li>'.$msg['msg']."</li>\n";
+                    $this->__temp['details'] .= '<li>' . $msg['msg'] . "</li>\n";
                 }
                 $this->__temp['details'] .= '</ul>';
 
-                self::error("Invalid macro: \n\n <br/> <pre width=\"80\">".substr($this->__temp['code'], 0, 300).'(...)</pre><br/>'.$this->__temp['details']);
+                self::error("Invalid macro: \n\n <br/> <pre width=\"80\">" . substr($this->__temp['code'], 0, 300) . '(...)</pre><br/>' . $this->__temp['details']);
             }
 
             $this->__temp['p'] = $this->__temp['ini'] + 1;
@@ -6538,17 +6486,17 @@ class div
             $ini = $r[0][0] + strlen($begin_prefix) + strlen($r[0][2]) + strlen($begin_suffix);
             $length = $r[0][1] - $ini;
 
-            $uid = '{'.uniqid('', true).'}';
+            $uid = '{' . uniqid('', true) . '}';
             $section = substr($src, $ini, $length);
             $saved_sections[$uid] = $section;
 
-            $src = substr($src, 0, $ini).$uid.substr($src, $ini + $length);
+            $src = substr($src, 0, $ini) . $uid . substr($src, $ini + $length);
 
             $pos = $ini + 1;
         }
 
         return [
-            'src'      => $src,
+            'src' => $src,
             'sections' => $saved_sections,
         ];
     }
@@ -6578,11 +6526,9 @@ class div
      */
     private function makeItAgain($checksum, &$items)
     {
-        if (self::$__log_mode === true) {
-            $this->logger('Making again some remembered tasks...');
-        }
+        self::$__log_mode and $this->logger('Making again some remembered tasks...');
 
-        $simple = DIV_TAG_REPLACEMENT_PREFIX.DIV_TAG_MODIFIER_SIMPLE;
+        $simple = DIV_TAG_REPLACEMENT_PREFIX . DIV_TAG_MODIFIER_SIMPLE;
 
         // Save some sections (to ignore)
 
@@ -6604,61 +6550,64 @@ class div
             $vsx = '';
 
             if ($literal === true) {
-                $vpx = '{'.$this->__ignore_secret_tag.'}';
-                $vsx = '{/'.$this->__ignore_secret_tag.'}';
+                $vpx = '{' . $this->__ignore_secret_tag . '}';
+                $vsx = '{/' . $this->__ignore_secret_tag . '}';
             }
 
             switch ($params['o']) {
-                case 'replace_sub_match_teaser' :
+                case 'replace_sub_match_teaser':
                     $value = self::getVarValue($params['key'], $items);
                     $value = self::anyToStr($value);
                     if ($value === null) {
                         continue 2;
                     }
-                    $value = self::teaser((string)$value, (int)$params['param']);
+                    $value = self::teaser((string) $value, (int) $params['param']);
 
-                    $search = DIV_TAG_REPLACEMENT_PREFIX.$params['modifier'].$params['key'].DIV_TAG_SUBMATCH_SEPARATOR.$params['param'].DIV_TAG_REPLACEMENT_SUFFIX;
-                    $this->__src = str_replace($search, $vpx.$value.$vsx, $this->__src);
+                    $search = DIV_TAG_REPLACEMENT_PREFIX . $params['modifier'] . $params['key'] . DIV_TAG_SUBMATCH_SEPARATOR . $params['param'] . DIV_TAG_REPLACEMENT_SUFFIX;
+                    $this->__src = str_replace($search, $vpx . $value . $vsx, $this->__src);
                     break;
 
-                case 'replace_sub_match_sub_str' :
+                case 'replace_sub_match_sub_str':
                     $value = self::getVarValue($params['key'], $items);
                     if ($value === null) {
                         continue 2;
                     }
                     $value = self::anyToStr($value);
-                    $this->__src = str_replace($simple.$params['key'].DIV_TAG_SUBMATCH_SEPARATOR.$params['param'].DIV_TAG_REPLACEMENT_SUFFIX, $vpx.substr($value, $params['from'], $params['for']).$vsx, $this->__src);
+                    $this->__src = str_replace($simple . $params['key'] . DIV_TAG_SUBMATCH_SEPARATOR . $params['param'] . DIV_TAG_REPLACEMENT_SUFFIX, $vpx . substr($value, $params['from'], $params['for']) . $vsx, $this->__src);
                     break;
 
-                case 'replace_sub_match_wordwrap' :
+                case 'replace_sub_match_wordwrap':
                     $value = self::getVarValue($params['key'], $items);
                     if ($value === null) {
                         continue 2;
                     }
                     $value = self::anyToStr($value);
                     $this->__src =
-                        str_replace($simple.$params['key'].DIV_TAG_SUBMATCH_SEPARATOR.$params['param'].DIV_TAG_REPLACEMENT_SUFFIX, $vpx.wordwrap((string)$value, (int)substr($params['param'], strlen(DIV_TAG_MODIFIER_WORDWRAP)), "\n", 1).$vsx,
-                            $this->__src);
+                        str_replace(
+                            $simple . $params['key'] . DIV_TAG_SUBMATCH_SEPARATOR . $params['param'] . DIV_TAG_REPLACEMENT_SUFFIX,
+                            $vpx . wordwrap((string) $value, (int) substr($params['param'], strlen(DIV_TAG_MODIFIER_WORDWRAP)), "\n", 1) . $vsx,
+                            $this->__src
+                        );
                     break;
 
-                case 'replace_sub_match_sprintf' :
+                case 'replace_sub_match_sprintf':
                     $value = self::getVarValue($params['key'], $items);
                     if ($value === null) {
                         continue 2;
                     }
                     $value = self::anyToStr($value);
-                    $this->__src = str_replace($simple.$params['key'].DIV_TAG_SUBMATCH_SEPARATOR.$params['param'].DIV_TAG_REPLACEMENT_SUFFIX, $vpx.sprintf($params['param'], $value).$vsx, $this->__src);
+                    $this->__src = str_replace($simple . $params['key'] . DIV_TAG_SUBMATCH_SEPARATOR . $params['param'] . DIV_TAG_REPLACEMENT_SUFFIX, $vpx . sprintf($params['param'], $value) . $vsx, $this->__src);
                     break;
 
-                case 'json_encode' :
+                case 'json_encode':
                     $value = self::getVarValue($params['key'], $items);
                     if ($value === null) {
                         continue 2;
                     }
-                    $this->__src = str_replace(DIV_TAG_REPLACEMENT_PREFIX.DIV_TAG_MODIFIER_ENCODE_JSON.$params['key'].DIV_TAG_REPLACEMENT_SUFFIX, $vpx.self::jsonEncode($value).$vsx, $this->__src);
+                    $this->__src = str_replace(DIV_TAG_REPLACEMENT_PREFIX . DIV_TAG_MODIFIER_ENCODE_JSON . $params['key'] . DIV_TAG_REPLACEMENT_SUFFIX, $vpx . self::jsonEncode($value) . $vsx, $this->__src);
                     break;
 
-                case 'simple_replacement' :
+                case 'simple_replacement':
                     $value = self::getVarValue($params['key'], $items);
 
                     if ($value === null) {
@@ -6668,41 +6617,41 @@ class div
                     $value = self::anyToStr($value);
 
                     switch ($params['modifier']) {
-                        case DIV_TAG_MODIFIER_CAPITALIZE_FIRST :
+                        case DIV_TAG_MODIFIER_CAPITALIZE_FIRST:
                             $value = ucfirst($value);
                             break;
-                        case DIV_TAG_MODIFIER_CAPITALIZE_WORDS :
+                        case DIV_TAG_MODIFIER_CAPITALIZE_WORDS:
                             $value = ucwords($value);
                             break;
-                        case DIV_TAG_MODIFIER_UPPERCASE :
+                        case DIV_TAG_MODIFIER_UPPERCASE:
                             $value = strtoupper($value);
                             break;
-                        case DIV_TAG_MODIFIER_LENGTH :
+                        case DIV_TAG_MODIFIER_LENGTH:
                             $value = strlen($value);
                             break;
-                        case DIV_TAG_MODIFIER_COUNT_WORDS :
+                        case DIV_TAG_MODIFIER_COUNT_WORDS:
                             $value = self::getCountOfWords($value);
                             break;
-                        case DIV_TAG_MODIFIER_COUNT_SENTENCES :
+                        case DIV_TAG_MODIFIER_COUNT_SENTENCES:
                             $value = self::getCountOfSentences($value);
                             break;
-                        case DIV_TAG_MODIFIER_COUNT_PARAGRAPHS :
+                        case DIV_TAG_MODIFIER_COUNT_PARAGRAPHS:
                             $value = self::getCountOfParagraphs($value);
                             break;
-                        case DIV_TAG_MODIFIER_ENCODE_URL :
+                        case DIV_TAG_MODIFIER_ENCODE_URL:
                             $value = urlencode($value);
                             break;
-                        case DIV_TAG_MODIFIER_ENCODE_RAW_URL :
+                        case DIV_TAG_MODIFIER_ENCODE_RAW_URL:
                             $value = rawurlencode($value);
                             break;
                     }
 
                     if ($params['before'] === false) {
-                        $this->__src = str_replace(DIV_TAG_REPLACEMENT_PREFIX.$params['modifier'].$params['key'].DIV_TAG_REPLACEMENT_SUFFIX, $vpx.$value.$vsx, $this->__src);
+                        $this->__src = str_replace(DIV_TAG_REPLACEMENT_PREFIX . $params['modifier'] . $params['key'] . DIV_TAG_REPLACEMENT_SUFFIX, $vpx . $value . $vsx, $this->__src);
                     } else {
                         $sub_str = substr($this->__src, 0, $params['before']);
-                        $sub_str = str_replace(DIV_TAG_REPLACEMENT_PREFIX.$params['modifier'].$params['key'].DIV_TAG_REPLACEMENT_SUFFIX, $vpx.$value.$vsx, $sub_str);
-                        $this->__src = $sub_str.substr($this->__src, $params ['before']);
+                        $sub_str = str_replace(DIV_TAG_REPLACEMENT_PREFIX . $params['modifier'] . $params['key'] . DIV_TAG_REPLACEMENT_SUFFIX, $vpx . $value . $vsx, $sub_str);
+                        $this->__src = $sub_str . substr($this->__src, $params['before']);
                     }
                     break;
             }
@@ -6743,7 +6692,7 @@ class div
                     if ($s !== '') {
                         $arr = explode('=', $s);
                         if (count($arr) > 1) {
-                            $var = strtoupper(trim($arr [0]));
+                            $var = strtoupper(trim($arr[0]));
                             if (!array_key_exists($var, $properties)) {
                                 array_shift($arr);
                                 $value = implode('=', $arr);
@@ -6756,13 +6705,13 @@ class div
                                 } else {
                                     $value = trim($value);
                                 }
-                                $properties [$var] = $value;
+                                $properties[$var] = $value;
                                 continue;
                             }
                         }
                     }
                 }
-                $new_src .= $line.(isset($lines[$line_number + 1]) ? "\n" : '');
+                $new_src .= $line . (isset($lines[$line_number + 1]) ? "\n" : '');
             }
             $src = $new_src;
         }
@@ -6778,7 +6727,7 @@ class div
                     $section = substr($this->__path, 2);
                 }
                 if ($section !== '') {
-                    self::$__docs [$section] ['properties'] = $properties;
+                    self::$__docs[$section]['properties'] = $properties;
                 }
             }
         }
@@ -6817,11 +6766,9 @@ class div
         }
 
         if (array_key_exists('DIALECT', $properties)) {
-            $f = trim($properties ['DIALECT']);
+            $f = trim($properties['DIALECT']);
 
-            if (self::$__log_mode === true) {
-                $this->logger('Preparing the dialect...');
-            }
+            self::$__log_mode and $this->logger('Preparing the dialect...');
 
             $json = DIV_DEFAULT_DIALECT;
 
@@ -6835,8 +6782,8 @@ class div
                 if ($update) {
                     $this->__src = $src;
                 }
-            } elseif (self::$__log_mode) {
-                self::log('The dialect '.$f.' is corrupt or invalid');
+            } else {
+                self::$__log_mode and self::log('The dialect ' . $f . ' is corrupt or invalid');
             }
         }
 
@@ -6849,8 +6796,6 @@ class div
      * @param boolean $from_original
      * @param mixed   $item_index
      * @param integer $min_level
-     *
-     * @return string
      */
     final public function parse($from_original = true, $item_index = null, $min_level = 1)
     {
@@ -6862,10 +6807,7 @@ class div
 
         self::createAuxiliaryEngine($this);
         self::$__parse_level++;
-
-        if (self::$__log_mode) {
-            $this->logger('Parsing all...');
-        }
+        self::$__log_mode and $this->logger('Parsing all...');
 
         $time_start = microtime(true);
 
@@ -6875,9 +6817,8 @@ class div
         $this->beforeParse();
 
         if ($from_original === true) {
-            if (self::$__log_mode) {
-                $this->logger('Parsing from the original source');
-            }
+            self::$__log_mode and $this->logger('Parsing from the original source');
+
             if ($this->__src_original === null) {
                 $this->__src_original = $this->__src;
             } else {
@@ -6889,10 +6830,8 @@ class div
 
         if (trim($this->__src) !== '') {
             if ($item_index !== null) {
-                if (self::$__log_mode) {
-                    $this->logger("Parsing with '$item_index' index of __items");
-                }
-                $items = $this->__items [$item_index];
+                self::$__log_mode and $this->logger("Parsing with '$item_index' index of __items");
+                $items = $this->__items[$item_index];
             } else {
                 $items = $this->__items;
             }
@@ -6909,7 +6848,7 @@ class div
             // Add global vars (self::$globals)
             foreach (self::$__globals as $var => $value) {
                 if (!array_key_exists($var, $items)) {
-                    $items [$var] = $value;
+                    $items[$var] = $value;
                 }
             }
 
@@ -6920,7 +6859,7 @@ class div
             $props = get_object_vars($this);
             foreach ($props as $prop => $value) {
                 if (strpos($prop, '__') !== 0) {
-                    $items [$prop] = $value;
+                    $items[$prop] = $value;
                 }
             }
 
@@ -6936,7 +6875,7 @@ class div
             // Preparing dialect
             $this->__src = $this->prepareDialect();
 
-            if (strpos($this->__src, DIV_TAG_IGNORE_BEGIN) !== false || strpos($this->__src, '{'.$this->__ignore_secret_tag.'}') !== false) {
+            if (strpos($this->__src, DIV_TAG_IGNORE_BEGIN) !== false || strpos($this->__src, '{' . $this->__ignore_secret_tag . '}') !== false) {
                 $this->parseIgnore();
             }
 
@@ -6971,12 +6910,12 @@ class div
                     $this->__crc = $checksum;
 
                     if (self::$__log_mode === true) {
-                        $this->logger('Template | size: '.strlen($this->__src));
-                        if (isset($this->__src [100])) {
-                            $this->logger('Template [checksum='.$checksum.']:'.htmlentities(str_replace("\n", ' ', substr($this->__src, 0, 100)).'...'.substr($this->__src, strlen($this->__src) - 100)));
-                        } else {
-                            $this->logger('Template [checksum='.$checksum.']: '.htmlentities($this->__src));
-                        }
+                        $this->logger('Template | size: ' . strlen($this->__src));
+                        $messageToLog = isset($this->__src[100])
+                            ? 'Template [checksum=' . $checksum . ']: ' . htmlentities(str_replace("\n", ' ', substr($this->__src, 0, 100)) . '...' . substr($this->__src, strlen($this->__src) - 100))
+                            : 'Template [checksum=' . $checksum . ']: ' . htmlentities($this->__src);
+
+                        $this->logger($messageToLog);
                     }
 
                     $cycles1++;
@@ -7006,7 +6945,7 @@ class div
                             ]);
                         }
 
-                        if (strpos($this->__src, DIV_TAG_IGNORE_BEGIN) !== false || strpos($this->__src, '{'.$this->__ignore_secret_tag.'}') !== false) {
+                        if (strpos($this->__src, DIV_TAG_IGNORE_BEGIN) !== false || strpos($this->__src, '{' . $this->__ignore_secret_tag . '}') !== false) {
                             $this->parseIgnore();
                         }
                         if (strpos($this->__src, DIV_TAG_COMMENT_BEGIN) !== false) {
@@ -7071,7 +7010,7 @@ class div
                     $items = array_merge($items, self::$__globals_design);
 
                     // Make it again
-                    if (isset(self::$__remember [$checksum])) {
+                    if (isset(self::$__remember[$checksum])) {
 
                         $this->makeItAgain($checksum, $items);
 
@@ -7093,7 +7032,7 @@ class div
                     }
 
                     // Discard literal vars
-                    if (strpos($this->__src, DIV_TAG_IGNORE_BEGIN) !== false || strpos($this->__src, '{'.$this->__ignore_secret_tag.'}') !== false) {
+                    if (strpos($this->__src, DIV_TAG_IGNORE_BEGIN) !== false || strpos($this->__src, '{' . $this->__ignore_secret_tag . '}') !== false) {
                         $this->parseIgnore();
                     }
 
@@ -7156,7 +7095,7 @@ class div
                 $this->parseOrphanParts();
             }
 
-            if (strpos($this->__src, DIV_TAG_IGNORE_BEGIN) !== false || strpos($this->__src, '{'.$this->__ignore_secret_tag.'}') !== false) {
+            if (strpos($this->__src, DIV_TAG_IGNORE_BEGIN) !== false || strpos($this->__src, '{' . $this->__ignore_secret_tag . '}') !== false) {
                 $this->parseIgnore();
             }
             if (strpos($this->__src, DIV_TAG_COMMENT_BEGIN) !== false) {
@@ -7176,7 +7115,7 @@ class div
 
             if (strpos($this->__src, DIV_TAG_LOCATION_BEGIN) !== false) {
                 $all_items = $this->getAllItems($items);
-                $clear = self::getVarValue('div'.DIV_TAG_VAR_MEMBER_DELIMITER.'clear_locations', $all_items);
+                $clear = self::getVarValue('div' . DIV_TAG_VAR_MEMBER_DELIMITER . 'clear_locations', $all_items);
 
                 if ($clear === null) {
                     $clear = true;
@@ -7189,7 +7128,7 @@ class div
 
             // Restoring parsers requests
             foreach ($this->__restore as $restore_id => $rest) {
-                $this->__src = str_replace('{'.$restore_id.'}', $rest, $this->__src);
+                $this->__src = str_replace('{' . $restore_id . '}', $rest, $this->__src);
             }
 
             $this->clean();
@@ -7212,17 +7151,17 @@ class div
 
                         $replaces_count = 0;
 
-                        $tag_search = DIV_TAG_SUBPARSER_BEGIN_PREFIX.$sub_parser.DIV_TAG_SUBPARSER_BEGIN_SUFFIX;
-                        $tag_replace = DIV_TAG_SUBPARSER_BEGIN_PREFIX.$temp_unique.DIV_TAG_SUBPARSER_BEGIN_SUFFIX;
+                        $tag_search = DIV_TAG_SUBPARSER_BEGIN_PREFIX . $sub_parser . DIV_TAG_SUBPARSER_BEGIN_SUFFIX;
+                        $tag_replace = DIV_TAG_SUBPARSER_BEGIN_PREFIX . $temp_unique . DIV_TAG_SUBPARSER_BEGIN_SUFFIX;
 
                         $ignore = str_replace($tag_search, $tag_replace, $ignore, $replaces_count);
 
                         if ($replaces_count > 0) {
-                            $sub_parsers_restore [$tag_search] = $tag_replace;
+                            $sub_parsers_restore[$tag_search] = $tag_replace;
                         }
                     }
 
-                    $this->__src = str_replace('{'.$id.'}', $ignore, $this->__src);
+                    $this->__src = str_replace('{' . $id . '}', $ignore, $this->__src);
                 }
 
                 // Restoring ignored parts inside values
@@ -7233,7 +7172,7 @@ class div
                     $exp = self::getVarValue($var, $items);
                     if (is_string($exp)) {
                         foreach (self::$__ignored_parts as $id => $ignore) {
-                            $exp = str_replace('{'.$id.'}', $ignore, $exp);
+                            $exp = str_replace('{' . $id . '}', $ignore, $exp);
                         }
                         self::setVarValue($var, $exp, $items);
                     }
@@ -7247,7 +7186,7 @@ class div
                 $items = array_merge($this->__memory, $items);
                 $this->parseSubParsers($items, [
                     'moment' => DIV_MOMENT_AFTER_PARSE,
-                    'level'  => self::$__parse_level,
+                    'level' => self::$__parse_level,
                 ]);
                 $this->memory($items);
             }
@@ -7260,10 +7199,7 @@ class div
 
         $time_end = microtime(true);
 
-        if (self::$__log_mode) {
-            $this->logger('Parser duration: '.number_format($time_end - $time_start, 5).' secs');
-        }
-
+        self::$__log_mode and $this->logger('Parser duration: ' . number_format($time_end - $time_start, 5) . ' secs');
         self::$__parse_duration = $time_end - $time_start;
         self::$__parse_level--;
 
@@ -7278,7 +7214,8 @@ class div
         $this->afterParse();
     }
 
-    static function getParseLevel() {
+    static function getParseLevel()
+    {
         return self::$__parse_level;
     }
 
@@ -7287,7 +7224,7 @@ class div
      */
     final public function parseSpecialChars()
     {
-        $this->__src = str_replace(DIV_TAG_SPECIAL_REPLACE_NEW_LINE."\n\n", DIV_TAG_SPECIAL_REPLACE_NEW_LINE."\n", $this->__src);
+        $this->__src = str_replace(DIV_TAG_SPECIAL_REPLACE_NEW_LINE . "\n\n", DIV_TAG_SPECIAL_REPLACE_NEW_LINE . "\n", $this->__src);
         $this->__src = str_replace(DIV_TAG_SPECIAL_REPLACE_NEW_LINE, "\n", $this->__src);
         $this->__src = str_replace(DIV_TAG_SPECIAL_REPLACE_HORIZONTAL_TAB, "\t", $this->__src);
         $this->__src = str_replace(DIV_TAG_SPECIAL_REPLACE_CAR_RETURN, "\r", $this->__src);
@@ -7295,7 +7232,6 @@ class div
         $this->__src = str_replace(DIV_TAG_SPECIAL_REPLACE_NEXT_PAGE, "\f", $this->__src);
         $this->__src = str_replace(DIV_TAG_SPECIAL_REPLACE_DOLLAR_SYMBOL, '$', $this->__src);
         $this->__src = str_replace(DIV_TAG_SPECIAL_REPLACE_SPACE, ' ', $this->__src);
-
     }
 
     /**
@@ -7320,8 +7256,8 @@ class div
                         }
 
                         $l = strlen($key) + 4;
-                        $ini = $ranges [0] [0];
-                        $fin = $ranges [0] [1];
+                        $ini = $ranges[0][0];
+                        $fin = $ranges[0][1];
 
                         $sub_src = substr($this->__src, $ini + $l - 1, $fin - $ini - $l + 1);
                         $engine = self::getAuxiliaryEngineClone($items, $items, $this);
@@ -7330,20 +7266,20 @@ class div
                         $sub_src = $engine->__src;
 
                         foreach ($value as $vv) {
-                            if (isset($vv [0]) && isset($vv [1])) {
+                            if (isset($vv[0]) && isset($vv[1])) {
                                 $regexp = false;
-                                if (isset($vv [2]) && $vv [2] === true) {
+                                if (isset($vv[2]) && $vv[2] === true) {
                                     $regexp = true;
                                 }
                                 if ($regexp) {
-                                    $sub_src = preg_replace($vv [0], $vv [1], $sub_src);
+                                    $sub_src = preg_replace($vv[0], $vv[1], $sub_src);
                                 } else {
-                                    $sub_src = str_replace($vv [0], $vv [1], $sub_src);
+                                    $sub_src = str_replace($vv[0], $vv[1], $sub_src);
                                 }
                             }
                         }
 
-                        $this->__src = substr($this->__src, 0, $ini).$sub_src.substr($this->__src, $fin + $l);
+                        $this->__src = substr($this->__src, 0, $ini) . $sub_src . substr($this->__src, $fin + $l);
                     }
                 }
             }
@@ -7366,8 +7302,8 @@ class div
                 break;
             }
 
-            $ini = $ranges [0] [0];
-            $fin = $ranges [0] [1];
+            $ini = $ranges[0][0];
+            $fin = $ranges[0][1];
             $sub_src = substr($this->__src, $ini + $l1, $fin - $ini - $l1);
 
             while (strpos($sub_src, "\n\n") !== false) {
@@ -7382,10 +7318,10 @@ class div
                 if ($line === '') {
                     continue;
                 }
-                $sub_src .= $line."\n";
+                $sub_src .= $line . "\n";
             }
             $sub_src = trim($sub_src);
-            $this->__src = substr($this->__src, 0, $ini).$sub_src.substr($this->__src, $fin + $l2);
+            $this->__src = substr($this->__src, 0, $ini) . $sub_src . substr($this->__src, $fin + $l2);
         }
     }
 
@@ -7404,20 +7340,20 @@ class div
                 break;
             }
 
-            $begin_tag_pos = $ranges [0] [0];
-            $end_tag_pos = $ranges [0] [1];
+            $begin_tag_pos = $ranges[0][0];
+            $end_tag_pos = $ranges[0][1];
 
             $sub_src = substr($this->__src, $begin_tag_pos + $begin_tag_len, $end_tag_pos - $begin_tag_pos - $begin_tag_len);
 
             $width = 100;
             $width_separator_pos = strpos($sub_src, DIV_TAG_TXT_WIDTH_SEPARATOR);
             if ($width_separator_pos !== false) {
-                $width = (int)trim(substr($sub_src, 0, $width_separator_pos));
+                $width = (int) trim(substr($sub_src, 0, $width_separator_pos));
                 $sub_src = substr($sub_src, $width_separator_pos + $width_separator_len);
             }
 
             $sub_src = self::htmlToText($sub_src, $width);
-            $this->__src = substr($this->__src, 0, $begin_tag_pos).$sub_src.substr($this->__src, $end_tag_pos + $end_tag_len);
+            $this->__src = substr($this->__src, 0, $begin_tag_pos) . $sub_src . substr($this->__src, $end_tag_pos + $end_tag_len);
         }
     }
 
@@ -7456,7 +7392,7 @@ class div
     {
         $begin_tag_len = strlen($begin_tag);
         $end_tag_len = strlen($end_tag);
-        $separator_tag_len = strlen(trim((string)$separator_tag));
+        $separator_tag_len = strlen(trim((string) $separator_tag));
         $p = 0;
         while (true) {
             $r = $this->getRanges($begin_tag, $end_tag, $src, true, $p);
@@ -7476,11 +7412,11 @@ class div
                 }
 
                 if ($po !== false) {
-                    $sub_src = substr($sub_src, 0, $po).$translated_separator_tag.substr($sub_src, $po + $separator_tag_len);
+                    $sub_src = substr($sub_src, 0, $po) . $translated_separator_tag . substr($sub_src, $po + $separator_tag_len);
                 }
             }
 
-            $src = substr($src, 0, $ini).$translated_begin_tag.$sub_src.$translated_end_tag.substr($src, $end_tag + $end_tag_len);
+            $src = substr($src, 0, $ini) . $translated_begin_tag . $sub_src . $translated_end_tag . substr($src, $end_tag + $end_tag_len);
 
             $p = $ini + 1;
         }
@@ -7527,17 +7463,17 @@ class div
                 break;
             }
 
-            $ini = $r [0] [0];
-            $end = $r [0] [1];
-            $key = $r [0] [2];
-            $sub_src = $r [0] [3];
-            $prefix = $begin_prefix.$key.$begin_suffix;
-            $suffix = $end_prefix.$key.$end_suffix;
+            $ini = $r[0][0];
+            $end = $r[0][1];
+            $key = $r[0][2];
+            $sub_src = $r[0][3];
+            $prefix = $begin_prefix . $key . $begin_suffix;
+            $suffix = $end_prefix . $key . $end_suffix;
             $prefix_len = strlen($prefix);
             $suffix_len = strlen($suffix);
 
             $key = str_replace($var_member_delimiter, $translated_var_member_delimiter, $key);
-            $src = substr($src, 0, $ini).$translated_begin_prefix.$key.$translated_begin_suffix.$sub_src.$translated_end_prefix.$key.$translated_end_suffix.substr($src, $end + $suffix_len);
+            $src = substr($src, 0, $ini) . $translated_begin_prefix . $key . $translated_begin_suffix . $sub_src . $translated_end_prefix . $key . $translated_end_suffix . substr($src, $end + $suffix_len);
 
             $p = $ini + 1;
         }
@@ -7559,9 +7495,7 @@ class div
     {
         // initialize variables
 
-        if (self::$__log_mode === true) {
-            $this->logger('Translating template...');
-        }
+        self::$__log_mode and $this->logger('Translating template...');
 
         $update = false;
         if ($src === null) {
@@ -7574,12 +7508,12 @@ class div
         }
 
         $constants = get_defined_constants(true);
-        $constants = $constants ['user'];
+        $constants = $constants['user'];
         $new_constants = [];
 
         foreach ($constants as $c => $v) {
             if (strpos($c, 'DIV_TAG_') === 0) {
-                $new_constants [$c] = $v;
+                $new_constants[$c] = $v;
             }
         }
 
@@ -7593,7 +7527,7 @@ class div
             $dialectFrom = get_object_vars($dialectFrom);
         }
         if (!is_array($dialectFrom)) {
-            return false;
+            return "";
         }
 
         // Preparing dialect to ...
@@ -7604,15 +7538,15 @@ class div
             $dialectTo = get_object_vars($dialectTo);
         }
         if (!is_array($dialectTo)) {
-            return false;
+            return "";
         }
 
         foreach ($constants as $c => $v) {
-            if (!isset($dialectFrom [$c])) {
-                $dialectFrom [$c] = $v;
+            if (!isset($dialectFrom[$c])) {
+                $dialectFrom[$c] = $v;
             }
-            if (!isset($dialectTo [$c])) {
-                $dialectTo [$c] = $v;
+            if (!isset($dialectTo[$c])) {
+                $dialectTo[$c] = $v;
             }
         }
 
@@ -7631,29 +7565,29 @@ class div
         } // The dialects are equals
 
         $order = [
-            'replacement'      => strlen($dialectFrom['DIV_TAG_REPLACEMENT_PREFIX']),
-            'multi_modifiers'  => strlen($dialectFrom['DIV_TAG_MULTI_MODIFIERS_PREFIX']),
-            'date_format'      => strlen($dialectFrom['DIV_TAG_DATE_FORMAT_PREFIX']),
-            'number_format'    => strlen($dialectFrom['DIV_TAG_NUMBER_FORMAT_PREFIX']),
-            'formulas'         => strlen($dialectFrom['DIV_TAG_FORMULA_BEGIN']),
-            'sub_parsers'      => strlen($dialectFrom['DIV_TAG_SUBPARSER_BEGIN_PREFIX']),
-            'ignore'           => strlen($dialectFrom['DIV_TAG_IGNORE_BEGIN']),
-            'comment'          => strlen($dialectFrom['DIV_TAG_COMMENT_BEGIN']),
-            'html2txt'         => strlen($dialectFrom['DIV_TAG_TXT_BEGIN']),
-            'strip'            => strlen($dialectFrom['DIV_TAG_STRIP_BEGIN']),
-            'loops'            => strlen($dialectFrom['DIV_TAG_LOOP_BEGIN_PREFIX']),
-            'iterations'       => strlen($dialectFrom['DIV_TAG_ITERATION_BEGIN_PREFIX']),
-            'conditionals'     => strlen($dialectFrom['DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX']),
-            'conditions'       => strlen($dialectFrom['DIV_TAG_CONDITIONS_BEGIN_PREFIX']),
-            'tpl_vars'         => strlen($dialectFrom['DIV_TAG_TPLVAR_BEGIN']),
-            'default_replace'  => strlen($dialectFrom['DIV_TAG_DEFAULT_REPLACEMENT_BEGIN']),
-            'include'          => strlen($dialectFrom['DIV_TAG_IGNORE_BEGIN']),
-            'preprocessed'     => strlen($dialectFrom['DIV_TAG_PREPROCESSED_BEGIN']),
-            'capsules'         => strlen($dialectFrom['DIV_TAG_CAPSULE_BEGIN_PREFIX']),
-            'multi_replace'    => strlen($dialectFrom['DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX']),
-            'friendly_tags'    => strlen($dialectFrom['DIV_TAG_FRIENDLY_BEGIN']),
-            'macros'           => strlen($dialectFrom['DIV_TAG_MACRO_BEGIN']),
-            'location'         => strlen($dialectFrom['DIV_TAG_LOCATION_BEGIN']),
+            'replacement' => strlen($dialectFrom['DIV_TAG_REPLACEMENT_PREFIX']),
+            'multi_modifiers' => strlen($dialectFrom['DIV_TAG_MULTI_MODIFIERS_PREFIX']),
+            'date_format' => strlen($dialectFrom['DIV_TAG_DATE_FORMAT_PREFIX']),
+            'number_format' => strlen($dialectFrom['DIV_TAG_NUMBER_FORMAT_PREFIX']),
+            'formulas' => strlen($dialectFrom['DIV_TAG_FORMULA_BEGIN']),
+            'sub_parsers' => strlen($dialectFrom['DIV_TAG_SUBPARSER_BEGIN_PREFIX']),
+            'ignore' => strlen($dialectFrom['DIV_TAG_IGNORE_BEGIN']),
+            'comment' => strlen($dialectFrom['DIV_TAG_COMMENT_BEGIN']),
+            'html2txt' => strlen($dialectFrom['DIV_TAG_TXT_BEGIN']),
+            'strip' => strlen($dialectFrom['DIV_TAG_STRIP_BEGIN']),
+            'loops' => strlen($dialectFrom['DIV_TAG_LOOP_BEGIN_PREFIX']),
+            'iterations' => strlen($dialectFrom['DIV_TAG_ITERATION_BEGIN_PREFIX']),
+            'conditionals' => strlen($dialectFrom['DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX']),
+            'conditions' => strlen($dialectFrom['DIV_TAG_CONDITIONS_BEGIN_PREFIX']),
+            'tpl_vars' => strlen($dialectFrom['DIV_TAG_TPLVAR_BEGIN']),
+            'default_replace' => strlen($dialectFrom['DIV_TAG_DEFAULT_REPLACEMENT_BEGIN']),
+            'include' => strlen($dialectFrom['DIV_TAG_IGNORE_BEGIN']),
+            'preprocessed' => strlen($dialectFrom['DIV_TAG_PREPROCESSED_BEGIN']),
+            'capsules' => strlen($dialectFrom['DIV_TAG_CAPSULE_BEGIN_PREFIX']),
+            'multi_replace' => strlen($dialectFrom['DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX']),
+            'friendly_tags' => strlen($dialectFrom['DIV_TAG_FRIENDLY_BEGIN']),
+            'macros' => strlen($dialectFrom['DIV_TAG_MACRO_BEGIN']),
+            'location' => strlen($dialectFrom['DIV_TAG_LOCATION_BEGIN']),
             'location_content' => strlen($dialectFrom['DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX']),
         ];
 
@@ -7682,14 +7616,14 @@ class div
 
         foreach ($order as $o => $priority) {
             switch ($o) {
-                case 'replacement' :
+                case 'replacement':
                     foreach ($x_modifier as $modifier => $values) {
-                        $prefix_len = strlen($dialectFrom['DIV_TAG_REPLACEMENT_PREFIX'].$values [0]);
+                        $prefix_len = strlen($dialectFrom['DIV_TAG_REPLACEMENT_PREFIX'] . $values[0]);
                         $suffix_len = strlen($dialectFrom['DIV_TAG_REPLACEMENT_SUFFIX']);
                         $p = 0;
                         while (true) {
 
-                            $r = $this->getRanges($dialectFrom['DIV_TAG_REPLACEMENT_PREFIX'].$values [0], $dialectFrom['DIV_TAG_REPLACEMENT_SUFFIX'], $src, true, $p);
+                            $r = $this->getRanges($dialectFrom['DIV_TAG_REPLACEMENT_PREFIX'] . $values[0], $dialectFrom['DIV_TAG_REPLACEMENT_SUFFIX'], $src, true, $p);
                             if (count($r) < 1) {
                                 break;
                             }
@@ -7719,13 +7653,13 @@ class div
                             $sub_src = str_replace($aggregate_functions, $aggregate_functions_keys, $sub_src);
 
                             // Teaser or truncate
-                            $sub_src = str_replace($dialectFrom['DIV_TAG_SUBMATCH_SEPARATOR'].$dialectFrom['DIV_TAG_MODIFIER_TRUNCATE'], $dialectTo['DIV_TAG_SUBMATCH_SEPARATOR'].$dialectTo['DIV_TAG_MODIFIER_TRUNCATE'], $sub_src);
+                            $sub_src = str_replace($dialectFrom['DIV_TAG_SUBMATCH_SEPARATOR'] . $dialectFrom['DIV_TAG_MODIFIER_TRUNCATE'], $dialectTo['DIV_TAG_SUBMATCH_SEPARATOR'] . $dialectTo['DIV_TAG_MODIFIER_TRUNCATE'], $sub_src);
 
                             // Word wrap
-                            $sub_src = str_replace($dialectFrom['DIV_TAG_SUBMATCH_SEPARATOR'].$dialectFrom['DIV_TAG_MODIFIER_WORDWRAP'], $dialectTo['DIV_TAG_SUBMATCH_SEPARATOR'].$dialectTo['DIV_TAG_MODIFIER_WORDWRAP'], $sub_src);
+                            $sub_src = str_replace($dialectFrom['DIV_TAG_SUBMATCH_SEPARATOR'] . $dialectFrom['DIV_TAG_MODIFIER_WORDWRAP'], $dialectTo['DIV_TAG_SUBMATCH_SEPARATOR'] . $dialectTo['DIV_TAG_MODIFIER_WORDWRAP'], $sub_src);
 
                             // Format (sprintf)
-                            $sub_src = str_replace($dialectFrom['DIV_TAG_SUBMATCH_SEPARATOR'].$dialectFrom['DIV_TAG_MODIFIER_FORMAT'], $dialectTo['DIV_TAG_SUBMATCH_SEPARATOR'].$dialectTo['DIV_TAG_MODIFIER_FORMAT'], $sub_src);
+                            $sub_src = str_replace($dialectFrom['DIV_TAG_SUBMATCH_SEPARATOR'] . $dialectFrom['DIV_TAG_MODIFIER_FORMAT'], $dialectTo['DIV_TAG_SUBMATCH_SEPARATOR'] . $dialectTo['DIV_TAG_MODIFIER_FORMAT'], $sub_src);
 
                             // Substring
                             $sub_src = str_replace($dialectFrom['DIV_TAG_SUBMATCH_SEPARATOR'], $dialectTo['DIV_TAG_SUBMATCH_SEPARATOR'], $sub_src);
@@ -7733,13 +7667,13 @@ class div
                             // Member delimiters
                             $sub_src = str_replace($dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER'], $sub_src);
 
-                            $src = substr($src, 0, $ini).$dialectTo['DIV_TAG_REPLACEMENT_PREFIX'].$values [1].$sub_src.$dialectTo['DIV_TAG_REPLACEMENT_SUFFIX'].substr($src, $end + $suffix_len);
+                            $src = substr($src, 0, $ini) . $dialectTo['DIV_TAG_REPLACEMENT_PREFIX'] . $values[1] . $sub_src . $dialectTo['DIV_TAG_REPLACEMENT_SUFFIX'] . substr($src, $end + $suffix_len);
 
                             $p = $ini + 1; // IMPORTANT!
                         }
                     }
                     break;
-                case 'multi_modifiers' :
+                case 'multi_modifiers':
                     $prefix_len = strlen($dialectFrom['DIV_TAG_MULTI_MODIFIERS_PREFIX']);
                     $suffix_len = strlen($dialectFrom['DIV_TAG_MULTI_MODIFIERS_SUFFIX']);
                     $p = 0;
@@ -7749,8 +7683,8 @@ class div
                             break;
                         }
 
-                        $ini = $r [0] [0];
-                        $end = $r [0] [1];
+                        $ini = $r[0][0];
+                        $end = $r[0][1];
                         $sub_src = substr($src, $ini + $prefix_len, $end - $ini - $prefix_len);
 
                         if (strpos($sub_src, "\n") !== false) {
@@ -7781,25 +7715,25 @@ class div
                         $parts = explode($dialectFrom['DIV_TAG_MULTI_MODIFIERS_SEPARATOR'], $temp);
 
                         foreach ($parts as $k => $v) {
-                            if (isset($y_modifier [$v])) {
-                                $parts [$k] = $y_modifier [$v];
+                            if (isset($y_modifier[$v])) {
+                                $parts[$k] = $y_modifier[$v];
                             }
-                            if (isset($y_modifier [$v.':'])) {
-                                $parts [$k] = $y_modifier [$v.':'];
+                            if (isset($y_modifier[$v . ':'])) {
+                                $parts[$k] = $y_modifier[$v . ':'];
                             }
                         }
 
                         $temp = implode($dialectTo['DIV_TAG_MULTI_MODIFIERS_SEPARATOR'], $parts);
-                        $sub_src = str_replace($dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER'], substr($sub_src, 0, $po)).$dialectTo['DIV_TAG_MULTI_MODIFIERS_OPERATOR'].$temp;
+                        $sub_src = str_replace($dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER'], substr($sub_src, 0, $po)) . $dialectTo['DIV_TAG_MULTI_MODIFIERS_OPERATOR'] . $temp;
 
                         // Member delimiters
                         $sub_src = str_replace($dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER'], $sub_src);
 
-                        $src = substr($src, 0, $ini).$dialectTo['DIV_TAG_MULTI_MODIFIERS_PREFIX'].$sub_src.$dialectTo['DIV_TAG_MULTI_MODIFIERS_SUFFIX'].substr($src, $end + $suffix_len);
+                        $src = substr($src, 0, $ini) . $dialectTo['DIV_TAG_MULTI_MODIFIERS_PREFIX'] . $sub_src . $dialectTo['DIV_TAG_MULTI_MODIFIERS_SUFFIX'] . substr($src, $end + $suffix_len);
                         $p = $ini + 1; // IMPORTANT!
                     }
                     break;
-                case 'date_format' :
+                case 'date_format':
                     $prefix_len = strlen($dialectFrom['DIV_TAG_DATE_FORMAT_PREFIX']);
                     $suffix_len = strlen($dialectFrom['DIV_TAG_DATE_FORMAT_SUFFIX']);
                     $separator_len = strlen($dialectFrom['DIV_TAG_DATE_FORMAT_SEPARATOR']);
@@ -7815,14 +7749,14 @@ class div
 
                         $po = strpos($sub_src, $dialectFrom['DIV_TAG_DATE_FORMAT_SEPARATOR']);
                         if ($po !== false) {
-                            $sub_src = str_replace($dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER'], substr($sub_src, 0, $po)).$dialectTo['DIV_TAG_DATE_FORMAT_SEPARATOR'].substr($sub_src, $po + $separator_len);
+                            $sub_src = str_replace($dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER'], substr($sub_src, 0, $po)) . $dialectTo['DIV_TAG_DATE_FORMAT_SEPARATOR'] . substr($sub_src, $po + $separator_len);
                         }
 
-                        $src = substr($src, 0, $ini).$dialectTo['DIV_TAG_DATE_FORMAT_PREFIX'].$sub_src.$dialectTo['DIV_TAG_DATE_FORMAT_SUFFIX'].substr($src, $end + $suffix_len);
+                        $src = substr($src, 0, $ini) . $dialectTo['DIV_TAG_DATE_FORMAT_PREFIX'] . $sub_src . $dialectTo['DIV_TAG_DATE_FORMAT_SUFFIX'] . substr($src, $end + $suffix_len);
                         $p = $ini + 1; // IMPORTANT!
                     }
                     break;
-                case 'number_format' :
+                case 'number_format':
                     $prefix_len = strlen($dialectFrom['DIV_TAG_NUMBER_FORMAT_PREFIX']);
                     $suffix_len = strlen($dialectFrom['DIV_TAG_NUMBER_FORMAT_SUFFIX']);
                     $separator_len = strlen($dialectFrom['DIV_TAG_NUMBER_FORMAT_SEPARATOR']);
@@ -7833,43 +7767,53 @@ class div
                             break;
                         }
 
-                        $ini = $r [0] [0];
-                        $end = $r [0] [1];
+                        $ini = $r[0][0];
+                        $end = $r[0][1];
                         $sub_src = substr($src, $ini + $prefix_len, $end - $ini - $prefix_len);
 
                         $po = strpos($sub_src, $dialectFrom['DIV_TAG_NUMBER_FORMAT_SEPARATOR']);
                         if ($po !== false) {
-                            $sub_src = str_replace($dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER'], substr($sub_src, 0, $po)).$dialectTo['DIV_TAG_NUMBER_FORMAT_SEPARATOR'].substr($sub_src, $po + $separator_len);
+                            $sub_src = str_replace($dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER'], substr($sub_src, 0, $po)) . $dialectTo['DIV_TAG_NUMBER_FORMAT_SEPARATOR'] . substr($sub_src, $po + $separator_len);
                         }
 
-                        $src = substr($src, 0, $ini).$dialectTo['DIV_TAG_NUMBER_FORMAT_PREFIX'].$sub_src.$dialectTo['DIV_TAG_NUMBER_FORMAT_SUFFIX'].substr($src, $end + $suffix_len);
+                        $src = substr($src, 0, $ini) . $dialectTo['DIV_TAG_NUMBER_FORMAT_PREFIX'] . $sub_src . $dialectTo['DIV_TAG_NUMBER_FORMAT_SUFFIX'] . substr($src, $end + $suffix_len);
                         $p = $ini + 1; // IMPORTANT!
                     }
 
                     break;
-                case 'formulas' :
-                    $src = $this->translateSimpleBlocks($src, $dialectFrom['DIV_TAG_FORMULA_BEGIN'], $dialectFrom['DIV_TAG_FORMULA_END'], $dialectTo['DIV_TAG_FORMULA_BEGIN'], $dialectTo['DIV_TAG_FORMULA_END'],
+                case 'formulas':
+                    $src = $this->translateSimpleBlocks(
+                        $src,
+                        $dialectFrom['DIV_TAG_FORMULA_BEGIN'],
+                        $dialectFrom['DIV_TAG_FORMULA_END'],
+                        $dialectTo['DIV_TAG_FORMULA_BEGIN'],
+                        $dialectTo['DIV_TAG_FORMULA_END'],
                         $dialectFrom['DIV_TAG_FORMULA_FORMAT_SEPARATOR'],
-                        $dialectTo['DIV_TAG_FORMULA_FORMAT_SEPARATOR'], false);
+                        $dialectTo['DIV_TAG_FORMULA_FORMAT_SEPARATOR'],
+                        false
+                    );
                     break;
-                case 'sub_parsers' :
+                case 'sub_parsers':
 
                     foreach (self::$__sub_parsers as $sub_parser => $function) {
-                        $src = str_replace($dialectFrom['DIV_TAG_SUBPARSER_BEGIN_PREFIX'].$sub_parser.$dialectFrom['DIV_TAG_SUBPARSER_BEGIN_SUFFIX'], $dialectTo['DIV_TAG_SUBPARSER_BEGIN_PREFIX'].$sub_parser.$dialectTo['DIV_TAG_SUBPARSER_BEGIN_SUFFIX'],
-                            $src);
-                        $src = str_replace($dialectFrom['DIV_TAG_SUBPARSER_END_PREFIX'].$sub_parser.$dialectFrom['DIV_TAG_SUBPARSER_END_SUFFIX'], $dialectTo['DIV_TAG_SUBPARSER_END_PREFIX'].$sub_parser.$dialectTo['DIV_TAG_SUBPARSER_END_SUFFIX'], $src);
+                        $src = str_replace(
+                            $dialectFrom['DIV_TAG_SUBPARSER_BEGIN_PREFIX'] . $sub_parser . $dialectFrom['DIV_TAG_SUBPARSER_BEGIN_SUFFIX'],
+                            $dialectTo['DIV_TAG_SUBPARSER_BEGIN_PREFIX'] . $sub_parser . $dialectTo['DIV_TAG_SUBPARSER_BEGIN_SUFFIX'],
+                            $src
+                        );
+                        $src = str_replace($dialectFrom['DIV_TAG_SUBPARSER_END_PREFIX'] . $sub_parser . $dialectFrom['DIV_TAG_SUBPARSER_END_SUFFIX'], $dialectTo['DIV_TAG_SUBPARSER_END_PREFIX'] . $sub_parser . $dialectTo['DIV_TAG_SUBPARSER_END_SUFFIX'], $src);
                     }
 
                     break;
-                case 'ignore' :
+                case 'ignore':
                     $src = $this->translateSimpleBlocks($src, $dialectFrom['DIV_TAG_IGNORE_BEGIN'], $dialectFrom['DIV_TAG_IGNORE_END'], $dialectTo['DIV_TAG_IGNORE_BEGIN'], $dialectTo['DIV_TAG_IGNORE_END']);
                     break;
 
-                case 'comment' :
+                case 'comment':
                     $src = $this->translateSimpleBlocks($src, $dialectFrom['DIV_TAG_COMMENT_BEGIN'], $dialectFrom['DIV_TAG_COMMENT_END'], $dialectTo['DIV_TAG_COMMENT_BEGIN'], $dialectTo['DIV_TAG_COMMENT_END']);
                     break;
 
-                case 'html2txt' :
+                case 'html2txt':
                     $prefix_len = strlen($dialectFrom['DIV_TAG_TXT_BEGIN']);
                     $suffix_len = strlen($dialectFrom['DIV_TAG_TXT_END']);
                     $separator_len = strlen($dialectFrom['DIV_TAG_TXT_WIDTH_SEPARATOR']);
@@ -7880,48 +7824,57 @@ class div
                             break;
                         }
 
-                        $ini = $r [0] [0];
-                        $end = $r [0] [1];
+                        $ini = $r[0][0];
+                        $end = $r[0][1];
 
                         $sub_src = substr($src, $ini + $prefix_len, $end - $ini - $prefix_len);
 
                         $po = strpos($sub_src, $dialectFrom['DIV_TAG_TXT_WIDTH_SEPARATOR']);
                         if ($po !== false) {
-                            $sub_src = substr($sub_src, 0, $po).$dialectTo['DIV_TAG_TXT_WIDTH_SEPARATOR'].substr($sub_src, $po + $separator_len);
+                            $sub_src = substr($sub_src, 0, $po) . $dialectTo['DIV_TAG_TXT_WIDTH_SEPARATOR'] . substr($sub_src, $po + $separator_len);
                         }
 
-                        $src = substr($src, 0, $ini).$dialectTo['DIV_TAG_TXT_BEGIN'].$sub_src.$dialectTo['DIV_TAG_TXT_END'].substr($src, $end + $suffix_len);
+                        $src = substr($src, 0, $ini) . $dialectTo['DIV_TAG_TXT_BEGIN'] . $sub_src . $dialectTo['DIV_TAG_TXT_END'] . substr($src, $end + $suffix_len);
 
                         $p = $ini + 1;
                     }
                     break;
-                case 'strip' :
+                case 'strip':
                     $src = $this->translateSimpleBlocks($src, $dialectFrom['DIV_TAG_STRIP_BEGIN'], $dialectFrom['DIV_TAG_STRIP_END'], $dialectTo['DIV_TAG_STRIP_BEGIN'], $dialectTo['DIV_TAG_STRIP_END']);
                     break;
 
-                case 'loops' :
+                case 'loops':
                     $separator_len = strlen($dialectFrom['DIV_TAG_LOOP_VAR_SEPARATOR']);
                     $p = 0;
                     while (true) {
 
-                        $r = $this->getBlockRanges($src, $dialectFrom['DIV_TAG_LOOP_BEGIN_PREFIX'], $dialectFrom['DIV_TAG_LOOP_BEGIN_SUFFIX'], $dialectFrom['DIV_TAG_LOOP_END_PREFIX'], $dialectFrom['DIV_TAG_LOOP_END_SUFFIX'], $p, null, true,
-                            $dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER']);
+                        $r = $this->getBlockRanges(
+                            $src,
+                            $dialectFrom['DIV_TAG_LOOP_BEGIN_PREFIX'],
+                            $dialectFrom['DIV_TAG_LOOP_BEGIN_SUFFIX'],
+                            $dialectFrom['DIV_TAG_LOOP_END_PREFIX'],
+                            $dialectFrom['DIV_TAG_LOOP_END_SUFFIX'],
+                            $p,
+                            null,
+                            true,
+                            $dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER']
+                        );
 
                         if (count($r) < 1) {
                             break;
                         }
 
-                        $ini = $r [0] [0];
-                        $end = $r [0] [1];
-                        $key = $r [0] [2];
-                        $sub_src = $r [0] [3];
-                        $prefix = $dialectFrom['DIV_TAG_LOOP_BEGIN_PREFIX'].$key.$dialectFrom['DIV_TAG_LOOP_BEGIN_SUFFIX'];
-                        $suffix = $dialectFrom['DIV_TAG_LOOP_END_PREFIX'].$key.$dialectFrom['DIV_TAG_LOOP_END_SUFFIX'];
+                        $ini = $r[0][0];
+                        $end = $r[0][1];
+                        $key = $r[0][2];
+                        $sub_src = $r[0][3];
+                        $prefix = $dialectFrom['DIV_TAG_LOOP_BEGIN_PREFIX'] . $key . $dialectFrom['DIV_TAG_LOOP_BEGIN_SUFFIX'];
+                        $suffix = $dialectFrom['DIV_TAG_LOOP_END_PREFIX'] . $key . $dialectFrom['DIV_TAG_LOOP_END_SUFFIX'];
                         $suffix_len = strlen($suffix);
 
                         $po = strpos($sub_src, $dialectFrom['DIV_TAG_LOOP_VAR_SEPARATOR']);
                         if ($po !== false) {
-                            $sub_src = substr($sub_src, 0, $po).$dialectTo['DIV_TAG_LOOP_VAR_SEPARATOR'].substr($sub_src, $po + $separator_len);
+                            $sub_src = substr($sub_src, 0, $po) . $dialectTo['DIV_TAG_LOOP_VAR_SEPARATOR'] . substr($sub_src, $po + $separator_len);
                         }
 
                         $sub_src = str_replace([
@@ -7933,13 +7886,15 @@ class div
                         ], $sub_src);
 
                         $key = str_replace($dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER'], $key);
-                        $src = substr($src, 0, $ini).$dialectTo['DIV_TAG_LOOP_BEGIN_PREFIX'].$key.$dialectTo['DIV_TAG_LOOP_BEGIN_SUFFIX'].$sub_src.$dialectTo['DIV_TAG_LOOP_END_PREFIX'].$key.$dialectTo['DIV_TAG_LOOP_END_SUFFIX'].substr($src,
-                                $end + $suffix_len);
+                        $src = substr($src, 0, $ini) . $dialectTo['DIV_TAG_LOOP_BEGIN_PREFIX'] . $key . $dialectTo['DIV_TAG_LOOP_BEGIN_SUFFIX'] . $sub_src . $dialectTo['DIV_TAG_LOOP_END_PREFIX'] . $key . $dialectTo['DIV_TAG_LOOP_END_SUFFIX'] . substr(
+                            $src,
+                            $end + $suffix_len
+                        );
 
                         $p = $ini + 1;
                     }
                     break;
-                case 'iterations' :
+                case 'iterations':
                     $prefix_len = strlen($dialectFrom['DIV_TAG_ITERATION_BEGIN_PREFIX']);
                     $suffix_len = strlen($dialectFrom['DIV_TAG_ITERATION_BEGIN_SUFFIX']);
                     $end_tag_len = strlen($dialectFrom['DIV_TAG_ITERATION_END']);
@@ -7952,8 +7907,8 @@ class div
                             break;
                         }
 
-                        $ini = $ranges [0] [0];
-                        $end = $ranges [0] [1];
+                        $ini = $ranges[0][0];
+                        $end = $ranges[0][1];
                         $p1 = strpos($src, $dialectFrom['DIV_TAG_ITERATION_BEGIN_SUFFIX'], $ini + 1);
 
                         $s = substr($src, $ini + $prefix_len, $p1 - ($ini + $prefix_len));
@@ -7966,23 +7921,32 @@ class div
 
                         $po = strpos($sub_src, $dialectFrom['DIV_TAG_LOOP_VAR_SEPARATOR']);
                         if ($po !== false) {
-                            $sub_src = substr($sub_src, 0, $po).$dialectTo['DIV_TAG_LOOP_VAR_SEPARATOR'].substr($sub_src, $po + $separator_len);
+                            $sub_src = substr($sub_src, 0, $po) . $dialectTo['DIV_TAG_LOOP_VAR_SEPARATOR'] . substr($sub_src, $po + $separator_len);
                         }
 
-                        $src = substr($src, 0, $ini).$dialectTo['DIV_TAG_ITERATION_BEGIN_PREFIX'].$s.$dialectTo['DIV_TAG_ITERATION_BEGIN_SUFFIX'].$sub_src.$dialectTo['DIV_TAG_ITERATION_END'].substr($src, $end + $end_tag_len);
+                        $src = substr($src, 0, $ini) . $dialectTo['DIV_TAG_ITERATION_BEGIN_PREFIX'] . $s . $dialectTo['DIV_TAG_ITERATION_BEGIN_SUFFIX'] . $sub_src . $dialectTo['DIV_TAG_ITERATION_END'] . substr($src, $end + $end_tag_len);
 
                         $p = $ini + 1;
                     }
                     break;
-                case 'conditionals' :
+                case 'conditionals':
 
                     // true
 
                     $p = 0;
                     while (true) {
 
-                        $r = $this->getBlockRanges($src, $dialectFrom['DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX'], $dialectFrom['DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX'], $dialectFrom['DIV_TAG_CONDITIONAL_TRUE_END_PREFIX'],
-                            $dialectFrom['DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX'], $p, null, true, $dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER']);
+                        $r = $this->getBlockRanges(
+                            $src,
+                            $dialectFrom['DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX'],
+                            $dialectFrom['DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX'],
+                            $dialectFrom['DIV_TAG_CONDITIONAL_TRUE_END_PREFIX'],
+                            $dialectFrom['DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX'],
+                            $p,
+                            null,
+                            true,
+                            $dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER']
+                        );
 
                         if (count($r) < 1) {
                             break;
@@ -7992,14 +7956,14 @@ class div
                         $end = $r[0][1];
                         $key = $r[0][2];
                         $sub_src = $r[0][3];
-                        $suffix = $dialectFrom['DIV_TAG_CONDITIONAL_TRUE_END_PREFIX'].$key.$dialectFrom['DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX'];
+                        $suffix = $dialectFrom['DIV_TAG_CONDITIONAL_TRUE_END_PREFIX'] . $key . $dialectFrom['DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX'];
                         $suffix_len = strlen($suffix);
                         $sub_src = str_replace($dialectFrom['DIV_TAG_ELSE'], $dialectTo['DIV_TAG_ELSE'], $sub_src);
                         $key = str_replace($dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER'], $key);
                         $src =
-                            substr($src, 0, $ini).$dialectTo['DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX'].str_replace($dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER'], $key)
-                            .$dialectTo['DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX']
-                            .$sub_src.$dialectTo['DIV_TAG_CONDITIONAL_TRUE_END_PREFIX'].$key.$dialectTo['DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX'].substr($src, $end + $suffix_len);
+                            substr($src, 0, $ini) . $dialectTo['DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX'] . str_replace($dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER'], $key)
+                            . $dialectTo['DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX']
+                            . $sub_src . $dialectTo['DIV_TAG_CONDITIONAL_TRUE_END_PREFIX'] . $key . $dialectTo['DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX'] . substr($src, $end + $suffix_len);
                         $p = $ini + 1;
                     }
 
@@ -8008,8 +7972,17 @@ class div
                     $p = 0;
                     while (true) {
 
-                        $r = $this->getBlockRanges($src, $dialectFrom['DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX'], $dialectFrom['DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX'], $dialectFrom['DIV_TAG_CONDITIONAL_FALSE_END_PREFIX'],
-                            $dialectFrom['DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX'], $p, null, true, $dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER']);
+                        $r = $this->getBlockRanges(
+                            $src,
+                            $dialectFrom['DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX'],
+                            $dialectFrom['DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX'],
+                            $dialectFrom['DIV_TAG_CONDITIONAL_FALSE_END_PREFIX'],
+                            $dialectFrom['DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX'],
+                            $p,
+                            null,
+                            true,
+                            $dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER']
+                        );
 
                         if (count($r) < 1) {
                             break;
@@ -8019,17 +7992,17 @@ class div
                         $end = $r[0][1];
                         $key = $r[0][2];
                         $sub_src = $r[0][3];
-                        $suffix = $dialectFrom['DIV_TAG_CONDITIONAL_FALSE_END_PREFIX'].$key.$dialectFrom['DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX'];
+                        $suffix = $dialectFrom['DIV_TAG_CONDITIONAL_FALSE_END_PREFIX'] . $key . $dialectFrom['DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX'];
                         $suffix_len = strlen($suffix);
                         $sub_src = str_replace($dialectFrom['DIV_TAG_ELSE'], $dialectTo['DIV_TAG_ELSE'], $sub_src);
                         $key = str_replace($dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER'], $key);
-                        $src = substr($src, 0, $ini).$dialectTo['DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX'].$key.$dialectTo['DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX'].$sub_src.$dialectTo['DIV_TAG_CONDITIONAL_FALSE_END_PREFIX'].$key
-                            .$dialectTo['DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX'].substr($src, $end + $suffix_len);
+                        $src = substr($src, 0, $ini) . $dialectTo['DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX'] . $key . $dialectTo['DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX'] . $sub_src . $dialectTo['DIV_TAG_CONDITIONAL_FALSE_END_PREFIX'] . $key
+                            . $dialectTo['DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX'] . substr($src, $end + $suffix_len);
                         $p = $ini + 1;
                     }
                     break;
 
-                case 'conditions' :
+                case 'conditions':
                     $prefix_len = strlen($dialectFrom['DIV_TAG_CONDITIONS_BEGIN_PREFIX']);
                     $suffix_len = strlen($dialectFrom['DIV_TAG_CONDITIONS_BEGIN_SUFFIX']);
                     $end_tag_len = strlen($dialectFrom['DIV_TAG_CONDITIONS_END']);
@@ -8042,21 +8015,21 @@ class div
                             break;
                         }
 
-                        $ini = $r [0] [0];
-                        $end = $r [0] [1];
+                        $ini = $r[0][0];
+                        $end = $r[0][1];
                         $p1 = strpos($src, $dialectFrom['DIV_TAG_CONDITIONS_BEGIN_SUFFIX'], $ini + 1);
                         $s = substr($src, $ini + $prefix_len, $p1 - ($ini + $prefix_len));
                         $sub_src = substr($src, $p1 + $suffix_len, $end - ($p1 + $suffix_len));
                         $po = strpos($sub_src, $dialectFrom['DIV_TAG_ELSE']);
                         if ($po !== false) {
-                            $sub_src = substr($sub_src, 0, $po).$dialectTo['DIV_TAG_ELSE'].substr($sub_src, $po + $else_tag_len);
+                            $sub_src = substr($sub_src, 0, $po) . $dialectTo['DIV_TAG_ELSE'] . substr($sub_src, $po + $else_tag_len);
                         }
-                        $src = substr($src, 0, $ini).$dialectTo['DIV_TAG_CONDITIONS_BEGIN_PREFIX'].$s.$dialectTo['DIV_TAG_CONDITIONS_BEGIN_SUFFIX'].$sub_src.$dialectTo['DIV_TAG_CONDITIONS_END'].substr($src, $end + $end_tag_len);
+                        $src = substr($src, 0, $ini) . $dialectTo['DIV_TAG_CONDITIONS_BEGIN_PREFIX'] . $s . $dialectTo['DIV_TAG_CONDITIONS_BEGIN_SUFFIX'] . $sub_src . $dialectTo['DIV_TAG_CONDITIONS_END'] . substr($src, $end + $end_tag_len);
                         $p = $ini + 1;
                     }
                     break;
 
-                case 'tpl_vars' :
+                case 'tpl_vars':
                     $begin_tag_len = strlen($dialectFrom['DIV_TAG_TPLVAR_BEGIN']);
                     $end_tag_len = strlen($dialectFrom['DIV_TAG_TPLVAR_END']);
                     $operator_tag_len = strlen($dialectFrom['DIV_TAG_TPLVAR_ASSIGN_OPERATOR']);
@@ -8069,8 +8042,8 @@ class div
                             break;
                         }
 
-                        $ini = $r [0] [0];
-                        $end = $r [0] [1];
+                        $ini = $r[0][0];
+                        $end = $r[0][1];
                         $p1 = strpos($src, $dialectFrom['DIV_TAG_TPLVAR_ASSIGN_OPERATOR'], $ini + $begin_tag_len);
 
                         if ($p1 === false) {
@@ -8084,73 +8057,112 @@ class div
                         $this->jsonDecode($tpl_var_value, [], $missing_vars);
 
                         foreach ($missing_vars as $missing) {
-                            $tpl_var_value = str_replace('$'.$missing, '$'.str_replace($dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER'], $missing), $tpl_var_value);
+                            $tpl_var_value = str_replace('$' . $missing, '$' . str_replace($dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER'], $missing), $tpl_var_value);
                         }
 
-                        $src = substr($src, 0, $ini).$dialectTo['DIV_TAG_TPLVAR_BEGIN'].str_replace($dialectFrom['DIV_TAG_TPLVAR_PROTECTOR'], $dialectTo['DIV_TAG_TPLVAR_PROTECTOR'],
-                                str_replace($dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER'], substr($src, $ini + $begin_tag_len, $p1 - ($ini + $begin_tag_len)))).$dialectTo['DIV_TAG_TPLVAR_ASSIGN_OPERATOR']
-                            .$tpl_var_value
-                            .$dialectTo['DIV_TAG_TPLVAR_END'].substr($src, $end + $end_tag_len);
+                        $src = substr($src, 0, $ini) . $dialectTo['DIV_TAG_TPLVAR_BEGIN'] . str_replace(
+                            $dialectFrom['DIV_TAG_TPLVAR_PROTECTOR'],
+                            $dialectTo['DIV_TAG_TPLVAR_PROTECTOR'],
+                            str_replace($dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER'], substr($src, $ini + $begin_tag_len, $p1 - ($ini + $begin_tag_len)))
+                        ) . $dialectTo['DIV_TAG_TPLVAR_ASSIGN_OPERATOR']
+                            . $tpl_var_value
+                            . $dialectTo['DIV_TAG_TPLVAR_END'] . substr($src, $end + $end_tag_len);
 
                         $p = $ini + 1;
                     }
                     break;
 
-                case 'default_replace' :
+                case 'default_replace':
                     $src =
                         $this->translateSimpleBlocks($src, $dialectFrom['DIV_TAG_DEFAULT_REPLACEMENT_BEGIN'], $dialectFrom['DIV_TAG_DEFAULT_REPLACEMENT_END'], $dialectTo['DIV_TAG_DEFAULT_REPLACEMENT_BEGIN'], $dialectTo['DIV_TAG_DEFAULT_REPLACEMENT_END']);
                     break;
 
-                case 'include' :
+                case 'include':
                     $src = $this->translateSimpleBlocks($src, $dialectFrom['DIV_TAG_INCLUDE_BEGIN'], $dialectFrom['DIV_TAG_INCLUDE_END'], $dialectTo['DIV_TAG_INCLUDE_BEGIN'], $dialectTo['DIV_TAG_INCLUDE_END']);
                     break;
 
-                case 'preprocessed' :
-                    $src = $this->translateSimpleBlocks($src, $dialectFrom['DIV_TAG_PREPROCESSED_BEGIN'], $dialectFrom['DIV_TAG_PREPROCESSED_END'], $dialectTo['DIV_TAG_PREPROCESSED_BEGIN'], $dialectTo['DIV_TAG_PREPROCESSED_END'],
-                        $dialectTo['DIV_TAG_PREPROCESSED_SEPARATOR']);
+                case 'preprocessed':
+                    $src = $this->translateSimpleBlocks(
+                        $src,
+                        $dialectFrom['DIV_TAG_PREPROCESSED_BEGIN'],
+                        $dialectFrom['DIV_TAG_PREPROCESSED_END'],
+                        $dialectTo['DIV_TAG_PREPROCESSED_BEGIN'],
+                        $dialectTo['DIV_TAG_PREPROCESSED_END'],
+                        $dialectTo['DIV_TAG_PREPROCESSED_SEPARATOR']
+                    );
                     break;
 
-                case 'capsules' :
-                    $src = $this->translateKeyBlocks($src, $dialectFrom['DIV_TAG_CAPSULE_BEGIN_PREFIX'], $dialectFrom['DIV_TAG_CAPSULE_BEGIN_SUFFIX'], $dialectFrom['DIV_TAG_CAPSULE_END_PREFIX'], $dialectFrom['DIV_TAG_CAPSULE_END_SUFFIX'],
-                        $dialectTo['DIV_TAG_CAPSULE_BEGIN_PREFIX'], $dialectTo['DIV_TAG_CAPSULE_BEGIN_SUFFIX'], $dialectTo['DIV_TAG_CAPSULE_END_PREFIX'], $dialectTo['DIV_TAG_CAPSULE_END_SUFFIX'], $dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'],
-                        $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER']);
+                case 'capsules':
+                    $src = $this->translateKeyBlocks(
+                        $src,
+                        $dialectFrom['DIV_TAG_CAPSULE_BEGIN_PREFIX'],
+                        $dialectFrom['DIV_TAG_CAPSULE_BEGIN_SUFFIX'],
+                        $dialectFrom['DIV_TAG_CAPSULE_END_PREFIX'],
+                        $dialectFrom['DIV_TAG_CAPSULE_END_SUFFIX'],
+                        $dialectTo['DIV_TAG_CAPSULE_BEGIN_PREFIX'],
+                        $dialectTo['DIV_TAG_CAPSULE_BEGIN_SUFFIX'],
+                        $dialectTo['DIV_TAG_CAPSULE_END_PREFIX'],
+                        $dialectTo['DIV_TAG_CAPSULE_END_SUFFIX'],
+                        $dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'],
+                        $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER']
+                    );
                     break;
 
-                case 'multi_replace' :
-                    $src = $this->translateKeyBlocks($src, $dialectFrom['DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX'], $dialectFrom['DIV_TAG_MULTI_REPLACEMENT_BEGIN_SUFFIX'], $dialectFrom['DIV_TAG_MULTI_REPLACEMENT_END_PREFIX'],
-                        $dialectFrom['DIV_TAG_MULTI_REPLACEMENT_END_SUFFIX'], $dialectTo['DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX'], $dialectTo['DIV_TAG_MULTI_REPLACEMENT_BEGIN_SUFFIX'], $dialectTo['DIV_TAG_MULTI_REPLACEMENT_END_PREFIX'],
-                        $dialectTo['DIV_TAG_MULTI_REPLACEMENT_END_SUFFIX'], $dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER']);
+                case 'multi_replace':
+                    $src = $this->translateKeyBlocks(
+                        $src,
+                        $dialectFrom['DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX'],
+                        $dialectFrom['DIV_TAG_MULTI_REPLACEMENT_BEGIN_SUFFIX'],
+                        $dialectFrom['DIV_TAG_MULTI_REPLACEMENT_END_PREFIX'],
+                        $dialectFrom['DIV_TAG_MULTI_REPLACEMENT_END_SUFFIX'],
+                        $dialectTo['DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX'],
+                        $dialectTo['DIV_TAG_MULTI_REPLACEMENT_BEGIN_SUFFIX'],
+                        $dialectTo['DIV_TAG_MULTI_REPLACEMENT_END_PREFIX'],
+                        $dialectTo['DIV_TAG_MULTI_REPLACEMENT_END_SUFFIX'],
+                        $dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'],
+                        $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER']
+                    );
                     break;
 
-                case 'friendly_tags' :
+                case 'friendly_tags':
                     $src = $this->translateSimpleBlocks($src, $dialectFrom['DIV_TAG_FRIENDLY_BEGIN'], $dialectFrom['DIV_TAG_FRIENDLY_END'], $dialectTo['DIV_TAG_FRIENDLY_BEGIN'], $dialectTo['DIV_TAG_FRIENDLY_END']);
                     break;
 
-                case 'macros' :
+                case 'macros':
                     $src = $this->translateSimpleBlocks($src, $dialectFrom['DIV_TAG_MACRO_BEGIN'], $dialectFrom['DIV_TAG_MACRO_END'], $dialectTo['DIV_TAG_MACRO_BEGIN'], $dialectTo['DIV_TAG_MACRO_END']);
                     break;
 
-                case 'location' :
+                case 'location':
                     $src = $this->translateSimpleBlocks($src, $dialectFrom['DIV_TAG_LOCATION_BEGIN'], $dialectFrom['DIV_TAG_LOCATION_END'], $dialectTo['DIV_TAG_LOCATION_BEGIN'], $dialectTo['DIV_TAG_LOCATION_END']);
                     break;
 
-                case 'location_content' :
-                    $src = $this->translateKeyBlocks($src, $dialectFrom['DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX'], $dialectFrom['DIV_TAG_LOCATION_CONTENT_BEGIN_SUFFIX'], $dialectFrom['DIV_TAG_LOCATION_CONTENT_END_PREFIX'],
-                        $dialectFrom['DIV_TAG_LOCATION_CONTENT_END_SUFFIX'], $dialectTo['DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX'], $dialectTo['DIV_TAG_LOCATION_CONTENT_BEGIN_SUFFIX'], $dialectTo['DIV_TAG_LOCATION_CONTENT_END_PREFIX'],
-                        $dialectTo['DIV_TAG_LOCATION_CONTENT_END_SUFFIX'], $dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'], $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER']);
+                case 'location_content':
+                    $src = $this->translateKeyBlocks(
+                        $src,
+                        $dialectFrom['DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX'],
+                        $dialectFrom['DIV_TAG_LOCATION_CONTENT_BEGIN_SUFFIX'],
+                        $dialectFrom['DIV_TAG_LOCATION_CONTENT_END_PREFIX'],
+                        $dialectFrom['DIV_TAG_LOCATION_CONTENT_END_SUFFIX'],
+                        $dialectTo['DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX'],
+                        $dialectTo['DIV_TAG_LOCATION_CONTENT_BEGIN_SUFFIX'],
+                        $dialectTo['DIV_TAG_LOCATION_CONTENT_END_PREFIX'],
+                        $dialectTo['DIV_TAG_LOCATION_CONTENT_END_SUFFIX'],
+                        $dialectFrom['DIV_TAG_VAR_MEMBER_DELIMITER'],
+                        $dialectTo['DIV_TAG_VAR_MEMBER_DELIMITER']
+                    );
                     break;
             }
         }
 
         $order = [
-            $dialectTo['DIV_TAG_SPECIAL_REPLACE_NEW_LINE']       => $dialectFrom['DIV_TAG_SPECIAL_REPLACE_NEW_LINE'],
-            $dialectTo['DIV_TAG_SPECIAL_REPLACE_CAR_RETURN']     => $dialectFrom['DIV_TAG_SPECIAL_REPLACE_CAR_RETURN'],
+            $dialectTo['DIV_TAG_SPECIAL_REPLACE_NEW_LINE'] => $dialectFrom['DIV_TAG_SPECIAL_REPLACE_NEW_LINE'],
+            $dialectTo['DIV_TAG_SPECIAL_REPLACE_CAR_RETURN'] => $dialectFrom['DIV_TAG_SPECIAL_REPLACE_CAR_RETURN'],
             $dialectTo['DIV_TAG_SPECIAL_REPLACE_HORIZONTAL_TAB'] => $dialectFrom['DIV_TAG_SPECIAL_REPLACE_HORIZONTAL_TAB'],
-            $dialectTo['DIV_TAG_SPECIAL_REPLACE_VERTICAL_TAB']   => $dialectFrom['DIV_TAG_SPECIAL_REPLACE_VERTICAL_TAB'],
-            $dialectTo['DIV_TAG_SPECIAL_REPLACE_NEXT_PAGE']      => $dialectFrom['DIV_TAG_SPECIAL_REPLACE_NEXT_PAGE'],
-            $dialectTo['DIV_TAG_SPECIAL_REPLACE_DOLLAR_SYMBOL']  => $dialectFrom['DIV_TAG_SPECIAL_REPLACE_DOLLAR_SYMBOL'],
-            $dialectTo['DIV_TAG_SPECIAL_REPLACE_SPACE']          => $dialectFrom['DIV_TAG_SPECIAL_REPLACE_SPACE'],
-            $dialectTo['DIV_TAG_TEASER_BREAK']                   => $dialectFrom['DIV_TAG_TEASER_BREAK'],
+            $dialectTo['DIV_TAG_SPECIAL_REPLACE_VERTICAL_TAB'] => $dialectFrom['DIV_TAG_SPECIAL_REPLACE_VERTICAL_TAB'],
+            $dialectTo['DIV_TAG_SPECIAL_REPLACE_NEXT_PAGE'] => $dialectFrom['DIV_TAG_SPECIAL_REPLACE_NEXT_PAGE'],
+            $dialectTo['DIV_TAG_SPECIAL_REPLACE_DOLLAR_SYMBOL'] => $dialectFrom['DIV_TAG_SPECIAL_REPLACE_DOLLAR_SYMBOL'],
+            $dialectTo['DIV_TAG_SPECIAL_REPLACE_SPACE'] => $dialectFrom['DIV_TAG_SPECIAL_REPLACE_SPACE'],
+            $dialectTo['DIV_TAG_TEASER_BREAK'] => $dialectFrom['DIV_TAG_TEASER_BREAK'],
         ];
         asort($order);
         $src = str_replace($order, array_keys($order), $src);
@@ -8173,9 +8185,7 @@ class div
      */
     final public function translateFrom($dialectFrom, $src = null, $items = null)
     {
-        if (self::$__log_mode === true) {
-            $this->logger('Translating from some dialect to current dialect...');
-        }
+        self::$__log_mode and $this->logger('Translating from some dialect to current dialect...');
 
         return $this->translate($dialectFrom, [], $src, $items);
     }
@@ -8191,9 +8201,7 @@ class div
      */
     final public function translateTo($dialectTo, $src = null, $items = null)
     {
-        if (self::$__log_mode === true) {
-            $this->logger('Translating from current dialect to some dialect...');
-        }
+        self::$__log_mode and $this->logger('Translating from current dialect to some dialect...');
 
         return $this->translate([], $dialectTo, $src, $items);
     }
@@ -8209,10 +8217,10 @@ class div
         try {
             $this->parse();
         } catch (Exception $e) {
-            $this->logger('PARSE EXCEPTION: '.$e->getFile().':'.$e->getLine().': '.$e->getMessage());
+            $this->logger('PARSE EXCEPTION: ' . $e->getFile() . ':' . $e->getLine() . ': ' . $e->getMessage());
         }
 
-        return $this->__src.'';
+        return $this->__src . '';
     }
 
     // ------------------------ PREDEFINED SUBPARSERS ---------------------------- //
@@ -8251,10 +8259,10 @@ class div
         $l = strlen($src);
         $new_code = '';
         for ($i = 0; $i < $l; $i++) {
-            if ($src [$i] !== "\n" && $src [$i] !== "\t" && $src [$i] !== "\r") {
-                $new_code .= '&#'.ord($src [$i]).';';
+            if ($src[$i] !== "\n" && $src[$i] !== "\t" && $src[$i] !== "\r") {
+                $new_code .= '&#' . ord($src[$i]) . ';';
             } else {
-                $new_code .= $src [$i];
+                $new_code .= $src[$i];
             }
         }
 
@@ -8435,13 +8443,13 @@ class div
      */
     final public static function compact($mixed)
     {
-        if (empty ($mixed)) {
+        if (empty($mixed)) {
             return null;
         }
         if ($mixed === null) {
             return null;
         }
-        if (is_scalar($mixed) && (string)$mixed === '') {
+        if (is_scalar($mixed) && (string) $mixed === '') {
             return null;
         }
 
@@ -8450,7 +8458,7 @@ class div
             foreach ($vars as $var => $value) {
                 $value = self::compact($value);
                 if ($value === null) {
-                    unset ($mixed->$var);
+                    unset($mixed->$var);
                 }
             }
             $vars = get_object_vars($mixed);
@@ -8464,7 +8472,7 @@ class div
             foreach ($mixed as $var => $value) {
                 $value = self::compact($value);
                 if ($value !== null) {
-                    $arr [$var] = $value;
+                    $arr[$var] = $value;
                 }
             }
             if (count($arr) < 1) {
@@ -8486,25 +8494,25 @@ class div
     final public static function anyToStr($value)
     {
         if (self::isString($value)) {
-            return (string)$value;
+            return (string) $value;
         }
         if (is_bool($value)) {
             return $value ? 'true' : 'false';
         }
         if (is_numeric($value)) {
-            return (string)$value;
+            return (string) $value;
         }
         if (is_object($value)) {
-            return ''.count(get_object_vars($value));
+            return '' . count(get_object_vars($value));
         }
         if (is_array($value)) {
-            return ''.count($value);
+            return '' . count($value);
         }
         if ($value === null) {
             return '';
         }
 
-        return (string)$value;
+        return (string) $value;
     }
 
     /**
@@ -8551,7 +8559,7 @@ class div
                 }
                 if (is_array($source)) {
                     if (array_key_exists($key, $source)) {
-                        $source [$key] = self::cop($source[$key], $value, $level + 1);
+                        $source[$key] = self::cop($source[$key], $value, $level + 1);
                     } else {
                         $source[$key] = self::cop($null, $value, $level + 1);
                     }
@@ -8608,22 +8616,21 @@ class div
         $min_reversed_pos = $max_reversed_pos;
         $reversed = strrev($summary);
         $break_points = [];
-        $break_points [] = [
+        $break_points[] = [
             '</p>' => 0,
         ];
         $line_breaks = [
             '<br />' => 6,
-            '<br>'   => 4,
+            '<br>' => 4,
         ];
 
         //if(isset($filters ['filter_autop'])) $line_breaks ["\n"] = 1;
-        $break_points [] = $line_breaks;
-        $break_points [] = [
+        $break_points[] = $line_breaks;
+        $break_points[] = [
             '. ' => 1,
             '! ' => 1,
             '? ' => 1,
-            '?'  => 0,
-            '? ' => 1,
+            '?' => 0
         ];
 
         foreach ($break_points as $points) {
@@ -8660,10 +8667,10 @@ class div
             return chr(0x7F & $bytes);
         }
         if ((0x07FF & $bytes) === $bytes) {
-            return chr(0xC0 | (($bytes >> 6) & 0x1F)).chr(0x80 | ($bytes & 0x3F));
+            return chr(0xC0 | (($bytes >> 6) & 0x1F)) . chr(0x80 | ($bytes & 0x3F));
         }
         if ((0xFFFF & $bytes) === $bytes) {
-            return chr(0xE0 | (($bytes >> 12) & 0x0F)).chr(0x80 | (($bytes >> 6) & 0x3F)).chr(0x80 | ($bytes & 0x3F));
+            return chr(0xE0 | (($bytes >> 12) & 0x0F)) . chr(0x80 | (($bytes >> 6) & 0x3F)) . chr(0x80 | ($bytes & 0x3F));
         }
 
         return '';
@@ -8687,7 +8694,7 @@ class div
         ], '', $str));
 
         // Syntax specific for div
-        if (isset($str [0]) && strpos($str, '$') === 0) {
+        if (isset($str[0]) && strpos($str, '$') === 0) {
             $str = substr($str, 1);
 
             $r = null;
@@ -8695,27 +8702,27 @@ class div
             if (self::issetVar($str, $items)) {
                 $r = self::getVarValue($str, $items);
             } else {
-                $missing_vars [] = $str;
+                $missing_vars[] = $str;
             }
 
             return $r;
         }
 
         switch (strtolower($str)) {
-            case 'true' :
+            case 'true':
                 return true;
-            case 'false' :
+            case 'false':
                 return false;
-            case 'null' :
+            case 'null':
                 return null;
-            default :
+            default:
                 $m = [];
 
                 if (is_numeric($str)) {
-                    return (( float )$str === ( integer )$str) ? ( integer )$str : ( float )$str;
+                    return ((float) $str === (int) $str) ? (int) $str : (float) $str;
                 }
 
-                if (preg_match('/^("|\').*(\1)$/s', $str, $m) && $m [1] === $m [2]) {
+                if (preg_match('/^("|\').*(\1)$/s', $str, $m) && $m[1] === $m[2]) {
                     $delimiter = substr($str, 0, 1);
                     $chars = substr($str, 1, -1);
                     $utf8 = '';
@@ -8727,59 +8734,59 @@ class div
                         $ord_chars_c = ord($chars[$c]);
 
                         switch (true) {
-                            case $sub_str_chars_c_2 === '\b' :
+                            case $sub_str_chars_c_2 === '\b':
                                 $utf8 .= chr(0x08);
                                 ++$c;
                                 break;
-                            case $sub_str_chars_c_2 === '\t' :
+                            case $sub_str_chars_c_2 === '\t':
                                 $utf8 .= chr(0x09);
                                 ++$c;
                                 break;
-                            case $sub_str_chars_c_2 === '\n' :
+                            case $sub_str_chars_c_2 === '\n':
                                 $utf8 .= chr(0x0A);
                                 ++$c;
                                 break;
-                            case $sub_str_chars_c_2 === '\f' :
+                            case $sub_str_chars_c_2 === '\f':
                                 $utf8 .= chr(0x0C);
                                 ++$c;
                                 break;
-                            case $sub_str_chars_c_2 === '\r' :
+                            case $sub_str_chars_c_2 === '\r':
                                 $utf8 .= chr(0x0D);
                                 ++$c;
                                 break;
-                            case $sub_str_chars_c_2 === '\\"' :
-                            case $sub_str_chars_c_2 === '\\\'' :
-                            case $sub_str_chars_c_2 === '\\\\' :
-                            case $sub_str_chars_c_2 === '\\/' :
+                            case $sub_str_chars_c_2 === '\\"':
+                            case $sub_str_chars_c_2 === '\\\'':
+                            case $sub_str_chars_c_2 === '\\\\':
+                            case $sub_str_chars_c_2 === '\\/':
                                 if (($delimiter === '"' && $sub_str_chars_c_2 !== '\\\'') || ($delimiter === "'" && $sub_str_chars_c_2 !== '\\"')) {
                                     $utf8 .= $chars[++$c];
                                 }
                                 break;
-                            case preg_match('/\\\u[0-9A-F]{4}/i', substr($chars, $c, 6)) :
-                                $utf16 = chr(hexdec(substr($chars, $c + 2, 2))).chr(hexdec(substr($chars, $c + 4, 2)));
+                            case preg_match('/\\\u[0-9A-F]{4}/i', substr($chars, $c, 6)):
+                                $utf16 = chr(hexdec(substr($chars, $c + 2, 2))) . chr(hexdec(substr($chars, $c + 4, 2)));
                                 $utf8 .= self::utf162utf8($utf16);
                                 $c += 5;
                                 break;
-                            case ($ord_chars_c >= 0x20) && ($ord_chars_c <= 0x7F) :
+                            case ($ord_chars_c >= 0x20) && ($ord_chars_c <= 0x7F):
                                 $utf8 .= $chars[$c];
                                 break;
-                            case ($ord_chars_c & 0xE0) === 0xC0 :
+                            case ($ord_chars_c & 0xE0) === 0xC0:
                                 $utf8 .= substr($chars, $c, 2);
                                 ++$c;
                                 break;
-                            case ($ord_chars_c & 0xF0) === 0xE0 :
+                            case ($ord_chars_c & 0xF0) === 0xE0:
                                 $utf8 .= substr($chars, $c, 3);
                                 $c += 2;
                                 break;
-                            case ($ord_chars_c & 0xF8) === 0xF0 :
+                            case ($ord_chars_c & 0xF8) === 0xF0:
                                 $utf8 .= substr($chars, $c, 4);
                                 $c += 3;
                                 break;
-                            case ($ord_chars_c & 0xFC) === 0xF8 :
+                            case ($ord_chars_c & 0xFC) === 0xF8:
                                 $utf8 .= substr($chars, $c, 5);
                                 $c += 4;
                                 break;
-                            case ($ord_chars_c & 0xFE) === 0xFC :
+                            case ($ord_chars_c & 0xFE) === 0xFC:
                                 $utf8 .= substr($chars, $c, 6);
                                 $c += 5;
                                 break;
@@ -8788,26 +8795,20 @@ class div
 
                     return $utf8;
                 } elseif (preg_match('/^\[.*\]$/s', $str) || preg_match('/^\{.*\}$/s', $str)) {
+
+                    $arr = [];
+                    $stk = [4];
+                    $obj = new stdClass();
+
                     if (strpos($str, '[') === 0) {
-                        $stk = [
-                            3,
-                        ];
-                        $arr = [];
+                        $stk = [3];
                     } elseif (true & 16) {
-                        $stk = [
-                            4,
-                        ];
                         $obj = [];
-                    } else {
-                        $stk = [
-                            4,
-                        ];
-                        $obj = new stdClass ();
                     }
 
                     $stk[] = [
-                        'what'      => 1,
-                        'where'     => 0,
+                        'what' => 1,
+                        'where' => 0,
                         'delimiter' => false,
                     ];
 
@@ -8832,11 +8833,11 @@ class div
                         $top = end($stk);
                         $sub_str_chars_c_2 = substr($chars, $c, 2);
 
-                        if (($c === $str_len_chars) || (($chars[$c] === ',') && ($top ['what'] === 1))) {
-                            $slice = substr($chars, $top ['where'], $c - $top ['where']);
+                        if (($c === $str_len_chars) || (($chars[$c] === ',') && ($top['what'] === 1))) {
+                            $slice = substr($chars, $top['where'], $c - $top['where']);
                             $stk[] = [
-                                'what'      => 1,
-                                'where'     => $c + 1,
+                                'what' => 1,
+                                'where' => $c + 1,
                                 'delimiter' => false,
                             ];
 
@@ -8845,67 +8846,73 @@ class div
                             } elseif (reset($stk) === 4) {
                                 $parts = [];
                                 if (preg_match('/^\s*(["\'].*[^\\\]["\'])\s*:\s*(\S.*),?$/Uis', $slice, $parts)) {
-                                    $key = self::jsonDecode($parts [1], $items);
-                                    $val = self::jsonDecode($parts [2], $items);
+                                    $key = self::jsonDecode($parts[1], $items);
+                                    $val = self::jsonDecode($parts[2], $items);
 
                                     if (true & 16) {
-                                        $obj [$key] = $val;
+                                        $obj[$key] = $val;
                                     } else {
                                         $obj->$key = $val;
                                     }
                                 } elseif (preg_match('/^\s*(\w+)\s*:\s*(\S.*),?$/Uis', $slice, $parts)) {
-                                    $key = $parts [1];
-                                    $val = self::jsonDecode($parts [2], $items);
+                                    $key = $parts[1];
+                                    $val = self::jsonDecode($parts[2], $items);
 
                                     if (true & 16) {
-                                        $obj [$key] = $val;
+                                        $obj[$key] = $val;
                                     } else {
                                         $obj->$key = $val;
                                     }
                                 }
                             }
-                        } elseif ((($chars[$c] === '"') || ($chars[$c] === "'")) && ($top ['what'] !== 2)) {
+                        } elseif ((($chars[$c] === '"') || ($chars[$c] === "'")) && ($top['what'] !== 2)) {
                             $stk[] = [
-                                'what'      => 2,
-                                'where'     => $c,
+                                'what' => 2,
+                                'where' => $c,
                                 'delimiter' => $chars[$c],
                             ];
-                        } elseif (($chars[$c] === $top ['delimiter']) && ($top ['what'] === 2) && ((strlen(substr($chars, 0, $c)) - strlen(rtrim(substr($chars, 0, $c), '\\'))) % 2 !== 1)) {
+                        } elseif (($chars[$c] === $top['delimiter']) && ($top['what'] === 2) && ((strlen(substr($chars, 0, $c)) - strlen(rtrim(substr($chars, 0, $c), '\\'))) % 2 !== 1)) {
                             array_pop($stk);
-                        } elseif (($chars[$c] === '[')
-                            && in_array($top ['what'], [
+                        } elseif (
+                            ($chars[$c] === '[')
+                            && in_array($top['what'], [
                                 1,
                                 3,
                                 4,
-                            ], true)) {
+                            ], true)
+                        ) {
                             $stk[] = [
-                                'what'      => 3,
-                                'where'     => $c,
+                                'what' => 3,
+                                'where' => $c,
                                 'delimiter' => false,
                             ];
-                        } elseif (($chars[$c] === ']') && ($top ['what'] === 3)) {
+                        } elseif (($chars[$c] === ']') && ($top['what'] === 3)) {
                             array_pop($stk);
-                        } elseif (($chars[$c] === '{')
-                            && in_array($top ['what'], [1, 3, 4], true)) {
+                        } elseif (
+                            ($chars[$c] === '{')
+                            && in_array($top['what'], [1, 3, 4], true)
+                        ) {
                             $stk[] = [
-                                'what'      => 4,
-                                'where'     => $c,
+                                'what' => 4,
+                                'where' => $c,
                                 'delimiter' => false,
                             ];
-                        } elseif (($chars[$c] === '}') && ($top ['what'] === 4)) {
+                        } elseif (($chars[$c] === '}') && ($top['what'] === 4)) {
                             array_pop($stk);
-                        } elseif (($sub_str_chars_c_2 === '/*')
-                            && in_array($top ['what'], [1, 3, 4], true)) {
+                        } elseif (
+                            ($sub_str_chars_c_2 === '/*')
+                            && in_array($top['what'], [1, 3, 4], true)
+                        ) {
                             $stk[] = [
-                                'what'      => 5,
-                                'where'     => $c,
+                                'what' => 5,
+                                'where' => $c,
                                 'delimiter' => false,
                             ];
                             $c++;
-                        } elseif (($sub_str_chars_c_2 === '*/') && ($top ['what'] === 5)) {
+                        } elseif (($sub_str_chars_c_2 === '*/') && ($top['what'] === 5)) {
                             array_pop($stk);
                             $c++;
-                            for ($i = $top ['where']; $i <= $c; ++$i) {
+                            for ($i = $top['where']; $i <= $c; ++$i) {
                                 $chars = substr_replace($chars, ' ', $i, 1);
                             }
                         }
@@ -8932,39 +8939,39 @@ class div
     final public static function jsonEncode($data)
     {
         if (is_array($data) || is_object($data)) {
-            $is_list = is_array($data) && (empty ($data) || array_keys($data) === range(0, count($data) - 1));
+            $is_list = is_array($data) && (empty($data) || array_keys($data) === range(0, count($data) - 1));
 
             if ($is_list) {
-                $json = '['.implode(',', array_map('divengine\div::jsonEncode', $data)).']';
+                $json = '[' . implode(',', array_map('divengine\div::jsonEncode', $data)) . ']';
             } else {
                 $items = [];
                 foreach ($data as $key => $value) {
-                    $items[] = self::jsonEncode((string)$key).':'.self::jsonEncode($value);
+                    $items[] = self::jsonEncode((string) $key) . ':' . self::jsonEncode($value);
                 }
-                $json = '{'.implode(',', $items).'}';
+                $json = '{' . implode(',', $items) . '}';
             }
         } elseif (self::isString($data)) {
-            $string = '"'.addcslashes($data, "\\\"\n\r\t/".chr(8).chr(12)).'"';
+            $string = '"' . addcslashes($data, "\\\"\n\r\t/" . chr(8) . chr(12)) . '"';
             $json = '';
             $len = strlen($string);
             for ($i = 0; $i < $len; $i++) {
-                $char = $string [$i];
+                $char = $string[$i];
                 $c1 = ord($char);
                 if ($c1 < 128) {
                     $json .= ($c1 > 31) ? $char : sprintf("\\u%04x", $c1);
                     continue;
                 }
-                $c2 = ord($string [++$i]);
+                $c2 = ord($string[++$i]);
                 if (($c1 & 32) === 0) {
                     $json .= sprintf("\\u%04x", ($c1 - 192) * 64 + $c2 - 128);
                     continue;
                 }
-                $c3 = ord($string [++$i]);
+                $c3 = ord($string[++$i]);
                 if (($c1 & 16) === 0) {
                     $json .= sprintf("\\u%04x", (($c1 - 224) << 12) + (($c2 - 128) << 6) + ($c3 - 128));
                     continue;
                 }
-                $c4 = ord($string [++$i]);
+                $c4 = ord($string[++$i]);
                 if (($c1 & 8) === 0) {
                     $u = (($c1 & 15) << 2) + (($c2 >> 4) & 3) - 1;
 
@@ -9021,18 +9028,18 @@ class div
         $html = str_replace('<td', "\t</td", $html);
         $html = str_replace('<th', "\t</th", $html);
         $html = str_replace('</table>', "\n", $html);
-        $hr = str_repeat('-', $width)."\n";
+        $hr = str_repeat('-', $width) . "\n";
         $html = str_replace('<hr>', $hr, $html);
         $html = str_replace('<hr/>', $hr, $html);
         $html = str_replace('</p>', "\n", $html);
-        $html = str_replace('<h1', '- <h1'.$hr, $html);
-        $html = str_replace('<h2', '-- <h2'.$hr, $html);
-        $html = str_replace('<h3', '--- <h3'.$hr, $html);
-        $html = str_replace('<li', '* <li'.$hr, $html);
+        $html = str_replace('<h1', '- <h1' . $hr, $html);
+        $html = str_replace('<h2', '-- <h2' . $hr, $html);
+        $html = str_replace('<h3', '--- <h3' . $hr, $html);
+        $html = str_replace('<li', '* <li' . $hr, $html);
 
         for ($i = 1; $i < 5; $i++) {
-            $html = str_replace("</h$i>\n", "</h$i>".$hr, $html);
-            $html = str_replace("</h$i>", "</h$i>\n\n".$hr, $html);
+            $html = str_replace("</h$i>\n", "</h$i>" . $hr, $html);
+            $html = str_replace("</h$i>", "</h$i>\n\n" . $hr, $html);
         }
 
         $html = html_entity_decode($html);
@@ -9046,7 +9053,7 @@ class div
         while (strpos($html, '  ') !== false) {
             $html = str_replace('  ', ' ', $html);
         }
-        $html = str_replace(' '."\n", "\n", $html);
+        $html = str_replace(' ' . "\n", "\n", $html);
         $html = str_replace("\n ", "\n", $html);
 
         while (strpos($html, '  ') !== false) {
@@ -9092,7 +9099,7 @@ class div
             $keys = array_keys($arr);
             $keys = array_reverse($keys);
 
-            return $keys [0];
+            return $keys[0];
         }
     }
 
@@ -9141,8 +9148,8 @@ class div
     public static function getPackagesPath()
     {
         $class = get_class();
-        if (isset(self::$__packages_by_class [$class])) {
-            return self::$__packages_by_class [$class];
+        if (isset(self::$__packages_by_class[$class])) {
+            return self::$__packages_by_class[$class];
         }
 
         return PACKAGES;
@@ -9172,7 +9179,7 @@ class div
         $include_paths = self::getIncludePaths(self::getPackagesPath());
 
         foreach ($include_paths as $include_path) {
-            $path = str_replace("\\", '/', $include_path.'/'.$filename);
+            $path = str_replace("\\", '/', $include_path . '/' . $filename);
             while (strpos($path, '//') !== false) {
                 $path = str_replace('//', '/', $path);
             }
@@ -9213,7 +9220,7 @@ class div
      *
      * @param string $filename
      *
-     * @return string
+     * @return ?string
      */
     final public static function getFileContents($filename)
     {
@@ -9228,7 +9235,7 @@ class div
         $include_paths = self::getIncludePaths(self::getPackagesPath());
 
         foreach ($include_paths as $include_path) {
-            $path = str_replace("\\", '/', $include_path.'/'.$filename);
+            $path = str_replace("\\", '/', $include_path . '/' . $filename);
             while (strpos($path, '//') !== false) {
                 $path = str_replace('//', '/', $path);
             }
@@ -9295,7 +9302,7 @@ class div
                 foreach ($mixed as $key_row => $row) {
                     $html .= '<tr>';
                     foreach ($row as $key_col => $col) {
-                        $html .= '<td>'.self::asThis($col).'</td>';
+                        $html .= '<td>' . self::asThis($col) . '</td>';
                     }
                     $html .= '</tr>';
                 }
@@ -9321,7 +9328,7 @@ class div
                     $vars = get_object_vars($row);
                     $html .= '<tr>';
                     foreach ($vars as $key_col => $col) {
-                        $html .= '<td>'.self::asThis($col).'</td>';
+                        $html .= '<td>' . self::asThis($col) . '</td>';
                     }
                     $html .= '</tr>';
                 }
@@ -9336,19 +9343,19 @@ class div
                 $html = '<ul class = "array">';
                 foreach ($mixed as $key => $value) {
                     $t = '';
-                    if (!is_numeric($key) && trim((string)$key) !== '' && $key !== null) {
+                    if (!is_numeric($key) && trim((string) $key) !== '' && $key !== null) {
                         $t = "$key: <br>";
                     }
-                    $html .= '<li> '.self::asThis($value).'</li>';
+                    $html .= '<li> ' . self::asThis($value) . '</li>';
                 }
                 $html .= '</ul>';
             }
         } elseif (is_object($mixed)) {
-            $html = get_class($mixed).': <table>';
+            $html = get_class($mixed) . ': <table>';
             $vars = get_object_vars($mixed);
 
             foreach ($vars as $var => $value) {
-                $html .= '<li>'.self::asThis($mixed->$var).'</li>';
+                $html .= '<li>' . self::asThis($mixed->$var) . '</li>';
             }
             $html .= '</ul>';
         } elseif (is_bool($mixed)) {
@@ -9480,8 +9487,8 @@ class div
         $t = token_get_all("<?php $code ?>");
         $vars = [];
         foreach ($t as $key => $value) {
-            if (is_array($value) && $value [0] === T_VARIABLE) {
-                $vars [] = substr($value [1], 1);
+            if (is_array($value) && $value[0] === T_VARIABLE) {
+                $vars[] = substr($value[1], 1);
             }
         }
 
@@ -9846,11 +9853,11 @@ class div
 
         $p = array_search('', $r, true);
         if ($p !== false) {
-            return $names [$p].' is required';
+            return $names[$p] . ' is required';
         }
         $p = array_search(null, $r, true);
         if ($p !== false) {
-            return $names [$p].' is required';
+            return $names[$p] . ' is required';
         }
 
         // Unique tags
@@ -9933,7 +9940,7 @@ class div
         foreach ($r as $k => $t) {
             $p = array_search($t, $r, true);
             if ($p !== false && $p !== $k) {
-                return $names [$k].' must be unique and not equal to '.$names [$p];
+                return $names[$k] . ' must be unique and not equal to ' . $names[$p];
             }
         }
 
@@ -9990,14 +9997,14 @@ class div
         $allow_functions = false
     ) {
         if ($valid_tokens === null) {
-            $valid_tokens = DIV_PHP_VALID_TOKENS_FOR_EXPRESSIONS.','.DIV_PHP_VALID_TOKENS_FOR_MACROS;
+            $valid_tokens = DIV_PHP_VALID_TOKENS_FOR_EXPRESSIONS . ',' . DIV_PHP_VALID_TOKENS_FOR_MACROS;
         }
 
         $t = token_get_all("<?php $code ?>");
 
         foreach ($t as $key => $value) {
             if (is_array($value)) {
-                $t [$key] [0] = token_name($value [0]);
+                $t[$key][0] = token_name($value[0]);
             }
         }
 
@@ -10009,7 +10016,7 @@ class div
 
         foreach ($valid_tokens as $kk => $tk) {
             $tk = strtoupper(trim($tk));
-            $valid_tokens [$tk] = $tk;
+            $valid_tokens[$tk] = $tk;
         }
 
         if (self::$__allowed_php_functions === null) {
@@ -10030,10 +10037,10 @@ class div
             }
 
             if (is_array($token)) {
-                $n = $token [0];
+                $n = $token[0];
 
                 switch ($n) {
-                    case 'T_VARIABLE' :
+                    case 'T_VARIABLE':
                         if (in_array($token[1], $invalid_vars, true)) {
                             self::internalMsg("Access denied to {$token[1]}", 'php_validations');
 
@@ -10041,7 +10048,7 @@ class div
                         }
                         break;
 
-                    case 'T_OPEN_TAG' :
+                    case 'T_OPEN_TAG':
                         if ($idx > 0) {
                             self::internalMsg('Invalid token T_OPEN_TAG', 'php_validations');
 
@@ -10049,7 +10056,7 @@ class div
                         }
                         break;
 
-                    case 'T_CLOSE_TAG' :
+                    case 'T_CLOSE_TAG':
                         if ($idx < $count - 1) {
                             self::internalMsg('Invalid token T_CLOSE_TAG', 'php_validations');
 
@@ -10057,12 +10064,12 @@ class div
                         }
                         break;
 
-                    case 'T_STRING' :
+                    case 'T_STRING':
 
                         $class_name = false;
                         $function_name = false;
 
-                        $f = $token [1];
+                        $f = $token[1];
 
                         if ($last_token === 'T_CLASS') {
                             $class_name = true;
@@ -10073,17 +10080,17 @@ class div
 
                         $lw = strtolower($f);
 
-                        if (!isset(self::$__allowed_methods [$f]) && $lw !== 'true' && $lw !== 'false' && $lw !== 'null') {
+                        if (!isset(self::$__allowed_methods[$f]) && $lw !== 'true' && $lw !== 'false' && $lw !== 'null') {
                             if (is_callable($f)) {
-                                if (!isset(self::$__allowed_php_functions [$f])) {
+                                if (!isset(self::$__allowed_php_functions[$f])) {
 
-                                    if (!isset(self::$__allowed_functions [$f])) {
+                                    if (!isset(self::$__allowed_functions[$f])) {
                                         self::internalMsg("Invalid function $f", 'php_validations');
 
                                         return false;
                                     }
 
-                                    if (self::$__allowed_functions [$f] === false) {
+                                    if (self::$__allowed_functions[$f] === false) {
                                         self::internalMsg("Invalid function $f", 'php_validations');
 
                                         return false;
@@ -10104,8 +10111,8 @@ class div
                         }
                         break;
 
-                    default :
-                        if (!isset($valid_tokens [$n])) {
+                    default:
+                        if (!isset($valid_tokens[$n])) {
                             self::internalMsg("Invalid token $n", 'php_validations');
 
                             return false;
@@ -10145,7 +10152,7 @@ class div
      */
     final public static function isValidMacro($code)
     {
-        return self::isValidPHPCode($code, true, DIV_PHP_VALID_TOKENS_FOR_EXPRESSIONS.','.DIV_PHP_VALID_TOKENS_FOR_MACROS);
+        return self::isValidPHPCode($code, true, DIV_PHP_VALID_TOKENS_FOR_EXPRESSIONS . ',' . DIV_PHP_VALID_TOKENS_FOR_MACROS);
     }
 
     /**
@@ -10156,7 +10163,7 @@ class div
     final public static function isCli()
     {
         if (self::$__is_cli === null) {
-            self::$__is_cli = (!isset($_SERVER ['SERVER_SOFTWARE']) && (PHP_SAPI === 'cli' || (is_numeric($_SERVER ['argc']) && $_SERVER ['argc'] > 0)));
+            self::$__is_cli = (!isset($_SERVER['SERVER_SOFTWARE']) && (PHP_SAPI === 'cli' || (is_numeric($_SERVER['argc']) && $_SERVER['argc'] > 0)));
         }
 
         return self::$__is_cli;
@@ -10172,15 +10179,15 @@ class div
     public static function internalMsg($msg, $category = 'global')
     {
         $d = debug_backtrace();
-        $caller = $d [0] ['function'];
+        $caller = $d[0]['function'];
 
-        if (isset($d ['class'])) {
-            $caller = $d ['class'].'::'.$caller;
+        if (isset($d['class'])) {
+            $caller = $d['class'] . '::' . $caller;
         }
 
-        self::$__internal_messages [$category] [] = [
-            'msg'    => $msg,
-            'date'   => date('Y-m-d h:i:s'),
+        self::$__internal_messages[$category][] = [
+            'msg' => $msg,
+            'date' => date('Y-m-d h:i:s'),
             'caller' => $caller,
         ];
     }
@@ -10194,7 +10201,7 @@ class div
      */
     public static function getInternalMsg($category)
     {
-        return self::$__internal_messages [$category];
+        return self::$__internal_messages[$category];
     }
 
     /**
@@ -10247,7 +10254,7 @@ class div
      */
     public static function error($err_msg, $level = DIV_ERROR_WARNING)
     {
-        self::$__errors [] = [
+        self::$__errors[] = [
             $err_msg,
             $level,
         ];
@@ -10260,18 +10267,18 @@ class div
         }
 
         if ($is_cli === false) {
-            echo '<div style = "z-index:9999; position: absolute; top: '.((count(self::$__errors) - 1) * 50 + 10).'px; right: 20px; width: 600px;max-height: 600px; overflow:auto;; font-family: courier; padding: 10px;';
+            echo '<div style = "z-index:9999; position: absolute; top: ' . ((count(self::$__errors) - 1) * 50 + 10) . 'px; right: 20px; width: 600px;max-height: 600px; overflow:auto;; font-family: courier; padding: 10px;';
         }
 
         switch ($level) {
-            case DIV_ERROR_WARNING :
+            case DIV_ERROR_WARNING:
                 if (!$is_cli) {
                     echo "background: yellow; border: 1px solid black; color: black;\">[$level] $err_msg</div>";
                 } else {
                     echo "$level: $err_msg\n";
                 }
                 break;
-            case DIV_ERROR_FATAL :
+            case DIV_ERROR_FATAL:
                 if (!$is_cli) {
                     echo "background: red; border: 1px solid black; color: white;\">[$level] $err_msg</div>";
                 } else {
@@ -10283,7 +10290,7 @@ class div
         $msg = ob_get_clean();
 
         if ($is_cli) {
-            echo '[[]]'.self::htmlToText($msg, null)."\n";
+            echo '[[]]' . self::htmlToText($msg, null) . "\n";
         } else {
             echo $msg;
         }
@@ -10291,7 +10298,7 @@ class div
         self::log($msg, $level);
 
         if ($level === DIV_ERROR_FATAL) {
-            die ();
+            die();
         }
     }
 
@@ -10318,7 +10325,7 @@ class div
         $msg = self::htmlToText($msg, null);
 
         $msg = str_replace(["\n", "\r"], ["\\n", "\\r"], $msg);
-        $msg = '['.$level.'] '.date('Y-m-d h:i:s').' - '.$msg."\n";
+        $msg = '[' . $level . '] ' . date('Y-m-d h:i:s') . ' - ' . $msg . "\n";
 
         if (self::$__log_mode) {
             $f = fopen(self::$__log_file, 'a');
@@ -10349,7 +10356,7 @@ class div
      */
     public function logger($msg, $level = 'INFO')
     {
-        $msg = 'TPL-ID: '.$this->getId()." > $msg";
+        $msg = 'TPL-ID: ' . $this->getId() . " > $msg";
         self::log($msg, $level);
     }
 
@@ -10358,8 +10365,6 @@ class div
      */
     public function __destruct()
     {
-        if (self::$__log_mode) {
-            $this->logger('Destroying the instance #'.$this->getId());
-        }
+        self::$__log_mode and $this->logger('Destroying the instance #' . $this->getId());
     }
 }
