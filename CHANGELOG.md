@@ -1,3 +1,6 @@
+Dec 24, 2023
+- Moving forward to PHP 8.x && phpstan checks level 3
+
 Feb 11, 2020
 --------------------------
 - `minor fix`: Array and string offset access syntax with curly braces is deprecated
