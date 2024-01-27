@@ -7,8 +7,8 @@ use divengine\div;
 
 class Geo
 {
-    public string $lat;
-    public string $lng;
+    public float $lat;
+    public float $lng;
 }
 
 class Address
@@ -100,8 +100,8 @@ class CopTest extends TestCase
                     "city": "Gwenborough",
                     "zipcode": "92998-3874",
                     "geo": {
-                        "lat": "-37.3159",
-                        "lng": "81.1496"
+                        "lat": -37.3159,
+                        "lng": 81.1496
                     }
                 },
                 {
@@ -110,8 +110,8 @@ class CopTest extends TestCase
                     "city": "Los Angeles",
                     "zipcode": "90210",
                     "geo": {
-                        "lat": "34.0522",
-                        "lng": "-118.2437"
+                        "lat": 34.0522,
+                        "lng": -118.2437
                     }
                 }
             ]
