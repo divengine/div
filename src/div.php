@@ -25,7 +25,7 @@ namespace divengine;
  *
  * @package divengine/div
  * @author  Rafa Rodriguez @rafageist [https://rafageist.com]
- * @version 6.0.0
+ * @version 6.0.1
  *
  * @link    https://divengine.org/docs/div-php-template-engine
  * @link    https://github.com/divengine/div
@@ -71,21 +71,21 @@ if (!defined('DIV_MAX_FILENAME_SIZE')) {
 define(
     'DIV_PHP_ALLOWED_FUNCTIONS',
     'isset,empty,is_null,is_numeric,is_bool,is_integer,is_double,is_array,sizeof,is_finite,is_float,is_infinite,' . 'is_int,is_long,is_nan,is_real,is_scalar,is_string,mt_rand,mt_srand,mt_getrandmax,rand,urlencode,urldecode,'
-    . 'uniqid,date,time,intval,htmlspecialchars,htmlspecialchars_decode,strtr,strpos,str_replace,str_ireplace,substr,' . 'sprintf,abs,acos,acosh,asin,atan2,atanh,base_convert,bindec,ceil,cos,cosh,decbin,dechex,decoct,deg2rad,exp,expm1,'
-    . 'floor,fmod,getrandmax,hexdec,hypot,lcg_value,log10,log1p,log,max,min,octdec,pi,pow,rad2deg,rand,round,sin,sinh,' . 'sqrt,srand,tan,tanh,cal_days_in_month,cal_from_jd,cal_info,cal_to_jd,easter_date,easter_days,frenchtojd,gregoriantojd,'
-    . 'jddayofweek,jdmonthname,jdtofrench,jdtogregorian,jdtojewish,jdtojulian,jdtounix,jewishtojd,jewishtojd,unixtojd,checkdate,' . 'date_default_timezone_get,strtotime,date_sunset,gmdate,gmmktime,gmstrftime,idate,microtime,mktime,strftime,strptime,'
-    . 'strtotime,timezone_name_from_abbr,timezone_version_get,bcadd,bccomp,bcdiv,bcmod,bcmul,bcpow,bcpowmod,bcscale,bcsqrt,' . 'bcsub,addcslashes,addslashes,bin2hex,chop,chr,chunk_split,convert_cyr_string,convert_uudecode,convert_uuencode,count,'
-    . 'count_chars,crc32,crypt,hebrev,hebrevc,hex2bin,html_entity_decode,htmlentities,htmlspecialchars_decode,htmlspecialchars,' . 'lcfirst,levenshtein,ltrim,md5,metaphone,money_format,nl_langinfo,nl2br,number_format,ord,quoted_printable_decode,'
-    . 'quoted_printable_encode,quotemeta,rtrim,sha1,similar_text,soundex,sprintf,str_pad,str_repeat,str_rot13,str_shuffle,' . 'strcasecmp,strchr,strcmp,strcoll,strcspn,strip_tags,stripcslashes,stripos,stripslashes,stristr,strlen,strnatcasecmp,'
-    . 'strnatcmp,strncasecmp,strncmp,strpbrk,strrchr,strrev,strripos,strrpos,strspn,strtolower,strtoupper,strtr,substr_compare,'
-    . 'substr_count,substr_replace,trim,ucfirst,ucwords,wordwrap,floatval,strval,implode,explode,array_keys,get_object_vars,is_object,file_exists,in_array'
+        . 'uniqid,date,time,intval,htmlspecialchars,htmlspecialchars_decode,strtr,strpos,str_replace,str_ireplace,substr,' . 'sprintf,abs,acos,acosh,asin,atan2,atanh,base_convert,bindec,ceil,cos,cosh,decbin,dechex,decoct,deg2rad,exp,expm1,'
+        . 'floor,fmod,getrandmax,hexdec,hypot,lcg_value,log10,log1p,log,max,min,octdec,pi,pow,rad2deg,rand,round,sin,sinh,' . 'sqrt,srand,tan,tanh,cal_days_in_month,cal_from_jd,cal_info,cal_to_jd,easter_date,easter_days,frenchtojd,gregoriantojd,'
+        . 'jddayofweek,jdmonthname,jdtofrench,jdtogregorian,jdtojewish,jdtojulian,jdtounix,jewishtojd,jewishtojd,unixtojd,checkdate,' . 'date_default_timezone_get,strtotime,date_sunset,gmdate,gmmktime,gmstrftime,idate,microtime,mktime,strftime,strptime,'
+        . 'strtotime,timezone_name_from_abbr,timezone_version_get,bcadd,bccomp,bcdiv,bcmod,bcmul,bcpow,bcpowmod,bcscale,bcsqrt,' . 'bcsub,addcslashes,addslashes,bin2hex,chop,chr,chunk_split,convert_cyr_string,convert_uudecode,convert_uuencode,count,'
+        . 'count_chars,crc32,crypt,hebrev,hebrevc,hex2bin,html_entity_decode,htmlentities,htmlspecialchars_decode,htmlspecialchars,' . 'lcfirst,levenshtein,ltrim,md5,metaphone,money_format,nl_langinfo,nl2br,number_format,ord,quoted_printable_decode,'
+        . 'quoted_printable_encode,quotemeta,rtrim,sha1,similar_text,soundex,sprintf,str_pad,str_repeat,str_rot13,str_shuffle,' . 'strcasecmp,strchr,strcmp,strcoll,strcspn,strip_tags,stripcslashes,stripos,stripslashes,stristr,strlen,strnatcasecmp,'
+        . 'strnatcmp,strncasecmp,strncmp,strpbrk,strrchr,strrev,strripos,strrpos,strspn,strtolower,strtoupper,strtr,substr_compare,'
+        . 'substr_count,substr_replace,trim,ucfirst,ucwords,wordwrap,floatval,strval,implode,explode,array_keys,get_object_vars,is_object,file_exists,in_array'
 );
 
 // Valid PHP tokens in expressions
 define(
     'DIV_PHP_VALID_TOKENS_FOR_EXPRESSIONS',
     'T_ARRAY,T_ARRAY_CAST,T_BOOLEAN_AND,T_BOOLEAN_OR,T_BOOL_CAST,T_CHARACTER,T_CONSTANT_ENCAPSED_STRING,' . 'T_DNUMBER,T_DOUBLE_CAST,T_EMPTY,T_INT_CAST,T_ISSET,T_IS_EQUAL,T_IS_GREATER_OR_EQUAL,T_SR,T_IS_IDENTICAL,T_IS_NOT_EQUAL,T_IS_NOT_IDENTICAL,'
-    . 'T_IS_SMALLER_OR_EQUAL,T_LNUMBER,T_LOGICAL_AND,T_LOGICAL_OR,T_LOGICAL_XOR,T_SL,T_SL_EQUAL,T_SR_EQUAL,T_STRING_CAST,T_STRING_VARNAME,' . 'T_VARIABLE,T_WHITESPACE,T_CURLY_OPEN,T_INC,T_DEC,T_COMMENT,T_DOUBLE_ARROW,T_ENCAPSED_AND_WHITESPACE'
+        . 'T_IS_SMALLER_OR_EQUAL,T_LNUMBER,T_LOGICAL_AND,T_LOGICAL_OR,T_LOGICAL_XOR,T_SL,T_SL_EQUAL,T_SR_EQUAL,T_STRING_CAST,T_STRING_VARNAME,' . 'T_VARIABLE,T_WHITESPACE,T_CURLY_OPEN,T_INC,T_DEC,T_COMMENT,T_DOUBLE_ARROW,T_ENCAPSED_AND_WHITESPACE'
 );
 
 // Valid PHP tokens in macros
@@ -743,7 +743,7 @@ class div
     // ----- Internals -----
 
     // current version of Div
-    private static $__version = '6.0.0';
+    private static $__version = '6.0.1';
 
     // name of the super class
     private static $__super_class;
@@ -827,7 +827,7 @@ class div
 
     // cached values
     public static $__cached_values = [];
-    
+
 
     /**
      * Constructor
@@ -946,9 +946,11 @@ class div
             if (method_exists($items, '__toString')) {
                 $item_str = (string) $items;
                 if (!property_exists($items, 'value')) {
-                    $items->value = $item_str; /** @phpstan-ignore-line */
+                    $items->value = $item_str;
+                    /** @phpstan-ignore-line */
                 }
-                $items->_to_string = $item_str; /** @phpstan-ignore-line */
+                $items->_to_string = $item_str;
+                /** @phpstan-ignore-line */
             }
             $items = get_object_vars($items);
         }
@@ -980,8 +982,7 @@ class div
 
         // Enabling methods
         if (self::$__allowed_methods === null) {
-            $keys = explode(',', DIV_PHP_ALLOWED_METHODS);
-            ;
+            $keys = explode(',', DIV_PHP_ALLOWED_METHODS);;
             self::$__allowed_methods = array_combine($keys, $keys);
 
             if (self::$__super_class !== $class_name) {
@@ -3097,7 +3098,7 @@ class div
             }
 
             self::$__log_mode and  $this->logger("Parsing the list: $key..");
-            
+
             $list = $lists[0];
             list($p1, $p2) = $list;
 
@@ -4043,8 +4044,8 @@ class div
 
             $path = $this->getTplPath($path);
 
-            $path === $this->__path 
-                and self::$__log_mode /*|| self::detectRecursiveInclusion($exclusion, $path, $ini)*/ 
+            $path === $this->__path
+                and self::$__log_mode /*|| self::detectRecursiveInclusion($exclusion, $path, $ini)*/
                 and self::log("Recursive inclusion of template '$path' in '" . substr($this->__src, $ini - 20, 20) . "' during pre-process.", DIV_ERROR_WARNING);
 
             if (self::fileExists($path)) {
@@ -5835,9 +5836,11 @@ class div
                 if (method_exists($value, '__toString')) {
                     $item_str = (string) $value;
                     if (!property_exists($value, 'value')) {
-                        $value->value = $item_str; /** @phpstan-ignore-line */
+                        $value->value = $item_str;
+                        /** @phpstan-ignore-line */
                     }
-                    $value->_to_string = $item_str; /** @phpstan-ignore-line */
+                    $value->_to_string = $item_str;
+                    /** @phpstan-ignore-line */
                 }
                 $value = get_object_vars($value);
             }
@@ -6200,7 +6203,7 @@ class div
                     break;
                 }
 
-                self::$__log_mode 
+                self::$__log_mode
                     and $p === 0
                     and $this->logger("Parsing the sub-parser $parser ...");
 
@@ -8515,16 +8518,19 @@ class div
         return (string) $value;
     }
 
+
     /**
      * Complete object/array properties
      *
      * @param mixed   $source
      * @param mixed   $complement
      * @param integer $level
+     * @param boolean $strict
      *
+     * @param \ReflectionProperty   $propertyType
      * @return mixed
      */
-    final public static function cop(&$source, $complement, $level = 0)
+    final public static function cop(&$source, $complement, $level = 0, bool $strict = false, \ReflectionProperty $propertyType = null)
     {
         $null = null;
 
@@ -8552,22 +8558,99 @@ class div
             foreach ($complement as $key => $value) {
                 if (is_object($source)) {
                     if (property_exists($source, $key)) {
-                        $source->$key = self::cop($source->$key, $value, $level + 1);
+                        $property = new \ReflectionProperty($source, $key);
+                        $property->setAccessible(true);
+
+                        // Verificar si la propiedad es tipada antes de asignar valores
+                        if (!$property->isInitialized($source)) {
+                            $defaultValue = self::getDefaultValueForType($property->getType(), $key);
+                            $property->setValue($source, $defaultValue);
+                        }
+
+                        $propertyValue = $property->getValue($source);
+
+                        // Manejar propiedades de clase anidadas
+                        if (is_object($propertyValue) && is_object($value)) {
+                            self::cop($propertyValue, $value, $level + 1, $strict, $property);
+                        } else {
+                            $propertyType = $property->getType();
+                            $property->setValue($source, self::cop($propertyValue, $value, $level + 1, $strict, $property));
+                        }
                     } else {
-                        $source->$key = self::cop($null, $value, $level + 1);
+                        if (!$strict) {
+                            $source->$key = self::cop($null, $value, $level + 1, $strict);
+                        }
                     }
                 }
+
                 if (is_array($source)) {
-                    if (array_key_exists($key, $source)) {
-                        $source[$key] = self::cop($source[$key], $value, $level + 1);
-                    } else {
-                        $source[$key] = self::cop($null, $value, $level + 1);
+                    $setted =  false;
+                    if ($propertyType !== null) {
+                        $docComment = $propertyType->getDocComment();
+                        $arrayElementType = self::resolveArrayType($docComment);
+                        if (class_exists($arrayElementType)) {
+                            $source[$key] = new $arrayElementType();
+                            self::cop($source[$key], $value, $level + 1, $strict, $propertyType);
+                            $setted = true;
+                        }
+                    }
+
+                    if (!$setted) {
+                        if (array_key_exists($key, $source)) {
+                            $source[$key] = self::cop($source[$key], $value, $level + 1, $strict);
+                        } else {
+                            if (!$strict) {
+                                $source[$key] = self::cop($null, $value, $level + 1, $strict);
+                            }
+                        }
                     }
                 }
             }
         }
 
         return $source;
+    }
+
+    /**
+     * Get default value for type
+     * 
+     * @param \ReflectionNamedType $type
+     * 
+     * @return mixed
+     */
+    private static function getDefaultValueForType(\ReflectionNamedType $type): mixed
+    {
+        $typeName = $type->getName();
+
+        if ($type->allowsNull()) {
+            return null;
+        } elseif ($typeName === 'int' || $typeName === 'float') {
+            return 0; 
+        } elseif ($typeName === 'bool') {
+            return false;
+        } elseif ($typeName === 'string') {
+            return ''; 
+        } elseif ($typeName === 'array') {
+            return [];
+        } else {
+            return new $typeName();
+        }
+    }
+
+    /**
+     * Resolve array type from doc
+     * 
+     * @param string $arrayType
+     * 
+     * @return string
+     */
+    public static function resolveArrayType(string $arrayType): string
+    {
+        if (preg_match('/@var\s+(?:array<([^>\s]+)>\s*|\s*([^>\s]+)\[\]\s*)/', $arrayType, $matches)) {
+            return $matches[1] ?: $matches[2];
+        }
+
+        return $arrayType;
     }
 
     /**

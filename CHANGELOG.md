@@ -1,3 +1,7 @@
+Jan 26, 2023
+- Improvements to div::cop with Reflection and strict modes
+- Unit tests
+
 Dec 24, 2023
 - Moving forward to PHP 8.x && phpstan checks level 3
 
