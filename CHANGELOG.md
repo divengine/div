@@ -1,46 +1,36 @@
 Jan 26, 2023
 - Improvements to div::cop with Reflection and strict modes
 - Unit tests
-
+---
 Dec 24, 2023
 - Moving forward to PHP 8.x && phpstan checks level 3
-
+---
 Feb 11, 2020
---------------------------
 - `minor fix`: Array and string offset access syntax with curly braces is deprecated
 - `release` version 5.1.6
-
+---
 Sep 21, 2019
---------------------------
 - `release` version 5.1.5
 - `fix` div::varExists() method
-
+---
 Ago 23, 2019
---------------------------
 - `release` version 5.1.4
 -  new method div::getVersion()
-
+---
 Ago 22, 2019
---------------------------
 - `release` version 5.1.3
 - `fix` resolution of templates path for win and *nix OS
 - `fix` the relative path of included templates inside loop
-
+---
 Ago 21, 2019
---------------------------
 - `release` version 5.1.2
 - `fix` orphan conditional parts
 - `fix` standalone preprocessed templates
-
-#### Now this example works!
+- Now this example works!
 
 __cmp.tpl__
 
-This is a generic template for create visual components.
-Each component have a *face* or *content*, and 
-more *child components*. Each child can located in 
-the face of their parent. The template self call 
-recursively.
+This is a generic template for create visual components. Each component have a *face* or *content*, and more *child components*. Each child can located in the face of their parent. The template self call recursively.
 
 ```
 {strip}
@@ -112,14 +102,13 @@ echo new div("cmp", [
     ]
 );
 ```
+ ---
  
 Jul 22, 2019
---------------------------
 - `release` version 5.1.1
 - `improvement` support namespaces of div's child
 - `release` version 5.1.0 
-- `improvement`: Better resolution of default template for 
-child classes of div, using Reflection!
+- `improvement`: Better resolution of default template for child classes of div, using Reflection!
 
 **/some/folder/in/the/end/of/the/world/Page.tpl**
 ```
@@ -150,17 +139,13 @@ echo new Page();
 ```
 Hello people
 ```
-
+---
 Jul 6, 2019
---------------------------
 - `bugfix` in div::scanMatch
-
+---
 Jul 3, 2019
---------------------------
 - Divengine namespace!
-- `bugfix`: Fix scope of standalone pre-precessed templates. 
-This fix prevent infinite loops and is util for recursive pre-process
-in a component based design.
+- `bugfix`: Fix scope of standalone pre-precessed templates.  This fix prevent infinite loops and is util for recursive pre-process in a component based design.
 
 index.tpl
 ```
@@ -176,9 +161,8 @@ component.tpl
 {$zoo}
 {$foo} <!--{ not exists in this scope }-->
 ```
-
+--- 
 Jul 2, 2019
-----------------------------
 - new feature for custom engine:
 
 MyComponent.php
@@ -197,9 +181,8 @@ index.tpl:
 	someProperty: "bla"
 } %%}
 ```
-
+---
 Jun 27, 2019
-----------------------------
 - important change!: Now NULLs vars exists and are replaced with empty strings
 
 PHP
@@ -220,8 +203,7 @@ Var is:
 - `important change!`: Fix scope of pre-processed templates inside loops
 
 Do not pre-process anything within the loops blocks if the loops have not been resolved
-The following code did not work as expected, because the pre-process was executed before doing the loop.
-So the `$col` variable did not exist and logic of the template will be broken.
+The following code did not work as expected, because the pre-process was executed before doing the loop. So the `$col` variable did not exist and logic of the template will be broken.
 
 ```
 [$cols] col =>
@@ -232,12 +214,9 @@ So the `$col` variable did not exist and logic of the template will be broken.
 	} %%}
 [/$cols]
 ```
-
+---
 Jun 14, 2019
-----------------------------
-- `bugfix`: better resolution of tags with empty suffix. In this example "list.filter"
-is a substring of "list.filter.category", and then exists resulting unexpected code
-if $list.filter is false
+- `bugfix`: better resolution of tags with empty suffix. In this example "list.filter" is a substring of "list.filter.category", and then exists resulting unexpected code if $list.filter is false
 
 TPL
 ```
@@ -262,9 +241,8 @@ The stop chars are the same in favor of text plain and XML family:
 ```php
 $stop_chars = ["<",	">", ' ', "\n", "\r", "\t"];
 ```
-
+---
 Sep 20, 2018
-----------------------------
 - Optimize the code: change "is_null" as "=== null", because is_null is 250ns slower (in favor of PHP 5) 
 
 In PHP 7 (phpng), is_null is actually marginally faster than ===, although the performance difference between the two is far smaller.
@@ -280,17 +258,14 @@ is_null - float(1.4121870994568)
 ===     - float(1.4577329158783)
 is_null faster by ~5ns per call
 ```
-
+---
 Aug 19, 2018
-----------------------------
 - `bugfix` on constructor, when div var is an object and not an array
 - Add file_exists as allowed function
 - Add in_array as allowed function
-
+---
 Oct 8, 2017
-----------------------------
-- Re-thinking the change in **June 10, 2013** about invalid JSON in assignments.
-  Is important the dynamic path of JSON files:
+- Re-thinking the change in **June 10, 2013** about invalid JSON in assignments.  Is important the dynamic path of JSON files:
 
 ```
 {= i18n: i18n/{$lang}.json =}
@@ -336,38 +311,32 @@ Output:
 ```
 Hello
 ```
-
+---
 Oct 7, 2017
-----------------------------
 - Change scope of `->loadTemplateProperties()` to public
 - Other minor fixes
 - Automatic update of template source code after `prepareDialect()` ...
 - ... && new param for `->prepareDialect()` for disable automatic update
-
+---
 Sep 30, 2017 [my birthday]
-----------------------------
 - Fix a bug with `getAuxiliaryEngine` (clone vs assignment)
 - Add some new system vars
     - `div.class_name`: the name of current invoked class ('div' or child of 'div')
     - `div.super_class_name`: the name of super parent of current invoked class name (normally is 'div')
 - Code review
-
+---
 Sep 25, 2017
-----------------------------
 - Fix and improve getAuxiliaryEngine
-
+---
 Sep 9, 2017
-----------------------------
-
 - Fix dynamic include's paths inside loops
 ```	
 [$blocks]
 	{% blocks/block-{$id}.tpl %}
 [/$blocks]
 ```
-
+---
 Jun 2, 2017
-----------------------------
 - Improve the translator. Now you can translate from and to other dialects.
 
 ```php 
@@ -398,22 +367,11 @@ Maybe you need prepare the current dialect first:
 prop = $tpl->getTemplateProperties();
 $tpl->__src = $tpl->prepareDialect(null, $prop);
 ```
-
-- Improve the Div CLI (https://github.com/divengine/div-cli):
-
-```    
-div translate -f =
-```
-
+---
 May 29, 2017
-----------------------------
 - Some bugfixs
-- New variable for inline data of preprocessed templates:
-  div.standalone, by default is FALSE.
-  This means that the "foo" variable will not be passed
-  to the template pre-processor. That is, the variables
-  in the parent template will be ignored and only the data
-  specified in the line will be used.
+- New variable for inline data of preprocessed templates:  `div.standalone`, by default is FALSE.
+  This means that the "foo" variable will not be passed to the template pre-processor. That is, the variables in the parent template will be ignored and only the data specified in the line will be used.
 
 ```
 {= foo: value =}
@@ -424,13 +382,9 @@ May 29, 2017
 } %%}
 ```
 
-  This better facilitates the recursive inclusion of
-  templates, useful in generation of source code and
-  other hierarchies like XML, HTML, JSON, etc.
+  This better facilitates the recursive inclusion of  templates, useful in generation of source code and  other hierarchies like XML, HTML, JSON, etc.
 
-- Do not include anything within the conditional
-  blocks if the conditions have not been resolved.
-  This check prevent infinite loops.
+- Do not include anything within the conditional blocks if the conditions have not been resolved. This check prevent infinite loops.
 
 ```php
    ?$block
@@ -452,76 +406,73 @@ May 29, 2017
   Take json from external file
   {%% tpl: block.json %%}
 
-----------------------------
+---
 December 22, 2016
-----------------------------
 - PHP 7 Compatibility check
 - Release 4.9 version 
-----------------------------
+---
 November 16,  2016
-----------------------------
 - important bugfix/improvement: access to parent loop
 
-    [$parentloop] parent =>
-        [$childloop] child =>
-            Parent key: {$parent._key}
-            Child key: {$_key} or {$child._key}
-        [/$childloop]
-    [/$parentloop]
+```
+[$parentloop] parent =>
+	[$childloop] child =>
+		Parent key: {$parent._key}
+		Child key: {$_key} or {$child._key}
+	[/$childloop]
+[/$parentloop]
+```
+    
 - TODO: test & release
 ----------------------------
 November 14,  2016
-----------------------------
 - add new default subparser join
 
-    Syntax:
-
-    {join} varname | delimiter {/join}
-
-    index.tpl
-    ---------
-    {= tags: ['a','b', 'c'] =}
-    {join} tags |, {/join}
-    {join} tags |,{/join}
-    {join} tags {/join}
-
-    Output:
-    -------
-    a, b, c
-    a,b,c
-    abc
-----------------------------
+Syntax:
+```
+{join} varname | delimiter {/join}
+```
+    
+index.tpl
+```
+{= tags: ['a','b', 'c'] =}
+{join} tags |, {/join}
+{join} tags |,{/join}
+{join} tags {/join}
+```
+    
+Output:
+```
+a, b, c
+a,b,c
+abc
+```
+---
 Octuber 10,  2016
-----------------------------
 - Several tests
 - Release 4.8 version
-
-----------------------------
+---
 January 12,  2016
-----------------------------
 - review example
-----------------------------
+---
 December 24,  2015
-----------------------------
 - improved dialect translator div::translateFrom
 - some bugfixs
 - update documentation
-
-----------------------------
+---
 December 23,  2015
-----------------------------
-- add new feature for dialects: DIV_TAG_VAR_MEMBER_DELIMITER. This dialect's constant 
-  define a delimiter for variable's members. For example:
+- add new feature for dialects: DIV_TAG_VAR_MEMBER_DELIMITER. This dialect's constant define a delimiter for variable's members. For example:
 
-	by default you use:
-	{$person.name}
+by default you use:
+```
+{$person.name}
+```
 
-	but now you can do...
-	
-	-------------
-	index.php
-	-------------
-	<?php
+but now you can do...
+
+index.php
+```php
+<?php
 
 	define('DIV_TAG_VAR_MEMBER_DELIMITER','->');
 
@@ -535,15 +486,15 @@ December 23,  2015
 			)
 		)
 	));
-	
-	-------------
-	index.tpl
-	-------------
-	{$person->child->name}
-	{$person->name}
-	
-	TODO: improve dialect creator tool
-	TODO: check dialect translator method div::translateFrom()
+```
+index.tpl
+```
+{$person->child->name}
+{$person->name}	
+```
+
+TODO: improve dialect creator tool
+TODO: check dialect translator method div::translateFrom()
 	
 ----------------------------
 December 19,  2015

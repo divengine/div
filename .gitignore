@@ -1,3 +1,4 @@
 doc/*
 vendor/*
 composer.lock
+.obsidian
