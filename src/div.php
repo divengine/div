@@ -8526,11 +8526,10 @@ class div
      * @param mixed   $complement
      * @param integer $level
      * @param boolean $strict
-     *
      * @param \ReflectionProperty   $propertyType
      * @return mixed
      */
-    final public static function cop(&$source, $complement, $level = 0, bool $strict = false, \ReflectionProperty $propertyType = null)
+    final public static function cop(mixed &$source, mixed $complement, int $level = 0, bool $strict = false, \ReflectionProperty $propertyType = null)
     {
         $null = null;
 
