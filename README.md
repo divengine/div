@@ -15,15 +15,13 @@ Basic operations include:
 - **Compose**: Integrate different results using the engine and other tools.
 
 With **div**, developers and designers can avoid repetitive tasks, scale projects based on models, migrate projects to different technologies, and expand applications to other platforms and devices, all while improving application performance and enabling non-technical people to participate in the project's development.
+
 ## Install
 
 ```bash
 composer require divengine/div
 ```
-## Upgrade
 
-```bash
-composer upgrade
-```
 ## Documentation
+
 - [Divengine Software Solutions - Open solutions - https://divengine.org](https://divengine.org)
