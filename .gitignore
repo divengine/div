@@ -2,3 +2,4 @@ doc/*
 vendor/*
 composer.lock
 .obsidian
+.vscode
