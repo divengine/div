@@ -1429,7 +1429,7 @@ class div
      * @param string  $tag_ini
      * @param string  $tag_end
      * @param string  $src
-     * @param boolean $only_first
+     * @param bool $only_first
      * @param integer $pos
      *
      * @return array
@@ -1470,23 +1470,32 @@ class div
                                 $open = strpos($src, $tag_ini, $tag_pos_right);
                                 $close = strpos($src, $tag_end, $tag_pos_right);
 
+                                // not open and not close
                                 if ($open === false && $close === false) {
                                     break;
-                                } // not open and not close
+                                } 
+
+                                // close and not open
                                 if ($open === false && $close !== false && $tag_pos_right === $last_tag_pos_right) {
                                     break;
-                                } // close and not open
+                                }
+
+                                // open and not close
                                 if ($open !== false && $close === false && $tag_pos_right === $last_tag_pos_right) {
                                     break;
-                                } // open and not close
+                                } 
 
-                                if ($open !== false || $close !== false) { // open or close
-                                    if (($close < $open || $open === false) && $close !== false) { // close if is closed and before open or not open
+                                // open or close
+                                if ($open !== false || $close !== false) { 
+                                    // close if is closed and before open or not open
+                                    if (($close < $open || $open === false) && $close !== false) { 
                                         $last_tag_pos_right = $tag_pos_right;
                                         $tag_pos_right = $close + $tag_end_len;
                                         $plus--;
                                         // IMPORTANT! Don't separate elseif
-                                    } elseif (($open < $close || $close === false) && $open !== false) { // open if is opened and before close or not close
+                                    } 
+                                    // open if is opened and before close or not close
+                                    elseif (($open < $close || $close === false) && $open !== false) { 
                                         $last_tag_pos_right = $tag_pos_right;
                                         $tag_pos_right = $open + $tag_ini_len;
                                         $plus++;
@@ -5553,7 +5562,7 @@ class div
                 $pos = $ranges[0][0] + 1;
                 continue;
             }
-            
+
             $value = $items[$key];
 
             $ini = $ranges[0][0];
