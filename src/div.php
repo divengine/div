@@ -947,10 +947,8 @@ class div
                 $item_str = (string) $items;
                 if (!property_exists($items, 'value')) {
                     $items->value = $item_str;
-                    /** @phpstan-ignore-line */
                 }
                 $items->_to_string = $item_str;
-                /** @phpstan-ignore-line */
             }
             $items = get_object_vars($items);
         }
@@ -1235,7 +1233,7 @@ class div
     }
 
     /**
-     * Save parser's operationsd
+     * Save parser's operations
      *
      * @param array $params
      */
@@ -1682,9 +1680,9 @@ class div
         $i = $this->__items;
         $m = $this->__memory;
         $g = self::$__globals_design;
-        $i = self::cop($i, $m);
-        $i = self::cop($i, $g);
-        $i = self::cop($i, $items);
+        $i = cop($i, $m);
+        $i = cop($i, $g);
+        $i = cop($i, $items);
 
         return $i;
     }
@@ -3118,21 +3116,20 @@ class div
             $ranges[] = $list;
 
             if ($p2 > $p1) {
-                $minihtml = substr($this->__src, $p1 + $l1, $p2 - $p1 - $l1);
+                $miniHtml = substr($this->__src, $p1 + $l1, $p2 - $p1 - $l1);
+                $itemKey = 'value';
 
-                $itemkey = 'value';
+                // The itemKey/iterVar can't have space or newline characters
 
-                // The itemkey/itervar can't have space or newline chararters
-
-                if (strpos($minihtml, DIV_TAG_LOOP_VAR_SEPARATOR) !== false) {
-                    $arr = explode(DIV_TAG_LOOP_VAR_SEPARATOR, $minihtml, 2);
+                if (strpos($miniHtml, DIV_TAG_LOOP_VAR_SEPARATOR) !== false) {
+                    $arr = explode(DIV_TAG_LOOP_VAR_SEPARATOR, $miniHtml, 2);
                     if (strpos($arr[0], "\n") === false) {
                         $arr[0] = trim($arr[0]);
                         if (strpos($arr[0], ' ') === false) {
-                            if ($itemkey !== '') {
-                                $itemkey = $arr[0];
+                            if ($itemKey !== '') {
+                                $itemKey = $arr[0];
                             }
-                            $minihtml = $arr[1];
+                            $miniHtml = $arr[1];
                         }
                     }
                 }
@@ -3146,35 +3143,35 @@ class div
                 $keys = array_keys($value);
                 $keys_count = count($keys);
 
-                $go_index = strpos($minihtml, '_index') !== false;
-                $go_key = strpos($minihtml, '_key') !== false;
-                $go_index_random = strpos($minihtml, '_index_random') !== false;
-                $go_is_odd = strpos($minihtml, '_is_odd') !== false;
-                $go_is_even = strpos($minihtml, '_is_even') !== false;
-                $go_is_first = strpos($minihtml, '_is_first') !== false;
-                $go_is_last = strpos($minihtml, '_is_last') !== false;
-                $go_list = strpos($minihtml, '_list') !== false;
-                $go_item = strpos($minihtml, '_item') !== false;
-                $go_order = strpos($minihtml, '_order') !== false;
-                $go_previous = strpos($minihtml, '_previous') !== false;
-                $go_next = strpos($minihtml, '_next') !== false;
+                $go_index = strpos($miniHtml, '_index') !== false;
+                $go_key = strpos($miniHtml, '_key') !== false;
+                $go_index_random = strpos($miniHtml, '_index_random') !== false;
+                $go_is_odd = strpos($miniHtml, '_is_odd') !== false;
+                $go_is_even = strpos($miniHtml, '_is_even') !== false;
+                $go_is_first = strpos($miniHtml, '_is_first') !== false;
+                $go_is_last = strpos($miniHtml, '_is_last') !== false;
+                $go_list = strpos($miniHtml, '_list') !== false;
+                $go_item = strpos($miniHtml, '_item') !== false;
+                $go_order = strpos($miniHtml, '_order') !== false;
+                $go_previous = strpos($miniHtml, '_previous') !== false;
+                $go_next = strpos($miniHtml, '_next') !== false;
 
                 $x_items = [];
                 $x_items_orig = [];
 
-                // Preparing xitems data
+                // Preparing x_items data
                 $previous = null;
                 $next = null;
 
-                $empty = $this->getEmptyTag($minihtml);
+                $empty = $this->getEmptyTag($miniHtml);
                 if ($empty !== false) {
                     $body_parts = [
-                        substr($minihtml, 0, $empty),
-                        substr($minihtml, $empty + strlen(DIV_TAG_EMPTY)),
+                        substr($miniHtml, 0, $empty),
+                        substr($miniHtml, $empty + strlen(DIV_TAG_EMPTY)),
                     ];
                 } else {
                     $body_parts = [
-                        $minihtml,
+                        $miniHtml,
                         '',
                     ];
                 }
@@ -3182,7 +3179,7 @@ class div
                 $h = $body_parts[1];
                 if (!empty($value)) {
 
-                    $minihtml = $body_parts[0];
+                    $miniHtml = $body_parts[0];
 
                     foreach ($value as $kk => $item) {
 
@@ -3260,12 +3257,12 @@ class div
                         $previous = $item;
 
                         if (is_object($item) && self::isString($item)) {
-                            $itemstr = (string) $item;
+                            $itemStr = (string) $item;
                             if (!property_exists($item, 'value')) {
-                                $item->value = $itemstr;
+                                $item->value = $itemStr;
                             }
                             if (!property_exists($item, '_to_string')) {
-                                $item->_to_string = $itemstr;
+                                $item->_to_string = $itemStr;
                             }
                         }
 
@@ -3275,21 +3272,21 @@ class div
 
                         if (!is_array($item) || is_scalar($value)) {
                             $item = [
-                                $itemkey => $item,
+                                $itemKey => $item,
                             ];
-                        } elseif ($itemkey !== 'value') {
-                            $item[$itemkey] = array_merge($item, $another);
+                        } elseif ($itemKey !== 'value') {
+                            $item[$itemKey] = array_merge($item, $another);
                         }
 
                         $item = array_merge($item, $another);
                         $x_items[] = $item;
-                        $x_items_orig[] = self::cop($item_orig, $another);
+                        $x_items_orig[] = cop($item_orig, $another);
                     }
 
                     // Parsing ...
                     $h = '';
                     $engine = self::getAuxiliaryEngineClone($x_items, $x_items, $this);
-                    $engine->__src_original = $minihtml;
+                    $engine->__src_original = $miniHtml;
                     $engine->__memory = $this->__memory;
                     $engine->__path = $this->__path;
 
@@ -3298,7 +3295,7 @@ class div
                     foreach ($x_items as $x_key => $item) {
                         // Save similar global design vars
 
-                        $tempglobal = self::$__globals_design;
+                        $tempGlobal = self::$__globals_design;
                         foreach ($item as $kkk => $vvv) {
                             if (array_key_exists($kkk, self::$__globals_design)) {
                                 unset(self::$__globals_design[$kkk]);
@@ -3319,13 +3316,13 @@ class div
                             }
                         }
 
-                        // Parse minihtml
+                        // Parse mini template
                         $engine->parse(true, $x_key);
 
                         // Restore some vars
                         $engine->__memory = $memory;
                         $engine->__items[$x_key] = $item;
-                        self::$__globals_design = array_merge($tempglobal, self::$__globals_design);
+                        self::$__globals_design = array_merge($tempGlobal, self::$__globals_design);
 
                         $break = strpos($engine->__src, DIV_TAG_BREAK);
 
@@ -3360,13 +3357,13 @@ class div
      * Parse list
      *
      * @param mixed  $items
-     * @param string $superkey
+     * @param string $superKey
      */
-    final public function parseList($items = null, $superkey = '')
+    final public function parseList($items = null, $superKey = '')
     {
-        self::$__log_mode and $this->logger("Parsing loops, SUPERKEY = '$superkey'...");
+        self::$__log_mode and $this->logger("Parsing loops, SUPER KEY = '$superKey'...");
 
-        if (isset($this->__ignore[$superkey]) && $this->__ignore[$superkey] === true) {
+        if (isset($this->__ignore[$superKey]) && $this->__ignore[$superKey] === true) {
             return;
         }
 
@@ -3382,13 +3379,13 @@ class div
             return false;
         }
 
-        if ($superkey !== '') {
-            $superkey .= DIV_TAG_VAR_MEMBER_DELIMITER;
+        if ($superKey !== '') {
+            $superKey .= DIV_TAG_VAR_MEMBER_DELIMITER;
         }
 
-        if (strpos($this->__src, DIV_TAG_LOOP_BEGIN_PREFIX . $superkey) !== false) {
+        if (strpos($this->__src, DIV_TAG_LOOP_BEGIN_PREFIX . $superKey) !== false) {
             foreach ($items as $key => $value) {
-                $key = $superkey . $key;
+                $key = $superKey . $key;
                 if (strpos($this->__src, DIV_TAG_LOOP_BEGIN_PREFIX . $key . DIV_TAG_VAR_MEMBER_DELIMITER) !== false) {
                     if (!is_array($value)) {
                         if (is_object($value)) {
@@ -3404,7 +3401,7 @@ class div
 
         $pos = [];
         foreach ($items as $key => $value) {
-            $p = strpos($this->__src, DIV_TAG_LOOP_BEGIN_PREFIX . $superkey . $key . DIV_TAG_LOOP_BEGIN_SUFFIX);
+            $p = strpos($this->__src, DIV_TAG_LOOP_BEGIN_PREFIX . $superKey . $key . DIV_TAG_LOOP_BEGIN_SUFFIX);
             if ($p !== false) {
                 $pos[$key] = $p;
             }
@@ -3431,7 +3428,7 @@ class div
                 }
             }
 
-            $this->parseListBlock($value, $superkey . $key, $items);
+            $this->parseListBlock($value, $superKey . $key, $items);
         }
     }
 
@@ -4192,16 +4189,10 @@ class div
                             if (!isset(self::$__docs[$section])) {
                                 self::$__docs[$section] = [];
                             }
-                            if (isset(self::$__docs[$section][$prop])) {
 
+                            if (isset(self::$__docs[$section][$prop])) {
                                 if (!is_array(self::$__docs[$section][$prop])) {
-                                    if (trim(self::$__docs[$section][$prop]) !== '') {
-                                        self::$__docs[$section][$prop] = [
-                                            self::$__docs[$section][$prop],
-                                        ];
-                                    } else {
-                                        self::$__docs[$section][$prop] = [];
-                                    }
+                                    self::$__docs[$section][$prop] = trim(string(self::$__docs[$section][$prop])) !== '' ? [self::$__docs[$section][$prop]]: [];
                                 }
 
                                 if (isset(self::$__docs[$section][$prop][0]) || (!isset(self::$__docs[$section][$prop][0]) && trim($value) !== '')) {
@@ -4818,7 +4809,7 @@ class div
                 $replace = self::jsonDecode(self::getFileContents($replace), $this->getAllItems($items));
             }
             if (self::fileExists($replace . '.' . DIV_DEFAULT_DATA_FILE_EXT) && !self::isDir($search . '.' . DIV_DEFAULT_DATA_FILE_EXT)) {
-                $replace = self::jsonDecode(self::getFileContents($replace . '.' . DIV_DEFAULT_DATA_FILE_EXT), self::cop($this->__memory, $items));
+                $replace = self::jsonDecode(self::getFileContents($replace . '.' . DIV_DEFAULT_DATA_FILE_EXT), cop($this->__memory, $items));
             }
             if (self::fileExists($search) && !self::isDir($search)) {
                 $search = self::jsonDecode(self::getFileContents($search), $this->getAllItems($items));
@@ -5473,19 +5464,19 @@ class div
             }
         }
 
-        $varsx = $this->getActiveVars($items);
-        foreach ($varsx as $var) {
+        $activeVars = $this->getActiveVars($items);
+        foreach ($activeVars as $var) {
             $vars[$var] = self::mixedBool(self::getVarValue($var, $items));
         }
 
         if (!empty($vars)) {
             $keys = array_keys($vars);
-            $nkeys = [];
+            $newKeys = [];
             foreach ($keys as $k => $v) {
-                $nkeys[$v] = strlen($v);
+                $newKeys[$v] = strlen($v);
             }
-            arsort($nkeys);
-            foreach ($nkeys as $var => $l) {
+            arsort($newKeys);
+            foreach ($newKeys as $var => $l) {
                 $this->parseConditionalBlock($var, $vars[$var]);
             }
         }
@@ -5669,23 +5660,23 @@ class div
         $ranges = array_merge($ranges, $this->getBlockRanges($src, DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX, DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX, DIV_TAG_CONDITIONAL_TRUE_END_PREFIX, DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX));
 
         if (!$orphans) {
-            $nranges = [];
+            $newRanges = [];
             foreach ($ranges as $rang) {
                 if (self::varExists($rang[2], $this->__items)) {
-                    $nranges[] = $rang;
+                    $newRanges[] = $rang;
                 }
             }
-            $ranges = $nranges;
+            $ranges = $newRanges;
         }
 
         if ($strict !== false) {
-            $nranges = [];
+            $newRanges = [];
             foreach ($ranges as $rang) {
                 if (!self::haveDivCode($rang[2])) {
-                    $nranges[] = $rang;
+                    $newRanges[] = $rang;
                 }
             }
-            $ranges = $nranges;
+            $ranges = $newRanges;
         }
 
         return $ranges;
@@ -5694,7 +5685,7 @@ class div
     /**
      * Return a list of conditional parts ranges
      *
-     * @param null $src
+     * @param string|null $src
      * @param bool $strict
      *
      * @return array
@@ -5710,13 +5701,13 @@ class div
         );
 
         if ($strict !== false) {
-            $nranges = [];
+            $newRanges = [];
             foreach ($ranges as $rang) {
                 if (!self::haveDivCode($rang[2])) {
-                    $nranges[] = $rang;
+                    $newRanges[] = $rang;
                 }
             }
-            $ranges = $nranges;
+            $ranges = $newRanges;
         }
 
         return $ranges;
@@ -5731,15 +5722,15 @@ class div
     {
         self::$__log_mode and $this->logger("Parsing date's formats...");
 
-        $lprefix = strlen(DIV_TAG_DATE_FORMAT_PREFIX);
-        $lsuffix = strlen(DIV_TAG_DATE_FORMAT_SUFFIX);
+        $prefixLength = strlen(DIV_TAG_DATE_FORMAT_PREFIX);
+        $suffixLength = strlen(DIV_TAG_DATE_FORMAT_SUFFIX); // TODO: check suffix length
         $ranges = $this->getRanges(DIV_TAG_DATE_FORMAT_PREFIX, DIV_TAG_DATE_FORMAT_SUFFIX);
         $vars = [];
 
         $temp = '{' . uniqid('', true) . '}';
 
         foreach ($ranges as $range) {
-            $s = substr($this->__src, $ranges[0][0] + $lprefix, $ranges[0][1] - $ranges[0][0] - $lprefix);
+            $s = substr($this->__src, $ranges[0][0] + $prefixLength, $ranges[0][1] - $ranges[0][0] - $prefixLength);
             $s = str_replace('\\' . DIV_TAG_DATE_FORMAT_SEPARATOR, $temp, $s);
 
             $p = strpos($s, DIV_TAG_DATE_FORMAT_SEPARATOR);
@@ -5837,10 +5828,8 @@ class div
                     $item_str = (string) $value;
                     if (!property_exists($value, 'value')) {
                         $value->value = $item_str;
-                        /** @phpstan-ignore-line */
                     }
                     $value->_to_string = $item_str;
-                    /** @phpstan-ignore-line */
                 }
                 $value = get_object_vars($value);
             }
@@ -6376,11 +6365,11 @@ class div
             if (self::isValidMacro($this->__temp['code'])) {
 
                 // Preparing methods
-                $this->__temp['validmethods'] = implode(',', self::$__allowed_methods);
-                $this->__temp['validmethods'] = str_replace(',', '(,' . $class_name . '::', $class_name . '::' . $this->__temp['validmethods']) . '(';
-                $this->__temp['methods'] = explode(',', str_replace($class_name . '::', '', $this->__temp['validmethods']));
-                $this->__temp['methodsx'] = explode(',', $this->__temp['validmethods']);
-                $this->__temp['code'] = str_replace($this->__temp['methods'], $this->__temp['methodsx'], $this->__temp['code']);
+                $this->__temp['valid_methods'] = implode(',', self::$__allowed_methods);
+                $this->__temp['valid_methods'] = str_replace(',', '(,' . $class_name . '::', $class_name . '::' . $this->__temp['valid_methods']) . '(';
+                $this->__temp['methods'] = explode(',', str_replace($class_name . '::', '', $this->__temp['valid_methods']));
+                $this->__temp['methods_temp'] = explode(',', $this->__temp['valid_methods']);
+                $this->__temp['code'] = str_replace($this->__temp['methods'], $this->__temp['methods_temp'], $this->__temp['code']);
 
                 // Preparing variables
                 foreach ($items as $key => $value) {
@@ -6390,11 +6379,11 @@ class div
                     }
                 }
 
-                $this->__temp['codevars'] = '';
+                $this->__temp['code_vars'] = '';
 
                 foreach ($items as $key => $value) {
                     if (self::isValidVarName($key)) {
-                        $this->__temp['codevars'] .= '$' . $key . ' = $items["' . $key . '"];';
+                        $this->__temp['code_vars'] .= '$' . $key . ' = $items["' . $key . '"];';
                     }
                 }
 
@@ -6402,8 +6391,8 @@ class div
 
                 unset($key, $value, $class_name);
 
-                if ($this->__temp['codevars'] !== '') {
-                    eval($this->__temp['codevars']);
+                if ($this->__temp['code_vars'] !== '') {
+                    eval($this->__temp['code_vars']);
                 }
 
                 unset($items);
@@ -8226,7 +8215,7 @@ class div
         return $this->__src . '';
     }
 
-    // ------------------------ PREDEFINED SUBPARSERS ---------------------------- //
+    // ------------------------ PREDEFINED SUB PARSERS ---------------------------- //
 
     /**
      * Parse this
@@ -8397,7 +8386,7 @@ class div
     }
 
     /**
-     * Get a redeable documentation
+     * Get a readable documentation
      *
      * @param string $tpl
      * @param mixed  $items
@@ -8518,98 +8507,6 @@ class div
         return (string) $value;
     }
 
-
-    /**
-     * Compose object/array properties
-     *
-     * @param mixed   $source
-     * @param mixed   $complement
-     * @param integer $level
-     * @param boolean $strict
-     * @param \ReflectionProperty   $propertyType
-     * @return mixed
-     */
-    final public static function cop(mixed &$source, mixed $complement, int $level = 0, bool $strict = false, \ReflectionProperty $propertyType = null)
-    {
-        $null = null;
-
-        if (is_null($source)) {
-            return $complement;
-        }
-
-        if (is_null($complement)) {
-            return $source;
-        }
-
-        if (is_scalar($source) && is_scalar($complement)) {
-            return $complement;
-        }
-
-        if (is_scalar($complement) || is_scalar($source)) {
-            return $source;
-        }
-
-        if ($level < 100) { // prevent infinite loop
-            if (is_object($complement)) {
-                $complement = get_object_vars($complement);
-            }
-
-            foreach ($complement as $key => $value) {
-                if (is_object($source)) {
-                    if (property_exists($source, $key)) {
-                        $property = new \ReflectionProperty($source, $key);
-                        $property->setAccessible(true);
-
-                        // Verificar si la propiedad es tipada antes de asignar valores
-                        if (!$property->isInitialized($source)) {
-                            $defaultValue = self::getDefaultValueForType($property->getType(), $key);
-                            $property->setValue($source, $defaultValue);
-                        }
-
-                        $propertyValue = $property->getValue($source);
-
-                        // Manejar propiedades de clase anidadas
-                        if (is_object($propertyValue) && is_object($value)) {
-                            self::cop($propertyValue, $value, $level + 1, $strict, $property);
-                        } else {
-                            $propertyType = $property->getType();
-                            $property->setValue($source, self::cop($propertyValue, $value, $level + 1, $strict, $property));
-                        }
-                    } else {
-                        if (!$strict) {
-                            $source->$key = self::cop($null, $value, $level + 1, $strict);
-                        }
-                    }
-                }
-
-                if (is_array($source)) {
-                    $setted =  false;
-                    if ($propertyType !== null) {
-                        $docComment = $propertyType->getDocComment();
-                        $arrayElementType = self::resolveArrayType($docComment);
-                        if (class_exists($arrayElementType)) {
-                            $source[$key] = new $arrayElementType();
-                            self::cop($source[$key], $value, $level + 1, $strict, $propertyType);
-                            $setted = true;
-                        }
-                    }
-
-                    if (!$setted) {
-                        if (array_key_exists($key, $source)) {
-                            $source[$key] = self::cop($source[$key], $value, $level + 1, $strict);
-                        } else {
-                            if (!$strict) {
-                                $source[$key] = self::cop($null, $value, $level + 1, $strict);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return $source;
-    }
-
     /**
      * Get default value for type
      * 
@@ -8624,11 +8521,11 @@ class div
         if ($type->allowsNull()) {
             return null;
         } elseif ($typeName === 'int' || $typeName === 'float') {
-            return 0; 
+            return 0;
         } elseif ($typeName === 'bool') {
             return false;
         } elseif ($typeName === 'string') {
-            return ''; 
+            return '';
         } elseif ($typeName === 'array') {
             return [];
         } else {
@@ -8706,7 +8603,6 @@ class div
             '<br>' => 4,
         ];
 
-        //if(isset($filters ['filter_autop'])) $line_breaks ["\n"] = 1;
         $break_points[] = $line_breaks;
         $break_points[] = [
             '. ' => 1,
@@ -9073,11 +8969,11 @@ class div
      * Convert HTML to plain and formatted text
      *
      * @param string  $html
-     * @param integer $width
+     * @param int $width
      *
      * @return string
      */
-    public static function htmlToText($html, $width = 50)
+    public static function htmlToText($html, int $width = 50)
     {
 
         // Special strip tags
@@ -10238,7 +10134,7 @@ class div
     }
 
     /**
-     * Return true if the script was executed in the CLI enviroment
+     * Return true if the script was executed in the CLI environment
      *
      * @return boolean
      */
@@ -10345,7 +10241,7 @@ class div
 
         ob_start();
         if ($is_cli) {
-            $err_msg = self::htmlToText($err_msg, null);
+            $err_msg = self::htmlToText($err_msg);
         }
 
         if ($is_cli === false) {
@@ -10372,7 +10268,7 @@ class div
         $msg = ob_get_clean();
 
         if ($is_cli) {
-            echo '[[]]' . self::htmlToText($msg, null) . "\n";
+            echo '[[]]' . self::htmlToText($msg) . "\n";
         } else {
             echo $msg;
         }
@@ -10404,7 +10300,7 @@ class div
      */
     public static function log($msg, $level = 'INFO')
     {
-        $msg = self::htmlToText($msg, null);
+        $msg = self::htmlToText($msg);
 
         $msg = str_replace(["\n", "\r"], ["\\n", "\\r"], $msg);
         $msg = '[' . $level . '] ' . date('Y-m-d h:i:s') . ' - ' . $msg . "\n";
