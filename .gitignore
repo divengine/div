@@ -3,3 +3,4 @@ vendor/*
 composer.lock
 .obsidian
 .vscode
+.phpunit.result.cache
