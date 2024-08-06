@@ -37,7 +37,6 @@ use Exception;
 
 #region Constants
 
-
 defined('PACKAGES') or define('PACKAGES', './'); // The path of templates's root directory
 defined('DIV_REPO') or define('DIV_REPO', './'); // The path of templates's repository
 defined('DIV_DEFAULT_TPL_FILE_EXT') or define('DIV_DEFAULT_TPL_FILE_EXT', 'tpl'); // The default extension for template files
@@ -76,7 +75,6 @@ define(
     'getRanges,asThis,atLeastOneString,getLastKeyOfArray,' . 'getCountOfParagraphs,getCountOfSentences,getCountOfWords,htmlToText,' . 'isArrayOfArray,isArrayOfObjects,isCli,isNumericList,jsonDecode,jsonEncode,isString,mixedBool,div'
 );
 #endregion
-
 
 #region Other internal constants
 
@@ -394,7 +392,6 @@ b2R5Pg0KPC9odG1sPg=='));
 #[\AllowDynamicProperties]
 class div
 {
-
     // Public
 
     // template source
@@ -689,14 +686,7 @@ class div
         }
 
         if (is_object($items)) {
-            if (method_exists($items, '__toString')) {
-                $item_str = string($items);
-                if (!property_exists($items, 'value')) {
-                    $items->value = $item_str;
-                }
-                $items->_to_string = $item_str;
-            }
-            $items = get_object_vars($items);
+            $items = self::getObjectVars($items);
         }
 
         if (!$discardFileSystem) {
@@ -5563,6 +5553,7 @@ class div
                 $pos = $ranges[0][0] + 1;
                 continue;
             }
+            
             $value = $items[$key];
 
             $ini = $ranges[0][0];
@@ -5570,14 +5561,7 @@ class div
             $sub_src = $ranges[0][3];
 
             if (is_object($value)) {
-                if (method_exists($value, '__toString')) {
-                    $item_str = (string) $value;
-                    if (!property_exists($value, 'value')) {
-                        $value->value = $item_str;
-                    }
-                    $value->_to_string = $item_str;
-                }
-                $value = get_object_vars($value);
+                $value = self::getObjectVars($value);
             }
 
             if (is_scalar($value)) {
@@ -5793,7 +5777,7 @@ class div
      *
      * @return array
      */
-    final public function getLocations()
+    final public function getLocations(): array
     {
         $r = $this->getRanges(DIV_TAG_LOCATION_BEGIN, DIV_TAG_LOCATION_END);
         $len_prefix = strlen(DIV_TAG_LOCATION_BEGIN);
@@ -5878,7 +5862,7 @@ class div
     /**
      * Clear location's tags
      */
-    private function clearLocations()
+    private function clearLocations(): void
     {
         $locations = $this->getLocations();
         foreach ($locations as $location => $positions) {
@@ -9815,13 +9799,11 @@ class div
 
                                     if (!isset(self::$__allowed_functions[$f])) {
                                         self::internalMsg("Invalid function $f", 'php_validations');
-
                                         return false;
                                     }
 
                                     if (self::$__allowed_functions[$f] === false) {
                                         self::internalMsg("Invalid function $f", 'php_validations');
-
                                         return false;
                                     }
                                 }
@@ -9861,6 +9843,28 @@ class div
     }
 
     /**
+     * Get object vars
+     * 
+     * @param object $obj
+     * @return array
+     */
+    public static function getObjectVars(object $obj): array
+    {
+        $extraProps = [];
+        if (method_exists($obj, '__toString')) {
+            $item_str = (string) $obj;
+            
+            if (!property_exists($obj, 'value')) {
+                $extraProps['value'] = $item_str;
+            }
+
+            $extraProps['_to_string'] = $item_str;
+        }
+
+        return [...get_object_vars($obj), ...$extraProps];
+    }
+
+    /**
      * Check if code is a valid expression
      *
      * @param string $code
@@ -9892,7 +9896,7 @@ class div
     final public static function isCli()
     {
         if (self::$__is_cli === null) {
-            self::$__is_cli = (!isset($_SERVER['SERVER_SOFTWARE']) && (PHP_SAPI === 'cli' || (is_numeric($_SERVER['argc']) && $_SERVER['argc'] > 0)));
+            self::$__is_cli = !isset($_SERVER['SERVER_SOFTWARE']) && (PHP_SAPI === 'cli' || (is_numeric($_SERVER['argc']) && $_SERVER['argc'] > 0));
         }
 
         return self::$__is_cli;
@@ -9905,7 +9909,7 @@ class div
      * @param string $category
      *
      */
-    public static function internalMsg($msg, $category = 'global')
+    public static function internalMsg($msg, $category = 'global'): void 
     {
         $d = debug_backtrace();
         $caller = $d[0]['function'];
