@@ -25,9 +25,9 @@ namespace divengine;
  *
  * @package divengine/div
  * @author  Rafa Rodriguez @rafageist [https://rafageist.com]
- * @version 6.0.2
+ * @version 6.1.0
  *
- * @link    https://divengine.org/docs/div-php-template-engine
+ * @link    https://divengine.org
  * @link    https://github.com/divengine/div
  */
 
@@ -35,37 +35,15 @@ use ReflectionClass;
 use stdClass;
 use Exception;
 
-// -- Constants --
+#region Constants
 
-// The path of templates's root directory
-if (!defined('PACKAGES')) {
-    define('PACKAGES', './');
-}
 
-// The path of templates's repository
-if (!defined('DIV_REPO')) {
-    define('DIV_REPO', './');
-}
-
-// The default extension for template files
-if (!defined('DIV_DEFAULT_TPL_FILE_EXT')) {
-    define('DIV_DEFAULT_TPL_FILE_EXT', 'tpl');
-}
-
-// The default extension for data files
-if (!defined('DIV_DEFAULT_DATA_FILE_EXT')) {
-    define('DIV_DEFAULT_DATA_FILE_EXT', 'json');
-}
-
-// The max number of cycles of the parser (prevent infinite loop and more)
-if (!defined('DIV_MAX_PARSE_CYCLES')) {
-    define('DIV_MAX_PARSE_CYCLES', 100);
-}
-
-// The max size of file name or dir name in your operating system
-if (!defined('DIV_MAX_FILENAME_SIZE')) {
-    define('DIV_MAX_FILENAME_SIZE', 250);
-}
+defined('PACKAGES') or define('PACKAGES', './'); // The path of templates's root directory
+defined('DIV_REPO') or define('DIV_REPO', './'); // The path of templates's repository
+defined('DIV_DEFAULT_TPL_FILE_EXT') or define('DIV_DEFAULT_TPL_FILE_EXT', 'tpl'); // The default extension for template files
+defined('DIV_DEFAULT_DATA_FILE_EXT') or define('DIV_DEFAULT_DATA_FILE_EXT', 'json'); // The default extension for data files
+defined('DIV_MAX_PARSE_CYCLES') or define('DIV_MAX_PARSE_CYCLES', 100); // The max number of cycles of the parser (prevent infinite loop and more)
+defined('DIV_MAX_FILENAME_SIZE') or define('DIV_MAX_FILENAME_SIZE', 250); // The max size of file name or dir name in your operating system
 
 // PHP allowed functions for macros and formulas
 define(
@@ -97,8 +75,11 @@ define(
     'DIV_PHP_ALLOWED_METHODS',
     'getRanges,asThis,atLeastOneString,getLastKeyOfArray,' . 'getCountOfParagraphs,getCountOfSentences,getCountOfWords,htmlToText,' . 'isArrayOfArray,isArrayOfObjects,isCli,isNumericList,jsonDecode,jsonEncode,isString,mixedBool,div'
 );
+#endregion
 
-// Other internal constants
+
+#region Other internal constants
+
 define('DIV_ERROR_WARNING', 'WARNING');
 define('DIV_ERROR_FATAL', 'FATAL');
 define('DIV_METHOD_NOT_EXISTS', 'DIV_METHOD_NOT_EXISTS');
@@ -108,408 +89,174 @@ define('DIV_MOMENT_AFTER_PARSE', 'DIV_MOMENT_AFTER_PARSE');
 define('DIV_MOMENT_AFTER_INCLUDE', 'DIV_MOMENT_AFTER_INCLUDE');
 define('DIV_MOMENT_AFTER_REPLACE', 'DIV_MOMENT_AFTER_REPLACE');
 
-// ------------------------------------- D E F A U L T -- D I A L E C T --------------------------------------//
-if (!defined('DIV_TAG_VAR_MEMBER_DELIMITER')) {
-    define('DIV_TAG_VAR_MEMBER_DELIMITER', '.');
-}
+#endregion
+
+#region Default dialect definition
+defined('DIV_TAG_VAR_MEMBER_DELIMITER') or define('DIV_TAG_VAR_MEMBER_DELIMITER', '.');
 
 // Variables
-if (!defined('DIV_TAG_REPLACEMENT_PREFIX')) {
-    define('DIV_TAG_REPLACEMENT_PREFIX', '{');
-}
-if (!defined('DIV_TAG_REPLACEMENT_SUFFIX')) {
-    define('DIV_TAG_REPLACEMENT_SUFFIX', '}');
-}
-if (!defined('DIV_TAG_MULTI_MODIFIERS_PREFIX')) {
-    define('DIV_TAG_MULTI_MODIFIERS_PREFIX', '{$');
-}
-if (!defined('DIV_TAG_MULTI_MODIFIERS_OPERATOR')) {
-    define('DIV_TAG_MULTI_MODIFIERS_OPERATOR', '|');
-}
-if (!defined('DIV_TAG_MULTI_MODIFIERS_SEPARATOR')) {
-    define('DIV_TAG_MULTI_MODIFIERS_SEPARATOR', '|');
-}
-if (!defined('DIV_TAG_MULTI_MODIFIERS_SUFFIX')) {
-    define('DIV_TAG_MULTI_MODIFIERS_SUFFIX', '|}');
-}
-if (!defined('DIV_TAG_SUBMATCH_SEPARATOR')) {
-    define('DIV_TAG_SUBMATCH_SEPARATOR', ':');
-}
+defined('DIV_TAG_REPLACEMENT_PREFIX') or define('DIV_TAG_REPLACEMENT_PREFIX', '{');
+defined('DIV_TAG_REPLACEMENT_SUFFIX') or define('DIV_TAG_REPLACEMENT_SUFFIX', '}');
+defined('DIV_TAG_MULTI_MODIFIERS_PREFIX') or define('DIV_TAG_MULTI_MODIFIERS_PREFIX', '{$');
+defined('DIV_TAG_MULTI_MODIFIERS_OPERATOR') or define('DIV_TAG_MULTI_MODIFIERS_OPERATOR', '|');
+defined('DIV_TAG_MULTI_MODIFIERS_SEPARATOR') or define('DIV_TAG_MULTI_MODIFIERS_SEPARATOR', '|');
+defined('DIV_TAG_MULTI_MODIFIERS_SUFFIX') or define('DIV_TAG_MULTI_MODIFIERS_SUFFIX', '|}');
+defined('DIV_TAG_SUBMATCH_SEPARATOR') or define('DIV_TAG_SUBMATCH_SEPARATOR', ':');
 
 // Variable's modifiers
-if (!defined('DIV_TAG_MODIFIER_SIMPLE')) {
-    define('DIV_TAG_MODIFIER_SIMPLE', '$');
-}
-if (!defined('DIV_TAG_MODIFIER_CAPITALIZE_FIRST')) {
-    define('DIV_TAG_MODIFIER_CAPITALIZE_FIRST', '^');
-}
-if (!defined('DIV_TAG_MODIFIER_CAPITALIZE_WORDS')) {
-    define('DIV_TAG_MODIFIER_CAPITALIZE_WORDS', '^^');
-}
-if (!defined('DIV_TAG_MODIFIER_UPPERCASE')) {
-    define('DIV_TAG_MODIFIER_UPPERCASE', '^^^');
-}
-if (!defined('DIV_TAG_MODIFIER_LOWERCASE')) {
-    define('DIV_TAG_MODIFIER_LOWERCASE', '_');
-}
-if (!defined('DIV_TAG_MODIFIER_LENGTH')) {
-    define('DIV_TAG_MODIFIER_LENGTH', '%');
-}
-if (!defined('DIV_TAG_MODIFIER_COUNT_WORDS')) {
-    define('DIV_TAG_MODIFIER_COUNT_WORDS', '%%');
-}
-if (!defined('DIV_TAG_MODIFIER_COUNT_SENTENCES')) {
-    define('DIV_TAG_MODIFIER_COUNT_SENTENCES', '%%%');
-}
-if (!defined('DIV_TAG_MODIFIER_COUNT_PARAGRAPHS')) {
-    define('DIV_TAG_MODIFIER_COUNT_PARAGRAPHS', '%%%%');
-}
-if (!defined('DIV_TAG_MODIFIER_ENCODE_URL')) {
-    define('DIV_TAG_MODIFIER_ENCODE_URL', '&');
-}
-if (!defined('DIV_TAG_MODIFIER_ENCODE_RAW_URL')) {
-    define('DIV_TAG_MODIFIER_ENCODE_RAW_URL', '&&');
-}
-if (!defined('DIV_TAG_MODIFIER_ENCODE_JSON')) {
-    define('DIV_TAG_MODIFIER_ENCODE_JSON', 'json:');
-}
-if (!defined('DIV_TAG_MODIFIER_HTML_ENTITIES')) {
-    define('DIV_TAG_MODIFIER_HTML_ENTITIES', 'html:');
-}
-if (!defined('DIV_TAG_MODIFIER_NL2BR')) {
-    define('DIV_TAG_MODIFIER_NL2BR', 'br:');
-}
-if (!defined('DIV_TAG_MODIFIER_TRUNCATE')) {
-    define('DIV_TAG_MODIFIER_TRUNCATE', '~');
-}
-if (!defined('DIV_TAG_MODIFIER_WORDWRAP')) {
-    define('DIV_TAG_MODIFIER_WORDWRAP', '/');
-}
-if (!defined('DIV_TAG_MODIFIER_SUBSTRING_SEPARATOR')) {
-    define('DIV_TAG_MODIFIER_SUBSTRING_SEPARATOR', ',');
-}
-if (!defined('DIV_TAG_MODIFIER_SINGLE_QUOTES')) {
-    define('DIV_TAG_MODIFIER_SINGLE_QUOTES', "'");
-}
-if (!defined('DIV_TAG_MODIFIER_JS')) {
-    define('DIV_TAG_MODIFIER_JS', 'js:');
-}
-if (!defined('DIV_TAG_MODIFIER_FORMAT')) {
-    define('DIV_TAG_MODIFIER_FORMAT', '');
-}
+defined('DIV_TAG_MODIFIER_SIMPLE') or define('DIV_TAG_MODIFIER_SIMPLE', '$');
+defined('DIV_TAG_MODIFIER_CAPITALIZE_FIRST') or define('DIV_TAG_MODIFIER_CAPITALIZE_FIRST', '^');
+defined('DIV_TAG_MODIFIER_CAPITALIZE_WORDS') or define('DIV_TAG_MODIFIER_CAPITALIZE_WORDS', '^^');
+defined('DIV_TAG_MODIFIER_UPPERCASE') or define('DIV_TAG_MODIFIER_UPPERCASE', '^^^');
+defined('DIV_TAG_MODIFIER_LOWERCASE') or define('DIV_TAG_MODIFIER_LOWERCASE', '_');
+defined('DIV_TAG_MODIFIER_LENGTH') or define('DIV_TAG_MODIFIER_LENGTH', '%');
+defined('DIV_TAG_MODIFIER_COUNT_WORDS') or define('DIV_TAG_MODIFIER_COUNT_WORDS', '%%');
+defined('DIV_TAG_MODIFIER_COUNT_SENTENCES') or define('DIV_TAG_MODIFIER_COUNT_SENTENCES', '%%%');
+defined('DIV_TAG_MODIFIER_COUNT_PARAGRAPHS') or define('DIV_TAG_MODIFIER_COUNT_PARAGRAPHS', '%%%%');
+defined('DIV_TAG_MODIFIER_ENCODE_URL') or define('DIV_TAG_MODIFIER_ENCODE_URL', '&');
+defined('DIV_TAG_MODIFIER_ENCODE_RAW_URL') or define('DIV_TAG_MODIFIER_ENCODE_RAW_URL', '&&');
+defined('DIV_TAG_MODIFIER_ENCODE_JSON') or define('DIV_TAG_MODIFIER_ENCODE_JSON', 'json:');
+defined('DIV_TAG_MODIFIER_HTML_ENTITIES') or define('DIV_TAG_MODIFIER_HTML_ENTITIES', 'html:');
+defined('DIV_TAG_MODIFIER_NL2BR') or define('DIV_TAG_MODIFIER_NL2BR', 'br:');
+defined('DIV_TAG_MODIFIER_TRUNCATE') or define('DIV_TAG_MODIFIER_TRUNCATE', '~');
+defined('DIV_TAG_MODIFIER_WORDWRAP') or define('DIV_TAG_MODIFIER_WORDWRAP', '/');
+defined('DIV_TAG_MODIFIER_SUBSTRING_SEPARATOR') or define('DIV_TAG_MODIFIER_SUBSTRING_SEPARATOR', ',');
+defined('DIV_TAG_MODIFIER_SINGLE_QUOTES') or define('DIV_TAG_MODIFIER_SINGLE_QUOTES', "'");
+defined('DIV_TAG_MODIFIER_JS') or define('DIV_TAG_MODIFIER_JS', 'js:');
+defined('DIV_TAG_MODIFIER_FORMAT') or define('DIV_TAG_MODIFIER_FORMAT', '');
 
 // Data format
-if (!defined('DIV_TAG_DATE_FORMAT_PREFIX')) {
-    define('DIV_TAG_DATE_FORMAT_PREFIX', '{/');
-}
-if (!defined('DIV_TAG_DATE_FORMAT_SUFFIX')) {
-    define('DIV_TAG_DATE_FORMAT_SUFFIX', '/}');
-}
-if (!defined('DIV_TAG_DATE_FORMAT_SEPARATOR')) {
-    define('DIV_TAG_DATE_FORMAT_SEPARATOR', ':');
-}
-if (!defined('DIV_TAG_NUMBER_FORMAT_PREFIX')) {
-    define('DIV_TAG_NUMBER_FORMAT_PREFIX', '{#');
-}
-if (!defined('DIV_TAG_NUMBER_FORMAT_SUFFIX')) {
-    define('DIV_TAG_NUMBER_FORMAT_SUFFIX', '#}');
-}
-if (!defined('DIV_TAG_NUMBER_FORMAT_SEPARATOR')) {
-    define('DIV_TAG_NUMBER_FORMAT_SEPARATOR', ':');
-}
+defined('DIV_TAG_DATE_FORMAT_PREFIX') or define('DIV_TAG_DATE_FORMAT_PREFIX', '{/');
+defined('DIV_TAG_DATE_FORMAT_SUFFIX') or define('DIV_TAG_DATE_FORMAT_SUFFIX', '/}');
+defined('DIV_TAG_DATE_FORMAT_SEPARATOR') or define('DIV_TAG_DATE_FORMAT_SEPARATOR', ':');
+defined('DIV_TAG_NUMBER_FORMAT_PREFIX') or define('DIV_TAG_NUMBER_FORMAT_PREFIX', '{#');
+defined('DIV_TAG_NUMBER_FORMAT_SUFFIX') or define('DIV_TAG_NUMBER_FORMAT_SUFFIX', '#}');
+defined('DIV_TAG_NUMBER_FORMAT_SEPARATOR') or define('DIV_TAG_NUMBER_FORMAT_SEPARATOR', ':');
 
 // Formulas
-if (!defined('DIV_TAG_FORMULA_BEGIN')) {
-    define('DIV_TAG_FORMULA_BEGIN', '(#');
-}
-if (!defined('DIV_TAG_FORMULA_END')) {
-    define('DIV_TAG_FORMULA_END', '#)');
-}
-if (!defined('DIV_TAG_FORMULA_FORMAT_SEPARATOR')) {
-    define('DIV_TAG_FORMULA_FORMAT_SEPARATOR', ':');
-}
+defined('DIV_TAG_FORMULA_BEGIN') or define('DIV_TAG_FORMULA_BEGIN', '(#');
+defined('DIV_TAG_FORMULA_END') or define('DIV_TAG_FORMULA_END', '#)');
+defined('DIV_TAG_FORMULA_FORMAT_SEPARATOR') or define('DIV_TAG_FORMULA_FORMAT_SEPARATOR', ':');
 
 // Sub-parsers
-if (!defined('DIV_TAG_SUBPARSER_BEGIN_PREFIX')) {
-    define('DIV_TAG_SUBPARSER_BEGIN_PREFIX', '{');
-}
-if (!defined('DIV_TAG_SUBPARSER_BEGIN_SUFFIX')) {
-    define('DIV_TAG_SUBPARSER_BEGIN_SUFFIX', '}');
-}
-if (!defined('DIV_TAG_SUBPARSER_END_PREFIX')) {
-    define('DIV_TAG_SUBPARSER_END_PREFIX', '{/');
-}
-if (!defined('DIV_TAG_SUBPARSER_END_SUFFIX')) {
-    define('DIV_TAG_SUBPARSER_END_SUFFIX', '}');
-}
+defined('DIV_TAG_SUBPARSER_BEGIN_PREFIX') or define('DIV_TAG_SUBPARSER_BEGIN_PREFIX', '{');
+defined('DIV_TAG_SUBPARSER_BEGIN_SUFFIX') or define('DIV_TAG_SUBPARSER_BEGIN_SUFFIX', '}');
+defined('DIV_TAG_SUBPARSER_END_PREFIX') or define('DIV_TAG_SUBPARSER_END_PREFIX', '{/');
+defined('DIV_TAG_SUBPARSER_END_SUFFIX') or define('DIV_TAG_SUBPARSER_END_SUFFIX', '}');
 
 // Ignored parts
-if (!defined('DIV_TAG_IGNORE_BEGIN')) {
-    define('DIV_TAG_IGNORE_BEGIN', '{ignore}');
-}
-if (!defined('DIV_TAG_IGNORE_END')) {
-    define('DIV_TAG_IGNORE_END', '{/ignore}');
-}
+defined('DIV_TAG_IGNORE_BEGIN') or define('DIV_TAG_IGNORE_BEGIN', '{ignore}');
+defined('DIV_TAG_IGNORE_END') or define('DIV_TAG_IGNORE_END', '{/ignore}');
 
 // Comments
-if (!defined('DIV_TAG_COMMENT_BEGIN')) {
-    define('DIV_TAG_COMMENT_BEGIN', '<!--{');
-}
-if (!defined('DIV_TAG_COMMENT_END')) {
-    define('DIV_TAG_COMMENT_END', '}-->');
-}
+defined('DIV_TAG_COMMENT_BEGIN') or define('DIV_TAG_COMMENT_BEGIN', '<!--{');
+defined('DIV_TAG_COMMENT_END') or define('DIV_TAG_COMMENT_END', '}-->');
 
 // HTML to Plain text
-if (!defined('DIV_TAG_TXT_BEGIN')) {
-    define('DIV_TAG_TXT_BEGIN', '{txt}');
-}
-if (!defined('DIV_TAG_TXT_END')) {
-    define('DIV_TAG_TXT_END', '{/txt}');
-}
-if (!defined('DIV_TAG_TXT_WIDTH_SEPARATOR')) {
-    define('DIV_TAG_TXT_WIDTH_SEPARATOR', '=>');
-}
+defined('DIV_TAG_TXT_BEGIN') or define('DIV_TAG_TXT_BEGIN', '{txt}');
+defined('DIV_TAG_TXT_END') or define('DIV_TAG_TXT_END', '{/txt}');
+defined('DIV_TAG_TXT_WIDTH_SEPARATOR') or define('DIV_TAG_TXT_WIDTH_SEPARATOR', '=>');
 
 // Strip
-if (!defined('DIV_TAG_STRIP_BEGIN')) {
-    define('DIV_TAG_STRIP_BEGIN', '{strip}');
-}
-if (!defined('DIV_TAG_STRIP_END')) {
-    define('DIV_TAG_STRIP_END', '{/strip}');
-}
+defined('DIV_TAG_STRIP_BEGIN') or define('DIV_TAG_STRIP_BEGIN', '{strip}');
+defined('DIV_TAG_STRIP_END') or define('DIV_TAG_STRIP_END', '{/strip}');
 
 // Loops
-if (!defined('DIV_TAG_LOOP_BEGIN_PREFIX')) {
-    define('DIV_TAG_LOOP_BEGIN_PREFIX', '[$');
-}
-if (!defined('DIV_TAG_LOOP_BEGIN_SUFFIX')) {
-    define('DIV_TAG_LOOP_BEGIN_SUFFIX', ']');
-}
-if (!defined('DIV_TAG_LOOP_END_PREFIX')) {
-    define('DIV_TAG_LOOP_END_PREFIX', '[/$');
-}
-if (!defined('DIV_TAG_LOOP_END_SUFFIX')) {
-    define('DIV_TAG_LOOP_END_SUFFIX', ']');
-}
-if (!defined('DIV_TAG_EMPTY')) {
-    define('DIV_TAG_EMPTY', '@empty@');
-}
-if (!defined('DIV_TAG_BREAK')) {
-    define('DIV_TAG_BREAK', '@break@');
-}
-if (!defined('DIV_TAG_LOOP_VAR_SEPARATOR')) {
-    define('DIV_TAG_LOOP_VAR_SEPARATOR', '=>');
-}
+defined('DIV_TAG_LOOP_BEGIN_PREFIX') or define('DIV_TAG_LOOP_BEGIN_PREFIX', '[$');
+defined('DIV_TAG_LOOP_BEGIN_SUFFIX') or define('DIV_TAG_LOOP_BEGIN_SUFFIX', ']');
+defined('DIV_TAG_LOOP_END_PREFIX') or define('DIV_TAG_LOOP_END_PREFIX', '[/$');
+defined('DIV_TAG_LOOP_END_SUFFIX') or define('DIV_TAG_LOOP_END_SUFFIX', ']');
+defined('DIV_TAG_EMPTY') or define('DIV_TAG_EMPTY', '@empty@');
+defined('DIV_TAG_BREAK') or define('DIV_TAG_BREAK', '@break@');
+defined('DIV_TAG_LOOP_VAR_SEPARATOR') or define('DIV_TAG_LOOP_VAR_SEPARATOR', '=>');
 
 // Iterations
-if (!defined('DIV_TAG_ITERATION_BEGIN_PREFIX')) {
-    define('DIV_TAG_ITERATION_BEGIN_PREFIX', '[:');
-}
-if (!defined('DIV_TAG_ITERATION_BEGIN_SUFFIX')) {
-    define('DIV_TAG_ITERATION_BEGIN_SUFFIX', ':]');
-}
-if (!defined('DIV_TAG_ITERATION_END')) {
-    define('DIV_TAG_ITERATION_END', '[/]');
-}
-if (!defined('DIV_TAG_ITERATION_PARAM_SEPARATOR')) {
-    define('DIV_TAG_ITERATION_PARAM_SEPARATOR', ',');
-}
+defined('DIV_TAG_ITERATION_BEGIN_PREFIX') or define('DIV_TAG_ITERATION_BEGIN_PREFIX', '[:');
+defined('DIV_TAG_ITERATION_BEGIN_SUFFIX') or define('DIV_TAG_ITERATION_BEGIN_SUFFIX', ':]');
+defined('DIV_TAG_ITERATION_END') or define('DIV_TAG_ITERATION_END', '[/]');
+defined('DIV_TAG_ITERATION_PARAM_SEPARATOR') or define('DIV_TAG_ITERATION_PARAM_SEPARATOR', ',');
 
 // Conditional parts
-if (!defined('DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX')) {
-    define('DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX', '?$');
-}
-if (!defined('DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX')) {
-    define('DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX', '');
-}
-if (!defined('DIV_TAG_CONDITIONAL_TRUE_END_PREFIX')) {
-    define('DIV_TAG_CONDITIONAL_TRUE_END_PREFIX', '$');
-}
-if (!defined('DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX')) {
-    define('DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX', '?');
-}
-if (!defined('DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX')) {
-    define('DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX', '!$');
-}
-
-if (!defined('DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX')) {
-    define('DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX', '');
-}
-
-if (!defined('DIV_TAG_CONDITIONAL_FALSE_END_PREFIX')) {
-    define('DIV_TAG_CONDITIONAL_FALSE_END_PREFIX', '$');
-}
-if (!defined('DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX')) {
-    define('DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX', '!');
-}
-if (!defined('DIV_TAG_ELSE')) {
-    define('DIV_TAG_ELSE', '@else@');
-}
+defined('DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX') or define('DIV_TAG_CONDITIONAL_TRUE_BEGIN_PREFIX', '?$');
+defined('DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX') or define('DIV_TAG_CONDITIONAL_TRUE_BEGIN_SUFFIX', '');
+defined('DIV_TAG_CONDITIONAL_TRUE_END_PREFIX') or define('DIV_TAG_CONDITIONAL_TRUE_END_PREFIX', '$');
+defined('DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX') or define('DIV_TAG_CONDITIONAL_TRUE_END_SUFFIX', '?');
+defined('DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX') or define('DIV_TAG_CONDITIONAL_FALSE_BEGIN_PREFIX', '!$');
+defined('DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX') or define('DIV_TAG_CONDITIONAL_FALSE_BEGIN_SUFFIX', '');
+defined('DIV_TAG_CONDITIONAL_FALSE_END_PREFIX') or define('DIV_TAG_CONDITIONAL_FALSE_END_PREFIX', '$');
+defined('DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX') or define('DIV_TAG_CONDITIONAL_FALSE_END_SUFFIX', '!');
+defined('DIV_TAG_ELSE') or define('DIV_TAG_ELSE', '@else@');
 
 // Conditions
-if (!defined('DIV_TAG_CONDITIONS_BEGIN_PREFIX')) {
-    define('DIV_TAG_CONDITIONS_BEGIN_PREFIX', '{?(');
-}
-if (!defined('DIV_TAG_CONDITIONS_BEGIN_SUFFIX')) {
-    define('DIV_TAG_CONDITIONS_BEGIN_SUFFIX', ')?}');
-}
-if (!defined('DIV_TAG_CONDITIONS_END')) {
-    define('DIV_TAG_CONDITIONS_END', '{/?}');
-}
+defined('DIV_TAG_CONDITIONS_BEGIN_PREFIX') or define('DIV_TAG_CONDITIONS_BEGIN_PREFIX', '{?(');
+defined('DIV_TAG_CONDITIONS_BEGIN_SUFFIX') or define('DIV_TAG_CONDITIONS_BEGIN_SUFFIX', ')?}');
+defined('DIV_TAG_CONDITIONS_END') or define('DIV_TAG_CONDITIONS_END', '{/?}');
 
 // Template vars
-if (!defined('DIV_TAG_TPLVAR_BEGIN')) {
-    define('DIV_TAG_TPLVAR_BEGIN', '{=');
-}
-if (!defined('DIV_TAG_TPLVAR_END')) {
-    define('DIV_TAG_TPLVAR_END', '=}');
-}
-if (!defined('DIV_TAG_TPLVAR_ASSIGN_OPERATOR')) {
-    define('DIV_TAG_TPLVAR_ASSIGN_OPERATOR', ':');
-}
-if (!defined('DIV_TAG_TPLVAR_PROTECTOR')) {
-    define('DIV_TAG_TPLVAR_PROTECTOR', '*');
-}
+defined('DIV_TAG_TPLVAR_BEGIN') or define('DIV_TAG_TPLVAR_BEGIN', '{=');
+defined('DIV_TAG_TPLVAR_END') or define('DIV_TAG_TPLVAR_END', '=}');
+defined('DIV_TAG_TPLVAR_ASSIGN_OPERATOR') or define('DIV_TAG_TPLVAR_ASSIGN_OPERATOR', ':');
+defined('DIV_TAG_TPLVAR_PROTECTOR') or define('DIV_TAG_TPLVAR_PROTECTOR', '*');
 
 // Default replacement
-if (!defined('DIV_TAG_DEFAULT_REPLACEMENT_BEGIN')) {
-    define('DIV_TAG_DEFAULT_REPLACEMENT_BEGIN', '{@');
-}
-if (!defined('DIV_TAG_DEFAULT_REPLACEMENT_END')) {
-    define('DIV_TAG_DEFAULT_REPLACEMENT_END', '@}');
-}
+defined('DIV_TAG_DEFAULT_REPLACEMENT_BEGIN') or define('DIV_TAG_DEFAULT_REPLACEMENT_BEGIN', '{@');
+defined('DIV_TAG_DEFAULT_REPLACEMENT_END') or define('DIV_TAG_DEFAULT_REPLACEMENT_END', '@}');
 
 // Includes
-if (!defined('DIV_TAG_INCLUDE_BEGIN')) {
-    define('DIV_TAG_INCLUDE_BEGIN', '{% ');
-}
-if (!defined('DIV_TAG_INCLUDE_END')) {
-    define('DIV_TAG_INCLUDE_END', ' %}');
-}
+defined('DIV_TAG_INCLUDE_BEGIN') or define('DIV_TAG_INCLUDE_BEGIN', '{% ');
+defined('DIV_TAG_INCLUDE_END') or define('DIV_TAG_INCLUDE_END', ' %}');
 
 // Pre-processed
-if (!defined('DIV_TAG_PREPROCESSED_BEGIN')) {
-    define('DIV_TAG_PREPROCESSED_BEGIN', '{%% ');
-}
-if (!defined('DIV_TAG_PREPROCESSED_END')) {
-    define('DIV_TAG_PREPROCESSED_END', ' %%}');
-}
-if (!defined('DIV_TAG_PREPROCESSED_SEPARATOR')) {
-    define('DIV_TAG_PREPROCESSED_SEPARATOR', ':');
-}
+defined('DIV_TAG_PREPROCESSED_BEGIN') or define('DIV_TAG_PREPROCESSED_BEGIN', '{%% ');
+defined('DIV_TAG_PREPROCESSED_END') or define('DIV_TAG_PREPROCESSED_END', ' %%}');
+defined('DIV_TAG_PREPROCESSED_SEPARATOR') or define('DIV_TAG_PREPROCESSED_SEPARATOR', ':');
 
 // Capsules
-if (!defined('DIV_TAG_CAPSULE_BEGIN_PREFIX')) {
-    define('DIV_TAG_CAPSULE_BEGIN_PREFIX', '[[');
-}
-if (!defined('DIV_TAG_CAPSULE_BEGIN_SUFFIX')) {
-    define('DIV_TAG_CAPSULE_BEGIN_SUFFIX', '');
-}
-if (!defined('DIV_TAG_CAPSULE_END_PREFIX')) {
-    define('DIV_TAG_CAPSULE_END_PREFIX', '');
-}
-if (!defined('DIV_TAG_CAPSULE_END_SUFFIX')) {
-    define('DIV_TAG_CAPSULE_END_SUFFIX', ']]');
-}
+defined('DIV_TAG_CAPSULE_BEGIN_PREFIX') or define('DIV_TAG_CAPSULE_BEGIN_PREFIX', '[[');
+defined('DIV_TAG_CAPSULE_BEGIN_SUFFIX') or define('DIV_TAG_CAPSULE_BEGIN_SUFFIX', '');
+defined('DIV_TAG_CAPSULE_END_PREFIX') or define('DIV_TAG_CAPSULE_END_PREFIX', '');
+defined('DIV_TAG_CAPSULE_END_SUFFIX') or define('DIV_TAG_CAPSULE_END_SUFFIX', ']]');
 
 // Multi replacements
-if (!defined('DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX')) {
-    define('DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX', '{:');
-}
-if (!defined('DIV_TAG_MULTI_REPLACEMENT_BEGIN_SUFFIX')) {
-    define('DIV_TAG_MULTI_REPLACEMENT_BEGIN_SUFFIX', '}');
-}
-if (!defined('DIV_TAG_MULTI_REPLACEMENT_END_PREFIX')) {
-    define('DIV_TAG_MULTI_REPLACEMENT_END_PREFIX', '{:/');
-}
-if (!defined('DIV_TAG_MULTI_REPLACEMENT_END_SUFFIX')) {
-    define('DIV_TAG_MULTI_REPLACEMENT_END_SUFFIX', '}');
-}
+defined('DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX') or define('DIV_TAG_MULTI_REPLACEMENT_BEGIN_PREFIX', '{:');
+defined('DIV_TAG_MULTI_REPLACEMENT_BEGIN_SUFFIX') or define('DIV_TAG_MULTI_REPLACEMENT_BEGIN_SUFFIX', '}');
+defined('DIV_TAG_MULTI_REPLACEMENT_END_PREFIX') or define('DIV_TAG_MULTI_REPLACEMENT_END_PREFIX', '{:/');
+defined('DIV_TAG_MULTI_REPLACEMENT_END_SUFFIX') or define('DIV_TAG_MULTI_REPLACEMENT_END_SUFFIX', '}');
 
 // Friendly tags
-if (!defined('DIV_TAG_FRIENDLY_BEGIN')) {
-    define('DIV_TAG_FRIENDLY_BEGIN', '<!--|');
-}
-if (!defined('DIV_TAG_FRIENDLY_END')) {
-    define('DIV_TAG_FRIENDLY_END', '|-->');
-}
+defined('DIV_TAG_FRIENDLY_BEGIN') or define('DIV_TAG_FRIENDLY_BEGIN', '<!--|');
+defined('DIV_TAG_FRIENDLY_END') or define('DIV_TAG_FRIENDLY_END', '|-->');
 
 // Aggregate functions
-if (!defined('DIV_TAG_AGGREGATE_FUNCTION_COUNT')) {
-    define('DIV_TAG_AGGREGATE_FUNCTION_COUNT', 'count');
-}
-if (!defined('DIV_TAG_AGGREGATE_FUNCTION_MAX')) {
-    define('DIV_TAG_AGGREGATE_FUNCTION_MAX', 'max');
-}
-if (!defined('DIV_TAG_AGGREGATE_FUNCTION_MIN')) {
-    define('DIV_TAG_AGGREGATE_FUNCTION_MIN', 'min');
-}
-if (!defined('DIV_TAG_AGGREGATE_FUNCTION_SUM')) {
-    define('DIV_TAG_AGGREGATE_FUNCTION_SUM', 'sum');
-}
-if (!defined('DIV_TAG_AGGREGATE_FUNCTION_AVG')) {
-    define('DIV_TAG_AGGREGATE_FUNCTION_AVG', 'avg');
-}
-if (!defined('DIV_TAG_AGGREGATE_FUNCTION_SEPARATOR')) {
-    define('DIV_TAG_AGGREGATE_FUNCTION_SEPARATOR', ':');
-}
-if (!defined('DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR')) {
-    define('DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR', '-');
-}
+defined('DIV_TAG_AGGREGATE_FUNCTION_COUNT') or define('DIV_TAG_AGGREGATE_FUNCTION_COUNT', 'count');
+defined('DIV_TAG_AGGREGATE_FUNCTION_MAX') or define('DIV_TAG_AGGREGATE_FUNCTION_MAX', 'max');
+defined('DIV_TAG_AGGREGATE_FUNCTION_MIN') or define('DIV_TAG_AGGREGATE_FUNCTION_MIN', 'min');
+defined('DIV_TAG_AGGREGATE_FUNCTION_SUM') or define('DIV_TAG_AGGREGATE_FUNCTION_SUM', 'sum');
+defined('DIV_TAG_AGGREGATE_FUNCTION_AVG') or define('DIV_TAG_AGGREGATE_FUNCTION_AVG', 'avg');
+defined('DIV_TAG_AGGREGATE_FUNCTION_SEPARATOR') or define('DIV_TAG_AGGREGATE_FUNCTION_SEPARATOR', ':');
+defined('DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR') or define('DIV_TAG_AGGREGATE_FUNCTION_PROPERTY_SEPARATOR', '-');
 
 // Locations
-if (!defined('DIV_TAG_LOCATION_BEGIN')) {
-    define('DIV_TAG_LOCATION_BEGIN', '(( ');
-}
-if (!defined('DIV_TAG_LOCATION_END')) {
-    define('DIV_TAG_LOCATION_END', ' ))');
-}
-if (!defined('DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX')) {
-    define('DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX', '{{');
-}
-if (!defined('DIV_TAG_LOCATION_CONTENT_BEGIN_SUFFIX')) {
-    define('DIV_TAG_LOCATION_CONTENT_BEGIN_SUFFIX', '');
-}
-if (!defined('DIV_TAG_LOCATION_CONTENT_END_PREFIX')) {
-    define('DIV_TAG_LOCATION_CONTENT_END_PREFIX', '');
-}
-if (!defined('DIV_TAG_LOCATION_CONTENT_END_SUFFIX')) {
-    define('DIV_TAG_LOCATION_CONTENT_END_SUFFIX', '}}');
-}
+defined('DIV_TAG_LOCATION_BEGIN') or define('DIV_TAG_LOCATION_BEGIN', '(( ');
+defined('DIV_TAG_LOCATION_END') or define('DIV_TAG_LOCATION_END', ' ))');
+defined('DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX') or define('DIV_TAG_LOCATION_CONTENT_BEGIN_PREFIX', '{{');
+defined('DIV_TAG_LOCATION_CONTENT_BEGIN_SUFFIX') or define('DIV_TAG_LOCATION_CONTENT_BEGIN_SUFFIX', '');
+defined('DIV_TAG_LOCATION_CONTENT_END_PREFIX') or define('DIV_TAG_LOCATION_CONTENT_END_PREFIX', '');
+defined('DIV_TAG_LOCATION_CONTENT_END_SUFFIX') or define('DIV_TAG_LOCATION_CONTENT_END_SUFFIX', '}}');
 
 // Macros
-if (!defined('DIV_TAG_MACRO_BEGIN')) {
-    define('DIV_TAG_MACRO_BEGIN', '<?');
-}
-if (!defined('DIV_TAG_MACRO_END')) {
-    define('DIV_TAG_MACRO_END', '?>');
-}
+defined('DIV_TAG_MACRO_BEGIN') or define('DIV_TAG_MACRO_BEGIN', '<?');
+defined('DIV_TAG_MACRO_END') or define('DIV_TAG_MACRO_END', '?>');
 
 // Special replacements
-if (!defined('DIV_TAG_SPECIAL_REPLACE_NEW_LINE')) {
-    define('DIV_TAG_SPECIAL_REPLACE_NEW_LINE', '{\n}');
-}
-if (!defined('DIV_TAG_SPECIAL_REPLACE_CAR_RETURN')) {
-    define('DIV_TAG_SPECIAL_REPLACE_CAR_RETURN', '{\r}');
-}
-if (!defined('DIV_TAG_SPECIAL_REPLACE_HORIZONTAL_TAB')) {
-    define('DIV_TAG_SPECIAL_REPLACE_HORIZONTAL_TAB', '{\t}');
-}
-if (!defined('DIV_TAG_SPECIAL_REPLACE_VERTICAL_TAB')) {
-    define('DIV_TAG_SPECIAL_REPLACE_VERTICAL_TAB', '{\v}');
-}
-if (!defined('DIV_TAG_SPECIAL_REPLACE_NEXT_PAGE')) {
-    define('DIV_TAG_SPECIAL_REPLACE_NEXT_PAGE', '{\f}');
-}
-if (!defined('DIV_TAG_SPECIAL_REPLACE_DOLLAR_SYMBOL')) {
-    define('DIV_TAG_SPECIAL_REPLACE_DOLLAR_SYMBOL', '{\$}');
-}
-if (!defined('DIV_TAG_SPECIAL_REPLACE_SPACE')) {
-    define('DIV_TAG_SPECIAL_REPLACE_SPACE', '{\s}');
-}
-if (!defined('DIV_TAG_TEASER_BREAK')) {
-    define('DIV_TAG_TEASER_BREAK', '<!--break-->');
-}
+defined('DIV_TAG_SPECIAL_REPLACE_NEW_LINE') or define('DIV_TAG_SPECIAL_REPLACE_NEW_LINE', '{\n}');
+defined('DIV_TAG_SPECIAL_REPLACE_CAR_RETURN') or define('DIV_TAG_SPECIAL_REPLACE_CAR_RETURN', '{\r}');
+defined('DIV_TAG_SPECIAL_REPLACE_HORIZONTAL_TAB') or define('DIV_TAG_SPECIAL_REPLACE_HORIZONTAL_TAB', '{\t}');
+defined('DIV_TAG_SPECIAL_REPLACE_VERTICAL_TAB') or define('DIV_TAG_SPECIAL_REPLACE_VERTICAL_TAB', '{\v}');
+defined('DIV_TAG_SPECIAL_REPLACE_NEXT_PAGE') or define('DIV_TAG_SPECIAL_REPLACE_NEXT_PAGE', '{\f}');
+defined('DIV_TAG_SPECIAL_REPLACE_DOLLAR_SYMBOL') or define('DIV_TAG_SPECIAL_REPLACE_DOLLAR_SYMBOL', '{\$}');
+defined('DIV_TAG_SPECIAL_REPLACE_SPACE') or define('DIV_TAG_SPECIAL_REPLACE_SPACE', '{\s}');
+defined('DIV_TAG_TEASER_BREAK') or define('DIV_TAG_TEASER_BREAK', '<!--break-->');
 
 define('DIV_DEFAULT_DIALECT', '{
 		\'DIV_TAG_VAR_MEMBER_DELIMITER\' : \'{\',		\'DIV_TAG_VAR_MEMBER_DELIMITER\' : \'.\',
@@ -573,8 +320,7 @@ define('DIV_DEFAULT_DIALECT', '{
 		\'DIV_TAG_SPECIAL_REPLACE_DOLLAR_SYMBOL\' : \'{\\$}\',		\'DIV_TAG_TEASER_BREAK\' : \'<!--break-->\',
 		\'DIV_TAG_SPECIAL_REPLACE_SPACE\' : \'{\\s}\'
 		}');
-
-// --------------------------------------------------------------------------------------------------------------------------------------//
+#endregion
 
 define('DIV_TEMPLATE_FOR_DOCS', '@_DIALECT = ' . uniqid('', true) . base64_decode('PGh0bWw+DQoJPGhlYWQ+DQoJCTx0aXRsZT57JHRpdGxlfTwvdGl0bGU+DQoJCTxzdHlsZSB0eXBl
 PSJ0ZXh0L2NzcyI+DQoJCQlib2R5ICAgICAgICAgIHtiYWNrZ3JvdW5kOiAjNjU2NTY1OyBmb250
@@ -944,7 +690,7 @@ class div
 
         if (is_object($items)) {
             if (method_exists($items, '__toString')) {
-                $item_str = (string) $items;
+                $item_str = string($items);
                 if (!property_exists($items, 'value')) {
                     $items->value = $item_str;
                 }
@@ -8579,12 +8325,15 @@ class div
     final public static function teaser($text, $max_length = 600)
     {
         $delimiter = strpos($text, DIV_TAG_TEASER_BREAK);
+
         if ($max_length === 0 && $delimiter === false) {
             return $text;
         }
+        
         if ($delimiter !== false) {
             return substr($text, 0, $delimiter);
         }
+
         if (strlen($text) <= $max_length) {
             return $text;
         }
@@ -8595,9 +8344,11 @@ class div
         $min_reversed_pos = $max_reversed_pos;
         $reversed = strrev($summary);
         $break_points = [];
+        
         $break_points[] = [
             '</p>' => 0,
         ];
+
         $line_breaks = [
             '<br />' => 6,
             '<br>' => 4,
