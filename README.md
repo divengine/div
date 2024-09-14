@@ -1,5 +1,8 @@
 # Div PHP Template Engine
 
+[![Latest Stable Version](http://poser.pugx.org/divengine/div/v)](https://packagist.org/packages/divengine/div) [![Total Downloads](http://poser.pugx.org/divengine/div/downloads)](https://packagist.org/packages/divengine/div) [![Latest Unstable Version](http://poser.pugx.org/divengine/div/v/unstable)](https://packagist.org/packages/divengine/div) [![License](http://poser.pugx.org/diven
+gine/div/license)](https://packagist.org/packages/divengine/div) [![PHP Version Require](http://poser.pugx.org/divengine/div/require/php)](https://packagist.org/packages/divengine/div)
+
 **div** is a [template engine](https://en.wikipedia.org/wiki/Template_processor) and [code generator tool](https://en.wikipedia.org/wiki/Code_generation_%28compiler%29) tool written in [PHP](http://php.net/) and developed since 2011, designed to optimize collaboration between developers and designers through generative programming, model-driven architecture, and meta-programming. This engine not only facilitates the separation of labor between roles but also allows for deep customization through the creation of tailored template [dialects](https://dialector.divengine.org) to meet specific project needs.
 
 One of the most distinctive features of **div** is its ability to **recursively process templates until there is no more code to process**, effectively avoiding infinite loops and enabling complex, multi-step transformations. This translates into exceptional flexibility for dynamically generating content or code based on the data and logic specified in the templates.
