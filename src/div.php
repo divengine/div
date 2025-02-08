@@ -7,7 +7,7 @@ namespace divengine;
  *
  * The div class is the complete implementation of Div: please, extends me!
  *
- * Div (division) is a template engine for PHP >=5.4
+ * Div (division) is a template engine for PHP
  * and it is a social project without spirit of lucre.
  *
  * This program is free software; you can redistribute it and/or modify
