@@ -3315,7 +3315,7 @@ class div
      */
     final public static function detectRecursiveInclusion($exclusion, $path, $ini)
     {
-        if (trim($path) === '') {
+        if (trim("$path") === '') {
             return false;
         }
 
@@ -8869,7 +8869,7 @@ class div
      */
     public static function getPackagesPath()
     {
-        $class = get_class();
+        $class = self::class;
         if (isset(self::$__packages_by_class[$class])) {
             return self::$__packages_by_class[$class];
         }
@@ -8886,6 +8886,8 @@ class div
      */
     final public static function fileExists($filename)
     {
+        $filename = string($filename);
+
         if (strpos(strtolower($filename), 'http://') === 0 || strpos(strtolower($filename), 'https://') === 0 || strpos(strtolower($filename), 'ftp://') === 0) {
             return false;
         }
