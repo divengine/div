@@ -8075,7 +8075,7 @@ class div
      */
     final public static function div($src = null, $items = null, $ignore = [], $min_level = 1, $discard_file_system = false)
     {
-        $class = get_class();
+        $class = self::class;
 
         // some time $src is not a template, then discard file system can avoid infinite loops
 
