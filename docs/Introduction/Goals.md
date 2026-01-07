@@ -1,0 +1,6 @@
+- One class, one file! Considering the template as an object.
+- Create a minimum of highly descriptive syntax.
+- Avoid a caching system.
+- Improve algorithms.
+- Reuse knowledge, write mechanisms and extend!
+- 
