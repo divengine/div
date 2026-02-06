@@ -30,4 +30,4 @@ jobs:
         run: composer install --no-interaction --prefer-dist --no-progress
 
       - name: Run PHPStan
-        run: vendor/bin/phpstan analyse -c phpstan.neon --no-progress
+        run: vendor/bin/phpstan analyse -c phpstan.neon --no-progress --memory-limit=1G

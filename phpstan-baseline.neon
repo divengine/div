@@ -1,0 +1,116 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to function in_array\\(\\) with arguments '\\<\\!\\-\\-break\\-\\-\\>', array\\{'\\{', '\\}', '\\{\\$', '\\|', '\\|', '\\|\\}', '\\:', '\\$', \\.\\.\\.\\} and true will always evaluate to false\\.$#"
+			count: 1
+			path: src/div.php
+
+		-
+			message: "#^Comparison operation \"\\>\" between int\\<1, max\\> and 0 is always true\\.$#"
+			count: 1
+			path: src/div.php
+
+		-
+			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
+			count: 1
+			path: src/div.php
+
+		-
+			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
+			count: 1
+			path: src/div.php
+
+		-
+			message: "#^Elseif condition is always false\\.$#"
+			count: 2
+			path: src/div.php
+
+		-
+			message: "#^Expression in empty\\(\\) is always falsy\\.$#"
+			count: 2
+			path: src/div.php
+
+		-
+			message: "#^Expression in empty\\(\\) is not falsy\\.$#"
+			count: 2
+			path: src/div.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 2
+			path: src/div.php
+
+		-
+			message: "#^Left side of && is always true\\.$#"
+			count: 1
+			path: src/div.php
+
+		-
+			message: "#^Negated boolean expression is always true\\.$#"
+			count: 1
+			path: src/div.php
+
+		-
+			message: "#^Offset 'class' on array\\<int, array\\{function\\: string, line\\?\\: int, file\\?\\: string, class\\?\\: class\\-string, type\\?\\: '\\-\\>'\\|'\\:\\:', args\\?\\: array, object\\?\\: object\\}\\> in isset\\(\\) does not exist\\.$#"
+			count: 1
+			path: src/div.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
+			count: 4
+			path: src/div.php
+
+		-
+			message: "#^Right side of && is always true\\.$#"
+			count: 1
+			path: src/div.php
+
+		-
+			message: "#^Right side of \\|\\| is always false\\.$#"
+			count: 1
+			path: src/div.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between false and false will always evaluate to false\\.$#"
+			count: 1
+			path: src/div.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between '\"'\\|'\\\\'' and '1' will always evaluate to false\\.$#"
+			count: 1
+			path: src/div.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between '\\{/' and '' will always evaluate to false\\.$#"
+			count: 1
+			path: src/div.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between '\\}' and '' will always evaluate to false\\.$#"
+			count: 1
+			path: src/div.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between float and int will always evaluate to false\\.$#"
+			count: 1
+			path: src/div.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between mixed and null will always evaluate to false\\.$#"
+			count: 1
+			path: src/div.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between non\\-falsy\\-string and false will always evaluate to false\\.$#"
+			count: 1
+			path: src/div.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between non\\-falsy\\-string\\|\\(numeric\\-string&uppercase\\-string\\) and '' will always evaluate to false\\.$#"
+			count: 1
+			path: src/div.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: src/div.php
