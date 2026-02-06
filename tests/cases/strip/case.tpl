@@ -1,0 +1,5 @@
+{strip}
+  Hello
+
+     World
+{/strip}

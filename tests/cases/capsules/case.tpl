@@ -1,0 +1,1 @@
+[[product Name: {$name}|Price: {$price}product]]

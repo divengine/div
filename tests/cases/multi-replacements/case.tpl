@@ -1,0 +1,1 @@
+{:customtags}[b]Hello[/b]{:/customtags}|{:highlight}/* comment */{:/highlight}

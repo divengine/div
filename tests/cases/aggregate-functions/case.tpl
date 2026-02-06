@@ -1,0 +1,1 @@
+Nums: min {$min:nums} max {$max:nums} sum {$sum:nums} avg {$avg:nums} count {$nums}

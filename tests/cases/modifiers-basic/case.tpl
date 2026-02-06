@@ -1,0 +1,1 @@
+Title: {^title}|Upper: {^^^title}|Lower: {_title}|Chars: {%title}|Words: {%%body}|Sub: {$body:0,11}|Format: {$num:%1$04d}

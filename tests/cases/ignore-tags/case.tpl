@@ -1,0 +1,1 @@
+{ignore}Hello {$name}{/ignore}

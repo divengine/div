@@ -1,0 +1,1 @@
+Line1{\n}Line2{\t}Tab{\$}Dollar

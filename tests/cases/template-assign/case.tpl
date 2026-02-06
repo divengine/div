@@ -1,0 +1,1 @@
+{= greeting: "Hello" =}{= name: "Div" =}{$greeting} {$name}|{= copy: $name =}Copy: {$copy}

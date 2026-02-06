@@ -1,0 +1,1 @@
+First: {$name.0}|Second: {$name.1}|Loop: [$name]{$value}|[/$name]

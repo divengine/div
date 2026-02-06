@@ -1,0 +1,1 @@
+{@ [true, "YES"] @}{@ [false, "NO"] @}Products: {$have} Money: {$money}

@@ -1,0 +1,1 @@
+{% layout %}{{header Header here!header}}{{content Body!content}}{{footer Footer here!footer}}

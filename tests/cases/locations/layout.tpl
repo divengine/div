@@ -1,0 +1,1 @@
+Header:(( header ))|Content:(( content ))|Footer:(( footer ))

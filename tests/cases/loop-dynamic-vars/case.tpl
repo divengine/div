@@ -1,0 +1,1 @@
+[$items]{$value}:{$_key}:{$_index}:{$_order}:{$_is_first}:{$_is_last}:{$_is_odd}:{$_is_even}|[/$items]
