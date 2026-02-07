@@ -107,7 +107,10 @@ def get_commits(base, head):
         subject = subject.strip()
         if not subject:
             continue
-        if subject.lower().startswith("merge"):
+        subject_lower = subject.lower()
+        if subject_lower.startswith("merge"):
+            continue
+        if subject_lower.startswith("update changelog"):
             continue
         if len(subject.split()) <= 1:
             continue
