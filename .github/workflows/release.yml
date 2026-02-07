@@ -103,7 +103,7 @@ jobs:
           from pathlib import Path
 
           version = os.environ["RELEASE_VERSION"]
-          notes = Path("docs/ChangeLog/releases") / f"v{version}.md"
+          notes = Path("releases") / f"v{version}.md"
 
           if not notes.is_file():
               raise SystemExit(

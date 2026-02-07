@@ -42,7 +42,7 @@ def parse_version(value: str):
 
 
 def list_release_note_versions():
-    releases_dir = ROOT / "docs" / "ChangeLog" / "releases"
+    releases_dir = ROOT / "releases"
     if not releases_dir.is_dir():
         return []
     versions = []
@@ -76,7 +76,7 @@ def get_base_from_previous_notes(version_tuple):
     if not version_tuple:
         return None
     filename = f"v{format_version(version_tuple)}.md"
-    path = ROOT / "docs" / "ChangeLog" / "releases" / filename
+    path = ROOT / "releases" / filename
     if not path.is_file():
         return None
     text = path.read_text(encoding="utf-8").replace("\r\n", "\n")
@@ -164,7 +164,7 @@ def main():
     parser.add_argument(
         "--output",
         default="",
-        help="Output file path. Defaults to docs/ChangeLog/releases/v<version>.md",
+        help="Output file path. Defaults to releases/v<version>.md",
     )
     args = parser.parse_args()
 
@@ -184,7 +184,7 @@ def main():
 
     output = args.output.strip()
     if not output:
-        output = f"docs/ChangeLog/releases/v{version}.md"
+        output = f"releases/v{version}.md"
 
     out_path = (ROOT / output).resolve()
     out_path.parent.mkdir(parents=True, exist_ok=True)
