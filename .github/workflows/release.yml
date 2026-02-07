@@ -1,0 +1,148 @@
+name: Release
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Mermaid CLI
+        run: npm install -g @mermaid-js/mermaid-cli
+
+      - name: Install Pandoc and LaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc texlive-xetex texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
+
+      - name: Read composer version
+        id: meta
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          data = json.loads(Path("composer.json").read_text(encoding="utf-8"))
+          version = (data.get("version") or "").strip()
+          if not version:
+              raise SystemExit("composer.json is missing a version field.")
+
+          tag = f"v{version}"
+          out = Path(os.environ["GITHUB_OUTPUT"])
+          out.write_text(f"version={version}\ntag={tag}\n", encoding="utf-8")
+          PY
+
+      - name: Check latest release
+        id: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ steps.meta.outputs.tag }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import urllib.request
+          from pathlib import Path
+
+          repo = os.environ["GITHUB_REPOSITORY"]
+          token = os.environ["GITHUB_TOKEN"]
+          tag = os.environ["RELEASE_TAG"]
+
+          req = urllib.request.Request(
+              f"https://api.github.com/repos/{repo}/releases/latest",
+              headers={
+                  "Authorization": f"Bearer {token}",
+                  "Accept": "application/vnd.github+json",
+                  "X-GitHub-Api-Version": "2022-11-28",
+              },
+          )
+
+          latest = ""
+          try:
+              with urllib.request.urlopen(req) as r:
+                  data = json.loads(r.read().decode("utf-8"))
+                  latest = data.get("tag_name", "") or ""
+          except urllib.error.HTTPError as e:
+              if e.code != 404:
+                  raise
+
+          should_release = "true" if tag != latest else "false"
+
+          out = Path(os.environ["GITHUB_OUTPUT"])
+          out.write_text(f"latest={latest}\nshould_release={should_release}\n", encoding="utf-8")
+          PY
+
+      - name: Require release notes
+        if: steps.release.outputs.should_release == 'true'
+        id: notes
+        env:
+          RELEASE_VERSION: ${{ steps.meta.outputs.version }}
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+
+          version = os.environ["RELEASE_VERSION"]
+          notes = Path("docs/ChangeLog/releases") / f"v{version}.md"
+
+          if not notes.is_file():
+              raise SystemExit(
+                  f"Missing release notes: {notes}. "
+                  "Run: python scripts/generate_release_notes.py "
+                  "then fill Description."
+              )
+
+          out = Path(os.environ["GITHUB_OUTPUT"])
+          out.write_text(f"path={notes.as_posix()}\n", encoding="utf-8")
+          PY
+
+      - name: Build PDF
+        if: steps.release.outputs.should_release == 'true'
+        run: python scripts/build_pdf.py --output div-documentation-${{ steps.meta.outputs.version }}.pdf
+
+      - name: Build source archive
+        if: steps.release.outputs.should_release == 'true'
+        run: |
+          mkdir -p build
+          git archive --format=zip -o build/div-${{ steps.meta.outputs.version }}.zip HEAD
+
+      - name: Upload artifacts
+        if: steps.release.outputs.should_release == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artifacts
+          path: |
+            build/div-${{ steps.meta.outputs.version }}.zip
+            build/div-documentation-${{ steps.meta.outputs.version }}.pdf
+
+      - name: Create GitHub release
+        if: steps.release.outputs.should_release == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          name: Div ${{ steps.meta.outputs.version }}
+          body_path: ${{ steps.notes.outputs.path }}
+          files: |
+            build/div-${{ steps.meta.outputs.version }}.zip
+            build/div-documentation-${{ steps.meta.outputs.version }}.pdf
+          fail_on_unmatched_files: true
