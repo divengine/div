@@ -87,6 +87,35 @@ def sanitize_markdown_for_pdf(markdown: str) -> str:
         return f"[{label}]({url})"
 
     markdown = re.sub(r"!\[([^\]]*)\]\((https?://[^)]+)\)", replace_remote_image, markdown)
+
+    # Protect fenced code blocks, inline code, and raw LaTeX commands we inject.
+    code_blocks = []
+    inline_codes = []
+    latex_lines = []
+
+    def protect(pattern, text, bucket, token):
+        def repl(match):
+            bucket.append(match.group(0))
+            return f"{token}{len(bucket) - 1}@@"
+
+        return re.sub(pattern, repl, text, flags=re.S | re.M)
+
+    markdown = protect(r"```.*?```", markdown, code_blocks, "@@CODEBLOCK")
+    markdown = protect(r"`[^`]*`", markdown, inline_codes, "@@CODEINLINE")
+    markdown = protect(r"^\\(?:newpage|tableofcontents)\s*$", markdown, latex_lines, "@@LATEXLINE")
+
+    # Escape stray backslashes so LaTeX doesn't treat them as commands.
+    markdown = markdown.replace("\\", "\\textbackslash{}")
+
+    def restore(text, bucket, token):
+        for idx, original in enumerate(bucket):
+            text = text.replace(f"{token}{idx}@@", original)
+        return text
+
+    markdown = restore(markdown, latex_lines, "@@LATEXLINE")
+    markdown = restore(markdown, inline_codes, "@@CODEINLINE")
+    markdown = restore(markdown, code_blocks, "@@CODEBLOCK")
+
     return markdown
 
 
