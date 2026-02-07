@@ -76,6 +76,20 @@ def render_mermaid(markdown, mermaid_cli, puppeteer_config):
     return pattern.sub(repl, markdown)
 
 
+def sanitize_markdown_for_pdf(markdown: str) -> str:
+    # Drop Obsidian-style embedded images and convert remote images to links.
+    markdown = re.sub(r"!\[\[([^\]]+)\]\]", r"Image: \1", markdown)
+
+    def replace_remote_image(match):
+        alt = (match.group(1) or "").strip()
+        url = match.group(2).strip()
+        label = alt if alt else url
+        return f"[{label}]({url})"
+
+    markdown = re.sub(r"!\[([^\]]*)\]\((https?://[^)]+)\)", replace_remote_image, markdown)
+    return markdown
+
+
 def build_pdf(input_md, output_pdf):
     cmd = [
         "pandoc",
@@ -126,6 +140,7 @@ def main():
     ]
 
     combined = "\n".join(cover_lines) + combine_markdown(files)
+    combined = sanitize_markdown_for_pdf(combined)
 
     mermaid_cli = os.environ.get("MERMAID_CLI", "mmdc")
     puppeteer_config = ROOT / "scripts" / "puppeteer.json"
