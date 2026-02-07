@@ -106,6 +106,8 @@ def sanitize_markdown_for_pdf(markdown: str) -> str:
 
     # Escape stray backslashes so LaTeX doesn't treat them as commands.
     markdown = markdown.replace("\\", "\\textbackslash{}")
+    # Escape dollar signs to avoid Pandoc math parsing.
+    markdown = markdown.replace("$", "\\$")
 
     def restore(text, bucket, token):
         for idx, original in enumerate(bucket):
