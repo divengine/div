@@ -1,0 +1,63 @@
+# Book order for PDF build (paths are repo-relative)
+docs/README.md
+docs/Div PHP Template Engine.md
+docs/Introduction to Div PHP Template Engine.md
+docs/Introduction/Goals.md
+docs/Introduction/Reasons.md
+docs/Introduction/Possibilities for the designer.md
+docs/Introduction/Possibilities for the programmer.md
+docs/The div class.md
+docs/The best practices.md
+docs/Template Engine Features.md
+docs/Features/Understanding the syntax.md
+docs/Features/Variables (information, content...).md
+docs/Features/Simple replacements.md
+docs/Features/Special replacements.md
+docs/Features/Variable's modifiers.md
+docs/Features/Multiple variable's modifiers.md
+docs/Features/String's dissection.md
+docs/Features/Data formats.md
+docs/Features/Formulas.md
+docs/Features/Lists (loops).md
+docs/Features/Dynamic vars inside a loop.md
+docs/Features/Iterations.md
+docs/Features/Conditional parts.md
+docs/Features/Conditions.md
+docs/Features/Default replacements.md
+docs/Features/Default replacement for a variable.md
+docs/Features/Multi replacements.md
+docs/Features/Capsules.md
+docs/Features/Locations.md
+docs/Features/Friendly tags.md
+docs/Features/Comments.md
+docs/Features/Ignored parts (escaping Div parsing).md
+docs/Features/Strip or clean the resulting code.md
+docs/Features/HTML to plain text.md
+docs/Features/Global vars.md
+docs/Features/Aggregate functions.md
+docs/Features/Macros.md
+docs/Features/Sub-parsers.md
+docs/Features/Pre-defined sub-parsers.md
+docs/Features/Sub-parser's events.md
+docs/Features/System vars.md
+docs/Features/Template's variables.md
+docs/Features/Template's properties.md
+docs/Features/Template's documentation.md
+docs/Features/Including another templates.md
+docs/Features/Including pre-processed templates.md
+docs/Features/Dialects.md
+docs/Features/Multiple dialects.md
+docs/Features/Dialect translator.md
+docs/Features/Custom modifiers.md
+docs/Features/Object Oriented Programming.md
+docs/Features/Content like an object (intelligent data).md
+docs/Features/Hooks.md
+docs/Features/The __toString magic method.md
+docs/Method's reference.md
+docs/Mechanisms.md
+docs/Noteworthy Issues.md
+docs/Ignore specific variables (the third parameter of constructor).md
+docs/Appendixes.md
+docs/Appendixes/Appendix A - Allowed PHP functions.md
+docs/Appendixes/Appendix B - Comparison of syntax of Smarty and Div.md
+docs/FUTURE.md
