@@ -2,6 +2,8 @@ In this section you can learn how the programmer can create classes that inherit
 
 The constructor should respect the parent's constructor. Change the default constructor is not recommended. IMPORTANT: The recommended way for do something before build is the implementation of [**beforeBuild()** hook](https://divengine.org/docs/div-php-template-engine/features/object-oriented-programming#hooks).
 
+Note: If $src is null and $__src is not set, Div derives the template path from the subclass file name (via Reflection). Example: `MyPage.php` -> `MyPage.tpl` in the same directory. Pass $src explicitly to override this behavior.
+
 ```
 <?php
 	

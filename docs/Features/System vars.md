@@ -17,6 +17,14 @@ Now then, all the variables of the system are not enabled by default. The system
 
 If you need enable some system vars use the method **div::enableSystemVar($varname)**. If you need disable a system var use the method **div::disableSystemVar($varname)**.
 
+## Engine setup vars
+
+The engine also reads some setup vars from your items/template variables. These are not system vars, but they affect parsing:
+
+- `div.literals`: list of variable names treated as literal (skip further parsing). You can set it in the template or in PHP. Example: `{= div.literals: ["text1", "text2"] =}`. PHP equivalent: `$tpl->addLiteral(["text1", "text2"]);`
+- `div.clear_locations`: boolean flag that controls whether location tags are cleared during parse cycles. If false, locations are kept for further composition (useful with pre-processed templates). At the end of the top-level parse, remaining location tags are cleared.
+
+
 Example
 
 index.php

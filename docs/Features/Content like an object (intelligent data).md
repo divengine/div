@@ -1,5 +1,7 @@
 The information or content that it is passed to the constructor of the div class, can be an object and/or it can contain objects and you can access to the methods of these objects. The access to those methods to obtain information depends on the context or scope in which is you working.
 
+Internal note: Div merges scope data using a deep-copy helper (historically called `cop`) from `divengine/functions`. This is internal behavior and not part of the public API.
+
 Example: "template scope"
 
 index.php

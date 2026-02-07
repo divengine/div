@@ -3,6 +3,8 @@
 > Content may be incomplete, subject to change, or restructured as the Div engine evolves.  
 > Please use with caution and check back regularly for updates.
 
+Requirements: PHP >= 8.0.
+
 **div** is a [template engine](https://en.wikipedia.org/wiki/Template_processor) and [code generator tool](https://en.wikipedia.org/wiki/Code_generation_%28compiler%29) tool written in [PHP](http://php.net/) and developed since 2011, designed to optimize collaboration between developers and designers through generative programming, model-driven architecture, and meta-programming. This engine not only facilitates the separation of labor between roles but also allows for deep customization through the creation of tailored template [dialects](https://dialector.divengine.org) to meet specific project needs.
 
 ```mermaid

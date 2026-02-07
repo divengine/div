@@ -20,6 +20,8 @@ In general, the boolean value is defined by the method **div::mixedBool**, whic
 6. False if is an object without properties
 7. The same value in any other case
 
+Note: the first and last blank space inside conditional blocks are trimmed during parsing.
+
 Syntax:
 
 ```

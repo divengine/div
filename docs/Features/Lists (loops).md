@@ -11,6 +11,19 @@ With a list you can repeat some part of template code and work with each item of
 [/$listvar]
 ```
 
+## Breaking a loop
+
+You can stop iteration using `@break@`. Anything after the break tag in the loop body is ignored and the loop stops.
+
+Example:
+
+```
+[$products]
+    {?( {$_index} == 3 )?} <hr> @break@ {/?}
+    {$value}<br>
+[/$products]
+```
+
 **Example:**
 
 ```

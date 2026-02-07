@@ -68,6 +68,10 @@ Return a default replacement of value by var
 
 Return the [loaded data from the system](https://divengine.org/documentation/div-php-template-engine/methodss-reference#system-vars)
 
+**div::getVersion()**
+
+Return current engine version string
+
 **div::getVarsFromCode(**string** $code)**
 
 Return a list of vars from PHP code
@@ -151,3 +155,13 @@ Convert string from UTF16 to UTF18
 **div::varExists(**string** \$var, **mixed** &\$items = null)**
 
 Return true if var exists in the template's items recursively
+
+## Instance methods
+
+**div->addLiteral(**string** $var)**
+
+Mark one or more template variables as literal (skip further parsing). Accepts a space- or comma-separated list.
+
+**div->getLiterals()**
+
+Return the current literal vars map for this instance

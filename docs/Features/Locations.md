@@ -66,3 +66,15 @@ Output
 	</body> 
 </html>
 ```
+
+## Clearing location tags
+
+By default Div removes location tags after parsing. You can control this during parse cycles with the setup var `div.clear_locations`.
+
+Example:
+
+```
+{= div.clear_locations: false =}
+```
+
+This keeps location tags while composing pre-processed templates; remaining location tags are cleared at the end of the top-level parse.

@@ -60,7 +60,7 @@ Call to method of current PHP class
 
 See also [OOP section.](https://divengine.org/documentation/div-php-template-engine/features/templates-variables#oop)
 
-The dollar symbol used to get a variable's value in the JSON, is not the modifier in simple replacements (DIV_TAG_MODIFIER_SIMPLE). This symbol can not be changed with a custom dialect. Is a strict rule in Div.
+Note: the `$` used inside template variable values (for example `{= var2: $var1 =}`) is a fixed token and is not affected by dialect changes. Changing `DIV_TAG_MODIFIER_SIMPLE` only affects replacements in template output.
 
 Example:
 
