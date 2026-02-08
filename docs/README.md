@@ -129,6 +129,6 @@ composer upgrade
 - [[04 Mechanisms]]
 - [[05 Appendixes]]
 
-See also [CHANGELOG](../releases/CHANGELOG.md).
+See also [Release notes](../releases/README.md).
 
 #templates

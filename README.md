@@ -38,7 +38,5 @@ For complete guides, usage examples, and advanced topics, please visit the [proj
 
 If you find something missing or have improvements, feel free to contribute directly to the Wiki!
 
----
-
 Powered by [Divengine Software Solutions](https://divengine.com)
 
