@@ -1,0 +1,14 @@
+/.github export-ignore
+/build export-ignore
+/docs export-ignore
+/releases export-ignore
+/scripts export-ignore
+/tests export-ignore
+/vendor export-ignore
+
+/.gitignore export-ignore
+/.phpunit.result.cache export-ignore
+/composer.lock export-ignore
+/phpstan-baseline.neon export-ignore
+/phpstan.neon export-ignore
+/phpunit.xml export-ignore
