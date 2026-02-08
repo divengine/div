@@ -1,63 +1,68 @@
 # Book order for PDF build (paths are repo-relative)
 docs/README.md
-docs/Div PHP Template Engine.md
-docs/Introduction to Div PHP Template Engine.md
-docs/Introduction/Goals.md
-docs/Introduction/Reasons.md
-docs/Introduction/Possibilities for the designer.md
-docs/Introduction/Possibilities for the programmer.md
-docs/The div class.md
-docs/The best practices.md
-docs/Template Engine Features.md
-docs/Features/Understanding the syntax.md
-docs/Features/Variables (information, content...).md
-docs/Features/Simple replacements.md
-docs/Features/Special replacements.md
-docs/Features/Variable's modifiers.md
-docs/Features/Multiple variable's modifiers.md
-docs/Features/String's dissection.md
-docs/Features/Data formats.md
-docs/Features/Formulas.md
-docs/Features/Lists (loops).md
-docs/Features/Dynamic vars inside a loop.md
-docs/Features/Iterations.md
-docs/Features/Conditional parts.md
-docs/Features/Conditions.md
-docs/Features/Default replacements.md
-docs/Features/Default replacement for a variable.md
-docs/Features/Multi replacements.md
-docs/Features/Capsules.md
-docs/Features/Locations.md
-docs/Features/Friendly tags.md
-docs/Features/Comments.md
-docs/Features/Ignored parts (escaping Div parsing).md
-docs/Features/Strip or clean the resulting code.md
-docs/Features/HTML to plain text.md
-docs/Features/Global vars.md
-docs/Features/Aggregate functions.md
-docs/Features/Macros.md
-docs/Features/Sub-parsers.md
-docs/Features/Pre-defined sub-parsers.md
-docs/Features/Sub-parser's events.md
-docs/Features/System vars.md
-docs/Features/Template's variables.md
-docs/Features/Template's properties.md
-docs/Features/Template's documentation.md
-docs/Features/Including another templates.md
-docs/Features/Including pre-processed templates.md
-docs/Features/Dialects.md
-docs/Features/Multiple dialects.md
-docs/Features/Dialect translator.md
-docs/Features/Custom modifiers.md
-docs/Features/Object Oriented Programming.md
-docs/Features/Content like an object (intelligent data).md
-docs/Features/Hooks.md
-docs/Features/The __toString magic method.md
-docs/Method's reference.md
-docs/Mechanisms.md
-docs/Noteworthy Issues.md
-docs/Ignore specific variables (the third parameter of constructor).md
-docs/Appendixes.md
-docs/Appendixes/Appendix A - Allowed PHP functions.md
-docs/Appendixes/Appendix B - Comparison of syntax of Smarty and Div.md
-docs/FUTURE.md
+docs/01 Introduction.md
+docs/01.01 Scope and purpose.md
+docs/01.02 Engine behavior.md
+docs/01.03 Dialect system.md
+docs/01.04 Core operations.md
+docs/01.05 Install.md
+docs/01.06 Upgrade.md
+docs/01.07 Related topics.md
+docs/01.09 Goals.md
+docs/01.10 Reasons.md
+docs/01.13 The div class.md
+docs/01.14 The best practices.md
+docs/02 Template Features.md
+docs/02.01 Understanding the syntax.md
+docs/02.02 Variables (information, content...).md
+docs/02.03 Simple replacements.md
+docs/02.04 Special replacements.md
+docs/02.05 Variable's modifiers.md
+docs/02.06 Multiple variable's modifiers.md
+docs/02.07 String's dissection.md
+docs/02.08 Data formats.md
+docs/02.09 Formulas.md
+docs/02.10 Lists (loops).md
+docs/02.11 Dynamic vars inside a loop.md
+docs/02.12 Iterations.md
+docs/02.13 Conditional parts.md
+docs/02.14 Conditions.md
+docs/02.15 Default replacements.md
+docs/02.16 Default replacement for a variable.md
+docs/02.17 Multi replacements.md
+docs/02.18 Capsules.md
+docs/02.19 Locations.md
+docs/02.20 Friendly tags.md
+docs/02.21 Comments.md
+docs/02.22 Ignored parts (escaping Div parsing).md
+docs/02.23 Strip or clean the resulting code.md
+docs/02.24 HTML to plain text.md
+docs/02.25 Global vars.md
+docs/02.26 Aggregate functions.md
+docs/02.27 Macros.md
+docs/02.28 Sub-parsers.md
+docs/02.29 Pre-defined sub-parsers.md
+docs/02.30 Sub-parser's events.md
+docs/02.31 System vars.md
+docs/02.32 Template's variables.md
+docs/02.33 Template's properties.md
+docs/02.34 Template's documentation.md
+docs/02.35 Including another templates.md
+docs/02.36 Including pre-processed templates.md
+docs/02.37 Dialects.md
+docs/02.38 Multiple dialects.md
+docs/02.39 Dialect translator.md
+docs/02.40 Custom modifiers.md
+docs/02.41 Object Oriented Programming.md
+docs/02.42 Content like an object (intelligent data).md
+docs/02.43 Hooks.md
+docs/02.44 The __toString magic method.md
+docs/02.45 Ignore specific variables (the third parameter of constructor).md
+docs/03 PHP Features.md
+docs/04 Mechanisms.md
+docs/04.01 Components.md
+docs/04.02 Recursion.md
+docs/04.03 Templates inheritance.md
+docs/05 Appendixes.md
+docs/05.01 Appendix A - Allowed PHP functions.md
+docs/05.02 Appendix B - Comparison of syntax of Smarty and Div.md

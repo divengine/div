@@ -103,7 +103,7 @@ jobs:
           from pathlib import Path
 
           version = os.environ["RELEASE_VERSION"]
-          notes = Path("docs/ChangeLog/releases") / f"v{version}.md"
+          notes = Path("releases") / f"v{version}.md"
 
           if not notes.is_file():
               raise SystemExit(
@@ -140,7 +140,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.meta.outputs.tag }}
-          name: Div ${{ steps.meta.outputs.version }}
+          name: Div PHP Template Engine ${{ steps.meta.outputs.version }}
           body_path: ${{ steps.notes.outputs.path }}
           files: |
             build/div-${{ steps.meta.outputs.version }}.zip

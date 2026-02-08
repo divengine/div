@@ -3,7 +3,13 @@
 > Content may be incomplete, subject to change, or restructured as the Div engine evolves.  
 > Please use with caution and check back regularly for updates.
 
-**div** is a [template engine](https://en.wikipedia.org/wiki/Template_processor) and [code generator tool](https://en.wikipedia.org/wiki/Code_generation_%28compiler%29) tool written in [PHP](http://php.net/) and developed since 2011, designed to optimize collaboration between developers and designers through generative programming, model-driven architecture, and meta-programming. This engine not only facilitates the separation of labor between roles but also allows for deep customization through the creation of tailored template [dialects](https://dialector.divengine.org) to meet specific project needs.
+# Overview
+
+Requirements: PHP >= 8.0.
+
+Div is a template engine and code generator written in PHP. It is designed to separate presentation concerns from data and behavior, and to support model-driven and generative workflows. The engine can adapt its syntax through dialects while preserving a canonical internal representation for parsing and transformation.
+
+## Processing pipeline
 
 ```mermaid
 flowchart TD
@@ -42,7 +48,7 @@ flowchart TD
     F -- No --> G["Output: Final text (HTML/code/etc.)"]
 ```
 
-One of the most distinctive features of **div** is its ability to **recursively process templates until there is no more code to process**, effectively avoiding infinite loops and enabling complex, multi-step transformations. This translates into exceptional flexibility for dynamically generating content or code based on the data and logic specified in the templates.
+## Convergence and recursion
 
 ```mermaid
 flowchart LR
@@ -57,7 +63,7 @@ flowchart LR
     E -- "No" --> I["Convergence reached: return src"]
 ```
 
-Additionally, **div** supports the creation of custom template dialects, allowing users to define and modify the syntax to better suit different programming environments or to enhance code readability and maintenance. For example, it's possible to configure a dialect that ensures templates remain as valid XML, facilitating integration with other systems and technologies that utilize XML.
+## Dialects
 
 ```mermaid
 flowchart LR
@@ -77,7 +83,7 @@ flowchart LR
     G -- "No" --> H["Final output (HTML/code/etc.)"]
 ```
 
-## Scopes and sub-instances (loop render parallel/serial)
+## Loop scope and sub-instances
 
 ```mermaid
 sequenceDiagram
@@ -97,76 +103,32 @@ sequenceDiagram
     E-->>E: Continue global multipass parse
 ```
 
-This engine is the cornerstone of [Divengine Software Solutions](https://divengine.com) and adheres to the philosophy of *"build more with less"* and *"divide the problem, not the people."* **div** proposes code generation based on templates that adhere to clear rules: the model contains all information about what is to be accomplished; the templates define the expected outcomes; and the engine, acting as a black box, takes care of the execution.
+## Core operations
 
-Basic operations include:
+- Compile: combine a template with a model and save the result.
+- Transform: convert one model into another by reusing compilation.
+- Compose: assemble multiple outputs into a final artifact.
 
-- **Compile**: Combine a template with models and save the result.
-- **Transform**: Convert one model to another, reusing the compile operation.
-- **Compose**: Integrate different results using the engine and other tools.
-
-```mermaid
-classDiagram
-    class Block {
-      +delimiters
-      +rules()
-      +examples()
-    }
-    class RigidBlock {
-      +prefix
-      +suffix
-      +whitespace: significant
-    }
-    class SimpleBlock {
-      +begin
-      +end
-      +whitespace: flexible
-    }
-    class KeywordBlock {
-      +begin_prefix
-      +keyword
-      +begin_suffix
-      +end_prefix
-      +keyword
-      +end_suffix
-    }
-    class NoKeywordBlock {
-      +begin_prefix
-      +begin_suffix
-      +end
-      +closing without repeating keyword
-    }
-    Block <|-- RigidBlock
-    Block <|-- SimpleBlock
-    Block <|-- KeywordBlock
-    Block <|-- NoKeywordBlock
-
-```
-
-With **div**, developers and designers can avoid repetitive tasks, scale projects based on models, migrate projects to different technologies, and expand applications to other platforms and devices, all while improving application performance and enabling non-technical people to participate in the project's development.
-
-## Install
+## Installation
 
 ```bash
 composer require divengine/div
 ```
+
 ## Upgrade
 
 ```bash
 composer upgrade
 ```
 
-[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=divengine&repo=div&show_owner=true&rand=23)](https://github.com/anuraghazra/github-readme-stats)
+## Documentation map
 
-[[Introduction to Div PHP Template Engine]]
-[[The div class]]
-[[The best practices]]
-[[Template Engine Features]]
-[[Method's reference]]
-[[Mechanisms]]
-[[Appendixes]]
+- [[01 Introduction]]
+- [[02 Template Features]]
+- [[03 PHP Features]]
+- [[04 Mechanisms]]
+- [[05 Appendixes]]
 
-Se also the [[CHANGELOG]] and the [[FUTURE]] or this project.
-
+See also [Release notes](../releases/README.md).
 
 #templates
