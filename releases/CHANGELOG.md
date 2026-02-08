@@ -423,7 +423,7 @@ November 16,  2016
 ```
     
 - TODO: test & release
-----------------------------
+
 November 14,  2016
 - add new default subparser join
 
@@ -495,11 +495,11 @@ index.tpl
 TODO: improve dialect creator tool
 TODO: check dialect translator method div::translateFrom()
 	
-----------------------------
+
 December 19,  2015
 - several tests
 - Release 4.7 version
-----------------------------
+
 December 12,  2015
 - [starting release 4.7]
 - some bug fixes, thanks to `gracix` and `Takefumi Ota`
@@ -638,26 +638,26 @@ September 16,  2014
 - big fix: Set the priority to inline data in pre-processed templates above global design vars
 ---
 September 11,  2014
-----------------------------
+
 - bigfix: Save sections of loops and capsules when makeItAgain(); (Div doesn't know the future)
 
-----------------------------
+
 September 9,  2014
-----------------------------
+
 - bugfix: Adding items to array in templates
 
 {= somearray[]: "new item" =}
 
 - bugfix: Don't set item var as design var in div::parseData();
 
-----------------------------
+
 September 8,  2014
-----------------------------
+
 - bugfix: Parse pre-processed templates with all items/vars (Div doesn't know the future)
 
-----------------------------
+
 August 28,  2014
-----------------------------
+
 - New feature for preprocessed templates: specific data
   
   Syntax:
@@ -702,32 +702,32 @@ August 28,  2014
   	<input type="submit" name="{$name}" value="{$value}">
   </form>
       
-----------------------------
+
 August 17,  2014
-----------------------------
+
 - Security fix: prevent obtrusive code in method calls. Now next code dont work:
 
 {= content: ->getPage(file_put_contents('some.txt','some text')) =}
 
-----------------------------
+
 August 5,  2014
-----------------------------
+
 - Fix the memory in the loops
 
-----------------------------
+
 August 4,  2014
-----------------------------
+
 - Fix macros parsing when a previous template var never match
 
-----------------------------
+
 August 2,  2014
-----------------------------
+
 - Allow is_array PHP function in macros
 - New method for add literal vars in PHP: div::addLiteral();
 
-----------------------------
+
 June 30,  2014
-----------------------------
+
 - Some bugfixs
 - Add new important security feature: setup literals items/vars, for prevent injections! 
 
@@ -757,42 +757,42 @@ output
 [:1,100;] text to repeat [/]
 some some some
 
-----------------------------
+
 February 05,  2014
-----------------------------
+
 - Memory fixed!
   
-----------------------------
+
 December 25,  2013
-----------------------------
+
 - bugfix: div::fileExists and wrong include paths calculation
 
-----------------------------
+
 December 5,  2013
-----------------------------
+
 - Improvement of global design vars in loops and capsules
 
-----------------------------
+
 December 4,  2013
-----------------------------
+
 - bugfix: div::getFileContents()
 
-----------------------------
+
 August 30, 2013
-----------------------------
+
 - An important bug was fixed: the memory in the loops:
 
 	In div 4.4 dont't work:
 	
 	index.php
-	--------------------------------
+	----
 	<?php
 	
 	include "div.php";
 	echo new div("test.tpl", array("cities" => array("Havana", "Tokyo")));
 	
 	index.tpl
-	--------------------------------
+	----
 	{= foo: [
 		{ title: "Cities",
 		  content: '{% cities.tpl %}'
@@ -802,7 +802,7 @@ August 30, 2013
 	{% layout.tpl %}
 
 	layout.tpl
-	---------------------------------
+	-----
 	?$foo
 		[$foo]
 			<h1>{$title}</h1>
@@ -811,7 +811,7 @@ August 30, 2013
 	$foo?
 	
 	cities.tpl
-	---------------------------------
+	-----
 	?$cities
 		[$cities]
 			{$value}
@@ -821,47 +821,47 @@ August 30, 2013
 	$cities?
 	
 	Output (wrong!)
-	---------------------------------
+	-----
 	<h1>Cities</h1>
 	No cities<br/>
 
 	Output (great in 4.5)
-	---------------------------------
+	-----
 	<h1>Cities</h1>
 	Havana Tokio<br/>
 
-----------------------------
+
 July 29, 2013
-----------------------------
+
 - Decrease of priority in parser's specialchars
 
-----------------------------
+
 July 27, 2013
-----------------------------
+
 - bugfixs!
 - Release 4.4 version
 
-----------------------------
+
 July 19, 2013
-----------------------------
+
 - bugfix the translator
 - New feature: Multi template sources (based on include_path PHP setting)
-----------------------------
+
 June 15, 2013
-----------------------------
+
 - Improvement of the modifier "escape single quotes" (\') 
   to "escape single/double quotes" (\").
 - Improvement of default documentation's template.
 
-----------------------------
+
 June 15, 2013
-----------------------------
+
 - Improvement of logs's system
 - Release 4.3 version
 
-----------------------------
+
 June 13, 2013
-----------------------------
+
 - Integration with Google Chrome/Console and Mozilla Firefox/Firebug plugins. 
   Now the engine's messages will be appear in this browsers's features.
   
@@ -897,9 +897,9 @@ June 13, 2013
   
   Solved!
   
-----------------------------
+
 June 12, 2013
-----------------------------
+
 - Improvement of relative include/preprocessed templates.
   Now the next example works:
   
@@ -976,9 +976,9 @@ June 12, 2013
   YES
     
   true
-----------------------------
+
 June 10, 2013
-----------------------------
+
 - Improvement of the parser of template's vars: 
   If the value is not valid JSON, it will be considered as 
   a template and will be parsed before decoding.
@@ -1017,22 +1017,22 @@ June 10, 2013
   ---------
   New York
 
-----------------------------
+
 June 08, 2013
-----------------------------
+
 - Improvement of template's documentation
 - Release new version 1.1 of Div Dialect Creator
 - Release the version 4.2
 
-----------------------------
+
 June 02, 2013
-----------------------------
+
 - Fix/improve the translator
 - Fix/improve the parser 
 
-----------------------------
+
 June 01, 2013
-----------------------------
+
 - Improvement of the parser of ignored parts
 - Improvement of the parser of includes
 - New feature: template's documentation. Now in the comments you can 
@@ -1078,9 +1078,9 @@ document the template. The documentation's parts have @ as prefix. For example:
 - Fix the algorithm of getRanges().
 - Fix the parser of macros.
 - Added a new sub-parser's event: afterReplace.
-----------------------------
+
 May 31, 2013
-----------------------------
+
 - Improvement of the algorithm of getRanges() to make all the possible one. Now 
 Div continues searching ranges after unclosed tags. 
 
@@ -1105,34 +1105,34 @@ Div continues searching ranges after unclosed tags.
 	{/
 	2013-05-31
 	
-----------------------------
+
 May 30, 2013
-----------------------------
+
 - Test new version
 - Minor bugs was fixed
 - Improvement of the detection of date formats
 - Release 4.1 version
 
-----------------------------
+
 May 29, 2013
-----------------------------
+
 - Fix and improve the algorithm of div::getVarValue() method.
 - Fix the detection of conditional parts.
 
-----------------------------
+
 May 27, 2013
-----------------------------
+
 - Change to private some div's properties
 - Release 4.0 version
 
-----------------------------
+
 May 25, 2013
-----------------------------
+
 - Improvement of the conditional parts detection 
 
-----------------------------
+
 May 24, 2013
-----------------------------
+
 - Fixed some bugs in locations and conditional parts.
 - Created a translator of dialects. Now div have 2 new public methods:
 
@@ -1152,7 +1152,7 @@ in the template's code, for example, the dialect of the current template:
 	Example:
 	
 	index.tpl
-	------------------------------
+	--
 	@_DIALECT = smarty.dialect
 
 	{* this is a comment *}
@@ -1165,13 +1165,13 @@ in the template's code, for example, the dialect of the current template:
 	{% other %}
 	
 	other.tpl
-	------------------------------
+	--
 	@_DIALECT = twig.dialect
 	
 	{{ foo.bar }}
 	
 	smarty.dialect
-	------------------------------
+	--
 	{
 	  'DIV_TAG_IGNORE_BEGIN': '{literal}',
 	  'DIV_TAG_IGNORE_END': '{/literal}',
@@ -1180,14 +1180,14 @@ in the template's code, for example, the dialect of the current template:
 	}
 	
 	twig.dialect
-	-------------------------------
+	---
 	{
 	  'DIV_TAG_REPLACEMENT_SUFFIX': ' }}',
 	  'DIV_TAG_MODIFIER_SIMPLE': '{ '
 	}
 	
 	index.php
-	-------------------------------
+	---
 	<?php
 
 	include "div.php";
@@ -1199,7 +1199,7 @@ in the template's code, for example, the dialect of the current template:
 	));
 	
 	Output
-	-------------------------------
+	---
 	Name: Peter
 
 	{$name}
@@ -1244,7 +1244,7 @@ in the template's code, for example, the dialect of the current template:
 	{/parse:beforeParse}
 	
   	Output
-  	--------------------------------------
+  	----------
   	Name: Peter
 	Product name: banana
 	Other name: banana
@@ -1252,15 +1252,15 @@ in the template's code, for example, the dialect of the current template:
 	Product name: potato
 	Other name: potato
 
-----------------------------
+
 May 18, 2013
-----------------------------
+
 - Created a tool to build dialects.
 - Release the 3.9 version
 
-----------------------------
+
 May 10, 2013
-----------------------------
+
 - Enable custom dialect for developers! 
 
    A dialect is defined by the group of constant whose name 
@@ -1273,9 +1273,9 @@ May 10, 2013
    - some tags are required, like as, prefixes, suffixes, beginnings and ends.
    - some tags must be unique, like as, modifiers, else, break, empty, ...
    
-----------------------------
+
 May 9, 2013
-----------------------------
+
 - New static method anyToStr, for convert mixed value to string based on this rule:
 	- string is string
 	- boolean is "true" or "false"
@@ -1285,9 +1285,9 @@ May 9, 2013
 	- array is count()
 - Changed the type of unchangeable methods to "final".
 
-----------------------------
+
 May 3, 2013
-----------------------------
+
 - The interpretation of date format was improved.
 
 	If you need type the char ":" in the format, and this 
@@ -1299,9 +1299,9 @@ May 3, 2013
 	In the example the value is "2012-01-01 00:30:00 " and 
 	the format is "Y-m-d h:i:s".
 	  
-----------------------------
+
 April 29, 2013
-----------------------------
+
 
 - The interpretation of aggregate functions was improved. 
   The next example work now:
@@ -1329,9 +1329,9 @@ April 29, 2013
 	30,00
 	2
 	
-----------------------------
+
 April 24, 2013
-----------------------------
+
 - Performance: work remembered! Now the engine can remember some 
   actions from previous work and increase their speed. 	 
 - New feature: the macros.
@@ -1403,15 +1403,15 @@ April 24, 2013
   
   Hello world
 
-----------------------------
+
 April 17, 2013
-----------------------------
+
 - bugfix in the bodies of multi-replacements
 - Changed the name of method multiReplace by parseMultiReplace
 
-----------------------------
+
 April 13, 2013
-----------------------------
+
 - The template variables's manipulation was improved:
 
    Example:
@@ -1513,9 +1513,9 @@ April 13, 2013
 	------------------
 	Name: Banana
 	Price: $10.00	
-----------------------------
+
 April 12, 2013
-----------------------------
+
 - The order respect of template variables's manipulation was improved:
 
 	Example:
@@ -1540,9 +1540,9 @@ April 12, 2013
 	6
 	
 	7	
-----------------------------
+
 April 11, 2013
-----------------------------
+
 - bugfix of template variables when it use object's methods
    Now you can call a object's method with some ways:
    
@@ -1564,17 +1564,17 @@ April 11, 2013
 	 *RECURSION*
 	)
 	
-----------------------------
+
 April 07, 2013
-----------------------------
+
 - Fix some issues
 - New method div::isSring as a safe is_string():
   - if is a string return true
   - if is a object with __toString method return true
 
-----------------------------
+
 April 04, 2013
-----------------------------
+
 - The scalar values as a complex values! What?
   
   Yes! Now all the scalar values can be used as strings. Then, the strings can be 
@@ -1618,16 +1618,16 @@ April 04, 2013
   
   5 * 3 * 7 = 105
   
-----------------------------
+
 April 03, 2013
-----------------------------
+
 - Version 3.7 was released with a serious error that was corrected in the 3.8
 
 - Release the 3.8 version
 
-----------------------------
+
 March 30, 2013
-----------------------------
+
 - Improved the interpretation of third parameter of the constructor 
   as a string with the variables's names.
   
@@ -1635,9 +1635,9 @@ March 30, 2013
 
 - Release the 3.7 version
 
-----------------------------
+
 March 26, 2013
-----------------------------
+
 - Improvement of the speed.
 - Improvement of the options arround the __toString method of objects in 3 scopes. See the example below.
 
@@ -1722,15 +1722,15 @@ March 26, 2013
     [/$products]
     	
     Same output for index1, index2 and index3
-    -----------------------------------------
+    -------------
     Banana ($10)
     
     is similar to
     
     Banana ($10)
-----------------------------
+
 March 24, 2013
-----------------------------
+
 - From version 3.6 Div maintains a policy regarding the use of objects: if an 
 object has implemented the method __ toString then be treated as a character string.
 We are working to improve the policy and avoid unhappy.
@@ -1765,9 +1765,9 @@ We are working to improve the policy and avoid unhappy.
 	Banana ($10)
 
 	We are working to improve the policy and avoid unhappy.
-----------------------------
+
 March 22, 2013
-----------------------------
+
 - Some functions of PHP are enabled in formulas and conditions. 
   
 - Added a new system var named: $div.ascii. This var contain the all chars of ASCII table.
@@ -1800,9 +1800,9 @@ March 22, 2013
   
   but the replacement is faster than calculation
     
-----------------------------
+
 March 20, 2013
-----------------------------
+
 - Added a new feature for programmers: the method changeTemplate()
 
 	<?php
@@ -1830,9 +1830,9 @@ March 20, 2013
   $tpl->show('template.tpl');
   
   ?>
-----------------------------
+
 March 18, 2013
-----------------------------
+
 - Added new variable's modifiers: 
 
   {&&var} - rawurlencode
@@ -1906,9 +1906,9 @@ March 18, 2013
     
 - Improvement of the setItem method  
 
-----------------------------
+
 March 16, 2013
-----------------------------
+
 
 - Improved the access to object's public methods
 
@@ -1954,9 +1954,9 @@ March 16, 2013
 
 - Release the 3.6 version
 
-----------------------------
+
 March 13, 2013
-----------------------------
+
 - Improved the feature "template vars". Now you can execute the "methods of information".
 
   Example:
@@ -1996,21 +1996,21 @@ March 13, 2013
   
   The names are: Jones Pete Mark
   
-----------------------------
+
 March 13, 2013
-----------------------------
+
 - Improved the detection of orphan conditional parts
 
-----------------------------
+
 March 8, 2013
-----------------------------
+
 - Update the documentation
 - Fixes some bugs of new features
 - Release the 3.5 version
 
-----------------------------
+
 February 24, 2013
-----------------------------
+
 - New feature: locations!
 
 	Now you can define a diferent locations in your template 
@@ -2065,9 +2065,9 @@ February 24, 2013
 	---------------------
 	<b>Hello</b>
 	
-----------------------------
+
 February 24, 2013
-----------------------------
+
 - New feature: @empty@ tag for list's blocks 
 
   [$users]
@@ -2076,16 +2076,16 @@ February 24, 2013
       Show this if list users is empty
   [/$users]
 
-----------------------------
+
 February 19, 2013
-----------------------------
+
 - The documentation was updated
 - Improved detection of infinite loops on includes and replacements
 - Release the 3.4 version
 
-----------------------------
+
 February 17, 2013
-----------------------------
+
 - Add new feature: Multiple variable's modifiers
 
 	Syntax:
@@ -2108,15 +2108,15 @@ February 17, 2013
 	Abc
 	Ab
 	
-----------------------------
+
 February 15, 2013
-----------------------------
+
 - Fix a critical bug: prevented infinite cycle
 - Release the 3.3 version
 
-----------------------------
+
 February 4, 2013
-----------------------------
+
 - Fix a bug with {ignore} functionality
 - Add new vars for the iterations: $_previous and $_next.
 	
@@ -2145,20 +2145,20 @@ February 4, 2013
 - Algorithm improved: 95% more faster.
 - Release the 3.2 version
  
-----------------------------
+
 Dec 26, 2012
-----------------------------
+
 - Improved date's values detection
 
-----------------------------
+
 Nov 21, 2012
-----------------------------
+
 - Update documentation
 - Release 3.1 version
 
-----------------------------
+
 Nov 21, 2012
-----------------------------
+
 - Detection of recursive inclusion as an error. For example:
 	
 	index.tpl
@@ -2166,26 +2166,26 @@ Nov 21, 2012
 	<!- This include will not take effect -->
 	{% index %}
 
-----------------------------
+
 Nov 19, 2012
-----------------------------
+
 - Improved the algorithm of lists/loops/cycles
 
-----------------------------
+
 Nov 16, 2012
-----------------------------
+
 - Allowed "intval" PHP function in formulas
  
-----------------------------
+
 Nov 4, 2012
-----------------------------
+
 - Fix some problems
 - Improvement of some mechanisms
 - Release the 3.0 version
 
-----------------------------
+
 Sep 7, 2012
-----------------------------
+
 - Fix important issue for matchs. Now work the follow example:
 
 	{= list: [
@@ -2215,18 +2215,18 @@ Sep 7, 2012
 	{$list.0.shipments.0.adresses.0}<br/>
 	{$list.0.shipments.0.adresses.0.0}<br/>
 
-----------------------------
+
 Sep 2, 2012
-----------------------------
+
 - Fix bugs of conditions into loops
-----------------------------
+
 Sep 2, 2012
-----------------------------
+
 - Fix bugs
 - Release the 2.9 version
-----------------------------
+
 Aug 30, 2012
-----------------------------
+
 - Improvements to the template's vars. Now you can do this:
 
   article.tpl
@@ -2248,9 +2248,9 @@ Aug 30, 2012
   
   Footer
   
-----------------------------
+
 Aug 20, 2012
-----------------------------
+
 - Delete the DIV_CLASS_NAME constant: now is more simple to change the name of 
   div class. Simply change the name of div class, no more!
    
@@ -2282,9 +2282,9 @@ Aug 20, 2012
 	<!--{ extends }-->
 	{% parent %}
 	
-----------------------------
+
 Aug 18, 2012
-----------------------------
+
 - The algorithm of text summary was improved.
 - New feature: IDE's friendly marks <!--| ... |-->
 	
@@ -2314,29 +2314,29 @@ Aug 18, 2012
 	
 	[/$products]
 
-----------------------------
+
 Aug 17, 2012
-----------------------------
+
 - Change the type of method of getSystemData from public to static
-----------------------------
+
 Aug 16, 2012
-----------------------------
+
 - Change the type of method of mixedBool from public to static.
 - Release the 2.8 version
 
-----------------------------
+
 Aug 09, 2012
-----------------------------
+
 - Added new feature: Relative paths for include and preprocessed templates.
 
-----------------------------
+
 Aug 07, 2012
-----------------------------
+
 - Freed of the function json_encode of PHP and corrected some errors of this function.
 
-----------------------------
+
 Aug 05, 2012
-----------------------------
+
 - Fixed bugs:
 	- If you don't define a variable, the expression is FALSE:
 
@@ -2375,15 +2375,15 @@ Aug 05, 2012
 	
 	(# 2 + {$var2} #)
 
-----------------------------
+
 Aug 03, 2012
-----------------------------
+
 - Fixed bugs
 - Release the 2.7 version
 
-----------------------------
+
 Jul 30, 2012
-----------------------------
+
 - Fixed bugs
 - Add new feature for json encode.
 
@@ -2399,15 +2399,15 @@ Jul 30, 2012
 
 	[1,2,3,4,5]
 	
-----------------------------
+
 Jul 26, 2012
-----------------------------
+
 - Fixed bugs
 - Release the 2.6 version
 
-----------------------------
+
 Jul 08, 2012
-----------------------------
+
 - Added new features for replacements: multiple replacements
 
 	<!--{ First, define the list of replacements as array of array}-->
@@ -2450,18 +2450,18 @@ Jul 08, 2012
 	?>
 - Fixed bugs
 
-----------------------------
+
 Jul 02, 2012
-----------------------------
+
 - Add new features for performance: enable and disable system var
 
     div::enableSystemVar("div.session");
     div::disableSystemVar("div.server");
     ...
 
-----------------------------
+
 Jun 30, 2012
-----------------------------
+
 - Fixed bugs
 - Added new funcionality for log: Save the steps of the parser into log file
 
@@ -2470,9 +2470,9 @@ Jun 30, 2012
 	...
 - Release the 2.5 version
 
-----------------------------
+
 Jun 13, 2012
-----------------------------
+
 - Fixed bugs
 - Added new functionality: html to text 
   
@@ -2481,9 +2481,9 @@ Jun 13, 2012
   
   The width integer parameter, wrap the text with this width.
 
-----------------------------
+
 Jun 8, 2012
-----------------------------
+
 - Fixed bugs
 - Added new functionality: text wrap
 
@@ -2496,9 +2496,9 @@ Jun 8, 2012
 	{br:body:/200}	
 - Release the 2.4 version
 
-----------------------------
+
 May 27, 2012
-----------------------------
+
 - Added new functionality: show the teaser of a text. Similar to get a substring of text:
 
 	{$mytext:100} <!--{ Return the first 100 chars of $mytext }-->
@@ -2507,9 +2507,9 @@ May 27, 2012
 	
 	{$mytext:~100} <!--{ Return the $mytext truncated approximately 
 	                     with 100 chars and the words without breaking }-->
-----------------------------
+
 May 22, 2012
-----------------------------
+
 - NEW: Allow to asign a program var to a template var. For example:
 
 	index.php
@@ -2543,9 +2543,9 @@ May 22, 2012
 
 - Release the 2.3 version
 
-----------------------------
+
 May 19, 2012
-----------------------------
+
 - NEW: Allowed functions. Now the programmer can enable functions 
 	of or written in PHP so that the designer can use them in the templates.
 
@@ -2568,7 +2568,7 @@ May 19, 2012
 - NEW: Add new item to list or set a property of object:
 
 	TEMPLATE
-	-----------------------------------------
+	-------------
 	... some more code here ...
 
 	{= list: [1,2,3] =}
@@ -2588,15 +2588,15 @@ May 19, 2012
 	
 	{$customer.address}
 	
-----------------------------
+
 May 14, 2012
-----------------------------
+
 - Fixed bugs
 - Release 2.2 version
 
-----------------------------
+
 May 13, 2012
-----------------------------
+
 - New functionality: assign to design vars the result of method! If the programmer 
 	implemented a class that inherits of div, then the designer can use the methods of this
 	class. 
@@ -2637,9 +2637,9 @@ May 13, 2012
 	Output
 	---------------------------
 	50 A B C
-----------------------------
+
 May 12, 2012
-----------------------------
+
 
 - Now the definition of data in templates is similar to set a global var in the programmer side
 	and you can re-refine this data every time in the template and now the sequence of the operations 
@@ -2647,9 +2647,9 @@ May 12, 2012
 	
 	For example:
 	
-	------------------------------
+	--
 	TEMPALTE
-	------------------------------
+	--
 	
 	<!--{ Using cycles to calculate the price of invoice }-->
 	
@@ -2673,9 +2673,9 @@ May 12, 2012
 	
 	Total price: {#invoice_price:2.#}
 
-	------------------------------
+	--
 	OUTPUT
-	------------------------------
+	--
 	Invoice price: 90.00
 	Tax: 20.00
 	Total price: 110.00
@@ -2781,15 +2781,15 @@ May 12, 2012
 	
 	1 {$x} 2 {$x} 3 {$x} 4 {$x} 5 {$x} 6 {$x} 7 {$x} 8 {$x} 9 {$x} 10 {$x}
 	 
-----------------------------
+
 May 09, 2012
-----------------------------
+
 - Added aggregate functions for the lists: sum, avg, min, max, and the default count function
     
     Now the designer can calculate another statistics from lists, for example:
     
     index.php
-    ------------------------------------
+    --------
     <?php
     
     ...
@@ -2805,10 +2805,10 @@ May 09, 2012
 
     ...
     ?>
-    ------------------------------------
+    --------
     
     index.tpl
-    ------------------------------------
+    --------
     Minimum price: {$min:products-price}
     Maximum price: {$max:products-price}
     Average of prices: {$avg:products-price}
@@ -2821,7 +2821,7 @@ May 09, 2012
     Maximum value: {$max:values}
     Average of values: {$avg:values}
     Sum of values: {$sum:values}    
-    ------------------------------------
+    --------
     
 - Added a new constant constant DIV_CLASS_NAME for define the name of de superclass of div.
     Now the programmer can change the name of the div class to avoid possible
@@ -2851,9 +2851,9 @@ May 09, 2012
     {@["kept", false, "NO"]@}
     ...
 
-----------------------------
+
 May 08, 2012
-----------------------------
+
 - Added a new functionality: pre-processed parts. 
     
     Now you can pre-processed by div any part in template. The pre-processing 
@@ -2866,9 +2866,9 @@ May 08, 2012
     
 - Release the 2.1 version
 
-----------------------------
+
 May 06, 2012
-----------------------------
+
     
 - Enable two new properties for PHP developers: $__src and $__packages.
     See the follow example:
@@ -2996,14 +2996,14 @@ May 06, 2012
     
     ?>
 
-----------------------------
+
 April 21, 2012
-----------------------------
+
 - Change mixedBool() and parseMatch() methods for trim the string values.
 
-----------------------------
+
 April 14, 2012
-----------------------------
+
 
 - Added a new variable for the cycles: $_order, that is $_index + 1. 
    The index begins with 0. The order bigins with 1. This is util when you
@@ -3012,14 +3012,14 @@ April 14, 2012
    For example:
    
    The ordered list:
-   -------------------------------
+   ---
  
    [$list]
            {% reused %}
    [/$list]
    
    The reused template reused.tpl:
-   -------------------------------
+   ---
    
    ?$_order {$_order}. $_order? Name: {$name} Address: {$address}
    
@@ -3039,9 +3039,9 @@ April 14, 2012
 
 - Release the 2.0 Version
 
-----------------------------
+
 April 09, 2012
-----------------------------
+
 
 - Fix some grave bugs of iterations functionality and other improvements.
 
@@ -3153,9 +3153,9 @@ April 09, 2012
 
 - Release the 1.9 version
         
-----------------------------
+
 April 07, 2012
-----------------------------
+
 - Recovering a lost functionality. In version 1.5 to make the algorithms more efficient 
 we made a mistake and break functionality of the clean the orphan parts. Now in version 1.8
 is working again just as quickly.
@@ -3183,7 +3183,7 @@ Note: The new added features made a little slower the engine. We are working
 in the improvement of the algorithms.
 
 April 05, 2012
-----------------------------
+
 - Recovering a lost functionality. In version 1.5 to improve the algorithms made a 
   mistake and break functionality of the Formulas. Now in version 1.7 is working again 
   just as quickly.
@@ -3198,7 +3198,7 @@ echo new div("index.tpl", array("name" => "Salvi", "age" => 25), array("name"));
 - Release the 1.7 version
 
 April 2, 2012
-----------------------------
+
 - In version 1.5 to improve the algorithms made a mistake and lost functionality 
   of the iterations of Lists, which is the priority of an item variable under way, 
   with the same name of a variable outside the loop. Now in version 1.6 is working 
@@ -3207,7 +3207,7 @@ April 2, 2012
 - Release the 1.6 version
 
 March 30, 2012
-----------------------------
+
 - The algorithm was improved. Div is faster now.
 - Fixed bugs.
 - A new variable's modifier was added to encode URL. For example:
@@ -3217,7 +3217,7 @@ March 30, 2012
 - Release the 1.5 version
 
 March 28, 2012
-----------------------------
+
 
 - Fixed bugs of blocks of conditions
 - Add new feature named ITERATIONS.
@@ -3232,14 +3232,14 @@ March 28, 2012
 - Release the 1.4 version
 
 March 23, 2012
-----------------------------
+
 - Prevent the errors of formulas
 - Prevent the errors of conditions
 - Fix important bug of @else@ mark of conditions into other conditions and conditionals
 - Release the 1.3 version
 
 March 22, 2012
-----------------------------
+
 - The @break@ mark
     Add break mark for breaking the loops. The position of 
     break mark in the block are relevant!
@@ -3254,7 +3254,7 @@ March 22, 2012
 - Release the 1.2 version
 
 March 15, 2012
-----------------------------
+
 - Fixing some several issues of conditional parts!
 
 - Release the 1.1 version
