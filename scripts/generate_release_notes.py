@@ -31,6 +31,68 @@ def get_last_tag():
     return run_git(["describe", "--tags", "--abbrev=0"])
 
 
+def parse_version(value: str):
+    value = value.strip()
+    if value.startswith("v"):
+        value = value[1:]
+    match = re.match(r"^(\d+)\.(\d+)\.(\d+)$", value)
+    if not match:
+        return None
+    return tuple(int(part) for part in match.groups())
+
+
+def list_release_note_versions():
+    releases_dir = ROOT / "releases"
+    if not releases_dir.is_dir():
+        return []
+    versions = []
+    for path in releases_dir.glob("v*.md"):
+        version = parse_version(path.stem)
+        if version:
+            versions.append(version)
+    return versions
+
+
+def get_previous_release_version(current_version: str):
+    current = parse_version(current_version)
+    if not current:
+        return None
+    candidates = [v for v in list_release_note_versions() if v < current]
+    if not candidates:
+        return None
+    return max(candidates)
+
+
+def format_version(version_tuple):
+    return ".".join(str(part) for part in version_tuple)
+
+
+def tag_exists(tag: str) -> bool:
+    output = run_git(["tag", "--list", tag])
+    return bool(output.strip())
+
+
+def get_base_from_previous_notes(version_tuple):
+    if not version_tuple:
+        return None
+    filename = f"v{format_version(version_tuple)}.md"
+    path = ROOT / "releases" / filename
+    if not path.is_file():
+        return None
+    text = path.read_text(encoding="utf-8").replace("\r\n", "\n")
+    match = re.search(r"^## Commits\s*$\n(?P<body>.*?)(?=^## |\Z)", text, re.M | re.S)
+    if not match:
+        return None
+    for line in match.group("body").splitlines():
+        line = line.strip()
+        if not line.startswith("-"):
+            continue
+        commit_match = re.search(r"/commit/([0-9a-f]{7,40})", line)
+        if commit_match:
+            return commit_match.group(1)
+    return None
+
+
 def get_commits(base, head):
     log = run_git(["log", "--pretty=format:%H\t%s", f"{base}..{head}"])
     rows = []
@@ -44,6 +106,11 @@ def get_commits(base, head):
             sha, subject = line, ""
         subject = subject.strip()
         if not subject:
+            continue
+        subject_lower = subject.lower()
+        if subject_lower.startswith("merge"):
+            continue
+        if subject_lower.startswith("update changelog"):
             continue
         if len(subject.split()) <= 1:
             continue
@@ -97,17 +164,27 @@ def main():
     parser.add_argument(
         "--output",
         default="",
-        help="Output file path. Defaults to docs/ChangeLog/releases/v<version>.md",
+        help="Output file path. Defaults to releases/v<version>.md",
     )
     args = parser.parse_args()
 
     version = args.version.strip() or get_version()
-    base = args.base_tag.strip() or get_last_tag()
+    base = args.base_tag.strip()
+    if not base:
+        prev_version = get_previous_release_version(version)
+        if prev_version:
+            prev_tag = f"v{format_version(prev_version)}"
+            if tag_exists(prev_tag):
+                base = prev_tag
+            else:
+                base = get_base_from_previous_notes(prev_version)
+        if not base:
+            base = get_last_tag()
     head = args.head.strip() or "HEAD"
 
     output = args.output.strip()
     if not output:
-        output = f"docs/ChangeLog/releases/v{version}.md"
+        output = f"releases/v{version}.md"
 
     out_path = (ROOT / output).resolve()
     out_path.parent.mkdir(parents=True, exist_ok=True)
