@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Div PHP Template Engine - Cover</title>
+  <style>
+    @page {
+      size: {{page_size}};
+      margin: 0;
+    }
+
+    :root {
+      --ink: #0b1b2b;
+      --muted: #4b5563;
+      --accent: #111827;
+      --accent-dark: #1f2937;
+      --paper: #ffffff;
+      --stripe: rgba(0, 0, 0, 0.18);
+      --stripe-light: rgba(0, 0, 0, 0.06);
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Georgia", "Times New Roman", serif;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(15,23,42,0.06), transparent 45%),
+        radial-gradient(circle at 70% 80%, rgba(15,23,42,0.04), transparent 55%),
+        var(--paper);
+    }
+
+    .band {
+      position: absolute;
+      top: 36mm;
+      left: -10mm;
+      right: -10mm;
+      height: 40mm;
+      background: linear-gradient(90deg, rgba(15,23,42,0.12), rgba(15,23,42,0.02));
+      transform: skewY(-4deg);
+      opacity: 1;
+    }
+
+    .stripes {
+      position: absolute;
+      top: 0;
+      right: -20mm;
+      width: 90mm;
+      height: 100%;
+      background: repeating-linear-gradient(
+        120deg,
+        var(--stripe) 0px,
+        var(--stripe) 16px,
+        var(--stripe-light) 16px,
+        var(--stripe-light) 32px
+      );
+      opacity: 0.65;
+    }
+
+    .content {
+      position: relative;
+      padding: 42mm 22mm 24mm 22mm;
+      z-index: 2;
+    }
+
+    .title {
+      font-size: 68pt;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+      margin: 0;
+      color: var(--ink);
+    }
+
+    .subtitle {
+      font-size: 19pt;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin: 6mm 0 0 0;
+      color: var(--muted);
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .rule {
+      width: 78mm;
+      height: 2px;
+      background: rgba(15,23,42,0.5);
+      margin: 16mm 0 12mm 0;
+    }
+
+    .meta {
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      font-size: 11pt;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .meta strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .corner {
+      position: absolute;
+      bottom: 18mm;
+      right: 18mm;
+      width: 70mm;
+      height: 70mm;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(15,23,42,0.08) 0%, rgba(15,23,42,0.0) 70%);
+    }
+
+    .illustration {
+      position: absolute;
+      left: 18mm;
+      bottom: 26mm;
+      width: 80mm;
+      height: 70mm;
+      opacity: 0.9;
+    }
+
+    .illustration svg {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="band"></div>
+    <div class="stripes"></div>
+    <div class="content">
+      <h1 class="title">Div</h1>
+      <div class="subtitle">PHP Template Engine</div>
+      <div class="rule"></div>
+      <div class="meta">
+        <div><strong>Author:</strong> {{author}}</div>
+        <div><strong>Organization:</strong> {{org}}</div>
+        <div><strong>Version:</strong> {{version}}</div>
+        <div><strong>Generated:</strong> {{date}}</div>
+      </div>
+    </div>
+    <div class="illustration">
+      <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="20" width="210" height="260" rx="10" fill="rgba(15,23,42,0.04)" stroke="rgba(15,23,42,0.35)" stroke-width="2"/>
+        <rect x="40" y="50" width="170" height="10" fill="rgba(15,23,42,0.25)"/>
+        <rect x="40" y="80" width="140" height="8" fill="rgba(15,23,42,0.2)"/>
+        <rect x="40" y="105" width="150" height="8" fill="rgba(15,23,42,0.18)"/>
+        <rect x="40" y="130" width="110" height="8" fill="rgba(15,23,42,0.16)"/>
+        <rect x="250" y="40" width="120" height="220" rx="16" fill="rgba(15,23,42,0.06)" stroke="rgba(15,23,42,0.35)" stroke-width="2"/>
+        <circle cx="290" cy="80" r="18" stroke="rgba(15,23,42,0.4)" stroke-width="2"/>
+        <circle cx="330" cy="80" r="18" stroke="rgba(15,23,42,0.4)" stroke-width="2"/>
+        <rect x="270" y="130" width="80" height="6" fill="rgba(15,23,42,0.3)"/>
+        <rect x="270" y="150" width="80" height="6" fill="rgba(15,23,42,0.3)"/>
+        <rect x="270" y="170" width="80" height="6" fill="rgba(15,23,42,0.3)"/>
+        <rect x="270" y="200" width="80" height="6" fill="rgba(15,23,42,0.3)"/>
+      </svg>
+    </div>
+    <div class="corner"></div>
+  </div>
+</body>
+</html>

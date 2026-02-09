@@ -111,23 +111,30 @@ sequenceDiagram
 
 ## Installation
 
+Div is distributed as a Composer package. This is the recommended path because it resolves dependencies (including `divengine/functions`) and configures autoloading.
+
 ```bash
 composer require divengine/div
 ```
 
+For legacy environments without Composer, you can vendor the sources manually:
+
+1. Copy `src/div.php` from this repository into your project.
+2. Copy `src/functions.php` from the `divengine/functions` repository into your project.
+3. Load both files in your bootstrap before creating any `div` instances.
+
+```php
+require_once __DIR__ . "/path/to/functions.php";
+require_once __DIR__ . "/path/to/div.php";
+```
+
 ## Upgrade
+
+Upgrade with Composer and review the release notes for any behavior changes.
 
 ```bash
 composer upgrade
 ```
-
-## Documentation map
-
-- [[01 Introduction]]
-- [[02 Template Features]]
-- [[03 PHP Features]]
-- [[04 Mechanisms]]
-- [[05 Appendixes]]
 
 See also [Release notes](../releases/README.md).
 

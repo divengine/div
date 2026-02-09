@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Div PHP Template Engine - Back</title>
+  <style>
+    @page {
+      size: {{page_size}};
+      margin: 0;
+    }
+
+    :root {
+      --ink: #0f172a;
+      --muted: #475569;
+      --accent: #0ea5e9;
+      --paper: #f8fafc;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(0deg, rgba(15,23,42,0.04) 0%, rgba(15,23,42,0.0) 45%),
+        var(--paper);
+      padding: 28mm 24mm 22mm 24mm;
+      box-sizing: border-box;
+    }
+
+    .title {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 20pt;
+      margin-bottom: 10mm;
+    }
+
+    .summary {
+      font-size: 11pt;
+      line-height: 1.6;
+      color: var(--muted);
+      max-width: 150mm;
+    }
+
+    .list {
+      margin: 12mm 0 0 0;
+      padding-left: 5mm;
+      color: var(--muted);
+      font-size: 10.5pt;
+      line-height: 1.6;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 18mm;
+      left: 24mm;
+      right: 24mm;
+      display: flex;
+      justify-content: space-between;
+      font-size: 9.5pt;
+      color: var(--muted);
+      border-top: 1px solid rgba(15, 23, 42, 0.15);
+      padding-top: 6mm;
+    }
+
+    .accent {
+      position: absolute;
+      top: -20mm;
+      right: -40mm;
+      width: 120mm;
+      height: 120mm;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(14,165,233,0.12) 0%, rgba(14,165,233,0.0) 70%);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="accent"></div>
+    <div class="title">About this documentation</div>
+    <div class="summary">
+      This book documents the Div PHP Template Engine: its architecture, syntax,
+      and execution model. Div is a deterministic, model-driven system for
+      generating text outputs, from HTML to source code and structured data.
+      The documentation emphasizes repeatable pipelines, dialect interoperability,
+      and multi-step transformations built on fixed-point parsing.
+    </div>
+    <ul class="list">
+      <li>Conceptual overview and execution model</li>
+      <li>Template language features with examples</li>
+      <li>PHP integration and engine API</li>
+      <li>Mechanisms: recursion, components, and inheritance</li>
+      <li>Appendixes and reference material</li>
+    </ul>
+    <div class="footer">
+      <div>{{org}}</div>
+      <div>Version {{version}} · {{date}}</div>
+    </div>
+  </div>
+</body>
+</html>

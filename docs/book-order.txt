@@ -1,5 +1,6 @@
 # Book order for PDF build (paths are repo-relative)
 docs/README.md
+docs/00 Part I - Foundations.md
 docs/01 Introduction.md
 docs/01.01 Scope and purpose.md
 docs/01.02 Engine behavior.md
@@ -7,11 +8,11 @@ docs/01.03 Dialect system.md
 docs/01.04 Core operations.md
 docs/01.05 Install.md
 docs/01.06 Upgrade.md
-docs/01.07 Related topics.md
 docs/01.09 Goals.md
 docs/01.10 Reasons.md
 docs/01.13 The div class.md
 docs/01.14 The best practices.md
+docs/00 Part II - Template Language.md
 docs/02 Template Features.md
 docs/02.01 Understanding the syntax.md
 docs/02.02 Variables (information, content...).md
@@ -58,6 +59,7 @@ docs/02.42 Content like an object (intelligent data).md
 docs/02.43 Hooks.md
 docs/02.44 The __toString magic method.md
 docs/02.45 Ignore specific variables (the third parameter of constructor).md
+docs/00 Part III - Integration and Reference.md
 docs/03 PHP Features.md
 docs/04 Mechanisms.md
 docs/04.01 Components.md
@@ -66,3 +68,4 @@ docs/04.03 Templates inheritance.md
 docs/05 Appendixes.md
 docs/05.01 Appendix A - Allowed PHP functions.md
 docs/05.02 Appendix B - Comparison of syntax of Smarty and Div.md
+docs/01.07 Related topics.md
