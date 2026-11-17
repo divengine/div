@@ -9678,6 +9678,51 @@ class div
             return 'DIV_TAG_TEASER_BREAK must be unique';
         }
 
+        // The begin and the end of a block must be different: when they are the
+        // same, the parser cannot tell where a block closes (and getRanges()
+        // never finds the end).
+        $blocks = [
+            ['DIV_TAG_IGNORE_BEGIN', 'DIV_TAG_IGNORE_END'],
+            ['DIV_TAG_COMMENT_BEGIN', 'DIV_TAG_COMMENT_END'],
+            ['DIV_TAG_TXT_BEGIN', 'DIV_TAG_TXT_END'],
+            ['DIV_TAG_STRIP_BEGIN', 'DIV_TAG_STRIP_END'],
+            ['DIV_TAG_FORMULA_BEGIN', 'DIV_TAG_FORMULA_END'],
+            ['DIV_TAG_ITERATION_BEGIN_PREFIX', 'DIV_TAG_ITERATION_END'],
+            ['DIV_TAG_CONDITIONS_BEGIN_PREFIX', 'DIV_TAG_CONDITIONS_END'],
+            ['DIV_TAG_TPLVAR_BEGIN', 'DIV_TAG_TPLVAR_END'],
+            ['DIV_TAG_DEFAULT_REPLACEMENT_BEGIN', 'DIV_TAG_DEFAULT_REPLACEMENT_END'],
+            ['DIV_TAG_INCLUDE_BEGIN', 'DIV_TAG_INCLUDE_END'],
+            ['DIV_TAG_PREPROCESSED_BEGIN', 'DIV_TAG_PREPROCESSED_END'],
+            ['DIV_TAG_FRIENDLY_BEGIN', 'DIV_TAG_FRIENDLY_END'],
+            ['DIV_TAG_LOCATION_BEGIN', 'DIV_TAG_LOCATION_END'],
+            ['DIV_TAG_MACRO_BEGIN', 'DIV_TAG_MACRO_END'],
+        ];
+
+        foreach ($blocks as [$begin, $end]) {
+            if (constant($begin) === constant($end)) {
+                return $end . ' must not be equal to ' . $begin;
+            }
+        }
+
+        // Blocks with a name between a prefix and a suffix: [$list] ... [/$list]
+        $blocks = [
+            'DIV_TAG_LOOP',
+            'DIV_TAG_SUBPARSER',
+            'DIV_TAG_CONDITIONAL_TRUE',
+            'DIV_TAG_CONDITIONAL_FALSE',
+            'DIV_TAG_CAPSULE',
+            'DIV_TAG_MULTI_REPLACEMENT',
+            'DIV_TAG_LOCATION_CONTENT',
+        ];
+
+        foreach ($blocks as $block) {
+            if (constant($block . '_BEGIN_PREFIX') === constant($block . '_END_PREFIX')
+                && constant($block . '_BEGIN_SUFFIX') === constant($block . '_END_SUFFIX')) {
+                return $block . '_END_PREFIX and ' . $block . '_END_SUFFIX must not be equal to '
+                    . $block . '_BEGIN_PREFIX and ' . $block . '_BEGIN_SUFFIX';
+            }
+        }
+
         return true;
     }
 
